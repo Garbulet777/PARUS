@@ -1,0 +1,288 @@
+ <form action="" style="display: none;">
+                    <h3>Конфигурация шлейфа</h3>
+                    <p>Тип шлейфа:</p>
+                    <select name="iTShS1" id="iTShS1">
+                        <option value="1">АДРЕСНЫЙ</option>
+                        <option value="2">БЕЗАДРЕСНЫЙ</option>
+                        <option value="3">MODBUS</option>
+                    </select>
+        
+                    <div id="bezAdr1">
+                        <p>Схема включения:</p>
+                        <select name="SKhShS1" id="SKhShS1">
+                            <option value="1">Пассивный ПР</option>
+                            <option value="2">Пассивный НЗ</option>
+                            <option value="3">Активный НР</option>
+                            <option value="4">Линейный Т</option>
+                        </select>
+                    </div>
+        
+                    <p>Взрывозащита:</p>
+                    <input type="checkbox" name="ExShS1" id="iExShS1">
+                    <div id="TypeBIZ">
+                            <p>Тип искробарьера:</p>
+                            <input type="text" name="TShSBIZ" id="iTShSBIZ">
+                            <br>
+                            <select name="adrBIZ1" id="adrBIZ1">
+                                <option value="1">Выберите тип:</option>
+                            </select>
+                    </div>
+        
+        
+                    <p>Количество извещателей:</p>
+                    <input type="number" name="KIZVShS1" id="iKIZVShS1" placeholder="1...32">
+        
+                    <div id="bezAdr1_1">
+                        <p>Зона:</p>
+                        <input type="number" name="ZONAShS1" id="iZONAShS1" placeholder="1...255">
+        
+                        <p>Наименование / адрес:</p>
+                        <input type="text" name="ADRShS1" id="iADRShS1" placeholder="до 20 символов...">
+                    </div>
+                    
+                    <p>Разрешить подключение ручных извещателей:</p>
+                    <input type="checkbox" name="RRIShS1" id="iRRIShS1">
+                    
+        
+                    <div id="AdrExNet1">
+                        <h3>Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты</h3>
+                        <p>Тип извещателя:</p>
+                        <select name="TAIZV1" id="iTAIZV1">
+                            <option value="1">ИАД</option>
+                            <option value="2">ИАТ</option>
+                            <!-- <option value="3" id="IAR">ИАР</option> -->
+                        </select>
+                        <p>Зона:</p>
+                        <input type="number" name="iZONAIZV1" id="iZONAIZV1" placeholder="1...255">
+                        <p>Наименование/адрес</p>
+                        <input type="text" name="ADRIZV1" id="iADRIZV1" placeholder="до 20 символов...">
+                    </div>
+        
+                    <div id="AdrExDa1">
+                            <h3>Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты</h3>
+                            <p>Тип извещателя:</p>
+                            <select name="TAIZV1_1" id="iTAIZV1_1">
+                                <option value="1">ИАД-01</option>
+                                <option value="2">ИАТ-01</option>
+                                <!-- <option value="3" id="IAR_01">ИАР-01</option> -->
+                            </select>
+                            <p>Зона:</p>
+                            <input type="number" name="iZONAIZV1_1" id="iZONAIZV1_1" placeholder="1...255">
+                            <p>Наименование/адрес</p>
+                            <input type="text" name="ADRIZV1_1" id="iADRIZV1_1" placeholder="до 20 символов...">
+                    </div>
+        
+                    <div id="bezAdr1_2">
+                        <h3>Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты</h3>
+                        <p>Тип извещателя:</p>
+                        <!-- <input type="text" name="TIZV1" id="iTIZV1"> -->
+                                <!-- Выпадающий список дял ранее введенных значений -->
+                        <label>
+                            <input list="enteredItems" name="myBrowser" id="iTIZV1"/></label>
+                            <datalist id="enteredItems">
+        
+                            </datalist>
+        
+                        <p>Ток в режиме "ДЕЖУРНЫЙ", мА:</p>
+                        <input type="text" name="IOIZV1" id="iIOIZV1">
+                        <p>Ток в режиме "ПОЖАР", мА:</p>
+                        <input type="text" name="IPIZV1" id="iIPIZV1">
+                    </div>
+        
+                    <div id="confModbus">
+                        <h3>Конфигурация извещателя при ТШС "MODBUS"</h3>
+                        <p>Количество линий связи:</p>
+                        <input type="text" name="KMBUSLNK1" id="iKMBUSLNK1">
+                    </div>
+                    <button type="submit" id="dlg2Sbt">Submit</button>
+            </form>           
+
+ <dialog id="dialog3">
+            <form method="dialog3" class="form-3">
+                <h1>Подсистема ручного обнаружения признаков пожара</h1> 
+                <p>Количество шлейфов:</p>
+                <input type="number" name="KShSR2" id="iKShSR2" placeholder="1...640"  pattern="[0-9]{3}" >
+                <p>Разрешить использовать модуль интегральный МИ:</p>
+                <input type="checkbox" name="MIShSR2" id="iMIShSR2">
+                <div id="KMIShSR">
+                    <p>Количество модулей интегральных:</p>
+                    <input type="number" name="KMIShSR2" id="iKMIShSR2" placeholder="1...32">
+                </div>
+                <p>Резерв шлейфов,%:</p>
+                <input type="number" name="REZShSR2" id="iREZShSR2" placeholder="0...100">
+                
+                <h3>Конфигурация шлейфа</h3>
+                <p>Тип шлейфа:</p>
+                <select name="iTShS2" id="iTShS2">
+                    <option value="1">АДРЕСНЫЙ</option>
+                    <option value="2">БЕЗАДРЕСНЫЙ</option>
+                </select>
+        
+                <p>Взрывозащита:</p>
+                <input type="checkbox" name="ExShS2" id="iExShS2">
+                <div id="TypeBIZ2">
+                        <p>Тип искробарьера:</p>               
+                        <input type="text" name="rtBiz" id="rtBiz">
+                        <br><br>
+                        <select name="adrBIZ2" id="adrBIZ2">
+                            <option value="1">Выберите тип:</option>
+                        </select>
+                </div>
+        
+                <p>Количество извещателей:</p>
+                <input type="number" name="KIZVShS2" id="iKIZVShS2" placeholder="1...32">
+        
+                <p>Зона:</p>
+                <input type="number" name="ZONAShS2" id="iZONAShS2" placeholder="1...255">
+        
+                <p>Наименование / адрес:</p>
+                <input type="text" name="ADRShS2" id="iADRShS2" placeholder="до 20 символов...">
+                    
+        
+                <div id="AdrExNet2">
+                    <h3>Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты</h3>
+                    <p>Тип извещателя:</p>
+                    <select name="TAIZV2" id="iTAIZV2">
+                        <option value="1">ИАР</option>
+                        <!-- <option value="3" id="IAR">ИАР</option> -->
+                    </select>
+                    <p>Зона:</p>
+                    <input type="number" name="iZONAIZV2" id="iZONAIZV2" placeholder="1...255">
+                    <p>Наименование/адрес</p>
+                    <input type="text" name="ADRIZV2" id="iADRIZV2" placeholder="до 20 символов...">
+                </div>
+        
+                <div id="AdrExDa2">
+                        <h3>Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты</h3>
+                        <p>Тип извещателя:</p>
+                        <select name="TAIZV2_1" id="iTAIZV2_1">
+                            <option value="1">ИАР-01</option>
+                            <!-- <option value="3" id="IAR_01">ИАР-01</option> -->
+                        </select>
+                        <p>Зона:</p>
+                        <input type="number" name="iZONAIZV2_1" id="iZONAIZV2_1" placeholder="1...255">
+                        <p>Наименование/адрес</p>
+                        <input type="text" name="ADRIZV2_1" id="iADRIZV2_1" placeholder="до 20 символов...">
+                </div>
+        
+                <div id="bezAdr2_2">
+                    <h3>Конфигурация извещателя при типе шлейфа "безадресный" </h3>
+                    <p>Схема включения:</p>
+                    <select name="TIZV2" id="iTIZV2">
+                        <option value="1">Пассивный ПР</option>
+                        <option value="2">Пассивный НЗ</option>
+                        <option value="3">Активный НР</option>
+                    </select>
+                    <p>Ток в режиме "ДЕЖУРНЫЙ", мА:</p>
+                    <input type="text" name="IOIZV2" id="iIOIZV2">
+                    <p>Ток в режиме "ПОЖАР", мА:</p>
+                    <input type="text" name="IPIZV2" id="iIPIZV2">
+                </div>
+        
+                <button type="submit" id="dlg3Sbt">Submit</button>
+            </form>  
+        </dialog>
+        
+        <dialog id="dialog4">
+            <form method="dialog4" class="form-4">
+                <h1>Подсистема управления пожаротушением</h1>
+        
+                <p>Количество шлейфов:</p>
+                <input type="number" name="KShPT" id="KShPT">
+        
+                <p>Количество модулей интегральных:</p>
+                <input type="number" name="KMIShPT" id="KMIShPT" placeholder="1...32">
+        
+                <p>Резерв шлейфов, %:</p>
+                <input type="number" name="REZShPT" id="REZShPT" placeholder="0...100">
+        
+                <h3>Зона пожаротушения</h3>
+                <p>Зона:</p>
+                <input type="number" name="ZONAShPT" id="ZONAShPT">
+        
+                <p>Наменование/адрес:</p>
+                <input type="text" name="ADRZONYPT" id="ADRZONYPT" placeholder="до ХХ символов">
+        
+                <p>Количество шлейфов управления пожаротушением:</p>
+                <input type="number" name="KShPTZONY" id="KShPTZONY" placeholder="1...320">
+        
+                <P>Количество дискретных датчиков:</P>
+                <input type="number" name="KDDZONY" id="KDDZONY" placeholder="0...20">
+        
+                <p>Количество устройств дистанционного пуска:</p>
+                <input type="number" name="KBDUZONY" id="KBDUZONY" placeholder="0...20">
+        
+                <p>Количество взрывозащищенных устройств дистанционного пуска:</p>
+                <input type="number" name="KExBDUZONY" id="KExBDUZONY" placeholder="0...20">
+        
+                <p>Количество взрывозащищенных линий управления дистанционного пуска:</p>
+                <input type="number" name="KExLSBDU" id="KExLSBDU" placeholder="0...15">
+        
+                <h3>Шлейф управления пожаротушением</h3>
+                <p>Наименование/адрес:</p>
+                <input type="text" name="ADRShPT" id="ADRShPT" placeholder="0...20">
+        
+                <p>Пусковой ток шлейфа, А:</p>
+                <input type="text" name="IPShPT" id="IPShPT" placeholder="0,0...3,0">
+        
+                <p>Взрывозащита:</p>
+                <input type="checkbox" name="ExShPT" id="ExShPT">
+        
+                <p>Тип искробарьера:</p>
+                <input type="text" name="TBIZShPT" id="TBIZShPT">
+                <br>
+                <select name="TBIZShPT_Select" id="TBIZShPT_Select">
+                    <option value="1">Выберите тип:</option>
+                </select>
+        
+                <button type="submit" id="dlg4Sbt">Submit</button>
+            </form>
+        </dialog>
+        
+        <dialog id="dialog5">
+            <form method="dialog5" class="form-5">
+                <h1>Подсистема управления оповещением</h1>
+                <p>Количество зон оповещения:</p>
+                <input type="number" name="KZONOP" id="KZONOP" placeholder="1...64">
+        
+                <p>Резерв шлейфов, %:</p>
+                <input type="number" name="REZShO" id="REZShO" placeholder="0...100">
+        
+                <h3>Зона оповещения</h3>
+                <p>Зона:</p>
+                <input type="number" name="ZONAShOP" id="ZONAShOP" placeholder="1...Количетво зон оповещения">
+        
+                <p>Наименование/адрес:</p>
+                <input type="text" name="ADRShOP" id="ADRShOP" placeholder="до 20 символов">
+        
+                <p>Количество шлейфов управления оповещением:</p>
+                <input type="number" name="KShOPZONY" id="KShOPZONY" placeholder="1...480">
+        
+                <h3>Шлейф управления оповещением</h3>
+                <p>Количество оповещателей:</p>
+                <input type="number" name="KOPSh" id="KOPSh" placeholder="1...">
+        
+                <p>Суммарный ток оповещателя в режиме оповещения, мА:</p>
+                <input type="text" name="IPOPSh" id="IPOPSh" placeholder="0,0...20,0">
+        
+                
+                <p>Взрывозашита:</p>
+                <input type="checkbox" name="ExOPSh" id="ExOPSh">
+        
+                <p>Тип барьера:</p>
+                <input type="text" name="TBIZOPSh" id="TBIZOPSh">
+        
+                <select name="TBIZOPSh_Select" id="TBIZOPSh_Select">
+                    <option value="1">Выберите тип:</option>
+                </select>
+        
+                <h3>Оповещатель</h3>
+                <p>Адрес:</p>
+                <input type="text" name="ADROP" id="ADROP" placeholder="до 20 символов">
+                
+                <p>Ток оповещателя в режиме оповещения, мА:</p>
+                <input type="text" name="IPOP" id="IPOP" placeholder="0,0...20,0">
+        
+                <button type="submit" id="dlg5Sbt">Submit</button>
+            </form>
+        </dialog>

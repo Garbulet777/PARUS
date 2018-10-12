@@ -1,0 +1,297 @@
+function createlineLoop(val){
+    if(val > 0){
+        let elem, subelem, option, mainDiv;
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonf');
+        for (let i = 0; i < val; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", i);
+            
+            subelem = document.createElement('h3')
+            subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Тип шлейфа:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute("id", `TShS${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("АДРЕСНЫЙ"));
+            subelem.appendChild(option);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("БЕЗАДРЕСНЫЙ"));
+            subelem.appendChild(option);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("MODBUS"));
+            subelem.appendChild(option);
+
+            
+            elem.appendChild(subelem);
+            
+
+            let div = document.createElement('div');
+            div.setAttribute('id', `bezAdr${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Схема включения:"));
+            div.appendChild(subelem);
+            subelem = document.createElement('select');
+            subelem.setAttribute('id', `SKhShS${i}`);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Пассивный ПР"));
+            subelem.appendChild(option);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Пассивный НЗ"));
+            subelem.appendChild(option);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Активный НР"));
+            subelem.appendChild(option);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Линейный Т"));
+            subelem.appendChild(option);
+
+            div.appendChild(subelem);
+            elem.appendChild(div);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Взрывозащита:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `ExShS${i}`);
+            elem.appendChild(subelem);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `TypeBIZ${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `TShSBIZ${i}`);
+            div.appendChild(subelem);
+            
+            subelem = document.createElement('br');
+            div.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute('id',`adrBIZ${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('Выберите тип:'));
+            subelem.appendChild(option);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Количество извещателей:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `KIZVShS${i}`);
+            subelem.setAttribute('placeholder', '1...32');
+            elem.appendChild(subelem);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `bezAdr_${i}`);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Зона:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `ZONAShS${i}`);
+            subelem.setAttribute('placeholder', '1...255');
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование / адрес:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRShS${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Разрешить подключение ручных извещателей:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id',`RRIShS${i}`);
+            elem.appendChild(subelem);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `AdrExNet${i}`)
+
+            subelem = document.createElement('h3');
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип извещателя:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute('id', `TAIZV${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('ИАД'));
+            subelem.appendChild(option);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('ИАТ'));
+            subelem.appendChild(option);
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Зона:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `ZONAIZV${i}`);
+            subelem.setAttribute('placeholder', `1...255`);
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование/адрес:'));
+            div.appendChild(subelem);
+
+            
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRIZV${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `AdrExDa${i}`);
+
+            subelem = document.createElement('h3');
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип извещателя:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute('id', `TAIZV_${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('ИАД-01'));
+            subelem.appendChild(option);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('ИАТ-01'));
+            subelem.appendChild(option);
+
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Зона:"));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `ZONAIZV_${i}`);
+            subelem.setAttribute('placeholder', '1...255');
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование/адрес'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRIZV_${i}`);
+            subelem.setAttribute('placeholder', 'до 20 символов...');
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `bezAdr_${i}`);
+
+            subelem = document.createElement('h3');
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип извещателя:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('label');
+            let subSub = document.createElement('input');
+            subSub.setAttribute('list', 'enteredItems');
+            subSub.setAttribute('id', `TIZV${i}`);
+            subelem.appendChild(subSub);
+            div.appendChild(subelem);
+
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', 'enteredItems');
+            div.appendChild(subelem);
+
+            subelem= document.createElement('p');
+            subelem.appendChild(document.createTextNode('Ток в режиме "ДЕЖУРНЫЙ", мА:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `IOIZV${i}`);
+            div.appendChild(subelem);
+
+            subelem= document.createElement('p');
+            subelem.appendChild(document.createTextNode('Ток в режиме "ПОЖАР", мА:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `IPIZV${i}`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `confModbus${i}`);
+
+            subelem = document.createElement('h3');
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Количество линий связи:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `KMBUSLNK${i}`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            subelem = document.createElement('button');
+            subelem.setAttribute('type', 'submit');
+            subelem.setAttribute('id', `dlgSbt${i}`);
+            subelem.appendChild(document.createTextNode('Submit'));
+            elem.appendChild(subelem);
+
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+            document.body.appendChild(mainDiv);           
+        }
+    }
+}
