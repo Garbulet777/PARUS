@@ -323,29 +323,32 @@ let AutoSignalizatsiya = {
         ZONAShS: 0, //для безадресный
         ADRShS: "", //для безадресный
         RRIShS: false,
-        //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "Нет"
-            AdrExNet:{
-                TAIZV: 0,
-                ZONAIZV: 1,
-                ADRIZV: ""
-            },
-
-        //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "да"
-            AdrExDa:{
-                TAIZV: 0,
-                ZONAIZV: 0,
-                ADRIZV: ""
+        izveshateli:{
+                    //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "Нет"
+                    AdrExNet:{
+                        TAIZV: 0,
+                        ZONAIZV: 1,
+                        ADRIZV: ""
+                    },
+        
+                //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "да"
+                    AdrExDa:{
+                        TAIZV: 0,
+                        ZONAIZV: 0,
+                        ADRIZV: ""
+                        },
+                //Конфигурация извещателя при ТШС = "безадресный"
+                KonfIzvBezAdr: {
+                    TIZV: "",
+                    IOIZV: 0.0,
+                    IPIZV: 0.0
                 },
-        //Конфигурация извещателя при ТШС = "безадресный"
-        KonfIzvBezAdr: {
-            TIZV: "",
-            IOIZV: 0.0,
-            IPIZV: 0.0
+                //Конфигурация извещателя при ТШС = "modbus"
+                KonfModbus: {
+                    KMBUSLNK: 0
+                    }
         },
-        //Конфигурация извещателя при ТШС = "modbus"
-        KonfModbus: {
-            KMBUSLNK: 0
-            },
+
         configured: false
     }
 };
@@ -1332,95 +1335,7 @@ function createlineLoop(val){
             elem.appendChild(subelem);
 
             div = document.createElement('div');
-            div.setAttribute('id', `AdrExNet${i}`)
-
-            subelem = document.createElement('h3');
-            subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Тип извещателя:'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('select');
-            subelem.setAttribute('id', `TAIZV${i}`);
-            option = document.createElement('option');
-            option.appendChild(document.createTextNode('ИАД'));
-            subelem.appendChild(option);
-            option = document.createElement('option');
-            option.appendChild(document.createTextNode('ИАТ'));
-            subelem.appendChild(option);
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Зона:'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'number');
-            subelem.setAttribute('id', `ZONAIZV${i}`);
-            subelem.setAttribute('placeholder', `1...255`);
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Наименование/адрес:'));
-            div.appendChild(subelem);
-
-            
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'text');
-            subelem.setAttribute('id', `ADRIZV${i}`);
-            subelem.setAttribute('placeholder', `до 20 символов...`);
-            div.appendChild(subelem);
-
-            elem.appendChild(div);
-
-            div = document.createElement('div');
-            div.setAttribute('id', `AdrExDa${i}`);
-
-            subelem = document.createElement('h3');
-            subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Тип извещателя:'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('select');
-            subelem.setAttribute('id', `TAIZV_${i}`);
-            option = document.createElement('option');
-            option.appendChild(document.createTextNode('ИАД-01'));
-            subelem.appendChild(option);
-            option = document.createElement('option');
-            option.appendChild(document.createTextNode('ИАТ-01'));
-            subelem.appendChild(option);
-
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode("Зона:"));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'number');
-            subelem.setAttribute('id', `ZONAIZV_${i}`);
-            subelem.setAttribute('placeholder', '1...255');
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Наименование/адрес'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'text');
-            subelem.setAttribute('id', `ADRIZV_${i}`);
-            subelem.setAttribute('placeholder', 'до 20 символов...');
-            div.appendChild(subelem);
-
-            elem.appendChild(div);
-
-            div = document.createElement('div');
-            div.setAttribute('id', `bezAdr___${i}`);
+            div.setAttribute('id', `bezAdr___${i}`);   
 
             subelem = document.createElement('h3');
             subelem.appendChild(document.createTextNode('Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты'));
@@ -1461,23 +1376,7 @@ function createlineLoop(val){
 
             elem.appendChild(div);
 
-            div = document.createElement('div');
-            div.setAttribute('id', `confModbus${i}`);
-
-            subelem = document.createElement('h3');
-            subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Количество линий связи:'));
-            div.appendChild(subelem);
-
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'text');
-            subelem.setAttribute('id', `KMBUSLNK${i}`);
-            div.appendChild(subelem);
-
-            elem.appendChild(div);
+      
 
             subelem = document.createElement('button');
             subelem.setAttribute('type', 'submit');
@@ -1596,9 +1495,30 @@ iREZShS1.addEventListener('blur', ()=>{
 });
 
  // обработка динамических форм конфигурации шлейфов
- let dynamicEventHandlers = [],
+let dynamicEventHandlers = [],
      lineLoopsData = [],
      lineLoopConf ;
+
+let _izveshateli = [],
+    izvNodes = {
+        adrExNet: '',
+        Taizv: '',
+        zonaIzv: '',
+        adrIzv: '',
+        adrExDa: '',
+        TaizvD: '',
+        zonaIzvD: '',
+        adrIzvD: '',
+        konfModbus: '',
+        KMBUSLNK: '',
+        btnsID: '',
+        prev: '',
+        cur:'',
+        next: '',
+        pos: '',
+        lastPos:''
+
+    };
 
 // if(document.querySelector('div#lineLoopKonf'))
 // {
@@ -1669,6 +1589,7 @@ sbtForm2.addEventListener('click', (e)=>{
                 setIOIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setiIPIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
+                setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
         }
     else
         alert('Конфигурация не завершена! Пропущены данные.');
@@ -4506,6 +4427,8 @@ sbtForm2.addEventListener('click', (e)=>{
 // };
 
 
+
+
 //Funcs------------------------------
 
 function hideAutoObnar(){
@@ -4515,9 +4438,9 @@ function hideAutoObnar(){
             dynamicEventHandlers[i][4].style.display = 'none';
             dynamicEventHandlers[i][9].style.display = 'none';
             dynamicEventHandlers[i][13].style.display = 'none';
-            dynamicEventHandlers[i][17].style.display = 'none';
-            dynamicEventHandlers[i][21].style.display = 'none';
-            dynamicEventHandlers[i][26].style.display = 'none';
+            // dynamicEventHandlers[i][17].style.display = 'none';
+            // dynamicEventHandlers[i][21].style.display = 'none';
+            // dynamicEventHandlers[i][26].style.display = 'none';
             
         }
     }
@@ -4531,16 +4454,22 @@ function setTShS(handlerArr, size, dataToSave){
                         if(handlerArr[i][0].selectedIndex == 1){
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
-                            handlerArr[i][13].style.display = 'none';
-                            handlerArr[i][17].style.display = 'none';
+                            handlerArr[i][13].style.display = 'block';
+                            //handlerArr[i][17].style.display = 'none';
                             handlerArr[i][1].style.display = 'block';
                             handlerArr[i][9].style.display = 'block';
-                            handlerArr[i][21].style.display = 'block';
+                            //handlerArr[i][21].style.display = 'block';
                             handlerArr[i][5].style.display = 'block';
                             handlerArr[i][11].style.display = 'block';
-                            handlerArr[i][26].style.display = 'none';
+                            //handlerArr[i][26].style.display = 'none';
                             handlerArr[i][7].style.display = 'none';
-                
+                            izvNodes.btnsID.style.display = 'none';
+                            if(dynamicEvHandlerIZV[curPos-1][i].adrExDa  &&
+                                dynamicEvHandlerIZV[curPos-1][i].adrExNet ){
+                                    
+                                    dynamicEvHandlerIZV[curPos-1][i].adrExDa.style.display = 'none';
+                                    dynamicEvHandlerIZV[curPos-1][i].adrExNet.style.display = 'none';
+                                }
                 
                 
                             // while(handlerArr[i][7].firstChild)
@@ -4585,18 +4514,21 @@ function setTShS(handlerArr, size, dataToSave){
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                 
-                            if(dataToSave[i].TShS == true)
-                                handlerArr[i][17].style.display = 'block';
-                            else
-                                handlerArr[i][13].style.display = 'block';
+                            if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
+                                //handlerArr[i][17].style.display = 'block';
+                            }                                
+                            else{
+                                //handlerArr[i][13].style.display = 'block';
+                            }
+                                
                 
                             handlerArr[i][1].style.display = 'none';
                             handlerArr[i][9].style.display = 'none';
                             handlerArr[i][11].style.display = 'none';
-                            handlerArr[i][21].style.display = 'none';
+                            handlerArr[i][13].style.display = 'none';
                             handlerArr[i][5].style.display = 'none';
                             handlerArr[i][7].style.display = 'block';
-                            handlerArr[i][26].style.display = 'none';             
+                            //handlerArr[i][26].style.display = 'none';             
                             
                             while(handlerArr[i][7].firstChild)
                                 handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
@@ -4619,16 +4551,23 @@ function setTShS(handlerArr, size, dataToSave){
                         else{
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
-                            handlerArr[i][26].style.display = 'block';
+                            //handlerArr[i][26].style.display = 'block';
                             handlerArr[i][7].style.display = 'none';
-                            handlerArr[i][5].style.display = 'none';
+                            handlerArr[i][5].style.display = 'block';
                             handlerArr[i][13].style.display = 'none';
-                            handlerArr[i][17].style.display = 'none';
+                            // handlerArr[i][17].style.display = 'none';
                             handlerArr[i][11].style.display = 'none';
                             handlerArr[i][1].style.display = 'none';
                             handlerArr[i][9].style.display = 'none';
-                            handlerArr[i][21].style.display = 'none';
-                
+                            //handlerArr[i][21].style.display = 'none';
+                            izvNodes.btnsID.style.display = 'none';
+                            if(dynamicEvHandlerIZV[curPos-1][i].adrExDa  &&
+                                dynamicEvHandlerIZV[curPos-1][i].adrExNet ){
+                                    
+                                    dynamicEvHandlerIZV[curPos-1][i].adrExDa.style.display = 'none';
+                                    dynamicEvHandlerIZV[curPos-1][i].adrExNet.style.display = 'none';
+                                }
+
                             while(handlerArr[i][7].firstChild)
                             handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
                             
@@ -4678,8 +4617,8 @@ function setExShS(handlerArr, size, dataToSave){
             dataToSave[i].ExShS = true;
             handlerArr[i][4].style.display = 'block';
             if( dataToSave[i].TShS == 0){ 
-                handlerArr[i][13].style.display = 'none'; 
-                handlerArr[i][17].style.display = 'block';
+                // handlerArr[i][13].style.display = 'none'; 
+                // handlerArr[i][17].style.display = 'block';
                
                 while(handlerArr[i][7].firstChild)
                     handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
@@ -4725,8 +4664,8 @@ function setExShS(handlerArr, size, dataToSave){
             dataToSave[i].ExShS = false;
             handlerArr[i][4].style.display = 'none';
             if( dataToSave[i].TShS == 0) {
-                handlerArr[i][17].style.display = 'none'; 
-                handlerArr[i][13].style.display = 'block';
+                // handlerArr[i][17].style.display = 'none'; 
+                // handlerArr[i][13].style.display = 'block';
             }
         }
         //e.preventDefault();
@@ -4754,7 +4693,7 @@ function setTShSBIZ(handlerArr, size, dataToSave){
                             
                             return;
                         }
-                        handlerArr[i][7].style.display = 'block';
+                        //andlerArr[i][7].style.display = 'block';
                     }
                     else
                     {
@@ -4824,8 +4763,15 @@ function setKIZVShS(handlerArr, size, dataToSave){
                 if(parseInt( handlerArr[i][8].value, 10) >= 1 && parseInt( handlerArr[i][8].value, 10) <= 32){
                     dataToSave[i].KIZVShS = parseInt( handlerArr[i][8].value, 10);
                     handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                    //izvBtns.style.display = 'block'; //-----------------------------
                     console.log(i + "-КІЗВШС: " + dataToSave[i].KIZVShS);
+
+                    // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
+                    //     for (let j = 0; j < array.length; j++) {
+                    //         _izveshateli[i] = [];                            
+                    //     }                       
+                        
+                    // }
+
                 }
                 else if( handlerArr[i][8].value == ""){
                     return;
@@ -5020,10 +4966,10 @@ function setAdrIZVadrNet(handlerArr, size, dataToSave){
 // //ТАИЗВ
 function setTAIZVadrDa(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][18].onchange = ()=>{
-            dataToSave[i].AdrExDa.TAIZV = handlerArr[i][18].selectedIndex;
-            console.log(i + " - ТАИЗВ: " + dataToSave[i].AdrExDa.TAIZV);
-        };
+        // handlerArr[i][18].onchange = ()=>{
+        //     dataToSave[i].AdrExDa.TAIZV = handlerArr[i][18].selectedIndex;
+        //     console.log(i + " - ТАИЗВ: " + dataToSave[i].AdrExDa.TAIZV);
+        // };
     }
 }
 
@@ -5031,46 +4977,46 @@ function setTAIZVadrDa(handlerArr, size, dataToSave){
 //Зона
 function setZonaIzvadrDa(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-            handlerArr[i][19].onkeypress = (e)=>{
-            e = e || event;
-           if (e.ctrlKey || e.altKey || e.metaKey) return;
-           var chr = getChar(e);
-           console.log("Char pressed: " + chr);
-           if(chr == ',' || chr == '.')
-           {   
-               // iKShS.value.replace(/[\,|\.]+/g,'');
-               e.preventDefault();
-               return;
-           }
-           if(chr == null) return;
+        //     handlerArr[i][19].onkeypress = (e)=>{
+        //     e = e || event;
+        //    if (e.ctrlKey || e.altKey || e.metaKey) return;
+        //    var chr = getChar(e);
+        //    console.log("Char pressed: " + chr);
+        //    if(chr == ',' || chr == '.')
+        //    {   
+        //        // iKShS.value.replace(/[\,|\.]+/g,'');
+        //        e.preventDefault();
+        //        return;
+        //    }
+        //    if(chr == null) return;
 
-           if (chr < '0' || chr > '9') {
-               return false;
-           }
-        };
+        //    if (chr < '0' || chr > '9') {
+        //        return false;
+        //    }
+        // };
 
-        handlerArr[i][19].addEventListener('focus', ()=>{
-            handlerArr[i][19].style.boxShadow = 'none';
-        });
+        // handlerArr[i][19].addEventListener('focus', ()=>{
+        //     handlerArr[i][19].style.boxShadow = 'none';
+        // });
 
-        handlerArr[i][19].addEventListener('blur', ()=>{
-            if(handlerArr[i][19].value.search(regEx) == -1){
-            if(parseInt(handlerArr[i][19].value, 10) >= 1 && parseInt(handlerArr[i][19].value, 10) <= 255){
-                dataToSave[i].AdrExDa.ZONAIZV = parseInt(handlerArr[i][19].value, 10);
-                handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(i + " ЗонаИзв: " + dataToSave[i].AdrExDa.ZONAIZV);
-            }
-            else if(handlerArr[i][19].value == ""){
-                return;
-            }
-            else
-                {
-                    handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-                }
-            }
-            else
-                handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });
+        // handlerArr[i][19].addEventListener('blur', ()=>{
+        //     if(handlerArr[i][19].value.search(regEx) == -1){
+        //     if(parseInt(handlerArr[i][19].value, 10) >= 1 && parseInt(handlerArr[i][19].value, 10) <= 255){
+        //         dataToSave[i].AdrExDa.ZONAIZV = parseInt(handlerArr[i][19].value, 10);
+        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        //         console.log(i + " ЗонаИзв: " + dataToSave[i].AdrExDa.ZONAIZV);
+        //     }
+        //     else if(handlerArr[i][19].value == ""){
+        //         return;
+        //     }
+        //     else
+        //         {
+        //             handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        //         }
+        //     }
+        //     else
+        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        // });
         
     }
 }
@@ -5079,23 +5025,23 @@ function setZonaIzvadrDa(handlerArr, size, dataToSave){
 //АДРИЗВ
 function setAdrIZVadrDa(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][20].addEventListener('focus', ()=>{
-            handlerArr[i][20].style.boxShadow = 'none';
-        });
+        // handlerArr[i][20].addEventListener('focus', ()=>{
+        //     handlerArr[i][20].style.boxShadow = 'none';
+        // });
     
-        handlerArr[i][20].addEventListener('blur', ()=>{
-            if(handlerArr[i][20].value == ""){ 
-                handlerArr[i][20].style.boxShadow = 'none';
-                return;
-            }
-            else if(handlerArr[i][20].value.length <= 20){
-                dataToSave[i].AdrExDa.ADRIZV = handlerArr[i][20].value;
-                handlerArr[i][20].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(i + "АДРИЗВ: " + dataToSave[i].AdrExDa.ADRIZV + " L: " + dataToSave[i].AdrExDa.ADRIZV.length);
-            }
-            else
-                handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });   
+        // handlerArr[i][20].addEventListener('blur', ()=>{
+        //     if(handlerArr[i][20].value == ""){ 
+        //         handlerArr[i][20].style.boxShadow = 'none';
+        //         return;
+        //     }
+        //     else if(handlerArr[i][20].value.length <= 20){
+        //         dataToSave[i].AdrExDa.ADRIZV = handlerArr[i][20].value;
+        //         handlerArr[i][20].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        //         console.log(i + "АДРИЗВ: " + dataToSave[i].AdrExDa.ADRIZV + " L: " + dataToSave[i].AdrExDa.ADRIZV.length);
+        //     }
+        //     else
+        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        // });   
     }
 }
 
@@ -5107,29 +5053,29 @@ let enteredVals = [], wordsCount = []; // Введнные пользовате�
 // //TIZV
 function setTIZVauto(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][22].addEventListener('focus', ()=>{
-            handlerArr[i][22].style.boxShadow = 'none';
+        handlerArr[i][14].addEventListener('focus', ()=>{
+            handlerArr[i][14].style.boxShadow = 'none';
         });
 
-        handlerArr[i][22].addEventListener('blur', ()=>{
-            if(handlerArr[i][22].value == ""){ 
-                handlerArr[i][22].style.boxShadow = 'none';
+        handlerArr[i][14].addEventListener('blur', ()=>{
+            if(handlerArr[i][14].value == ""){ 
+                handlerArr[i][14].style.boxShadow = 'none';
                 return;
             }
-            else if(handlerArr[i][22].value.length <= 20){
-                dataToSave[i].KonfIzvBezAdr.TIZV = handlerArr[i][22].value;
+            else if(handlerArr[i][14].value.length <= 20){
+                dataToSave[i].KonfIzvBezAdr.TIZV = handlerArr[i][14].value;
                 //добавляем введённую инфу в массив
-                addItemsDouble(handlerArr[i][23], i, handlerArr);
+                addItemsDouble(handlerArr[i][15], i, handlerArr);
                 // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
                 //     enteredVals.push(iTIZV1.value);
                 //     let addToList = new addInfoToList(enteredVals);
                 //     addToList.addItems(enteredItems);
                 // }
-                handlerArr[i][22].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(dataToSave[i].KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].KonfIzvBezAdr.TIZV.length);
             }
             else
-                handlerArr[i][22].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         });
         
     }
@@ -5138,7 +5084,7 @@ function setTIZVauto(handlerArr, size, dataToSave){
 ///IOIZV
 function setIOIZV(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][24].onkeypress = (e)=>{
+        handlerArr[i][16].onkeypress = (e)=>{
             e = e || event;
            if (e.ctrlKey || e.altKey || e.metaKey) return;
            var chr = getChar(e);
@@ -5147,9 +5093,9 @@ function setIOIZV(handlerArr, size, dataToSave){
            {   
                let count = 0, pos = -1;
                if(chr == ',' || chr == '.'){
-                    if(handlerArr[i][24].value.indexOf('.') == -1)
+                    if(handlerArr[i][16].value.indexOf('.') == -1)
                     {
-                        while((pos = handlerArr[i][24].value.indexOf(',', pos + 1 )) != -1){
+                        while((pos = handlerArr[i][16].value.indexOf(',', pos + 1 )) != -1){
                             count++;
                         }
                         if(count >= 1) {e.preventDefault(); count = 0; return;}
@@ -5157,7 +5103,7 @@ function setIOIZV(handlerArr, size, dataToSave){
                     }
                     else
                     {
-                        while((pos = handlerArr[i][24].value.indexOf('.', pos + 1 )) != -1){
+                        while((pos = handlerArr[i][16].value.indexOf('.', pos + 1 )) != -1){
                             count++;
                         }
                         if(count >= 1) {e.preventDefault(); count = 0; return;}
@@ -5174,35 +5120,35 @@ function setIOIZV(handlerArr, size, dataToSave){
            }
         };
 
-        handlerArr[i][24].addEventListener('focus', ()=>{
-            handlerArr[i][24].style.boxShadow = 'none';
+        handlerArr[i][16].addEventListener('focus', ()=>{
+            handlerArr[i][16].style.boxShadow = 'none';
         });
 
-        handlerArr[i][24].addEventListener('blur', ()=>{
-            if(handlerArr[i][24].value.indexOf(',')== -1 && handlerArr[i][24].value.indexOf('.')== -1)
-                handlerArr[i][24].value += ',0';
-            if(handlerArr[i][24].value[handlerArr[i][24].value.length - 1] == '.' || handlerArr[i][24].value[handlerArr[i][24].value.length - 1] == ',')
-                handlerArr[i][24].value += '0';
+        handlerArr[i][16].addEventListener('blur', ()=>{
+            if(handlerArr[i][16].value.indexOf(',')== -1 && handlerArr[i][16].value.indexOf('.')== -1)
+                handlerArr[i][16].value += ',0';
+            if(handlerArr[i][16].value[handlerArr[i][16].value.length - 1] == '.' || handlerArr[i][16].value[handlerArr[i][16].value.length - 1] == ',')
+                handlerArr[i][16].value += '0';
 
-            if(handlerArr[i][24].value.search(regExBroken) != -1){
+            if(handlerArr[i][16].value.search(regExBroken) != -1){
             
-                if(handlerArr[i][24].value.indexOf(',')!= -1) handlerArr[i][24].value = handlerArr[i][24].value.replace(/\,/, '.');
+                if(handlerArr[i][16].value.indexOf(',')!= -1) handlerArr[i][16].value = handlerArr[i][16].value.replace(/\,/, '.');
 
-            if(parseFloat(handlerArr[i][24].value) >= 0 && parseFloat(handlerArr[i][24].value) <= 32){
+            if(parseFloat(handlerArr[i][16].value) >= 0 && parseFloat(handlerArr[i][24].value) <= 32){
                 dataToSave[i].KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][24].value);
-                handlerArr[i][24].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(  dataToSave[i].KonfIzvBezAdr.IOIZV);
             }
-            else if(handlerArr[i][24].value == ""){
+            else if(handlerArr[i][16].value == ""){
                 return;
             }
             else
                 {
-                    handlerArr[i][24].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
                 }
             }
             else
-                handlerArr[i][24].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         }); 
         
     }
@@ -5211,7 +5157,7 @@ function setIOIZV(handlerArr, size, dataToSave){
 // //iIPIZV
 function setiIPIZV(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][25].onkeypress = (e)=>{
+        handlerArr[i][17].onkeypress = (e)=>{
             e = e || event;
            if (e.ctrlKey || e.altKey || e.metaKey) return;
            var chr = getChar(e);
@@ -5220,9 +5166,9 @@ function setiIPIZV(handlerArr, size, dataToSave){
            {   
                let count = 0, pos = -1;
                if(chr == ',' || chr == '.'){
-                    if(handlerArr[i][25].value.indexOf('.') == -1)
+                    if(handlerArr[i][17].value.indexOf('.') == -1)
                     {
-                        while((pos = handlerArr[i][25].value.indexOf(',', pos + 1 )) != -1){
+                        while((pos = handlerArr[i][17].value.indexOf(',', pos + 1 )) != -1){
                             count++;
                         }
                         if(count >= 1) {e.preventDefault(); count = 0; return;}
@@ -5230,7 +5176,7 @@ function setiIPIZV(handlerArr, size, dataToSave){
                     }
                     else
                     {
-                        while((pos = handlerArr[i][25].value.indexOf('.', pos + 1 )) != -1){
+                        while((pos = handlerArr[i][17].value.indexOf('.', pos + 1 )) != -1){
                             count++;
                         }
                         if(count >= 1) {e.preventDefault(); count = 0; return;}
@@ -5247,34 +5193,34 @@ function setiIPIZV(handlerArr, size, dataToSave){
            }
         };
 
-        handlerArr[i][25].addEventListener('focus', ()=>{
-            handlerArr[i][25].style.boxShadow = 'none';
+        handlerArr[i][17].addEventListener('focus', ()=>{
+            handlerArr[i][17].style.boxShadow = 'none';
         });
 
-        handlerArr[i][25].addEventListener('blur', ()=>{
-            if(handlerArr[i][25].value.indexOf(',')== -1 && handlerArr[i][25].value.indexOf('.')== -1)
-                handlerArr[i][25].value += ',0';
-            if(handlerArr[i][25].value[handlerArr[i][25].value.length - 1] == '.' || handlerArr[i][25].value[handlerArr[i][25].value.length - 1] == ',')
-                handlerArr[i][25].value += '0';
-            if(handlerArr[i][25].value.search(regExBroken) != -1){
+        handlerArr[i][17].addEventListener('blur', ()=>{
+            if(handlerArr[i][17].value.indexOf(',')== -1 && handlerArr[i][17].value.indexOf('.')== -1)
+                handlerArr[i][17].value += ',0';
+            if(handlerArr[i][17].value[handlerArr[i][17].value.length - 1] == '.' || handlerArr[i][17].value[handlerArr[i][17].value.length - 1] == ',')
+                handlerArr[i][17].value += '0';
+            if(handlerArr[i][17].value.search(regExBroken) != -1){
             
-                if(handlerArr[i][25].value.indexOf(',')!= -1) handlerArr[i][25].value = handlerArr[i][25].value.replace(/\,/, '.');
+                if(handlerArr[i][17].value.indexOf(',')!= -1) handlerArr[i][17].value = handlerArr[i][17].value.replace(/\,/, '.');
 
-            if(parseFloat(handlerArr[i][25].value) >= 0 && parseFloat(handlerArr[i][25].value) <= 32){
-                dataToSave[i].KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][25].value);
-                handlerArr[i][25].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+            if(parseFloat(handlerArr[i][17].value) >= 0 && parseFloat(handlerArr[i][17].value) <= 32){
+                dataToSave[i].KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][17].value);
+                handlerArr[i][17].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(  dataToSave[i].KonfIzvBezAdr.IPIZV);
             }
-            else if(handlerArr[i][25].value == ""){
+            else if(handlerArr[i][17].value == ""){
                 return;
             }
             else
                 {
-                    handlerArr[i][25].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    handlerArr[i][17].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
                 }
             }
             else
-                handlerArr[i][25].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                handlerArr[i][17].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         });   
     }
 }
@@ -5286,50 +5232,254 @@ function setiIPIZV(handlerArr, size, dataToSave){
 // //iKMBUSLNK
 function setKMBUSLNK(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][27].onkeypress = (e)=>{
-            e = e || event;
-           if (e.ctrlKey || e.altKey || e.metaKey) return;
-           var chr = getChar(e);
-           console.log("Char pressed: " + chr);
-           if(chr == ',' || chr == '.')
-           {   
-               // iKShS.value.replace(/[\,|\.]+/g,'');
-               e.preventDefault();
-               return;
-           }
-           if(chr == null) return;
+        // handlerArr[i][27].onkeypress = (e)=>{
+        //     e = e || event;
+        //    if (e.ctrlKey || e.altKey || e.metaKey) return;
+        //    var chr = getChar(e);
+        //    console.log("Char pressed: " + chr);
+        //    if(chr == ',' || chr == '.')
+        //    {   
+        //        // iKShS.value.replace(/[\,|\.]+/g,'');
+        //        e.preventDefault();
+        //        return;
+        //    }
+        //    if(chr == null) return;
 
-           if (chr < '0' || chr > '9') {
-               return false;
-           }
-        };
+        //    if (chr < '0' || chr > '9') {
+        //        return false;
+        //    }
+        // };
 
-        handlerArr[i][27].addEventListener('focus', ()=>{
-            handlerArr[i][27].style.boxShadow = 'none';
-        });
+        // handlerArr[i][27].addEventListener('focus', ()=>{
+        //     handlerArr[i][27].style.boxShadow = 'none';
+        // });
 
-        handlerArr[i][27].addEventListener('blur', ()=>{
-            if(handlerArr[i][27].value.search(regEx) == -1){
-            if(parseInt(handlerArr[i][27].value, 10) >= 0 && parseInt(handlerArr[i][27].value, 10) <= 20){
-                dataToSave[i].KonfModbus.KMBUSLNK = parseInt(handlerArr[i][27].value, 10);
-                handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log("KMBUSLNK: "+ dataToSave[i].KonfModbus.KMBUSLNK);
-            }
-            else if(handlerArr[i][27].value == ""){
-                return;
-            }
-            else
-                {
-                    handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-                }
-            }
-            else
-                handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });
+        // handlerArr[i][27].addEventListener('blur', ()=>{
+        //     if(handlerArr[i][27].value.search(regEx) == -1){
+        //     if(parseInt(handlerArr[i][27].value, 10) >= 0 && parseInt(handlerArr[i][27].value, 10) <= 20){
+        //         dataToSave[i].KonfModbus.KMBUSLNK = parseInt(handlerArr[i][27].value, 10);
+        //         handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        //         console.log("KMBUSLNK: "+ dataToSave[i].KonfModbus.KMBUSLNK);
+        //     }
+        //     else if(handlerArr[i][27].value == ""){
+        //         return;
+        //     }
+        //     else
+        //         {
+        //             handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        //         }
+        //     }
+        //     else
+        //         handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        // });
         
     }
 }
+
+// Обработка кнопки сабмит шлейфа
+ let genIzvHandlers = function () {
+    var arr, len, i;
+    if(arguments.length > 0) {
+        len = [].slice.call(arguments, 0, 1)[0];
+        arr = new Array(len);
+        for(i = 0; i < len; i++) {
+            arr[i] = genIzvHandlers.apply(null, [].slice.call(arguments, 1));
+        }
+    } else {
+        return null; //or whatever you want to initialize values to.
+    }
+    return arr;
+};
+
+// переменные для перемещения по извещателям
+let curPosIzv = [], nextPosIzv = [], prevPosIzv = [], izvPosition = [];
+let izvBtnsID = [], izvLasPos = [], izvLastSpan = [], izvBtnsNext = [], izvBtnsPrev = [];
+
+function setDlsSbt(handlerArr, size, dataToSave){
+    
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][20].addEventListener('click', (e) => {
+            e.preventDefault();
+            if(dataToSave[i].KIZVShS >= 1){
+
+                createIzv(i,dataToSave[i].KIZVShS);
+
+                for (let j = 0; j < dataToSave[i].KIZVShS; j++) {
+                    curPosIzv[i] = [];
+                    nextPosIzv[i] = [];
+                    prevPosIzv[i] = [];
+                }
+                dynamicEvHandlerIZV = genIzvHandlers(lineLoops.length, 32, 10);
+                izvBtnsID[i] = document.getElementById(`izvBtns${i}`);
+                izvLasPos[i] = document.getElementById(`izvBtnsPos${i}`);
+                izvLastSpan[i] = document.getElementById(`izvBtnslastPos${i}`);
+                izvBtnsNext[i] = document.getElementById(`izvBtnsNext${i}`);
+                izvBtnsPrev[i] = document.getElementById(`izvBtnsPrev${i}`);
+
+                izvPosition[curPos - 1] = 0;
+
+                setHandlersIZV(dynamicEvHandlerIZV, i, dataToSave);
+
+                for (let k = 0; k < dataToSave[i].KIZVShS; k++) {
+                    console.log( dynamicEvHandlerIZV);
+                    
+                }
+                hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+
+                // dynamicEvHandlerIZV[i][0][12].min = 1;
+                // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
+
+                curPosIzv[i][0] = 0;
+                nextPosIzv[i][0] = 1;
+                prevPosIzv[i][0] = dataToSave[i].KIZVShS - 1;
+                izvLastSpan[i].innerHTML = ' из' + dataToSave[i].KIZVShS;
+                izvLasPos[i].value =  curPosIzv[i][0] + 1;
+                izvLasPos[i].min = 1;
+                izvLasPos[i].max = dataToSave[i].KIZVShS;
+
+
+                if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == false){
+                    showIzvAdrExNet(dynamicEvHandlerIZV, i, 0);
+                }
+                else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
+                    showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
+                }
+                else{
+                    showIzvConfModbu(dynamicEvHandlerIZV, i, 0);
+                }
+
+                handlePrevIzv(lineLoops.length, dataToSave[curPos-1].KIZVShS, izvLasPos, izvBtnsPrev, dynamicEvHandlerIZV,
+                    dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
+                handleNextIzv(lineLoops.length, dataToSave[curPos-1].KIZVShS,  izvLasPos, izvBtnsNext, dynamicEvHandlerIZV,
+                    dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
+                handleIzvPos(lineLoops.length, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
+                    curPosIzv, nextPosIzv, prevPosIzv);
+
+            }
+            else{
+                handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }
+        });   
+    }
+}
+
+
+//кнопки извещателей
+function handlePrevIzv(curLine, KIZVSHsLength, izvLasPos1, 
+                        btnPrevHndlr, dynamicEvHandlerIZV1, data,
+                        curPosIzv1, nextPosIzv1, prevPosIzv1){
+                //let i = curLine;
+                     for(let i = 0; i < curLine; i++){
+                         if( btnPrevHndlr[i]){
+                            btnPrevHndlr[i].addEventListener('click', (e)=>{
+                                e.preventDefault();
+                               // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
+                                nextPosIzv1[i] = curPosIzv1[i];
+                                curPosIzv1[i] = prevPosIzv1[i];
+                                prevPosIzv1[i]--;
+                                if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
+                                izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                                
+                                hideIzv(dynamicEvHandlerIZV1, i, data);
+                                let current = curPosIzv1[i];
+                                if(data[i].TShS == 0 && data[i].ExShS == false){
+                                    showIzvAdrExNet(dynamicEvHandlerIZV1, i, current);
+                                }
+                                else if(data[i].TShS == 0 && data[i].ExShS == true){
+                                    showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                                }
+                                else{
+                                    showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                                }
+                            });
+                         }
+      
+                }
+
+}
+
+function handleNextIzv(curLine, KIZVSHsLength, izvLasPos1, 
+    btnNextHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+
+       // let i = curLine;
+
+        for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[i]){
+                btnNextHndlr[i].addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
+                    prevPosIzv1[i] = curPosIzv1[i];
+                    curPosIzv1[i] = nextPosIzv1[i];
+                    nextPosIzv1[i]++;
+                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
+                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                    
+                    hideIzv(dynamicEvHandlerIZV1, i, data);
+        
+                    if(data[i].TShS == 0 && data[i].ExShS == false){
+                        showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    }
+                    else if(data[i].TShS == 0 && data[i].ExShS == true){
+                        showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    }
+                    else{
+                        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    }
+            
+            });
+            }
+            
+    }  
+        
+
+}
+
+
+function handleIzvPos(curLine, KIZVSHsLength, izvLasPos1, 
+     dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        
+        //let i = curLine;
+        for(let i = 0; i < curLine; i++){
+            if(izvLasPos1[i]){
+                izvLasPos1[i].addEventListener('blur', (e)=>{
+                    e.preventDefault();
+                    curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
+                    if(curPosIzv1[i] + 1 >= KIZVSHsLength){
+                        nextPosIzv1[i] = 1;
+                        prevPosIzv1[i] = curPosIzv1[i] - 1;
+                    }
+                    else if(curPosIzv1[i] - 1 < 1){
+                        prevPosIzv1[i] = KIZVSHsLength - 1;
+                        nextPosIzv1[i] = curPosIzv1[i] + 1;
+                    }
+                    else{
+                        prevPosIzv1[i] = curPosIzv1[i] - 1;
+                        nextPosIzv1[i] = curPosIzv1[i] + 1;
+                    }
+                        hideIzv(dynamicEvHandlerIZV1, i, data);
+        
+                        if(data[i].TShS == 0 && data[i].ExShS == false){
+                            showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        }
+                        else if(data[i].TShS == 0 && data[i].ExShS == true){
+                            showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        }
+                        else{
+                            showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        }
+                });
+            }
+            
+            
+        }
+
+}
+
+
 // iKMBUSLNK1.onkeypress = (e)=>{
+//    `dlgSbt${i}`
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
 //    var chr = getChar(e);
@@ -5378,7 +5528,6 @@ function setDynHandlers(handlerArr, size){
         
         handlerArr[i][0] =document.getElementById(`TShS`+i);
         handlerArr[i][1] =document.getElementById(`bezAdr_${i}`);
-        
         handlerArr[i][2] =document.getElementById(`SKhShS${i}`);
         handlerArr[i][3] =document.getElementById(`ExShS${i}`);
         handlerArr[i][4] =document.getElementById(`TypeBIZ${i}`);
@@ -5390,21 +5539,14 @@ function setDynHandlers(handlerArr, size){
         handlerArr[i][10] =document.getElementById(`ZONAShS${i}`);
         handlerArr[i][11] =document.getElementById(`ADRShS${i}`);
         handlerArr[i][12] =document.getElementById(`RRIShS${i}`);
-        handlerArr[i][13] =document.getElementById(`AdrExNet${i}`);
-        handlerArr[i][14] =document.getElementById(`TAIZV${i}`);
-        handlerArr[i][15] =document.getElementById(`ZONAIZV${i}`);
-        handlerArr[i][16] =document.getElementById(`ADRIZV${i}`);
-        handlerArr[i][17] =document.getElementById(`AdrExDa${i}`);
-        handlerArr[i][18] =document.getElementById(`TAIZV_${i}`);
-        handlerArr[i][19] =document.getElementById(`ZONAIZV_${i}`);
-        handlerArr[i][20] =document.getElementById(`ADRIZV_${i}`);
-        handlerArr[i][21] =document.getElementById(`bezAdr___${i}`);
-        handlerArr[i][22] =document.getElementById(`TIZV${i}`);
-        handlerArr[i][23] =document.getElementById(`enteredItems${i}`);
-        handlerArr[i][24] =document.getElementById(`IOIZV${i}`);
-        handlerArr[i][25] =document.getElementById(`IPIZV${i}`);
-        handlerArr[i][26] =document.getElementById(`confModbus${i}`);
-        handlerArr[i][27] =document.getElementById(`KMBUSLNK${i}`);        
+        handlerArr[i][13] =document.getElementById(`bezAdr___${i}`);
+        handlerArr[i][14] =document.getElementById(`TIZV${i}`);
+        handlerArr[i][15] =document.getElementById(`enteredItems${i}`);
+        handlerArr[i][16] =document.getElementById(`IOIZV${i}`);
+        handlerArr[i][17] =document.getElementById(`IPIZV${i}`);
+        handlerArr[i][18] =document.getElementById(`confModbus${i}`);
+        handlerArr[i][19] =document.getElementById(`KMBUSLNK${i}`);        
+        handlerArr[i][20] =document.getElementById(`dlgSbt${i}`);        
     }
  }
 
@@ -5478,55 +5620,233 @@ function addItemsDouble(node, ind, eHandler){
     }
 }
 
-function createIzv(quantity){
-    if(quantity > 0){
-        let elem, subelem, option, mainDiv, subDiv;
-        mainDiv = document.getElementById('lineLoopKonf');
-        subDiv = document.createElement('div');
-        subDiv.setAttribute('id','IZV');
-        for (let i = 0; i < quantity; i++) {
-            elem = document.createElement('div');
-            elem.setAttribute('id', `izvBtns${i}`);
-            elem.setAttribute('class', `izvBtns_`);
-                        
-            subelem = document.createElement('button');
-            subelem.setAttribute('id', `izvBtnsPrev${i}`);
-            subelem.setAttribute('class', `izvBtns-item`);
-            subelem.appendChild(document.createTextNode('Пред.'));
-
-            elem.appendChild(subelem);
-
-            subelem = document.createElement('span');
-            subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttribute('id', `izvSpan${i}`);
-            subelem.appendChild(document.createTextNode('Извещатель №'));
-
-            elem.appendChild(subelem);
-
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'number');
-            subelem.setAttribute('id', `izvBtnsPos${i}`);
-            subelem.setAttribute('class', 'izvBtns-item');
-
-            elem.appendChild(subelem);
-
-            subelem = document.createElement('span');
-            subelem.setAttribute('id', `izvBtnslastPos${i}`);
-            subelem.setAttribute('class', 'izvBtns-item');
-
-            elem.appendChild(subelem);
-
-            subelem = document.createElement('button');
-            subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttributeq('id', `izvBtnsNext${i}`);
-
-            elem.appendChild(subelem);
 
 
+// динамическое создание извещателей
+let dynamicEvHandlerIZV = [];
+
+
+
+function createIzv(lineLoopIndex, qIzv){
+    if(lineLoopIndex >= 0){
+        let elem, subelem, option, mainDiv, subDiv, div;
+        mainDiv = document.getElementById((curPos - 1).toString());
+
+        // if(!document.getElementById(`izvBtns${lineLoopIndex}`)){
+
+        // }
+        elem = document.createElement('div');
+        elem.setAttribute('id', `izvBtns${lineLoopIndex}`);
+        elem.setAttribute('class', `izvBtns_`);
+                    
+        subelem = document.createElement('button');
+        subelem.setAttribute('id', `izvBtnsPrev${lineLoopIndex}`);
+        subelem.setAttribute('class', `izvBtns-item`);
+        subelem.appendChild(document.createTextNode('Пред.'));
+
+        elem.appendChild(subelem);
+
+        subelem = document.createElement('span');
+        subelem.setAttribute('class', 'izvBtns-item');
+        subelem.setAttribute('id', `izvSpan${lineLoopIndex}`);
+        subelem.appendChild(document.createTextNode('Извещатель №'));
+
+        elem.appendChild(subelem);
+
+        subelem = document.createElement('input');
+        subelem.setAttribute('type', 'number');
+        subelem.setAttribute('id', `izvBtnsPos${lineLoopIndex}`);
+        subelem.setAttribute('class', 'izvBtns-item');
+
+        elem.appendChild(subelem);
+
+        subelem = document.createElement('span');
+        subelem.setAttribute('id', `izvBtnslastPos${lineLoopIndex}`);
+        subelem.setAttribute('class', 'izvBtns-item');
+
+        elem.appendChild(subelem);
+
+        subelem = document.createElement('button');
+        subelem.setAttribute('class', 'izvBtns-item');
+        subelem.setAttribute('id', `izvBtnsNext${lineLoopIndex}`);
+        subelem.appendChild(document.createTextNode('След.'));
+
+        elem.appendChild(subelem);
+
+        mainDiv.appendChild(elem);
+
+            subDiv = document.createElement('div');
+            subDiv.setAttribute('id',`IZV${lineLoopIndex}`);
+
+            for (let j = 0; j < qIzv; j++) {
+
+
+
+                //----------------------------------------------
+                
+                div = document.createElement('div');
+                div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
+
+                subelem = document.createElement('h3');
+                subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('select');
+                subelem.setAttribute('id', `TAIZV${lineLoopIndex}_${j}`);
+                option = document.createElement('option');
+                option.appendChild(document.createTextNode('ИАД'));
+                subelem.appendChild(option);
+                option = document.createElement('option');
+                option.appendChild(document.createTextNode('ИАТ'));
+                subelem.appendChild(option);
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Зона:'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'number');
+                subelem.setAttribute('id', `ZONAIZV${lineLoopIndex}_${j}`);
+                subelem.setAttribute('placeholder', `1...255`);
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Наименование/адрес:'));
+                div.appendChild(subelem);
+
+                
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'text');
+                subelem.setAttribute('id', `ADRIZV${lineLoopIndex}_${j}`);
+                subelem.setAttribute('placeholder', `до 20 символов...`);
+                div.appendChild(subelem);
+
+                subDiv.appendChild(div);
+
+                div = document.createElement('div');
+                div.setAttribute('id', `AdrExDa${lineLoopIndex}_${j}`);
+
+                subelem = document.createElement('h3');
+                subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('select');
+                subelem.setAttribute('id', `TAIZV_${lineLoopIndex}_${j}`);
+                option = document.createElement('option');
+                option.appendChild(document.createTextNode('ИАД-01'));
+                subelem.appendChild(option);
+                option = document.createElement('option');
+                option.appendChild(document.createTextNode('ИАТ-01'));
+                subelem.appendChild(option);
+
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode("Зона:"));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'number');
+                subelem.setAttribute('id', `ZONAIZV_${lineLoopIndex}_${j}`);
+                subelem.setAttribute('placeholder', '1...255');
+                div.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Наименование/адрес'));
+                div.appendChild(subelem);
+
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'text');
+                subelem.setAttribute('id', `ADRIZV_${lineLoopIndex}_${j}`);
+                subelem.setAttribute('placeholder', 'до 20 символов...');
+                div.appendChild(subelem);
+
+                subDiv.appendChild(div);
+
+                div = document.createElement('div');
+                div.setAttribute('id', `confModbus${lineLoopIndex}_${j}`);
+    
+                subelem = document.createElement('h3');
+                subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
+                div.appendChild(subelem);
+    
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Количество линий связи:'));
+                div.appendChild(subelem);
+    
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'text');
+                subelem.setAttribute('id', `KMBUSLNK${lineLoopIndex}_${j}`);
+                div.appendChild(subelem);
+    
+                subDiv.appendChild(div);
+             
+                mainDiv.appendChild(subDiv);
+            }          
         }
+}
+
+function setHandlersIZV(eHandler, index, data){
+    for (let i = 0; i < data[index].KIZVShS; i++) {
+        // eHandler[index][i].adrExNet = document.getElementById(`AdrExNet${index}_${i}`);
+        // eHandler[index][i].Taizv = document.getElementById(`TAIZV${index}_${i}`);
+        // eHandler[index][i].zonaIzv = document.getElementById(`ZONAIZV${index}_${i}`);
+        // eHandler[index][i].adrIzv = document.getElementById(`ADRIZV${index}_${i}`);
+        // eHandler[index][i].adrExDa = document.getElementById(`AdrExDa${index}_${i}`);
+        // eHandler[index][i].TaizvD = document.getElementById(`TAIZV_${index}_${i}`);
+        // eHandler[index][i].zonaIzvD = document.getElementById(`ZONAIZV_${index}_${i}`);
+        // eHandler[index][i].adrIzvD = document.getElementById(`ADRIZV_${index}_${i}`);
+        // eHandler[index][i].konfModbus = document.getElementById(`confModbus${index}_${i}`);
+        // eHandler[index][i].KMBUSLNK = document.getElementById(`KMBUSLNK${index}_${i}`);
+        // eHandler[index][i].btnsID = document.getElementById( `izvBtns${index}_${i}`);
+        // eHandler[index][i].prev = document.getElementById( `izvBtnsPrev${index}_${i}`);
+        // eHandler[index][i].cur = document.getElementById( `izvBtnsPos${index}_${i}`);
+        // eHandler[index][i].next = document.getElementById( `izvBtnsNext${index}_${i}`);
+        // eHandler[index][i].lastPos = document.getElementById( `izvBtnslastPos${index}_${i}`);
+
+        eHandler[index][i][0] = document.getElementById(`AdrExNet${index}_${i}`);
+        eHandler[index][i][1] = document.getElementById(`TAIZV${index}_${i}`);
+        eHandler[index][i][2] = document.getElementById(`ZONAIZV${index}_${i}`);
+        eHandler[index][i][3] = document.getElementById(`ADRIZV${index}_${i}`);
+        eHandler[index][i][4] = document.getElementById(`AdrExDa${index}_${i}`);
+        eHandler[index][i][5] = document.getElementById(`TAIZV_${index}_${i}`);
+        eHandler[index][i][6] = document.getElementById(`ZONAIZV_${index}_${i}`);
+        eHandler[index][i][7] = document.getElementById(`ADRIZV_${index}_${i}`);
+        eHandler[index][i][8] = document.getElementById(`confModbus${index}_${i}`);
+        eHandler[index][i][9] = document.getElementById(`KMBUSLNK${index}_${i}`);
+        
     }
 }
 
+//скрыть извещатели
+function hideIzv(eHandler, index, data){
+    for (let i = 0; i < data[index].KIZVShS; i++) {
+        eHandler[index][i][0].style.display = 'none';
+        eHandler[index][i][4].style.display = 'none';
+        eHandler[index][i][8].style.display = 'none';       
+    }
+}   
+
+function showIzvAdrExNet(eHandler, index, pos){
+    eHandler[index][pos][0].style.display = 'block';
+}
+
+function showIzvAdrExDa(eHandler, index, pos){
+    eHandler[index][pos][4].style.display = 'block';
+}
+
+function showIzvConfModbu(eHandler, index, pos){
+    eHandler[index][pos][8].style.display = 'block';
+}
 
 //Classes------------------------------
 class addInfoToList{
