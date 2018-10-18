@@ -101,58 +101,93 @@
             padding: 50px;
         }
 
-        .lineLoopBtns, .izvBtns_{
+        .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn{
             display: box;
             display: flex;
+            width: 370px;
+            margin: 20px;
+            border-top: 1px solid #f2f2f2;
+            margin-top: 15px;
+            padding-top: 12px;
+            margin-left: 0px;
             width: 100%;
         }
-        .lineLoopBtns-item{
-            margin: 10px;
+        .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item{
+            margin-right: 10px;
             padding: 5px;
         }
+        .container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin-bottom: 200px;
+        }
+
+        .left-menu>li{
+            border: 1px solid #000;
+            margin: 15px 20px;
+            padding: 20px;
+            list-style: none;
+            width: 200px;
+        }
+        .left-menu>li:hover{
+            box-shadow: 0px 0px 15px #5f97ef;
+            
+        }
+
+        .form-2{
+            order: -1;
+        }
+        .working-area{
+            flex-flow: column nowrap;
+            margin: 0 150px 0 100px;
+        }
+
+
+
     </style>
     <link rel="stylesheet" href="./dialog-polyfill.css">
 
 </head>
 <body>
-        <div class="buttons">
-                <button type="submit" id="exitConf" style="display:none;">Выход</button>
-                <button type="submit" id="exitCount" style="display:none;">Выход</button>
-                <button type="submit" id="exitStruct" style="display:none;">Выход</button>
-        </div>
-    <ul id="topMenu">
-        <li id="clkKonf" style="border: 1px solid #000;">Конфигурация СПЗ</li>
-        <li>Расчет номенклатуры</li>
-        <li>Структура СПЗ</li>
-        <li>Структурная схема СПЗ</li>
-        <li>Статистика проекта</li>
-        <li>Перечень номенклатуры</li>
-        <li>Настройки</li>
-        <li>Номенклатура САПС</li>
-        <li>Помощь</li>
-    </ul>
-    <div id="KonfiguratsiaSPZ">
-            <ul id="podsystemi">
-                <li id="autoSys">Подсистема автоматического обнаружения признаков пожара</li>
-                <li id="ruchSys">Подсистема ручного обнаружения признаков пожара</li>
-                <li id="uprPojSys">Подсистема управления пожаротушением</li>
-                <li id="uprOpSys">Подсистема управления оповещением</li>
-                <li id="formSys">Подсистема формирования выходных сигналов исполнительных устройств и взаимодействия со смежными подсистемами</li>
-                <li id="diagnSys">Подсистема диагностики</li>
-                <li id="connSys">Подсистема связи с устройствами с подключением по последовательному интерфейсу RS-485</li>
-            </ul>
+    <div class="container">
+            <!-- <div class="buttons">
+                    <button type="submit" id="exitConf" style="display:none;">Выход</button>
+                    <button type="submit" id="exitCount" style="display:none;">Выход</button>
+                    <button type="submit" id="exitStruct" style="display:none;">Выход</button>
+            </div> -->
+        <ul id="topMenu" class="left-menu" style="border-right: 1px solid #f2f2f2;" >
+            <li id="clkKonf" style="border: 1px solid #000;">Конфигурация СПЗ</li>
+            <li>Расчет номенклатуры</li>
+            <li>Структура СПЗ</li>
+            <li>Структурная схема СПЗ</li>
+            <li>Статистика проекта</li>
+            <li>Перечень номенклатуры</li>
+            <li>Настройки</li>
+            <li>Номенклатура САПС</li>
+            <li>Помощь</li>
+        </ul>
+        <ul id="podsystemi" class="left-menu" style="border-right: 1px solid #f2f2f2;">
+            <li id="autoSys">Подсистема автоматического обнаружения признаков пожара</li>
+            <li id="ruchSys">Подсистема ручного обнаружения признаков пожара</li>
+            <li id="uprPojSys">Подсистема управления пожаротушением</li>
+            <li id="uprOpSys">Подсистема управления оповещением</li>
+            <li id="formSys">Подсистема формирования выходных сигналов исполнительных устройств и взаимодействия со смежными подсистемами</li>
+            <li id="diagnSys">Подсистема диагностики</li>
+            <li id="connSys">Подсистема связи с устройствами с подключением по последовательному интерфейсу RS-485</li>
+        </ul>
 
+        <div  class="working-area">
+            <div id="KonfiguratsiaSPZ" >
+                <!-- <input type="file" id="files" name="files[]" multiple />
+            <output id="list"></output> -->
             
-            <!-- <input type="file" id="files" name="files[]" multiple />
-        <output id="list"></output> -->
-        
-        <!-- <ul id="ul"></ul>
-            <button id="btn">Users</button> -->
-        <!-- <dialog id="dialog1"> -->
-        
-        <!-- </dialog> -->
-        
-            <form id="dialog1" class="form-1">
+            <!-- <ul id="ul"></ul>
+                <button id="btn">Users</button> -->
+            <!-- <dialog id="dialog1"> -->
+            
+            <!-- </dialog> -->
+            <form id="dialog1" class="form-1" >
                 <h1>Общие параметры СПЗ</h1>
                 <p>Название проекта:</p>
                 <input type="text" id="projectName">
@@ -166,37 +201,81 @@
                 </select>
                 <button type="submit" id="btnSubmitDlg1">Далее</button>
             </form>
-        
-            <form id="dialog2" class="form-2">
-                    <h1>Подсистема автоматического обнаружения признаков пожара</h1> 
-                    <p>Количество шлейфов:</p>
-                    <input type="number" name="KShS1" id="iKShS1" placeholder="1...640"  pattern="[0-9]{3}" >
-                    <p>Количество модулей интегральных:</p>
-                    <input type="number" name="KMIShS1" id="iKMIShS1" placeholder="0...32">
-                    <p>Резерв шлейфов,%:</p>
-                    <input type="number" name="REZShS1" id="iREZShS1" placeholder="0...100">
-                    <button type="submit" id="sbtForm2">Далее</button>
-            </form>
-            <div id="lineLoopBtns"  class="lineLoopBtns">
-                <button class="lineLoopBtns-item" id="lineLoopPrev">Пред.</button>
-                <span class="lineLoopBtns-item">Шлейф №</span>
-                <input type="number" name="" id="lineLoopPos" class="lineLoopBtns-item">
-                <span id="lastPos" class="lineLoopBtns-item"></span>
-                <button class="lineLoopBtns-item" id="lineLoopNext">След.</button>
-            </div>
-            
-            <!-- <div id="izvBtns" class="izvBtns_">
-                <button class="izvBtns-item" id="izvBtnsPrev">Пред.</button>
-                <span class="izvBtns-item">Шлейф №</span>
-                <input type="number" name="" id="izvBtnsPos" class="izvBtns-item">
-                <span id="izvBtnslastPos" class="izvBtns-item"></span>
-                <button class="izvBtns-item" id="izvBtnsNext">След.</button>
-            </div>
-            -->
-        
-        
 
+            
+                <div id="autoSysConfiguration">
+                    <div class="item">
+                        <form id="dialog2" class="form-2" >
+                            <h1>Подсистема автоматического обнаружения признаков пожара</h1> 
+                            <p>Количество шлейфов:</p>
+                            <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShS1" placeholder="1...640"  pattern="[0-9]{3}" >
+                            <p>Количество модулей интегральных:</p>
+                            <input style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShS1" placeholder="0...32">
+                            <p>Резерв шлейфов,%:</p>
+                            <input style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShS1" placeholder="0...100">
+                            <br>
+                            <button class="btn-after" type="submit" id="sbtForm2" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы</button>
+                        </form>
+        
+                    </div>
+        
+                    <div id="lineLoopBtns"  class="lineLoopBtns" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtns-item" id="lineLoopPrev">Пред.</button>
+                        <span class="lineLoopBtns-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPos" class="lineLoopBtns-item">
+                        <span id="lastPos" class="lineLoopBtns-item"></span>
+                        <button class="lineLoopBtns-item" id="lineLoopNext">След.</button>
+                    </div>
+                </div>
+
+            
+                <div id="ruchSysConfiguration">
+                    <div class="item">
+                        <form id="dialog3" class="form-3" >
+                            <h1>Подсистема ручного обнаружения признаков пожара</h1> 
+                            <p>Количество шлейфов:</p>
+                            <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShSR" placeholder="1...640"  pattern="[0-9]{3}" >
+                            <p>Разрешить использовать модуль интегральный МИ</p>
+                            <input type="checkbox" value="" id="MIShSR">
+        
+                            <div id="KMIShSR_open">
+                                <p>Количество модулей интегральных:</p>
+                                <input style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShSR" placeholder="1...32">
+                            </div>
+        
+                            <p>Резерв шлейфов,%:</p>
+                            <input style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShSR" placeholder="0...100">
+                            <br>
+                            <button class="btn-after" type="submit" id="sbtForm3" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы</button>
+                        </form>
+                    </div>
+        
+                    <div id="lineLoopBtnsRuchn"  class="lineLoopBtnsRuchn" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtnsRuchn-item" id="lineLoopPrevRuchn">Пред.</button>
+                        <span class="lineLoopBtnsRuchn-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPosRuchn" class="lineLoopBtnsRuchn-item">
+                        <span id="lastPosRuchn" class="lineLoopBtnsRuchn-item"></span>
+                        <button class="lineLoopBtnsRuchn-item" id="lineLoopNextRuchn">След.</button>
+                    </div>
+                </div>
+
+
+                <!-- <div id="izvBtns" class="izvBtns_">
+                    <button class="izvBtns-item" id="izvBtnsPrev">Пред.</button>
+                    <span class="izvBtns-item">Шлейф №</span>
+                    <input type="number" name="" id="izvBtnsPos" class="izvBtns-item">
+                    <span id="izvBtnslastPos" class="izvBtns-item"></span>
+                    <button class="izvBtns-item" id="izvBtnsNext">След.</button>
+                </div>
+                -->
+            
+            
+    
+             </div>
+        </div>
+       
     </div>
+ 
     
 
 <!-- Можна сделать формы отдлеьными html-ми и загружать их на осн. страницу через

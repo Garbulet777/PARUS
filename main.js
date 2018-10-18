@@ -366,27 +366,30 @@ let RutshnayaSignalizatsiya =
     TShSBIZ: "",
     KIZVShS: 0,
     ZONAShS: 0, //для безадресный
-    ADRShS: ""  //для безадресный
-    },
-    //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "Нет"
-    AdrExNet:{
-    TAIZV: 0,
-    ZONAIZV: 0,
-    ADRIZV: ""
-    },
-    
-    //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "да"
-    AdrExDa:{
-    TAIZV: 0,
-    ZONAIZV: 0,
-    ADRIZV: ""
-    },
+    ADRShS: "",  //для безадресный
+    izveshateli:{
+        //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "Нет"
+                AdrExNet:{
+                TAIZV: 0,
+                ZONAIZV: 0,
+                ADRIZV: ""
+                },
+                
+                //Конфигурация извещателя при ТШС = "адресный" при ЕхШС = "да"
+                AdrExDa:{
+                TAIZV: 0,
+                ZONAIZV: 0,
+                ADRIZV: ""
+                },
 
-    //Конфигурация извещателя при ТШС = "безадресный"
-    KonfIzvBezAdr: {
-    TIZV: 0,
-    IOIZV: 0.0,
-    IPIZV: 0.0
+                //Конфигурация извещателя при ТШС = "безадресный"
+                KonfIzvBezAdr: {
+                TIZV: 0,
+                IOIZV: 0.0,
+                IPIZV: 0.0
+                }
+        },
+        configured: false
     }
 };
 
@@ -753,48 +756,60 @@ let ds = [];
         clkKonf.addEventListener('click', function(){
             if(dlg1Configured == false)
                 dialog1.style.display = 'block';
+                clkKonf.style.backgroundColor = '#5f97ef';
+                clkKonf.style.color = 'white';
             //podsystemi.style.display = 'block';
-            topMenu.style.display = 'none';
-            exitConf.style.display = 'block';
+            //topMenu.style.display = 'none';
+            //exitConf.style.display = 'block';
             KonfiguratsiaSPZ.style.display = 'block';
+            KonfiguratsiaSPZ.style.flex = 'auto';
         });
         
-        exitConf.addEventListener('click', function(){
-            let undone = [];
-            if(lineLoops.length){
-                for (let i = 0; i < lineLoops.length; i++) {
-                    if(lineLoops[i].configured == false)
-                    {
-                        undone.push(i + 1);
-                    }
-                }
-                if(undone.length)
-                    {
-                        let txt = '';
-                        for (let i = 0; i < undone.length; i++) {
-                            txt += undone[i] + ' ';                            
-                        }
-                        alert(`Шлейфы ${txt} не сконфигурированы.`);
+        // exitConf.addEventListener('click', function(){
+        //     let undone = [];
+        //     if(lineLoops.length){
+        //         for (let i = 0; i < lineLoops.length; i++) {
+        //             if(lineLoops[i].configured == false)
+        //             {
+        //                 undone.push(i + 1);
+        //             }
+        //         }
+        //         if(undone.length)
+        //             {
+        //                 let txt = '';
+        //                 for (let i = 0; i < undone.length; i++) {
+        //                     txt += undone[i] + ' ';                            
+        //                 }
+        //                 alert(`Шлейфы ${txt} не сконфигурированы.`);
                         
-                    }
-                else{
-                    KonfiguratsiaSPZ.style.display = 'none';
-                    exitConf.style.display = 'none';
-                    return;
-                }
-            }
-            else{
-                exitConf.style.display = 'none';
-                dialog1.style.display = 'none';
-                dialog2.style.display = 'none';
-                KonfiguratsiaSPZ.style.display = 'none';
-                topMenu.style.display = 'block';
-            }
+        //             }
+        //         else{
+        //             KonfiguratsiaSPZ.style.display = 'none';
+        //             exitConf.style.display = 'none';
+        //             return;
+        //         }
+        //     }
+        //     else{
+        //         exitConf.style.display = 'none';
+        //         dialog1.style.display = 'none';
+        //         dialog2.style.display = 'none';
+        //         KonfiguratsiaSPZ.style.display = 'none';
+        //         topMenu.style.display = 'block';
+        //     }
 
-        });
+        // });
 
         autoSys.addEventListener('click', ()=>{
-            dialog2.style.display = 'block';
+            dialog2.style.display = 'inline';
+            dialog2.style.flexDirection = 'column';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#autoSysConfiguration').style.display = 'block';
+            
+            autoSys.style.backgroundColor = '#5f97ef';
+            autoSys.style.color = 'white';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+
             if(AutoSignalizatsiya.KShS)
                 iKShS1.value = AutoSignalizatsiya.KShS;
             if(AutoSignalizatsiya.KMIShS > 0)
@@ -802,6 +817,26 @@ let ds = [];
             if(AutoSignalizatsiya.REZShS > 0)
                 iREZShS1.value = AutoSignalizatsiya.REZShS;
         });
+
+        ruchSys.addEventListener('click', ()=>{
+            dialog3.style.display = 'inline';
+            dialog3.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'block';
+
+            ruchSys.style.backgroundColor = '#5f97ef';
+            ruchSys.style.color = 'white';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+
+            if(RutshnayaSignalizatsiya.KShSR)
+                iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
+            if(RutshnayaSignalizatsiya.KMIShSR > 0)
+                iKMIShSR2.value = RutshnayaSignalizatsiya.KMIShSR;
+            if(RutshnayaSignalizatsiya.REZShS > 0)
+                iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
+        });
+
 
         //конф шлейфа кнопки пред и след
         lineLoopPrev.addEventListener('click', ()=>{
@@ -1195,13 +1230,14 @@ function createlineLoop(val){
         let elem, subelem, option, mainDiv;
         mainDiv = document.createElement('div');
         mainDiv.setAttribute('id','lineLoopKonf');
+        mainDiv.setAttribute('class','flex-item');
         for (let i = 0; i < val; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", i);
             
-            subelem = document.createElement('h3')
-            subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
-            elem.appendChild(subelem);
+            // subelem = document.createElement('h3')
+            // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+            // elem.appendChild(subelem);
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Тип шлейфа:"));
@@ -1327,6 +1363,7 @@ function createlineLoop(val){
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode('Разрешить подключение ручных извещателей:'));
+            subelem.setAttribute('class', `RRIShS_p_${i}`);
             elem.appendChild(subelem);
 
             subelem = document.createElement('input');
@@ -1376,18 +1413,23 @@ function createlineLoop(val){
 
             elem.appendChild(div);
 
-      
+            subelem = document.createElement('br');
+            elem.appendChild(subelem);
 
             subelem = document.createElement('button');
             subelem.setAttribute('type', 'submit');
             subelem.setAttribute('id', `dlgSbt${i}`);
-            subelem.appendChild(document.createTextNode('Submit'));
+            subelem.setAttribute('class', `btn-after`);
+            subelem.style.marginTop = '19px';
+            subelem.style.marginBottom = '20px';
+            subelem.appendChild(document.createTextNode('Сконфигурировать извещатели'));
             elem.appendChild(subelem);
 
 
             elem.style.display = 'none';
             mainDiv.appendChild(elem);
-            document.body.appendChild(mainDiv); 
+            document.querySelector('div#autoSysConfiguration').appendChild(mainDiv);
+            //document.body.appendChild(mainDiv); 
                     
         }
     }
@@ -1499,7 +1541,7 @@ let dynamicEventHandlers = [],
      lineLoopsData = [],
      lineLoopConf ;
 
-let _izveshateli = [],
+let 
     izvNodes = {
         adrExNet: '',
         Taizv: '',
@@ -1579,10 +1621,10 @@ sbtForm2.addEventListener('click', (e)=>{
                 setZonaShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setAdrShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setRRIShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setZonaIzvadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setAdrIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
                 setTIZVauto(dynamicEventHandlers, lineLoops.length, lineLoopsData);
@@ -2264,7 +2306,10 @@ sbtForm2.addEventListener('click', (e)=>{
         // });
 
 
-// //Ручная сигнализация
+//------------------------------------------------Ручная сигнализация------------------------------------------------
+document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+document.querySelector('div#KMIShSR_open').style.display = 'none';
+document.querySelector('div.lineLoopBtnsRuchn').style.display = 'none';
 // const adrBIZ2 = document.getElementById('adrBIZ2'),
 // bezAdr2_2 = document.getElementById('bezAdr2_2'),
 // AdrExNet2 = document.getElementById('AdrExNet2'),
@@ -2294,17 +2339,19 @@ sbtForm2.addEventListener('click', (e)=>{
 
 
 
-// const iKShSR2 = document.getElementById('iKShSR2'),
-// iMIShSR2 = document.getElementById('iMIShSR2'),
-// iKMIShSR2 = document.getElementById('iKMIShSR2'),
-// iREZShSR2 = document.getElementById('iREZShSR2'),
+ const iKShSR2 = document.getElementById('iKShSR'),
+ iMIShSR2 = document.getElementById('MIShSR'),
+ KMIShSR_open = document.getElementById('KMIShSR_open'),
+ iKMIShSR2 = document.getElementById('iKMIShSR'),
+ iREZShSR2 = document.getElementById('iREZShSR'),
+ sbtForm3 = document.getElementById('sbtForm3');
 // iTShS2 = document.getElementById('iTShS2'),
 // iExShS2 = document.getElementById('iExShS2'),
 // TypeBIZ2 = document.getElementById('TypeBIZ2'),
 // rtBiz = document.getElementById('rtBiz');   
 // TypeBIZ2.style.display = 'none';
 // iTShSBIZ.style.display = 'none';
-
+let lineLoopsRuchn = [];
 // //const iTShSBIZ2 = document.getElementById('iTShSBIZ2');
 
 // RutshnayaSignalizatsiya.KonfShleifa.TShS = 0;
@@ -2319,157 +2366,306 @@ sbtForm2.addEventListener('click', (e)=>{
 
 // //KShSR
 
-// iKShSR2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+iKShSR2.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// iKShSR2.addEventListener('focus', ()=>{
-//     iKShSR2.style.boxShadow = 'none';
-// });
+iKShSR2.addEventListener('focus', ()=>{
+    iKShSR2.style.boxShadow = 'none';
+});
 
-// iKShSR2.addEventListener('blur', ()=>{
-//    if(iKShSR2.value.search(regEx) == -1){
-//    if(parseInt(iKShSR2.value, 10) >= 1 && parseInt(iKShSR2.value, 10) <= 640){
-//        RutshnayaSignalizatsiya.KShSR = parseInt(iKShSR2.value, 10);
-//        iKShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(RutshnayaSignalizatsiya.KShSR);
-//    }
-//    else if(iKShSR2.value == ""){
-//        RutshnayaSignalizatsiya.KonfShleifa.KIZVShS = 0;
-//        console.log(RutshnayaSignalizatsiya.KShSR);
-//        return;
-//    }
-//    else
-//        {
-//         iKShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     iKShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-    
-// });
+iKShSR2.addEventListener('blur', ()=>{
+   if(iKShSR2.value.search(regEx) == -1){
+   if(parseInt(iKShSR2.value, 10) >= 1 && parseInt(iKShSR2.value, 10) <= 640){
+       RutshnayaSignalizatsiya.KShSR = parseInt(iKShSR2.value, 10);
+       iKShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("Ручная сигнализация " + RutshnayaSignalizatsiya.KShSR);
+   }
+   else if(iKShSR2.value == ""){
+       RutshnayaSignalizatsiya.KonfShleifa.KIZVShS = 0;
+       console.log("Ручная сигнализация " + RutshnayaSignalizatsiya.KShSR);
+       return;
+   }
+   else
+       {
+        iKShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    iKShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+});
 
 // //MIShSR
 
-// iMIShSR2.addEventListener('click', ()=>{
-//     if(iMIShSR2.checked)
-//     { 
-//         RutshnayaSignalizatsiya.MIShSR = true;
-//         KMIShSR.style.display = 'block';
-//     }
-//     else  
-//     {
-//         RutshnayaSignalizatsiya.MIShSR = false;
-//         KMIShSR.style.display = 'none';
-//         RutshnayaSignalizatsiya.KMIShSR = 0;
-//     }
-// });
+iMIShSR2.addEventListener('click', ()=>{
+    if(iMIShSR2.checked)
+    { 
+        RutshnayaSignalizatsiya.MIShSR = true;
+        KMIShSR_open.style.display = 'block';
+    }
+    else  
+    {
+        RutshnayaSignalizatsiya.MIShSR = false;
+        KMIShSR_open.style.display = 'none';
+        RutshnayaSignalizatsiya.KMIShSR = 0;
+    }
+});
 
 // //KMIShSR
 
-// iKMIShSR2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+iKMIShSR2.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// iKMIShSR2.addEventListener('focus', ()=>{
-//     iKMIShSR2.style.boxShadow = 'none';
-// });
+iKMIShSR2.addEventListener('focus', ()=>{
+    iKMIShSR2.style.boxShadow = 'none';
+});
 
-// iKMIShSR2.addEventListener('blur', ()=>{
-//    if(iKMIShSR2.value.search(regEx) == -1){
-//    if(parseInt(iKMIShSR2.value, 10) >= 0 && parseInt(iKMIShSR2.value, 10) <= 32){
-//        RutshnayaSignalizatsiya.KMIShSR = parseInt(iKMIShSR2.value, 10);
-//        iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log("КМИШСР: " + RutshnayaSignalizatsiya.KMIShSR);
-//    }
-//    else if(iKMIShSR2.value == ""){
-//        RutshnayaSignalizatsiya.KMIShSR = 0;
-//        return;
-//    }
-//    else
-//        {
-//             iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//      iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
+iKMIShSR2.addEventListener('blur', ()=>{
+   if(iKMIShSR2.value.search(regEx) == -1){
+   if(parseInt(iKMIShSR2.value, 10) >= 0 && parseInt(iKMIShSR2.value, 10) <= 32){
+       RutshnayaSignalizatsiya.KMIShSR = parseInt(iKMIShSR2.value, 10);
+       iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("КМИШСР: " + RutshnayaSignalizatsiya.KMIShSR);
+   }
+   else if(iKMIShSR2.value == ""){
+       RutshnayaSignalizatsiya.KMIShSR = 0;
+       return;
+   }
+   else
+       {
+            iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+     iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+});
 
 // //REZShSR
 
-// iREZShSR2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+iREZShSR2.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// iREZShSR2.addEventListener('focus', ()=>{
-//     iREZShSR2.style.boxShadow = 'none';
-// });
+iREZShSR2.addEventListener('focus', ()=>{
+    iREZShSR2.style.boxShadow = 'none';
+});
 
-// iREZShSR2.addEventListener('blur', ()=>{
-//     if(iREZShSR2.value.search(regEx) == -1){
-//     if(parseInt(iREZShSR2.value, 10) >= 0 && parseInt(iREZShSR2.value, 10) <= 100){
-//         RutshnayaSignalizatsiya.REZShSR = parseInt(iREZShSR2.value, 10);
-//         iREZShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("РЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR);
-//     }
-//     else if(iREZShSR2.value == ""){
-//         RutshnayaSignalizatsiya.REZShSR = 0;
-//         return;
-//     }
-//     else
-//         {
-//             iREZShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//         }
-//     }
-//     else
-//         iREZShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
+iREZShSR2.addEventListener('blur', ()=>{
+    if(iREZShSR2.value.search(regEx) == -1){
+    if(parseInt(iREZShSR2.value, 10) >= 0 && parseInt(iREZShSR2.value, 10) <= 100){
+        RutshnayaSignalizatsiya.REZShSR = parseInt(iREZShSR2.value, 10);
+        iREZShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        console.log("РЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR);
+    }
+    else if(iREZShSR2.value == ""){
+        RutshnayaSignalizatsiya.REZShSR = 0;
+        return;
+    }
+    else
+        {
+            iREZShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }
+    }
+    else
+        iREZShSR2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+});
+
+// кнопка открывающая конфигурацию шлейфов
+let curPosRuchn, prevIndexRuchn, nextIndexRuchn;
+let dynamicEventHandlersRuchn = [],
+    lineLoopsDataRuchn = [];
+sbtForm3.addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(RutshnayaSignalizatsiya.KShSR ){
+            alert('Сконфигурировано!');
+            document.querySelector('div.lineLoopBtnsRuchn').style.display = 'block';
+            lineLoopBtns.style.display = 'block';
+            lineLoopsRuchn.length = RutshnayaSignalizatsiya.KShSR;
+            for (let i = 0; i < lineLoopsRuchn.length; i++) {
+                lineLoopsRuchn[i] = RutshnayaSignalizatsiya.KonfShleifa;
+            }
+            createlineLoopRuchn(RutshnayaSignalizatsiya.KShSR);
+            let lastSpanRuchn = document.getElementById('lastPosRuchn'),
+                lineLoopPosRuchn = document.getElementById('lineLoopPosRuchn');
+
+            lastSpanRuchn.innerHTML = 'из ' + lineLoopsRuchn.length;
+            lineLoopPosRuchn.min = 1;
+            lineLoopPosRuchn.max = lineLoopsRuchn.length;
+            lineLoopPosRuchn.value = 1;
+            curPosRuchn = 1;
+            prevIndexRuchn = lineLoopsRuchn.length;
+            nextIndexRuchn = curPosRuchn + 1;
+            
+            if(lineLoopsRuchn.length){
+                for (let i = 0; i < lineLoopsRuchn.length; i++) {
+                    for (let j = 0; j < 28; j++) {
+                        dynamicEventHandlersRuchn[i] = [];
+                    }
+                }
+             }
+
+            setDynHandlersRuchn(dynamicEventHandlersRuchn, lineLoopsRuchn.length);
+            
+            showLineLoopsRuchn(0 + '_' + 1);
+            hideAutoObnarRuchn();
+            if(lineLoopsRuchn.length){
+                for (let i = 0; i < lineLoopsRuchn.length; i++) {                
+                    lineLoopsDataRuchn[i] = RutshnayaSignalizatsiya.KonfShleifa;
+                    //dynamicEventHandlersRuchn[i][5].style.display = 'none';
+                }
+             }
+
+                //lineLoopConf = document.getElementById('lineLoopKonf');
+                setTShSR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setExShSR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setTShSBIZR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setAdrBizR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setKIZVShSR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setZonaShSR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setAdrShSR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                
+                //setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                //setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                // setZonaIzvadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                // setAdrIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                setTIZVautoR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setIOIZVR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                setiIPIZVR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
+                //setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
+                setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+        }
+    else
+        alert('Конфигурация не завершена! Пропущены данные.');
+});
 
 // //Конфигурация шлейфа
 
 // // TShSR
+function setTShSR(handlerArr, size, dataToSave){
+    if(size){
+        for (let i = 0; i < size; i++) {
+            handlerArr[i][0].onchange = ()=>{
+                        if(handlerArr[i][0].selectedIndex == 1){
+                            dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
+                            console.log(i + " ТШСR: " + dataToSave[i].TShS);
+                            handlerArr[i][10].style.display = 'block';    
 
+                            // if(izvBtnsID[i])
+                            //     izvBtnsID[i].style.display = 'none';
+
+                            // if(lineLoopsData[i].KIZVShS != 0){
+                            //     for (let j = 0; j < lineLoopsData[i].KIZVShS; j++) {
+                            //         if(dynamicEvHandlerIZV[i][j][4]  &&
+                            //             dynamicEvHandlerIZV[i][j][0] ){                                       
+                            //                 dynamicEvHandlerIZV[i][j][4].style.display = 'none';
+                            //                 dynamicEvHandlerIZV[i][j][0].style.display = 'none';
+                            //             }
+                            //     }
+                            // }
+                        
+
+                                while(handlerArr[i][4].firstChild)
+                                    handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                            
+                                        let oOption = document.createElement("option");
+                                        // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                                        // oOption.setAttribute("value", "");
+                                        // handlerArr[i][6].appendChild(oOption);  
+                                        for (let j = 0; j < IntermediateModules.length; j++) {
+                                            for(let prop in IntermediateModules[j]){
+                                                if(IntermediateModules[j][prop] == "BIZ"){
+                                                    oOption = document.createElement("option");
+                                                    //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                                    oOption.setAttribute("value", IntermediateModules[j].name);
+                                                    handlerArr[i][4].appendChild(oOption);   
+                                                }
+                                            }        
+                                        }
+
+                        }
+                        else if(handlerArr[i][0].selectedIndex == 0 ){
+                            dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
+                            console.log(i + " ТШСR: " + dataToSave[i].TShS);
+                
+                            if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
+                                //handlerArr[i][17].style.display = 'block';
+                            }                                
+                            else{
+                                //handlerArr[i][13].style.display = 'block';
+                            }
+                            
+                            handlerArr[i][2].style.display = 'none';
+                            handlerArr[i][10].style.display = 'none';
+                            
+                            //handlerArr[i][26].style.display = 'none';             
+                            //document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
+
+                            while(handlerArr[i][4].firstChild)
+                                handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                
+                            let oOption = document.createElement("option");
+                            oOption.appendChild(document.createTextNode("Выберите тип:"));
+                            oOption.setAttribute("value", "");
+                            handlerArr[i][4].appendChild(oOption);  
+                            for (let j = 0; j < IntermediateModules.length; j++) {
+                                for(let prop in IntermediateModules[j]){
+                                    if(IntermediateModules[j][prop] == "I"){
+                                        oOption = document.createElement("option");
+                                        oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                        oOption.setAttribute("value", "");
+                                        handlerArr[i][4].appendChild(oOption);   
+                                    }
+                                }        
+                            }
+                        }            
+            }
+        }
+    }
+}
 // iTShS2.onchange = ()=>{
 //     if(iTShS2.selectedIndex == 1){
 //         RutshnayaSignalizatsiya.KonfShleifa.TShS = iTShS2.selectedIndex;
@@ -2533,6 +2729,77 @@ sbtForm2.addEventListener('click', (e)=>{
 
 
 // // ExShSR
+function setExShSR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+            if(handlerArr[i][1]){
+                handlerArr[i][1].addEventListener('click', ()=>{
+            if(handlerArr[i][1].checked)
+            { 
+                dataToSave[i].ExShS = true;
+
+                if( dataToSave[i].TShS == 0){ 
+                    handlerArr[i][2].style.display = 'block';
+                    handlerArr[i][3].style.display = 'none';
+                    handlerArr[i][4].style.display = 'none';
+                    handlerArr[i][5].style.display = 'block';
+                    
+                    while(handlerArr[i][5].firstChild)
+                        handlerArr[i][5].removeChild(handlerArr[i][5].firstChild);
+                    
+                                let oOption = document.createElement("option");
+                                oOption.appendChild(document.createTextNode("Выберите тип:"));
+                                oOption.setAttribute("value", "");
+                                handlerArr[i][5].appendChild(oOption);  
+                                for (let j = 0; j < IntermediateModules.length; j++) {
+                                    for(let prop in IntermediateModules[j]){
+                                        if(IntermediateModules[j][prop] == "I"){
+                                            oOption = document.createElement("option");
+                                            oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                            oOption.setAttribute("value", "");
+                                            handlerArr[i][5].appendChild(oOption);   
+                                        }
+                                    }        
+                                }
+                }
+                else{
+                    handlerArr[i][2].style.display = 'block';
+                    handlerArr[i][3].style.display = 'block';
+                    handlerArr[i][4].style.display = 'none';
+                    handlerArr[i][5].style.display = 'none';  
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                    
+                                let oOption = document.createElement("option");
+                                // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                                // oOption.setAttribute("value", "");
+                                // handlerArr[i][6].appendChild(oOption);  
+                                for (let j = 0; j < IntermediateModules.length; j++) {
+                                    for(let prop in IntermediateModules[j]){
+                                        if(IntermediateModules[j][prop] == "BIZ"){
+                                            oOption = document.createElement("option");
+                                            //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                            oOption.setAttribute("value", IntermediateModules[j].name);
+                                            handlerArr[i][4].appendChild(oOption);   
+                                        }
+                                    }        
+                                }
+                }
+                
+            }
+            else  {
+                dataToSave[i].ExShS = false;
+                handlerArr[i][2].style.display = 'none';
+                if( dataToSave[i].TShS == 0) {
+                    // handlerArr[i][17].style.display = 'none'; 
+                    // handlerArr[i][13].style.display = 'block';
+                }
+            }
+            //e.preventDefault();
+        });
+            
+        }
+    }
+}
 
 // iExShS2.addEventListener('click', function(){
 //     if(this.checked)
@@ -2576,7 +2843,49 @@ sbtForm2.addEventListener('click', (e)=>{
 // });
 
 //     //Ввод пустой строки для ТШСБИЗ
-    
+
+function setTShSBIZR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][3].addEventListener('blur', (e)=>{
+            if(dataToSave[i].ExShS == true){
+                if(dataToSave[i].TShS == 1){
+                    if(handlerArr[i][3].value == ""){
+                        let flag = confirm("Взрывозащита типа \"d\"");
+                        if(flag)
+                        {
+                            dataToSave[i].TShSBIZ = "Взрывозащита типа \"d\"";
+                            handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
+                            handlerArr[i][5].style.display = 'none';
+                            e.preventDefault();
+                            
+                            return;
+                        }
+                        //andlerArr[i][7].style.display = 'block';
+                    }
+                    else
+                    {
+                        dataToSave[i].TShSBIZ = handlerArr[i][3].value;
+                        console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
+                    }
+                }
+                else{
+                    if(handlerArr[i][3].value == ""){
+                        return;
+                    }
+                    else{
+                    dataToSave[i].TShSBIZ = handlerArr[i][3].value;   
+                    
+                    console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
+                    }
+                }
+            }
+        });
+        
+    }
+}
+
+
 //     rtBiz.addEventListener('blur', (e)=>{
 //         if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == true){
 //             if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 1){
@@ -2622,9 +2931,73 @@ sbtForm2.addEventListener('click', (e)=>{
 //         console.log(RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ );
 //     };
 
+function setAdrBizR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][5].onchange = ()=>{
+            if(handlerArr[i][5].selectedIndex == 0)
+                return;
+
+            dataToSave[i].TShSBIZ = handlerArr[i][5].options[handlerArr[i][5].selectedIndex].text;
+            console.log("X: " + dataToSave[i].TShSBIZ );
+        };        
+    }
+}
+
 //     //КИЗВШС
 //     //iKIZVShS2
+function setKIZVShSR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        
+        handlerArr[i][6].onkeypress = (e)=>{
+            e = e || event;
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+        var chr = getChar(e);
+        console.log("Char pressed: " + chr);
+        if(chr == ',' || chr == '.')
+        {   
+            // iKShS.value.replace(/[\,|\.]+/g,'');
+            e.preventDefault();
+            return;
+        }
+        if(chr == null) return;
 
+        if (chr < '0' || chr > '9') {
+            return false;
+        }
+        };
+
+        handlerArr[i][6].addEventListener('focus', ()=>{
+                handlerArr[i][6].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][6].addEventListener('blur', ()=>{
+                if( handlerArr[i][6].value.search(regEx) == -1){
+                if(parseInt( handlerArr[i][6].value, 10) >= 1 && parseInt( handlerArr[i][6].value, 10) <= 32){
+                    dataToSave[i].KIZVShS = parseInt( handlerArr[i][6].value, 10);
+                    handlerArr[i][6].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + "-КІЗВШСR: " + dataToSave[i].KIZVShS);
+
+                    // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
+                    //     for (let j = 0; j < array.length; j++) {
+                    //         _izveshateli[i] = [];                            
+                    //     }                       
+                        
+                    // }
+
+                }
+                else if( handlerArr[i][6].value == ""){
+                    return;
+                }
+                else
+                    {
+                        handlerArr[i][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    }
+                }
+                else
+                    handlerArr[i][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }); 
+    }  
+}
 //     iKIZVShS2.onkeypress = (e)=>{
 //         e = e || event;
 //        if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -2670,6 +3043,53 @@ sbtForm2.addEventListener('click', (e)=>{
 
 //     //Зона
 //     //iZONAShS2
+
+function setZonaShSR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][8].onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               // iKShS.value.replace(/[\,|\.]+/g,'');
+               e.preventDefault();
+               return;
+           }
+           if(chr == null) return;
+    
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+    
+        handlerArr[i][8].addEventListener('focus', ()=>{
+            handlerArr[i][8].style.boxShadow = 'none';
+        });
+    
+        handlerArr[i][8].addEventListener('blur', ()=>{
+            if(handlerArr[i][8].value.search(regEx) == -1){
+            if(parseInt(handlerArr[i][8].value, 10) >= 1 && parseInt(handlerArr[i][8].value, 10) <= 255){
+                dataToSave[i].ZONAShS = parseInt(handlerArr[i][8].value, 10);
+                handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                console.log(i + " - ЗОНАШСR: " + dataToSave[i].ZONAShS);
+            }
+            else if(handlerArr[i][8].value == ""){
+                return;
+            }
+            else
+                {
+                    handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        });
+        
+    }
+}
+
 //     iZONAShS2.onkeypress = (e)=>{
 //         e = e || event;
 //        if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -2713,6 +3133,28 @@ sbtForm2.addEventListener('click', (e)=>{
 
 
 //     //iADRShS2
+function setAdrShSR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][9].addEventListener('focus', ()=>{
+                handlerArr[i][11].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][9].addEventListener('blur', ()=>{
+                if(handlerArr[i][9].value == ""){ 
+                    handlerArr[i][9].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][9].value.length <= 20){
+                    dataToSave[i].ADRShS = handlerArr[i][9].value;
+                    handlerArr[i][9].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + " АДРШСR: " + dataToSave[i].ADRShS + " L: " + dataToSave[i].ADRShS.length);
+                }
+                else
+                    handlerArr[i][9].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
+
 //     iADRShS2.addEventListener('focus', ()=>{
 //         iADRShS2.style.boxShadow = 'none';
 //     });
@@ -2870,12 +3312,112 @@ sbtForm2.addEventListener('click', (e)=>{
 
 // //Конфигурация извещателя при ТШС="Безадресный"
 // //iTIZV2
+function setTIZVautoR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][11].addEventListener('focus', ()=>{
+            handlerArr[i][11].style.boxShadow = 'none';
+        });
+
+        handlerArr[i][11].addEventListener('blur', ()=>{
+            if(handlerArr[i][11].value == ""){ 
+                handlerArr[i][11].style.boxShadow = 'none';
+                return;
+            }
+            else if(handlerArr[i][11].value.length <= 20){
+                dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][11].value;
+                //добавляем введённую инфу в массив
+                addItemsDouble(handlerArr[i][12], i, handlerArr);
+                // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
+                //     enteredVals.push(iTIZV1.value);
+                //     let addToList = new addInfoToList(enteredVals);
+                //     addToList.addItems(enteredItems);
+                // }
+                handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                console.log("TIZVR: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV.length);
+            }
+            else
+                handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        });
+        
+    }
+}
 // iTIZV2.onchange = function(){
 //     RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV = this.selectedIndex;
 //     console.log("ТИЗВ: " + RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV);
 // };
 
 // //IOIZV
+function setIOIZVR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][13].onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(handlerArr[i][13].value.indexOf('.') == -1)
+                    {
+                        while((pos = handlerArr[i][13].value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = handlerArr[i][13].value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        handlerArr[i][13].addEventListener('focus', ()=>{
+            handlerArr[i][13].style.boxShadow = 'none';
+        });
+
+        handlerArr[i][13].addEventListener('blur', ()=>{
+            if(handlerArr[i][13].value.indexOf(',')== -1 && handlerArr[i][13].value.indexOf('.')== -1)
+                handlerArr[i][13].value += ',0';
+            if(handlerArr[i][13].value[handlerArr[i][13].value.length - 1] == '.' || handlerArr[i][13].value[handlerArr[i][13].value.length - 1] == ',')
+                handlerArr[i][13].value += '0';
+
+            if(handlerArr[i][13].value.search(regExBroken) != -1){
+            
+                if(handlerArr[i][13].value.indexOf(',')!= -1) handlerArr[i][13].value = handlerArr[i][13].value.replace(/\,/, '.');
+
+            if(parseFloat(handlerArr[i][13].value) >= 0 && parseFloat(handlerArr[i][13].value) <= 32){
+                dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][13].value);
+                handlerArr[i][13].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                console.log("IOIZVR: " + dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV);
+            }
+            else if(handlerArr[i][13].value == ""){
+                return;
+            }
+            else
+                {
+                    handlerArr[i][13].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                handlerArr[i][13].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }); 
+        
+    }
+}
 // iIOIZV2.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -2944,6 +3486,76 @@ sbtForm2.addEventListener('click', (e)=>{
 // });
 
 // //iIPIZV2
+function setiIPIZVR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][14].onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(handlerArr[i][14].value.indexOf('.') == -1)
+                    {
+                        while((pos = handlerArr[i][14].value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = handlerArr[i][14].value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        handlerArr[i][14].addEventListener('focus', ()=>{
+            handlerArr[i][14].style.boxShadow = 'none';
+        });
+
+        handlerArr[i][14].addEventListener('blur', ()=>{
+            if(handlerArr[i][14].value.indexOf(',')== -1 && handlerArr[i][14].value.indexOf('.')== -1)
+                handlerArr[i][14].value += ',0';
+            if(handlerArr[i][14].value[handlerArr[i][14].value.length - 1] == '.' || handlerArr[i][14].value[handlerArr[i][14].value.length - 1] == ',')
+                handlerArr[i][14].value += '0';
+            if(handlerArr[i][14].value.search(regExBroken) != -1){
+            
+                if(handlerArr[i][14].value.indexOf(',')!= -1) handlerArr[i][14].value = handlerArr[i][14].value.replace(/\,/, '.');
+
+            if(parseFloat(handlerArr[i][14].value) >= 0 && parseFloat(handlerArr[i][14].value) <= 32){
+                dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][14].value);
+                handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                console.log("IPIZVR: " +  dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV);
+            }
+            else if(handlerArr[i][14].value == ""){
+                return;
+            }
+            else
+                {
+                    handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        });   
+    }
+}
+
 // iIPIZV2.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4458,19 +5070,26 @@ function setTShS(handlerArr, size, dataToSave){
                             //handlerArr[i][17].style.display = 'none';
                             handlerArr[i][1].style.display = 'block';
                             handlerArr[i][9].style.display = 'block';
+                            handlerArr[i][12].style.display = 'none';
                             //handlerArr[i][21].style.display = 'block';
                             handlerArr[i][5].style.display = 'block';
                             handlerArr[i][11].style.display = 'block';
+                            handlerArr[i][20].style.display = 'none';
                             //handlerArr[i][26].style.display = 'none';
                             handlerArr[i][7].style.display = 'none';
-                            izvNodes.btnsID.style.display = 'none';
-                            if(dynamicEvHandlerIZV[curPos-1][i].adrExDa  &&
-                                dynamicEvHandlerIZV[curPos-1][i].adrExNet ){
-                                    
-                                    dynamicEvHandlerIZV[curPos-1][i].adrExDa.style.display = 'none';
-                                    dynamicEvHandlerIZV[curPos-1][i].adrExNet.style.display = 'none';
+                            if(izvBtnsID[i])
+                                izvBtnsID[i].style.display = 'none';
+
+                            if(lineLoopsData[i].KIZVShS != 0){
+                                for (let j = 0; j < lineLoopsData[i].KIZVShS; j++) {
+                                    if(dynamicEvHandlerIZV[i][j][4]  &&
+                                        dynamicEvHandlerIZV[i][j][0] ){                                       
+                                            dynamicEvHandlerIZV[i][j][4].style.display = 'none';
+                                            dynamicEvHandlerIZV[i][j][0].style.display = 'none';
+                                        }
                                 }
-                
+                            }
+                            document.querySelector(`.RRIShS_p_${i}`).style.display = 'none';
                 
                             // while(handlerArr[i][7].firstChild)
                             //     handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
@@ -4521,15 +5140,18 @@ function setTShS(handlerArr, size, dataToSave){
                                 //handlerArr[i][13].style.display = 'block';
                             }
                                 
-                
+                            
                             handlerArr[i][1].style.display = 'none';
                             handlerArr[i][9].style.display = 'none';
                             handlerArr[i][11].style.display = 'none';
+                            handlerArr[i][12].style.display = 'block';
                             handlerArr[i][13].style.display = 'none';
                             handlerArr[i][5].style.display = 'none';
                             handlerArr[i][7].style.display = 'block';
+                            handlerArr[i][20].style.display = 'block';
                             //handlerArr[i][26].style.display = 'none';             
-                            
+                            document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
+
                             while(handlerArr[i][7].firstChild)
                                 handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
                 
@@ -4557,16 +5179,25 @@ function setTShS(handlerArr, size, dataToSave){
                             handlerArr[i][13].style.display = 'none';
                             // handlerArr[i][17].style.display = 'none';
                             handlerArr[i][11].style.display = 'none';
+                            handlerArr[i][12].style.display = 'block';
                             handlerArr[i][1].style.display = 'none';
                             handlerArr[i][9].style.display = 'none';
+                            handlerArr[i][20].style.display = 'block';
                             //handlerArr[i][21].style.display = 'none';
-                            izvNodes.btnsID.style.display = 'none';
-                            if(dynamicEvHandlerIZV[curPos-1][i].adrExDa  &&
-                                dynamicEvHandlerIZV[curPos-1][i].adrExNet ){
-                                    
-                                    dynamicEvHandlerIZV[curPos-1][i].adrExDa.style.display = 'none';
-                                    dynamicEvHandlerIZV[curPos-1][i].adrExNet.style.display = 'none';
+                            document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
+
+                            if(izvBtnsID[i])
+                                izvBtnsID[i].style.display = 'none';
+
+                            if(lineLoopsData[i].KIZVShS != 0){
+                                for (let j = 0; j < lineLoopsData[i].KIZVShS; j++) {
+                                    if(dynamicEvHandlerIZV[i][j][4]  &&
+                                        dynamicEvHandlerIZV[i][j][0] ){                                       
+                                            dynamicEvHandlerIZV[i][j][4].style.display = 'none';
+                                            dynamicEvHandlerIZV[i][j][0].style.display = 'none';
+                                        }
                                 }
+                            }
 
                             while(handlerArr[i][7].firstChild)
                             handlerArr[i][7].removeChild(handlerArr[i][7].firstChild);
@@ -4734,8 +5365,6 @@ function setAdrBiz(handlerArr, size, dataToSave){
 function setKIZVShS(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         
-        
-    
         handlerArr[i][8].onkeypress = (e)=>{
             e = e || event;
         if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4866,14 +5495,14 @@ function setRRIShS(handlerArr, size, dataToSave){
         if(handlerArr[i][12].checked)
         { 
             dataToSave[i].RRIShS = true;
-                createOption(handlerArr[i][14], "ИАР");
-                createOption(handlerArr[i][18], "ИАР-01");
+                // createOption(handlerArr[i][14], "ИАР");
+                // createOption(handlerArr[i][18], "ИАР-01");
         }
         else  {
             dataToSave[i].RRIShS = false;
 
-                handlerArr[i][14].removeChild(handlerArr[i][14].lastChild);
-                handlerArr[i][18].removeChild(handlerArr[i][18].lastChild);
+                // handlerArr[i][14].removeChild(handlerArr[i][14].lastChild);
+                // handlerArr[i][18].removeChild(handlerArr[i][18].lastChild);
         }
     });
         
@@ -4882,166 +5511,194 @@ function setRRIShS(handlerArr, size, dataToSave){
 
 //Обработка конф ТШС="Адр" ЕхШС ="нет"
 //ТАИЗВ
-function setTAIZVadrNet(handlerArr, size, dataToSave){
+function setTAIZVadrNet(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][14].onchange = ()=>{
-            dataToSave[i].AdrExNet.TAIZV = handlerArr[i][14].selectedIndex;
-            console.log(i + " - ТАИЗВ: " + dataToSave[i].AdrExNet.TAIZV);
-        };
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][1]){
+                handlerArr[i][j][1].onchange = ()=>{
+                    dataToSave[i][j][0] = handlerArr[i][j][1].selectedIndex;
+                    console.log("Шлейф: " + i + " изв: " + j + " - ТАИЗВ: " +  dataToSave[i][j][0]);
+                };   
+            }
+        }
     }
 }
 
 //Зона
-function setZonaIzvadrNet(handlerArr, size, dataToSave){
+function setZonaIzvadrNet(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-            handlerArr[i][15].onkeypress = (e)=>{
-            e = e || event;
-           if (e.ctrlKey || e.altKey || e.metaKey) return;
-           var chr = getChar(e);
-           console.log("Char pressed: " + chr);
-           if(chr == ',' || chr == '.')
-           {   
-               // iKShS.value.replace(/[\,|\.]+/g,'');
-               e.preventDefault();
-               return;
-           }
-           if(chr == null) return;
-
-           if (chr < '0' || chr > '9') {
-               return false;
-           }
-        };
-
-        handlerArr[i][15].addEventListener('focus', ()=>{
-            handlerArr[i][15].style.boxShadow = 'none';
-        });
-
-        handlerArr[i][15].addEventListener('blur', ()=>{
-            if(handlerArr[i][15].value.search(regEx) == -1){
-            if(parseInt(handlerArr[i][15].value, 10) >= 1 && parseInt(handlerArr[i][15].value, 10) <= 255){
-                dataToSave[i].AdrExNet.ZONAIZV = parseInt(handlerArr[i][15].value, 10);
-                handlerArr[i][15].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(i + " ЗонаИзв: " + dataToSave[i].AdrExNet.ZONAIZV);
-            }
-            else if(handlerArr[i][15].value == ""){
-                return;
-            }
-            else
-                {
-                    handlerArr[i][15].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-                }
-            }
-            else
-                handlerArr[i][15].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][2]){
+                    handlerArr[i][j][2].onkeypress = (e)=>{
+                        e = e || event;
+                        if (e.ctrlKey || e.altKey || e.metaKey) return;
+                        var chr = getChar(e);
+                        console.log("Char pressed: " + chr);
+                        if(chr == ',' || chr == '.')
+                        {   
+                            // iKShS.value.replace(/[\,|\.]+/g,'');
+                            e.preventDefault();
+                            return;
+                        }
+                        if(chr == null) return;
         
+                        if (chr < '0' || chr > '9') {
+                            return false;
+                        }
+                    };
+                
+
+                
+                    handlerArr[i][j][2].addEventListener('focus', ()=>{
+                        handlerArr[i][j][2].style.boxShadow = 'none';
+                    });
+                
+
+    
+                handlerArr[i][j][2].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][2].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][2].value, 10) >= 1 && parseInt(handlerArr[i][j][2].value, 10) <= 255){
+                        dataToSave[i][j][1] = parseInt(handlerArr[i][j][2].value, 10);
+                        handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log(i + " ЗонаИзв: " + dataToSave[i][j][1]);
+                    }
+                    else if(handlerArr[i][j][2].value == ""){
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            }
+        }
     }
 }
 
 
 //АДРИЗВ
-function setAdrIZVadrNet(handlerArr, size, dataToSave){
+function setAdrIZVadrNet(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][16].addEventListener('focus', ()=>{
-            handlerArr[i][16].style.boxShadow = 'none';
-        });
-    
-        handlerArr[i][16].addEventListener('blur', ()=>{
-            if(handlerArr[i][16].value == ""){ 
-                handlerArr[i][16].style.boxShadow = 'none';
-                return;
-            }
-            else if(handlerArr[i][16].value.length <= 20){
-                dataToSave[i].AdrExNet.ADRIZV = handlerArr[i][16].value;
-                handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(i + "АДРИЗВ: " + dataToSave[i].AdrExNet.ADRIZV + " L: " + dataToSave[i].AdrExNet.ADRIZV.length);
-            }
-            else
-                handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });   
+            for (let j = 0; j < KIZVsize; j++) {
+                if(handlerArr[i][j][3]){
+
+                
+                handlerArr[i][j][3].addEventListener('focus', ()=>{
+                    handlerArr[i][j][3].style.boxShadow = 'none';
+                });
+            
+                handlerArr[i][j][3].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][3].value == ""){ 
+                        handlerArr[i][j][3].style.boxShadow = 'none';
+                        return;
+                    }
+                    else if(handlerArr[i][j][3].value.length <= 20){
+                        dataToSave[i][j][2] = handlerArr[i][j][3].value;
+                        handlerArr[i][j][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log(i + "АДРИЗВ: " + dataToSave[i][j][2] + " L: " + dataToSave[i][j][2]);
+                    }
+                    else
+                        handlerArr[i][j][3].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            } 
+        } 
     }
 }
 
 // //Обработка конф ТШС="Адр" ЕхШС ="да"
 // //ТАИЗВ
-function setTAIZVadrDa(handlerArr, size, dataToSave){
+function setTAIZVadrDa(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        // handlerArr[i][18].onchange = ()=>{
-        //     dataToSave[i].AdrExDa.TAIZV = handlerArr[i][18].selectedIndex;
-        //     console.log(i + " - ТАИЗВ: " + dataToSave[i].AdrExDa.TAIZV);
-        // };
+        for (let j = 0; j < KIZVsize; j++) {
+            if( handlerArr[i][j][5]){
+                handlerArr[i][j][5].onchange = ()=>{
+                    dataToSave[i][j][3] = handlerArr[i][j][5].selectedIndex;
+                    console.log("Шлейф: " + i + " изв(adrDa): " + j + " - ТАИЗВ: " +  dataToSave[i][j][3]);
+                }; 
+            }  
+        }
     }
 }
 
 
 //Зона
-function setZonaIzvadrDa(handlerArr, size, dataToSave){
+function setZonaIzvadrDa(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        //     handlerArr[i][19].onkeypress = (e)=>{
-        //     e = e || event;
-        //    if (e.ctrlKey || e.altKey || e.metaKey) return;
-        //    var chr = getChar(e);
-        //    console.log("Char pressed: " + chr);
-        //    if(chr == ',' || chr == '.')
-        //    {   
-        //        // iKShS.value.replace(/[\,|\.]+/g,'');
-        //        e.preventDefault();
-        //        return;
-        //    }
-        //    if(chr == null) return;
-
-        //    if (chr < '0' || chr > '9') {
-        //        return false;
-        //    }
-        // };
-
-        // handlerArr[i][19].addEventListener('focus', ()=>{
-        //     handlerArr[i][19].style.boxShadow = 'none';
-        // });
-
-        // handlerArr[i][19].addEventListener('blur', ()=>{
-        //     if(handlerArr[i][19].value.search(regEx) == -1){
-        //     if(parseInt(handlerArr[i][19].value, 10) >= 1 && parseInt(handlerArr[i][19].value, 10) <= 255){
-        //         dataToSave[i].AdrExDa.ZONAIZV = parseInt(handlerArr[i][19].value, 10);
-        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-        //         console.log(i + " ЗонаИзв: " + dataToSave[i].AdrExDa.ZONAIZV);
-        //     }
-        //     else if(handlerArr[i][19].value == ""){
-        //         return;
-        //     }
-        //     else
-        //         {
-        //             handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        //         }
-        //     }
-        //     else
-        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        // });
-        
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][6]){
+                handlerArr[i][j][6].onkeypress = (e)=>{
+                    e = e || event;
+                   if (e.ctrlKey || e.altKey || e.metaKey) return;
+                   var chr = getChar(e);
+                   console.log("Char pressed: " + chr);
+                   if(chr == ',' || chr == '.')
+                   {   
+                       // iKShS.value.replace(/[\,|\.]+/g,'');
+                       e.preventDefault();
+                       return;
+                   }
+                   if(chr == null) return;
+    
+                   if (chr < '0' || chr > '9') {
+                       return false;
+                   }
+                };
+    
+                handlerArr[i][j][6].addEventListener('focus', ()=>{
+                    handlerArr[i][j][6].style.boxShadow = 'none';
+                });
+    
+                handlerArr[i][j][6].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][6].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][6].value, 10) >= 1 && parseInt(handlerArr[i][j][6].value, 10) <= 255){
+                        dataToSave[i][j][4] = parseInt(handlerArr[i][j][6].value, 10);
+                        handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log(i + " ЗонаИзв: " + dataToSave[i][j][4]);
+                    }
+                    else if(handlerArr[i][j][6].value == ""){
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            }
+        } 
     }
 }
 
 
 //АДРИЗВ
-function setAdrIZVadrDa(handlerArr, size, dataToSave){
+function setAdrIZVadrDa(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        // handlerArr[i][20].addEventListener('focus', ()=>{
-        //     handlerArr[i][20].style.boxShadow = 'none';
-        // });
-    
-        // handlerArr[i][20].addEventListener('blur', ()=>{
-        //     if(handlerArr[i][20].value == ""){ 
-        //         handlerArr[i][20].style.boxShadow = 'none';
-        //         return;
-        //     }
-        //     else if(handlerArr[i][20].value.length <= 20){
-        //         dataToSave[i].AdrExDa.ADRIZV = handlerArr[i][20].value;
-        //         handlerArr[i][20].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-        //         console.log(i + "АДРИЗВ: " + dataToSave[i].AdrExDa.ADRIZV + " L: " + dataToSave[i].AdrExDa.ADRIZV.length);
-        //     }
-        //     else
-        //         handlerArr[i][19].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        // });   
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][7]){
+                handlerArr[i][j][7].addEventListener('focus', ()=>{
+                    handlerArr[i][j][7].style.boxShadow = 'none';
+                });
+            
+                handlerArr[i][j][7].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][7].value == ""){ 
+                        handlerArr[i][j][7].style.boxShadow = 'none';
+                        return;
+                    }
+                    else if(handlerArr[i][j][7].value.length <= 20){
+                        dataToSave[i][j][5] = handlerArr[i][j][7].value;
+                        handlerArr[i][j][7].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log(i + "АДРИЗВ: " + dataToSave[i][j][5] + " L: " + dataToSave[i][j][5].length);
+                    }
+                    else
+                        handlerArr[i][j][7].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            } 
+        }
     }
 }
 
@@ -5063,7 +5720,7 @@ function setTIZVauto(handlerArr, size, dataToSave){
                 return;
             }
             else if(handlerArr[i][14].value.length <= 20){
-                dataToSave[i].KonfIzvBezAdr.TIZV = handlerArr[i][14].value;
+                dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][14].value;
                 //добавляем введённую инфу в массив
                 addItemsDouble(handlerArr[i][15], i, handlerArr);
                 // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
@@ -5072,7 +5729,7 @@ function setTIZVauto(handlerArr, size, dataToSave){
                 //     addToList.addItems(enteredItems);
                 // }
                 handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(dataToSave[i].KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].KonfIzvBezAdr.TIZV.length);
+                console.log(dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV.length);
             }
             else
                 handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
@@ -5134,10 +5791,10 @@ function setIOIZV(handlerArr, size, dataToSave){
             
                 if(handlerArr[i][16].value.indexOf(',')!= -1) handlerArr[i][16].value = handlerArr[i][16].value.replace(/\,/, '.');
 
-            if(parseFloat(handlerArr[i][16].value) >= 0 && parseFloat(handlerArr[i][24].value) <= 32){
-                dataToSave[i].KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][24].value);
+            if(parseFloat(handlerArr[i][16].value) >= 0 && parseFloat(handlerArr[i][16].value) <= 32){
+                dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][16].value);
                 handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(  dataToSave[i].KonfIzvBezAdr.IOIZV);
+                console.log(  dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV);
             }
             else if(handlerArr[i][16].value == ""){
                 return;
@@ -5207,9 +5864,9 @@ function setiIPIZV(handlerArr, size, dataToSave){
                 if(handlerArr[i][17].value.indexOf(',')!= -1) handlerArr[i][17].value = handlerArr[i][17].value.replace(/\,/, '.');
 
             if(parseFloat(handlerArr[i][17].value) >= 0 && parseFloat(handlerArr[i][17].value) <= 32){
-                dataToSave[i].KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][17].value);
+                dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][17].value);
                 handlerArr[i][17].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log(  dataToSave[i].KonfIzvBezAdr.IPIZV);
+                console.log(  dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV);
             }
             else if(handlerArr[i][17].value == ""){
                 return;
@@ -5230,49 +5887,52 @@ function setiIPIZV(handlerArr, size, dataToSave){
 
 // //Обработка конф ТШС="Modbus" 
 // //iKMBUSLNK
-function setKMBUSLNK(handlerArr, size, dataToSave){
+function setKMBUSLNK(handlerArr, size, KIZVsize, dataToSave){
     for (let i = 0; i < size; i++) {
-        // handlerArr[i][27].onkeypress = (e)=>{
-        //     e = e || event;
-        //    if (e.ctrlKey || e.altKey || e.metaKey) return;
-        //    var chr = getChar(e);
-        //    console.log("Char pressed: " + chr);
-        //    if(chr == ',' || chr == '.')
-        //    {   
-        //        // iKShS.value.replace(/[\,|\.]+/g,'');
-        //        e.preventDefault();
-        //        return;
-        //    }
-        //    if(chr == null) return;
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][9]){
+                handlerArr[i][j][9].onkeypress = (e)=>{
+                    e = e || event;
+                   if (e.ctrlKey || e.altKey || e.metaKey) return;
+                   var chr = getChar(e);
+                   console.log("Char pressed: " + chr);
+                   if(chr == ',' || chr == '.')
+                   {   
+                       // iKShS.value.replace(/[\,|\.]+/g,'');
+                       e.preventDefault();
+                       return;
+                   }
+                   if(chr == null) return;
 
-        //    if (chr < '0' || chr > '9') {
-        //        return false;
-        //    }
-        // };
+                   if (chr < '0' || chr > '9') {
+                       return false;
+                   }
+                };
 
-        // handlerArr[i][27].addEventListener('focus', ()=>{
-        //     handlerArr[i][27].style.boxShadow = 'none';
-        // });
+                handlerArr[i][j][9].addEventListener('focus', ()=>{
+                    handlerArr[i][j][9].style.boxShadow = 'none';
+                });
 
-        // handlerArr[i][27].addEventListener('blur', ()=>{
-        //     if(handlerArr[i][27].value.search(regEx) == -1){
-        //     if(parseInt(handlerArr[i][27].value, 10) >= 0 && parseInt(handlerArr[i][27].value, 10) <= 20){
-        //         dataToSave[i].KonfModbus.KMBUSLNK = parseInt(handlerArr[i][27].value, 10);
-        //         handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-        //         console.log("KMBUSLNK: "+ dataToSave[i].KonfModbus.KMBUSLNK);
-        //     }
-        //     else if(handlerArr[i][27].value == ""){
-        //         return;
-        //     }
-        //     else
-        //         {
-        //             handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        //         }
-        //     }
-        //     else
-        //         handlerArr[i][27].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        // });
-        
+                handlerArr[i][j][9].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][9].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][9].value, 10) >= 0 && parseInt(handlerArr[i][j][9].value, 10) <= 20){
+                        dataToSave[i][j][6] = parseInt(handlerArr[i][j][9].value, 10);
+                        handlerArr[i][j][9].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log("KMBUSLNK: "+ dataToSave[i][j][6]);
+                    }
+                    else if(handlerArr[i][j][9].value == ""){
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][9].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][9].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            }
+        }
     }
 }
 
@@ -5293,7 +5953,8 @@ function setKMBUSLNK(handlerArr, size, dataToSave){
 
 // переменные для перемещения по извещателям
 let curPosIzv = [], nextPosIzv = [], prevPosIzv = [], izvPosition = [];
-let izvBtnsID = [], izvLasPos = [], izvLastSpan = [], izvBtnsNext = [], izvBtnsPrev = [];
+let izvBtnsID = [], izvLasPos = [], izvLastSpan = [], izvBtnsNext = [], izvBtnsPrev = [],
+_izveshateli = [];
 
 function setDlsSbt(handlerArr, size, dataToSave){
     
@@ -5308,8 +5969,11 @@ function setDlsSbt(handlerArr, size, dataToSave){
                     curPosIzv[i] = [];
                     nextPosIzv[i] = [];
                     prevPosIzv[i] = [];
+                    
                 }
                 dynamicEvHandlerIZV = genIzvHandlers(lineLoops.length, 32, 10);
+                _izveshateli = genIzvHandlers(lineLoops.length, 32, 7);
+
                 izvBtnsID[i] = document.getElementById(`izvBtns${i}`);
                 izvLasPos[i] = document.getElementById(`izvBtnsPos${i}`);
                 izvLastSpan[i] = document.getElementById(`izvBtnslastPos${i}`);
@@ -5332,7 +5996,7 @@ function setDlsSbt(handlerArr, size, dataToSave){
                 curPosIzv[i][0] = 0;
                 nextPosIzv[i][0] = 1;
                 prevPosIzv[i][0] = dataToSave[i].KIZVShS - 1;
-                izvLastSpan[i].innerHTML = ' из' + dataToSave[i].KIZVShS;
+                izvLastSpan[i].innerHTML = ' из ' + dataToSave[i].KIZVShS;
                 izvLasPos[i].value =  curPosIzv[i][0] + 1;
                 izvLasPos[i].min = 1;
                 izvLasPos[i].max = dataToSave[i].KIZVShS;
@@ -5355,6 +6019,13 @@ function setDlsSbt(handlerArr, size, dataToSave){
                 handleIzvPos(lineLoops.length, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
                     curPosIzv, nextPosIzv, prevPosIzv);
 
+                setTAIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setZonaIzvadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setAdrIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setTAIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setZonaIzvadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setAdrIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setKMBUSLNK(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
             }
             else{
                 handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
@@ -5605,19 +6276,18 @@ function addItemsDouble(node, ind, eHandler){
     }
     else{
         oOption = document.createElement('option'); 
-        oOption.setAttribute("value", eHandler[ind][22].value);
+        oOption.setAttribute("value", eHandler[ind][14].value);
         node.appendChild(oOption);
+        return;
     }
 
-    for (let i = 0; i < childNodes.length; i++) {
-        if(childNodes.indexOf(eHandler[ind][22].value) == -1){
+
+        if(childNodes.indexOf(eHandler[ind][14].value) == -1){
             oOption = document.createElement('option'); 
-            oOption.setAttribute("value", eHandler[ind][22].value);
+            oOption.setAttribute("value", eHandler[ind][14].value);
             node.appendChild(oOption);
         }
-        else
-            continue;
-    }
+
 }
 
 
@@ -5632,166 +6302,186 @@ function createIzv(lineLoopIndex, qIzv){
         let elem, subelem, option, mainDiv, subDiv, div;
         mainDiv = document.getElementById((curPos - 1).toString());
 
-        // if(!document.getElementById(`izvBtns${lineLoopIndex}`)){
-
-        // }
-        elem = document.createElement('div');
-        elem.setAttribute('id', `izvBtns${lineLoopIndex}`);
-        elem.setAttribute('class', `izvBtns_`);
+        if(document.getElementById(`izvBtns${lineLoopIndex}`)){
+            mainDiv.removeChild(document.getElementById(`izvBtns${lineLoopIndex}`));
+        }
+            elem = document.createElement('div');
+            elem.setAttribute('id', `izvBtns${lineLoopIndex}`);
+            elem.setAttribute('class', `izvBtns_`);
+                        
+            subelem = document.createElement('button');
+            subelem.setAttribute('id', `izvBtnsPrev${lineLoopIndex}`);
+            subelem.setAttribute('class', `izvBtns-item`);
+            subelem.appendChild(document.createTextNode('Пред.'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `izvSpan${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('Извещатель №'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `izvBtnsPos${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('id', `izvBtnslastPos${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('button');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `izvBtnsNext${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('След.'));
+    
+            elem.appendChild(subelem);
+    
+            mainDiv.appendChild(elem);
+        
+    
+            if(document.getElementById(`IZV${lineLoopIndex}`)){
+                mainDiv.removeChild(document.getElementById(`IZV${lineLoopIndex}`));
+            }
+                subDiv = document.createElement('div');
+                subDiv.setAttribute('id',`IZV${lineLoopIndex}`);
+    
+                for (let j = 0; j < qIzv; j++) {
+    
+    
+    
+                    //----------------------------------------------
                     
-        subelem = document.createElement('button');
-        subelem.setAttribute('id', `izvBtnsPrev${lineLoopIndex}`);
-        subelem.setAttribute('class', `izvBtns-item`);
-        subelem.appendChild(document.createTextNode('Пред.'));
-
-        elem.appendChild(subelem);
-
-        subelem = document.createElement('span');
-        subelem.setAttribute('class', 'izvBtns-item');
-        subelem.setAttribute('id', `izvSpan${lineLoopIndex}`);
-        subelem.appendChild(document.createTextNode('Извещатель №'));
-
-        elem.appendChild(subelem);
-
-        subelem = document.createElement('input');
-        subelem.setAttribute('type', 'number');
-        subelem.setAttribute('id', `izvBtnsPos${lineLoopIndex}`);
-        subelem.setAttribute('class', 'izvBtns-item');
-
-        elem.appendChild(subelem);
-
-        subelem = document.createElement('span');
-        subelem.setAttribute('id', `izvBtnslastPos${lineLoopIndex}`);
-        subelem.setAttribute('class', 'izvBtns-item');
-
-        elem.appendChild(subelem);
-
-        subelem = document.createElement('button');
-        subelem.setAttribute('class', 'izvBtns-item');
-        subelem.setAttribute('id', `izvBtnsNext${lineLoopIndex}`);
-        subelem.appendChild(document.createTextNode('След.'));
-
-        elem.appendChild(subelem);
-
-        mainDiv.appendChild(elem);
-
-            subDiv = document.createElement('div');
-            subDiv.setAttribute('id',`IZV${lineLoopIndex}`);
-
-            for (let j = 0; j < qIzv; j++) {
-
-
-
-                //----------------------------------------------
-                
-                div = document.createElement('div');
-                div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
-
-                subelem = document.createElement('h3');
-                subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Тип извещателя:'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('select');
-                subelem.setAttribute('id', `TAIZV${lineLoopIndex}_${j}`);
-                option = document.createElement('option');
-                option.appendChild(document.createTextNode('ИАД'));
-                subelem.appendChild(option);
-                option = document.createElement('option');
-                option.appendChild(document.createTextNode('ИАТ'));
-                subelem.appendChild(option);
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Зона:'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('input');
-                subelem.setAttribute('type', 'number');
-                subelem.setAttribute('id', `ZONAIZV${lineLoopIndex}_${j}`);
-                subelem.setAttribute('placeholder', `1...255`);
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Наименование/адрес:'));
-                div.appendChild(subelem);
-
-                
-                subelem = document.createElement('input');
-                subelem.setAttribute('type', 'text');
-                subelem.setAttribute('id', `ADRIZV${lineLoopIndex}_${j}`);
-                subelem.setAttribute('placeholder', `до 20 символов...`);
-                div.appendChild(subelem);
-
-                subDiv.appendChild(div);
-
-                div = document.createElement('div');
-                div.setAttribute('id', `AdrExDa${lineLoopIndex}_${j}`);
-
-                subelem = document.createElement('h3');
-                subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Тип извещателя:'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('select');
-                subelem.setAttribute('id', `TAIZV_${lineLoopIndex}_${j}`);
-                option = document.createElement('option');
-                option.appendChild(document.createTextNode('ИАД-01'));
-                subelem.appendChild(option);
-                option = document.createElement('option');
-                option.appendChild(document.createTextNode('ИАТ-01'));
-                subelem.appendChild(option);
-
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode("Зона:"));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('input');
-                subelem.setAttribute('type', 'number');
-                subelem.setAttribute('id', `ZONAIZV_${lineLoopIndex}_${j}`);
-                subelem.setAttribute('placeholder', '1...255');
-                div.appendChild(subelem);
-
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Наименование/адрес'));
-                div.appendChild(subelem);
-
-                subelem = document.createElement('input');
-                subelem.setAttribute('type', 'text');
-                subelem.setAttribute('id', `ADRIZV_${lineLoopIndex}_${j}`);
-                subelem.setAttribute('placeholder', 'до 20 символов...');
-                div.appendChild(subelem);
-
-                subDiv.appendChild(div);
-
-                div = document.createElement('div');
-                div.setAttribute('id', `confModbus${lineLoopIndex}_${j}`);
+                    div = document.createElement('div');
+                    div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
     
-                subelem = document.createElement('h3');
-                subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
-                div.appendChild(subelem);
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+                    // div.appendChild(subelem);
     
-                subelem = document.createElement('p');
-                subelem.appendChild(document.createTextNode('Количество линий связи:'));
-                div.appendChild(subelem);
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    div.appendChild(subelem);
     
-                subelem = document.createElement('input');
-                subelem.setAttribute('type', 'text');
-                subelem.setAttribute('id', `KMBUSLNK${lineLoopIndex}_${j}`);
-                div.appendChild(subelem);
+                    subelem = document.createElement('select');
+                    subelem.setAttribute('id', `TAIZV${lineLoopIndex}_${j}`);
+                    option = document.createElement('option');
+                    option.appendChild(document.createTextNode('ИАД'));
+                    subelem.appendChild(option);
+                    option = document.createElement('option');
+                    option.appendChild(document.createTextNode('ИАТ'));
+                    subelem.appendChild(option);
+                    
+                    if(lineLoopsData[lineLoopIndex].RRIShS == true){
+                        option = document.createElement('option');
+                        option.appendChild(document.createTextNode('ИАР'));
+                        subelem.appendChild(option);
+                    }
+
+                    div.appendChild(subelem);                    
+                    
     
-                subDiv.appendChild(div);
-             
-                mainDiv.appendChild(subDiv);
-            }          
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Зона:'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'number');
+                    subelem.setAttribute('id', `ZONAIZV${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', `1...255`);
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Наименование/адрес:'));
+                    div.appendChild(subelem);
+    
+                    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `ADRIZV${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', `до 20 символов...`);
+                    div.appendChild(subelem);
+    
+                    subDiv.appendChild(div);
+    
+                    div = document.createElement('div');
+                    div.setAttribute('id', `AdrExDa${lineLoopIndex}_${j}`);
+    
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
+                    // div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('select');
+                    subelem.setAttribute('id', `TAIZV_${lineLoopIndex}_${j}`);
+                    option = document.createElement('option');
+                    option.appendChild(document.createTextNode('ИАД-01'));
+                    subelem.appendChild(option);
+                    option = document.createElement('option');
+                    option.appendChild(document.createTextNode('ИАТ-01'));
+                    subelem.appendChild(option);
+
+                    if(lineLoopsData[lineLoopIndex].RRIShS == true){
+                        option = document.createElement('option');
+                        option.appendChild(document.createTextNode('ИАР-01'));
+                        subelem.appendChild(option);
+                    }
+    
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode("Зона:"));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'number');
+                    subelem.setAttribute('id', `ZONAIZV_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', '1...255');
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Наименование/адрес'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `ADRIZV_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', 'до 20 символов...');
+                    div.appendChild(subelem);
+    
+                    subDiv.appendChild(div);
+    
+                    div = document.createElement('div');
+                    div.setAttribute('id', `confModbus${lineLoopIndex}_${j}`);
+        
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
+                    // div.appendChild(subelem);
+        
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Количество линий связи:'));
+                    div.appendChild(subelem);
+        
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `KMBUSLNK${lineLoopIndex}_${j}`);
+                    div.appendChild(subelem);
+        
+                    subDiv.appendChild(div);
+                 
+                    mainDiv.appendChild(subDiv);
+                       
+            }
+           
         }
 }
 
@@ -5823,6 +6513,8 @@ function setHandlersIZV(eHandler, index, data){
         eHandler[index][i][7] = document.getElementById(`ADRIZV_${index}_${i}`);
         eHandler[index][i][8] = document.getElementById(`confModbus${index}_${i}`);
         eHandler[index][i][9] = document.getElementById(`KMBUSLNK${index}_${i}`);
+    
+
         
     }
 }
@@ -5846,6 +6538,208 @@ function showIzvAdrExDa(eHandler, index, pos){
 
 function showIzvConfModbu(eHandler, index, pos){
     eHandler[index][pos][8].style.display = 'block';
+}
+
+//Ручное обнаружение
+function createlineLoopRuchn(val){
+    if(val > 0){
+        let elem, subelem, option, mainDiv;
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonfRuchn');
+        mainDiv.setAttribute('class','flex-item');
+        for (let i = 0; i < val; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", i + '_' + 1);
+            
+            // subelem = document.createElement('h3')
+            // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+            // elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Тип шлейфа:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute("id", `TShS2_${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("АДРЕСНЫЙ"));
+            subelem.appendChild(option);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("БЕЗАДРЕСНЫЙ"));
+            subelem.appendChild(option);
+
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Взрывозащита:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `ExShS2_${i}`);
+            elem.appendChild(subelem);
+
+            let div = document.createElement('div');
+            div.setAttribute('id', `TypeBIZ2_${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+            div.appendChild(subelem);
+
+
+            option = document.createElement('label');
+            subelem = document.createElement('input');
+            subelem.setAttribute('list', `_adrBIZ2_${i}`);
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `TShSBIZ2_${i}`);
+            option.appendChild(subelem);
+            div.appendChild(option);
+            
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', `_adrBIZ2_${i}`);
+            div.appendChild(subelem);
+
+            subelem = document.createElement('br');
+            div.appendChild(subelem);
+
+            subelem = document.createElement('select');
+            subelem.setAttribute('id',`adrBIZ2_${i}`);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode('Выберите тип:'));
+            subelem.appendChild(option);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Количество извещателей:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `KIZVShS2_${i}`);
+            subelem.setAttribute('placeholder', '1...32');
+            elem.appendChild(subelem);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `bezAdr__2_${i}`);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Зона:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `ZONAShS2_${i}`);
+            subelem.setAttribute('placeholder', '1...255');
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование / адрес:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRShS2_${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            div = document.createElement('div');
+            div.setAttribute('id', `bezAdr___2_${i}`);   
+
+            subelem = document.createElement('h3');
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип извещателя:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('label');
+            let subSub = document.createElement('input');
+            subSub.setAttribute('list', `enteredItems2_${i}`);
+            subSub.setAttribute('id', `TIZV2_${i}`);
+            subelem.appendChild(subSub);
+            div.appendChild(subelem);
+
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', `enteredItems2_${i}`);
+            div.appendChild(subelem);
+
+            subelem= document.createElement('p');
+            subelem.appendChild(document.createTextNode('Ток в режиме "ДЕЖУРНЫЙ", мА:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `IOIZV2_${i}`);
+            div.appendChild(subelem);
+
+            subelem= document.createElement('p');
+            subelem.appendChild(document.createTextNode('Ток в режиме "ПОЖАР", мА:'));
+            div.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `IPIZV2_${i}`);
+            div.appendChild(subelem);
+
+            elem.appendChild(div);
+
+            subelem = document.createElement('br');
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('button');
+            subelem.setAttribute('type', 'submit');
+            subelem.setAttribute('id', `dlgSbt2_${i}`);
+            subelem.setAttribute('class', `btn-after`);
+            subelem.style.marginTop = '19px';
+            subelem.style.marginBottom = '20px';
+            subelem.appendChild(document.createTextNode('Сконфигурировать извещатели'));
+            elem.appendChild(subelem);
+
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+            document.querySelector('div#ruchSysConfiguration').appendChild(mainDiv);
+            //document.body.appendChild(mainDiv);           
+        }
+    }
+}
+
+function setDynHandlersRuchn(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        
+        handlerArr[i][0] =document.getElementById(`TShS2_`+i);
+        handlerArr[i][1] =document.getElementById(`ExShS2_${i}`);
+        handlerArr[i][2] =document.getElementById(`TypeBIZ2_${i}`);
+        handlerArr[i][3] =document.getElementById(`TShSBIZ2_${i}`);
+        handlerArr[i][4] =document.getElementById(`_adrBIZ2_${i}`);
+        handlerArr[i][5] =document.getElementById(`adrBIZ2_${i}`);
+        handlerArr[i][6] =document.getElementById(`KIZVShS2_${i}`);
+        handlerArr[i][7] =document.getElementById(`bezAdr__2_${i}`);
+        handlerArr[i][8] =document.getElementById(`ZONAShS2_${i}`);
+        handlerArr[i][9] =document.getElementById(`ADRShS2_${i}`);
+        handlerArr[i][10] =document.getElementById(`bezAdr___2_${i}`);
+        handlerArr[i][11] =document.getElementById(`TIZV2_${i}`);
+        handlerArr[i][12] =document.getElementById(`enteredItems2_${i}`);
+        handlerArr[i][13] =document.getElementById(`IOIZV2_${i}`);
+        handlerArr[i][14] =document.getElementById(`IPIZV2_${i}`);   
+        handlerArr[i][15] =document.getElementById(`dlgSbt2_${i}`);        
+    }
+}
+
+function showLineLoopsRuchn(position){
+    let el = document.getElementById(position);
+    el.style.display = 'block';
+}
+
+function hideAutoObnarRuchn(){
+    for (let i = 0; i < lineLoopsRuchn.length; i++) {        
+        dynamicEventHandlersRuchn[i][2].style.display = 'none';
+        dynamicEventHandlersRuchn[i][10].style.display = 'none';        
+    }    
 }
 
 //Classes------------------------------
