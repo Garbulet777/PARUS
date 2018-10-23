@@ -417,7 +417,8 @@ let UpravleniePojaroTusheniem =
         ADRShPT: "",
         IPShPT: 0.0,
         ExShPT: false,
-        TBIZShPT: ""
+        TBIZShPT: "",
+        configured: false
     }
 };
 
@@ -430,7 +431,8 @@ let UpravlenieOpovesheniem =
     ZonaOpoveshenia: {
         ZONAShOP: 1,
         ADRShOP: "",
-        KShOPZONY: 1
+        KShOPZONY: 1,
+        configure: false
     },
     
     //Шлейф управления оповещением
@@ -438,13 +440,15 @@ let UpravlenieOpovesheniem =
         KOPSh: 1,
         IPOPSh: 0.0,
         ExOPSh: false,
-        TBIZOPSh: ""
+        TBIZOPSh: "",
+        configure: false
     },
     
     //Оповещатель
     Opoveshatel: {
         ADROP: "",
-        IPOP: 0.0
+        IPOP: 0.0,
+        configure: false
     }
 };
 
@@ -727,6 +731,7 @@ let ds = [];
               btnSubmitDlg1 = document.getElementById('btnSubmitDlg1'),
               clkKonf = document.getElementById('clkKonf'),
               sbtForm2 = document.getElementById('sbtForm2'),
+              sbtForm4 = document.getElementById('sbtForm4'),
               exitConf = document.getElementById('exitConf'),
               lineLoopBtns = document.getElementById('lineLoopBtns'),
               lineLoopPrev = document.getElementById('lineLoopPrev'),
@@ -745,6 +750,8 @@ let ds = [];
 
         dialog1.style.display = 'none';
         dialog2.style.display = 'none';
+        dialog4.style.display = 'none';
+        document.querySelector('#lineLoopBtnsUpr').style.display = 'none';
         podsystemi.style.display = 'none';
         lineLoopBtns.style.display = 'none';
         //izvBtns.style.display = 'none';
@@ -803,12 +810,18 @@ let ds = [];
             dialog2.style.display = 'inline';
             dialog2.style.flexDirection = 'column';
             document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
             document.querySelector('div#autoSysConfiguration').style.display = 'block';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
             
             autoSys.style.backgroundColor = '#5f97ef';
             autoSys.style.color = 'white';
             ruchSys.style.backgroundColor = '#fff';
             ruchSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
 
             if(AutoSignalizatsiya.KShS)
                 iKShS1.value = AutoSignalizatsiya.KShS;
@@ -822,10 +835,41 @@ let ds = [];
             dialog3.style.display = 'inline';
             dialog3.style.flexDirection = 'column';
             document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
             document.querySelector('div#ruchSysConfiguration').style.display = 'block';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
 
             ruchSys.style.backgroundColor = '#5f97ef';
             ruchSys.style.color = 'white';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+
+            if(RutshnayaSignalizatsiya.KShSR)
+                iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
+            if(RutshnayaSignalizatsiya.KMIShSR > 0)
+                iKMIShSR2.value = RutshnayaSignalizatsiya.KMIShSR;
+            if(RutshnayaSignalizatsiya.REZShS > 0)
+                iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
+        });
+
+        uprPojSys.addEventListener('click', () => {
+            dialog4.style.display = 'inline';
+            dialog4.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'block';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+
+            uprPojSys.style.backgroundColor = '#5f97ef';
+            uprPojSys.style.color = 'white';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
 
@@ -835,6 +879,33 @@ let ds = [];
                 iKMIShSR2.value = RutshnayaSignalizatsiya.KMIShSR;
             if(RutshnayaSignalizatsiya.REZShS > 0)
                 iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
+        });
+        
+        document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+
+        uprOpSys.addEventListener('click', () =>{
+            dialog5.style.display = 'inline';
+            dialog5.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'block';
+
+            uprOpSys.style.backgroundColor = '#5f97ef';
+            uprOpSys.style.color = 'white';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+
+            // if(RutshnayaSignalizatsiya.KShSR)
+            //     iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
+            // if(RutshnayaSignalizatsiya.KMIShSR > 0)
+            //     iKMIShSR2.value = RutshnayaSignalizatsiya.KMIShSR;
+            // if(RutshnayaSignalizatsiya.REZShS > 0)
+            //     iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
         });
 
 
@@ -2513,9 +2584,13 @@ iREZShSR2.addEventListener('blur', ()=>{
 });
 
 // кнопка открывающая конфигурацию шлейфов
-let curPosRuchn, prevIndexRuchn, nextIndexRuchn;
+
 let dynamicEventHandlersRuchn = [],
     lineLoopsDataRuchn = [];
+
+
+
+
 sbtForm3.addEventListener('click', (e)=>{
     e.preventDefault();
     if(RutshnayaSignalizatsiya.KShSR ){
@@ -2576,13 +2651,150 @@ sbtForm3.addEventListener('click', (e)=>{
                 setIOIZVR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
                 setiIPIZVR(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
                 //setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
-                setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+                setDlsSbt1(dynamicEventHandlersRuchn, lineLoopsRuchn.length, lineLoopsDataRuchn);
         }
     else
         alert('Конфигурация не завершена! Пропущены данные.');
 });
 
 // //Конфигурация шлейфа
+let curPosIzvR = [], nextPosIzvR = [], prevPosIzvR = [], izvPositionR = [];
+let izvBtnsIDR = [], izvLasPosR = [], izvLastSpanR = [], izvBtnsNextR = [], izvBtnsPrevR = [],
+_izveshateliR = [], dynamicEvHandlerIZVR = [];
+function setDlsSbt1(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][15].addEventListener('click', (e) => {
+            e.preventDefault();
+            if(dataToSave[i].KIZVShS >= 1){
+
+                createIzvR(i,dataToSave[i].KIZVShS);
+
+                for (let j = 0; j < dataToSave[i].KIZVShS; j++) {
+                    curPosIzvR[i] = [];
+                    nextPosIzvR[i] = [];
+                    prevPosIzvR[i] = [];
+                    
+                }
+                dynamicEvHandlerIZVR = genIzvHandlers(lineLoopsRuchn.length, 32, 10);
+                _izveshateliR = genIzvHandlers(lineLoopsRuchn.length, 32, 7);
+
+                izvBtnsIDR[i] = document.getElementById(`izvBtns1_${i}`);
+                izvLasPosR[i] = document.getElementById(`izvBtnsPos1_${i}`);
+                izvLastSpanR[i] = document.getElementById(`izvBtnslastPos1_${i}`);
+                izvBtnsNextR[i] = document.getElementById(`izvBtnsNext1_${i}`);
+                izvBtnsPrevR[i] = document.getElementById(`izvBtnsPrev1_${i}`);
+
+                izvPositionR[curPosRuchn - 1] = 0;
+
+                setHandlersIZVR(dynamicEvHandlerIZVR, i, dataToSave);
+
+                for (let k = 0; k < dataToSave[i].KIZVShS; k++) {
+                    console.log( dynamicEvHandlerIZVR);
+                    
+                }
+                hideIzvR(dynamicEvHandlerIZVR, i, dataToSave);
+
+                // dynamicEvHandlerIZV[i][0][12].min = 1;
+                // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
+
+                curPosIzvR[i][0] = 0;
+                nextPosIzvR[i][0] = 1;
+                prevPosIzvR[i][0] = dataToSave[i].KIZVShS - 1;
+                izvLastSpanR[i].innerHTML = ' из ' + dataToSave[i].KIZVShS;
+                izvLasPosR[i].value =  curPosIzvR[i][0] + 1;
+                izvLasPosR[i].min = 1;
+                izvLasPosR[i].max = dataToSave[i].KIZVShS;
+
+
+                if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == false){
+                    showIzvAdrExNet(dynamicEvHandlerIZVR, i, 0);
+                }
+                else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
+                    showIzvAdrExDa(dynamicEvHandlerIZVR, i, 0);
+                }
+
+                handlePrevIzvR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR, izvBtnsPrevR, dynamicEvHandlerIZVR,
+                    dataToSave, curPosIzvR, nextPosIzvR, prevPosIzvR);
+                handleNextIzvR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS,  izvLasPosR, izvBtnsNextR, dynamicEvHandlerIZVR,
+                    dataToSave, curPosIzvR, nextPosIzvR, prevPosIzvR);
+                handleIzvPosR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR,  dynamicEvHandlerIZVR, dataToSave,
+                    curPosIzvR, nextPosIzvR, prevPosIzvR);
+
+                setTAIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setZonaIzvadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setAdrIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setTAIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setZonaIzvadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setAdrIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                //setKMBUSLNK(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+            }
+            else{
+                handlerArr[i][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }
+        });   
+    }
+}
+//Переключение между шлейфами
+const lineLoopBtnsRuchn = document.getElementById('lineLoopBtnsRuchn'),
+    lineLoopPrevRuchn = document.getElementById('lineLoopPrevRuchn'),
+    lineLoopPosRuchn = document.getElementById('lineLoopPosRuchn'),
+    lastPosRuchn = document.getElementById('lastPosRuchn'),
+    lineLoopNextRuchn = document.getElementById('lineLoopNextRuchn');
+    
+let curPosRuchn, prevIndexRuchn, nextIndexRuchn;
+
+    lineLoopPrevRuchn.addEventListener('click', ()=>{
+        if(prevIndexRuchn < 1) prevIndexRuchn = lineLoopsRuchn.length;
+        nextIndexRuchn = curPosRuchn;
+        curPosRuchn = prevIndexRuchn;
+        prevIndexRuchn--;
+        if(prevIndexRuchn < 1) prevIndexRuchn = lineLoopsRuchn.length;
+        lineLoopPosRuchn.value = curPosRuchn;
+        hideLineLoopsR(lineLoopsRuchn.length);
+        showLineLoopsRuchn((curPosRuchn - 1) + '_' + 1);
+    
+
+});
+
+lineLoopNextRuchn.addEventListener('click', ()=>{
+            if(nextIndexRuchn > lineLoopsRuchn.length ) nextIndexRuchn = 1;
+            prevIndexRuchn = curPosRuchn;
+            curPosRuchn = nextIndexRuchn;
+            nextIndexRuchn++;
+            if(nextIndexRuchn > lineLoopsRuchn.length) nextIndexRuchn = 1;
+            lineLoopPosRuchn.value = curPosRuchn;
+            hideLineLoopsR(lineLoopsRuchn.length);
+            showLineLoopsRuchn((curPosRuchn - 1) + '_' + 1);
+
+});
+
+
+lineLoopPosRuchn.addEventListener('blur', ()=>{
+    curPosRuchn = parseInt(lineLoopPosRuchn.value, 10);
+    if(curPosRuchn + 1 > lineLoopsRuchn.length + 1){
+        nextIndexRuchn = 1;
+        prevIndexRuchn = curPosRuchn - 1;
+    }
+    else if(curPosRuchn - 1 < 1){
+        prevIndexRuchn = lineLoopsRuchn.length;
+        nextIndexRuchn = curPosRuchn + 1;
+    }
+    else{
+        prevIndexRuchn = curPosRuchn - 1;
+        nextIndexRuchn = curPosRuchn + 1;
+    }
+    hideLineLoopsR(lineLoopsRuchn.length);
+    showLineLoopsRuchn((curPosRuchn - 1) + '_' + 1);
+});
+    
+function hideLineLoopsR(arrLength){
+    if(arrLength){
+        for (let i = 0; i < arrLength; i++) {
+            let el = document.getElementById( i + '_' + 1);
+            el.style.display = 'none';
+        }
+    }
+}
 
 // // TShSR
 function setTShSR(handlerArr, size, dataToSave){
@@ -3418,6 +3630,9 @@ function setIOIZVR(handlerArr, size, dataToSave){
         
     }
 }
+
+
+
 // iIOIZV2.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -3556,6 +3771,11 @@ function setiIPIZVR(handlerArr, size, dataToSave){
     }
 }
 
+
+//-----------------------------Подсистема управления пожаротушения-----------------------------
+
+
+
 // iIPIZV2.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -3623,342 +3843,20 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 //         iIPIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
 // });
 
-// dlg3Sbt.addEventListener('click', (e)=>{
-//     e.preventDefault();
-//     if(RutshnayaSignalizatsiya.KShSR >= 1 &&
-//         RutshnayaSignalizatsiya.REZShSR >= 0){
-//             if( RutshnayaSignalizatsiya.MIShSR == true &&
-//                 RutshnayaSignalizatsiya.KMIShSR >= 1){
-//                     if( RutshnayaSignalizatsiya.KonfShleifa.KIZVShS >= 1 &&
-//                         RutshnayaSignalizatsiya.KonfShleifa.ZONAShS >= 1 &&
-//                         RutshnayaSignalizatsiya.KonfShleifa.ADRShS != ""){
-//                             if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 0){
-//                                 if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == false){
-//                                     if( RutshnayaSignalizatsiya.AdrExNet.TAIZV >= 0 &&
-//                                      RutshnayaSignalizatsiya.AdrExNet.ZONAIZV >= 1 &&
-//                                      RutshnayaSignalizatsiya.AdrExNet.ADRIZV != ""){
-//                                             //-------!!-------
-//                                             //Закрыть текущ. диалог и открыть новый
-//                                             //-------!!-------
-//                                             console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                         + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                         + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                         + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                         + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                         + "\nКонфигурация шлейфа: "
-//                                                         + "\nТип шлейфа: "
-//                                                         + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                         + "\nВзрывозащита: "
-//                                                         + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                         + "\nКоличество извещателей: "
-//                                                         + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                         + "\nЗОНА: "
-//                                                         + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                         + "Наименования/адрес:" + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                         + "\nТШС = \"Адресный\" при ЕхШС = \"Нет\""
-//                                                         + "\nТАИЗВ: "
-//                                                         + RutshnayaSignalizatsiya.AdrExNet.TAIZV
-//                                                         + "\nЗона: "
-//                                                         + RutshnayaSignalizatsiya.AdrExNet.ZONAIZV
-//                                                         + "\nНаименование \\ адрес: "
-//                                                         + RutshnayaSignalizatsiya.AdrExNet.ADRIZV);
-//                                             dialog3.close(); 
-//                                             dialog4.showModal();
-//                                         }
-//                                         else
-//                                             alert("Не все данные введены...");
-//                                         }
-//                                     else{
-//                                             if( RutshnayaSignalizatsiya.AdrExDa.TAIZV >= 0 &&
-//                                             RutshnayaSignalizatsiya.AdrExDa.ZONAIZV >= 1 &&
-//                                             RutshnayaSignalizatsiya.AdrExDa.ADRIZV != "" &&
-//                                             RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ != ""){
-//                                                     //-------!!-------
-//                                                     //Закрыть текущ. диалог и открыть новый
-//                                                     //-------!!-------
-//                                                     console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                     + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                     + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                     + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                     + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                     + "\nКонфигурация шлейфа: "
-//                                                     + "\nТип шлейфа: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                     + "\nВзрывозащита: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                     + "\nТип искробарьера: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ
-//                                                     + "\nКоличество извещателей: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                     + "\nЗОНА: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                     + "\nНаименования/адрес:" 
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                     + "\nТШС = \"Адресный\" при ЕхШС = \"Да\""
-//                                                     + "\nТАИЗВ: "
-//                                                     + RutshnayaSignalizatsiya.AdrExDa.TAIZV
-//                                                     + "\nЗона: "
-//                                                     + RutshnayaSignalizatsiya.AdrExDa.ZONAIZV
-//                                                     + "\nНаименование \\ адрес: "
-//                                                     + RutshnayaSignalizatsiya.AdrExDa.ADRIZV);
-//                                                     dialog3.close(); 
-//                                                     dialog4.showModal();
-//                                                 }
-//                                                 else
-//                                                     alert("Не все данные введены...");
-//                                         }
-//                             }
-//                             else if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 1){
-
-//                                 if( 
-//                                  RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV >= 0 &&
-//                                  RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV >= 0 &&
-//                                  RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV >= 0 
-//                                  ){
-//                                             //-------!!-------
-//                                             //Закрыть текущ. диалог и открыть новый
-//                                             //-------!!-------
-//                                             if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == true &&
-//                                                 RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ != ""){
-
-//                                                     console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                     + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                     + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                     + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                     + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                     + "\nКонфигурация шлейфа: \n"
-//                                                     + "\nТип шлейфа: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                     + "\nВзрывозащита: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                     + "\nТип искробарьера: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ
-//                                                     + "\nКоличество извещателей: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                     + "\nЗОНА: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                     + "\nНаименования/адрес:" 
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                     + "\nТШС = \"БезАдресный\" при ЕхШС = \"Да\""
-//                                                     + "\nТИЗВ: "
-//                                                     + RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV
-//                                                     + "\nТок в режиме \"Дежурный\", мА: "
-//                                                     + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV
-//                                                     + "\nТок в режиме \"Пожар\", мА: "
-//                                                     + RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV);
-                                                 
-//                                                  dialog3.close(); 
-//                                                  dialog4.showModal();
-//                                             }
-//                                             else{
-//                                                 console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                 + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                 + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                 + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                 + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                 + "\nКонфигурация шлейфа: "
-//                                                 + "\nТип шлейфа: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                 + "\nВзрывозащита: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                 + "\nКоличество извещателей: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                 + "\nЗОНА: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                 + "\nНаименования/адрес:" 
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                 + "\nТШС = \"БезАдресный\" при ЕхШС = \"Нет\""
-//                                                 + "\nТИЗВ: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV
-//                                                 + "\nТок в режиме \"Дежурный\", мА: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV
-//                                                 + "\nТок в режиме \"Пожар\", мА: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV);
-//                                                  dialog3.close(); 
-//                                                  dialog4.showModal();
-//                                             }
-//                                     }
-//                                     else
-//                                         alert("Не все данные введены...");
-//                             }
-//                         }
-//                         else
-//                             alert("Не все данные введены...");
-//                 }
-//             else{
-//                 if( RutshnayaSignalizatsiya.KonfShleifa.KIZVShS >= 1 &&
-//                     RutshnayaSignalizatsiya.KonfShleifa.ZONAShS >= 1 &&
-//                     RutshnayaSignalizatsiya.KonfShleifa.ADRShS != ""){
-//                         if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 0){
-//                             if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == false){
-//                                 if( RutshnayaSignalizatsiya.AdrExNet.TAIZV >= 0 &&
-//                                  RutshnayaSignalizatsiya.AdrExNet.ZONAIZV >= 1 &&
-//                                  RutshnayaSignalizatsiya.AdrExNet.ADRIZV != ""){
-//                                         //-------!!-------
-//                                         //Закрыть текущ. диалог и открыть новый
-//                                         //-------!!-------
-//                                         console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                     + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                     + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                     + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                     + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                     + "\nКонфигурация шлейфа: "
-//                                                     + "\nТип шлейфа: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                     + "\nВзрывозащита: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                     + "\nКоличество извещателей: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                     + "\nЗОНА: "
-//                                                     + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                     + "\nНаименования/адрес:" + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                     + "\nТШС = \"Адресный\" при ЕхШС = \"Нет\""
-//                                                     + "\nТАИЗВ: "
-//                                                     + RutshnayaSignalizatsiya.AdrExNet.TAIZV
-//                                                     + "\nЗона: "
-//                                                     + RutshnayaSignalizatsiya.AdrExNet.ZONAIZV
-//                                                     + "\nНаименование \\ адрес: "
-//                                                     + RutshnayaSignalizatsiya.AdrExNet.ADRIZV);
-//                                         dialog3.close(); 
-//                                         dialog4.showModal();
-//                                     }
-//                                     else
-//                                         alert("Не все данные введены...");
-//                                     }
-//                                 else{
-//                                         if( RutshnayaSignalizatsiya.AdrExDa.TAIZV >= 0 &&
-//                                         RutshnayaSignalizatsiya.AdrExDa.ZONAIZV >= 1 &&
-//                                         RutshnayaSignalizatsiya.AdrExDa.ADRIZV != "" &&
-//                                         RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ != ""){
-//                                                 //-------!!-------
-//                                                 //Закрыть текущ. диалог и открыть новый
-//                                                 //-------!!-------
-//                                                 console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                 + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                 + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                 + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                 + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                 + "\nКонфигурация шлейфа: "
-//                                                 + "\nТип шлейфа: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                 + "\nВзрывозащита: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                 + "\nТип искробарьера: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ
-//                                                 + "\nКоличество извещателей: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                 + "\nЗОНА: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                 + "\nНаименования/адрес:" 
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                 + "\nТШС = \"Адресный\" при ЕхШС = \"Да\""
-//                                                 + "\nТАИЗВ: "
-//                                                 + RutshnayaSignalizatsiya.AdrExDa.TAIZV
-//                                                 + "\nЗона: "
-//                                                 + RutshnayaSignalizatsiya.AdrExDa.ZONAIZV
-//                                                 + "\nНаименование \\ адрес: "
-//                                                 + RutshnayaSignalizatsiya.AdrExDa.ADRIZV);
-//                                                 dialog3.close(); 
-//                                                 dialog4.showModal();
-//                                             }
-//                                             else
-//                                                 alert("Не все данные введены...");
-//                                     }
-//                         }
-//                         else if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 1){
-
-//                             if( 
-//                              RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV >= 0 &&
-//                              RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV >= 0 &&
-//                              RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV >= 0 
-//                              ){
-//                                         //-------!!-------
-//                                         //Закрыть текущ. диалог и открыть новый
-//                                         //-------!!-------
-//                                         if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == true &&
-//                                             RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ != ""){
-//                                                 console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                                 + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                                 + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                                 + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                                 + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                                 + "\nКонфигурация шлейфа: \n"
-//                                                 + "\nТип шлейфа: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                                 + "\nВзрывозащита: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                                 + "\nТип искробарьера: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ
-//                                                 + "\nКоличество извещателей: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                                 + "\nЗОНА: "
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                                 + "\nНаименования/адрес:" 
-//                                                 + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                                 + "\nТШС = \"БезАдресный\" при ЕхШС = \"Да\""
-//                                                 + "\nТИЗВ: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV
-//                                                 + "\nТок в режиме \"Дежурный\", мА: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV
-//                                                 + "\nТок в режиме \"Пожар\", мА: "
-//                                                 + RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV);
-//                                              dialog3.close(); 
-//                                              dialog4.showModal();
-//                                         }
-//                                         else{
-//                                             console.log("Подсистема ручн. обнаружения призн. пожара:\n"
-//                                              + "\nКШСР: " + RutshnayaSignalizatsiya.KShSR
-//                                              + "\nМИШСР: " + RutshnayaSignalizatsiya.MIShSR
-//                                              + "\nКМИШСР: " + RutshnayaSignalizatsiya.KMIShSR
-//                                              + "\nРЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR
-//                                              + "\nКонфигурация шлейфа: "
-//                                              + "\nТип шлейфа: "
-//                                              + RutshnayaSignalizatsiya.KonfShleifa.TShS
-//                                              + "\nВзрывозащита: "
-//                                              + RutshnayaSignalizatsiya.KonfShleifa.ExShS
-//                                              + "\nКоличество извещателей: "
-//                                              + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS
-//                                              + "\nЗОНА: "
-//                                              + RutshnayaSignalizatsiya.KonfShleifa.ZONAShS
-//                                              + "\nНаименования/адрес:" 
-//                                              + RutshnayaSignalizatsiya.KonfShleifa.ADRShS
-//                                              + "\nТШС = \"БезАдресный\" при ЕхШС = \"Нет\""
-//                                              + "\nТИЗВ: "
-//                                              + RutshnayaSignalizatsiya.KonfIzvBezAdr.TIZV
-//                                              + "\nТок в режиме \"Дежурный\", мА: "
-//                                              + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV
-//                                              + "\nТок в режиме \"Пожар\", мА: "
-//                                              + RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV);
-
-                                             
-//                                              dialog3.close(); 
-//                                              dialog4.showModal();
-//                                         }
-//                                 }
-//                                 else
-//                                     alert("Не все данные введены...");
-//                         }
-//                     }
-//                     else
-//                         alert("Не все данные введены...");
-//             }     
-//     }
-//        else
-//            alert("Не все данные введены...");
-//     //dialog3.close();
-// });
 
 // //Подсистема управления пожаротушением
-// const   KShPT = document.getElementById('KShPT'),
-//         KMIShPT = document.getElementById('KMIShPT'),
-//         REZShPT = document.getElementById('REZShPT'),
-//         ZONAShPT = document.getElementById('ZONAShPT'),
-//         ADRZONYPT = document.getElementById('ADRZONYPT'),
-//         KShPTZONY = document.getElementById('KShPTZONY'),
-//         KDDZONY = document.getElementById('KDDZONY'),
-//         KBDUZONY = document.getElementById('KBDUZONY'),
-//         KExBDUZONY = document.getElementById('KExBDUZONY'),
-//         KExLSBDU = document.getElementById('KExLSBDU'),
+
+
+const   KShPT = document.getElementById('KShPT'),
+         KMIShPT = document.getElementById('KMIShPT'),
+         REZShPT = document.getElementById('REZShPT'),
+        ZONAShPT = document.getElementById('ZONAShPT'),
+        ADRZONYPT = document.getElementById('ADRZONYPT'),
+        KShPTZONY = document.getElementById('KShPTZONY'),
+        KDDZONY = document.getElementById('KDDZONY'),
+        KBDUZONY = document.getElementById('KBDUZONY'),
+        KExBDUZONY = document.getElementById('KExBDUZONY'),
+        KExLSBDU = document.getElementById('KExLSBDU');
 //         ADRShPT = document.getElementById('ADRShPT'),
 //         IPShPT = document.getElementById('IPShPT'),
 //         ExShPT = document.getElementById('ExShPT'),
@@ -3967,435 +3865,575 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 
 //         TBIZShPT.style.display = 'none';
 //         TBIZShPT_Select.style.display = 'none';
+
+const lineLoopBtnsUpr = document.getElementById('lineLoopBtnsUpr'),
+    lineLoopPrevUpr = document.getElementById('lineLoopPrevUpr'),
+    lineLoopPosUpr = document.getElementById('lineLoopPosUpr'),
+    lastPosUpr = document.getElementById('lastPosUpr'),
+    lineLoopNextUpr = document.getElementById('lineLoopNextUpr');
+
+lineLoopPrevUpr.addEventListener('click', ()=>{
+        if(prevIndexUpr < 1) prevIndexUpr = lineLoopsUpr.length;
+        nextIndexUpr = curPosUpr;
+        curPosUpr = prevIndexUpr;
+        prevIndexUpr--;
+        if(prevIndexUpr < 1) prevIndexUpr = lineLoopsUpr.length;
+        lineLoopPosUpr.value = curPosUpr;
+        hideLineLoopsUpr(lineLoopsUpr.length);
+        showLineLoopsRuchn((curPosUpr - 1) + '_' + 2);
+    
+
+});
+
+lineLoopNextUpr.addEventListener('click', ()=>{
+            if(nextIndexUpr > lineLoopsUpr.length ) nextIndexUpr = 1;
+            prevIndexUpr = curPosUpr;
+            curPosUpr = nextIndexUpr;
+            nextIndexUpr++;
+            if(nextIndexUpr > lineLoopsUpr.length) nextIndexUpr = 1;
+            lineLoopPosUpr.value = curPosUpr;
+            hideLineLoopsUpr(lineLoopsUpr.length);
+            showLineLoopsRuchn((curPosUpr - 1) + '_' + 2);
+
+});
+
+
+lineLoopPosUpr.addEventListener('blur', ()=>{
+    curPosUpr = parseInt(lineLoopPosUpr.value, 10);
+    if(curPosUpr + 1 > lineLoopsUpr.length + 1){
+        nextIndexUpr  = 1;
+        prevIndexUpr  = curPosUpr - 1;
+    }
+    else if(curPosUpr - 1 < 1){
+        prevIndexUpr = lineLoopsUpr.length;
+        nextIndexUpr = curPosUpr + 1;
+    }
+    else{
+        prevIndexUpr  = curPosUpr - 1;
+        nextIndexUpr  = curPosUpr + 1;
+    }
+    hideLineLoopsUpr(lineLoopsUpr.length);
+    showLineLoopsRuchn((curPosUpr - 1) + '_' + 2);
+});
+
+
 // //KShPT
 
-// KShPT.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KShPT.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KShPT.addEventListener('focus', ()=>{
-//     KShPT.style.boxShadow = 'none';
-// });
+KShPT.addEventListener('focus', ()=>{
+    KShPT.style.boxShadow = 'none';
+});
 
-// //Диапазоны?
-// KShPT.addEventListener('blur', ()=>{
-//    if(KShPT.value.search(regEx) == -1){
-//    if(parseInt(KShPT.value, 10) >= 1 && parseInt(KShPT.value, 10) <= 640){
-//        UpravleniePojaroTusheniem.KShPT = parseInt(KShPT.value, 10);
-//        KShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.KShPT);
-//    }
-//    else if(KShPT.value == ""){
-//        UpravleniePojaroTusheniem.KShPT= 0;
-//        console.log( UpravleniePojaroTusheniem.KShPT);
-//        return;
-//    }
-//    else
-//        {
-//         KShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+//Диапазоны?
+KShPT.addEventListener('blur', ()=>{
+   if(KShPT.value.search(regEx) == -1){
+   if(parseInt(KShPT.value, 10) >= 1 && parseInt(KShPT.value, 10) <= 640){
+       UpravleniePojaroTusheniem.KShPT = parseInt(KShPT.value, 10);
+       KShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log(UpravleniePojaroTusheniem.KShPT);
+   }
+   else if(KShPT.value == ""){
+       UpravleniePojaroTusheniem.KShPT= 0;
+       console.log("КШПТ: " + UpravleniePojaroTusheniem.KShPT);
+       return;
+   }
+   else
+       {
+        KShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //KMIShPT
-// KMIShPT.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KMIShPT.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KMIShPT.addEventListener('focus', ()=>{
-//     KMIShPT.style.boxShadow = 'none';
-// });
+KMIShPT.addEventListener('focus', ()=>{
+    KMIShPT.style.boxShadow = 'none';
+});
 
 
-// KMIShPT.addEventListener('blur', ()=>{
-//    if(KMIShPT.value.search(regEx) == -1){
-//    if(parseInt(KMIShPT.value, 10) >= 1 && parseInt(KMIShPT.value, 10) <= 32){
-//        UpravleniePojaroTusheniem.KMIShPT = parseInt(KMIShPT.value, 10);
-//        KMIShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.KMIShPT);
-//    }
-//    else if(KMIShPT.value == ""){
-//        UpravleniePojaroTusheniem.KMIShPT= 0;
-//        console.log( UpravleniePojaroTusheniem.KMIShPT);
-//        return;
-//    }
-//    else
-//        {
-//         KMIShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KMIShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+KMIShPT.addEventListener('blur', ()=>{
+   if(KMIShPT.value.search(regEx) == -1){
+   if(parseInt(KMIShPT.value, 10) >= 1 && parseInt(KMIShPT.value, 10) <= 32){
+       UpravleniePojaroTusheniem.KMIShPT = parseInt(KMIShPT.value, 10);
+       KMIShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log(UpravleniePojaroTusheniem.KMIShPT);
+   }
+   else if(KMIShPT.value == ""){
+       UpravleniePojaroTusheniem.KMIShPT= 0;
+       console.log("КМИШПТ: " + UpravleniePojaroTusheniem.KMIShPT);
+       return;
+   }
+   else
+       {
+        KMIShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KMIShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //REZShPT
-// REZShPT.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+REZShPT.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// REZShPT.addEventListener('focus', ()=>{
-//     REZShPT.style.boxShadow = 'none';
-// });
+REZShPT.addEventListener('focus', ()=>{
+    REZShPT.style.boxShadow = 'none';
+});
 
 
-// REZShPT.addEventListener('blur', ()=>{
-//    if(REZShPT.value.search(regEx) == -1){
-//    if(parseInt(REZShPT.value, 10) >= 0 && parseInt(REZShPT.value, 10) <= 100){
-//        UpravleniePojaroTusheniem.REZShPT = parseInt(REZShPT.value, 10);
-//        REZShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.REZShPT);
-//    }
-//    else if(REZShPT.value == ""){
-//        UpravleniePojaroTusheniem.REZShPT= 0;
-//        console.log( UpravleniePojaroTusheniem.REZShPT);
-//        return;
-//    }
-//    else
-//        {
-//         REZShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     REZShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+REZShPT.addEventListener('blur', ()=>{
+   if(REZShPT.value.search(regEx) == -1){
+   if(parseInt(REZShPT.value, 10) >= 0 && parseInt(REZShPT.value, 10) <= 100){
+       UpravleniePojaroTusheniem.REZShPT = parseInt(REZShPT.value, 10);
+       REZShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log(UpravleniePojaroTusheniem.REZShPT);
+   }
+   else if(REZShPT.value == ""){
+       UpravleniePojaroTusheniem.REZShPT= 0;
+       console.log("РЕЗШПТ: " + UpravleniePojaroTusheniem.REZShPT);
+       return;
+   }
+   else
+       {
+        REZShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    REZShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //ZONAShPT
-// ZONAShPT.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+ZONAShPT.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// ZONAShPT.addEventListener('focus', ()=>{
-//     ZONAShPT.style.boxShadow = 'none';
-// });
+ZONAShPT.addEventListener('focus', ()=>{
+    ZONAShPT.style.boxShadow = 'none';
+});
 
 
-// ZONAShPT.addEventListener('blur', ()=>{
-//    if(ZONAShPT.value.search(regEx) == -1){
-//    if(parseInt(ZONAShPT.value, 10) >= 0 && parseInt(ZONAShPT.value, 10) <= 100){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT = parseInt(ZONAShPT.value, 10);
-//        ZONAShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
-//    }
-//    else if(ZONAShPT.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
-//        return;
-//    }
-//    else
-//        {
-//         ZONAShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     ZONAShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+ZONAShPT.addEventListener('blur', ()=>{
+   if(ZONAShPT.value.search(regEx) == -1){
+   if(parseInt(ZONAShPT.value, 10) >= 1 && 
+   parseInt(ZONAShPT.value, 10) <= UpravleniePojaroTusheniem.KShPT || 
+   parseInt(ZONAShPT.value, 10) <= 64){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT = parseInt(ZONAShPT.value, 10);
+       ZONAShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
+   }
+   else if(ZONAShPT.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT= 0;
+       console.log("ЗонаШПТ: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
+       return;
+   }
+   else
+       {
+        ZONAShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    ZONAShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //ADRZONYPT
-// ADRZONYPT.addEventListener('focus', ()=>{
-//     ADRZONYPT.style.boxShadow = 'none';
-//     });
+ADRZONYPT.addEventListener('focus', ()=>{
+    ADRZONYPT.style.boxShadow = 'none';
+    });
     
-//     ADRZONYPT.addEventListener('blur', ()=>{
-//     if(ADRZONYPT.value == ""){
-//         ADRZONYPT.style.boxShadow = 'none';
-//         return;
-//     }
-//     else if(ADRZONYPT.value.length <= 20){
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT = ADRZONYPT.value;
-//         ADRZONYPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT + " L: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT);
-//     }
-//     else
-//         ADRZONYPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
+    ADRZONYPT.addEventListener('blur', ()=>{
+    if(ADRZONYPT.value == ""){
+        ADRZONYPT.style.boxShadow = 'none';
+        return;
+    }
+    else if(ADRZONYPT.value.length <= 20){
+        UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT = ADRZONYPT.value;
+        ADRZONYPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        console.log("АдрЗоныПТ: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT + " L: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT);
+    }
+    else
+        ADRZONYPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+});
 
 // //KShPTZONY
-// KShPTZONY.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KShPTZONY.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KShPTZONY.addEventListener('focus', ()=>{
-//     KShPTZONY.style.boxShadow = 'none';
-// });
+KShPTZONY.addEventListener('focus', ()=>{
+    KShPTZONY.style.boxShadow = 'none';
+});
 
-// KShPTZONY.addEventListener('blur', ()=>{
-//    if(KShPTZONY.value.search(regEx) == -1){
-//    if(parseInt(KShPTZONY.value, 10) >= 1 && parseInt(KShPTZONY.value, 10) <= 320){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY = parseInt(KShPTZONY.value, 10);
-//        KShPTZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
-//    }
-//    else if(KShPTZONY.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
-//        return;
-//    }
-//    else
-//        {
-//         KShPTZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KShPTZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+KShPTZONY.addEventListener('blur', ()=>{
+   if(KShPTZONY.value.search(regEx) == -1){
+   if(parseInt(KShPTZONY.value, 10) >= 1 && parseInt(KShPTZONY.value, 10) <= 320){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY = parseInt(KShPTZONY.value, 10);
+       KShPTZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KShPTZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
+   }
+   else if(KShPTZONY.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY= 0;
+       console.log("KShPTZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
+       return;
+   }
+   else
+       {
+        KShPTZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KShPTZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //KDDZONY
-// KDDZONY.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KDDZONY.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KDDZONY.addEventListener('focus', ()=>{
-//     KDDZONY.style.boxShadow = 'none';
-// });
+KDDZONY.addEventListener('focus', ()=>{
+    KDDZONY.style.boxShadow = 'none';
+});
 
-// KDDZONY.addEventListener('blur', ()=>{
-//    if(KDDZONY.value.search(regEx) == -1){
-//    if(parseInt(KDDZONY.value, 10) >= 0 && parseInt(KDDZONY.value, 10) <= 20){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY = parseInt(KDDZONY.value, 10);
-//        KDDZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
-//    }
-//    else if(KDDZONY.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
-//        return;
-//    }
-//    else
-//        {
-//         KDDZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KDDZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+KDDZONY.addEventListener('blur', ()=>{
+   if(KDDZONY.value.search(regEx) == -1){
+   if(parseInt(KDDZONY.value, 10) >= 0 && parseInt(KDDZONY.value, 10) <= 20){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY = parseInt(KDDZONY.value, 10);
+       KDDZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KDDZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
+   }
+   else if(KDDZONY.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY= 0;
+       console.log("KDDZONY: " +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
+       return;
+   }
+   else
+       {
+        KDDZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KDDZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //KBDUZONY
-// KBDUZONY.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KBDUZONY.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KBDUZONY.addEventListener('focus', ()=>{
-//     KBDUZONY.style.boxShadow = 'none';
-// });
+KBDUZONY.addEventListener('focus', ()=>{
+    KBDUZONY.style.boxShadow = 'none';
+});
 
-// KBDUZONY.addEventListener('blur', ()=>{
-//    if(KBDUZONY.value.search(regEx) == -1){
-//    if(parseInt(KBDUZONY.value, 10) >= 0 && parseInt(KBDUZONY.value, 10) <= 20){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY = parseInt(KBDUZONY.value, 10);
-//        KBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
-//    }
-//    else if(KBDUZONY.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
-//        return;
-//    }
-//    else
-//        {
-//         KBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+KBDUZONY.addEventListener('blur', ()=>{
+   if(KBDUZONY.value.search(regEx) == -1){
+   if(parseInt(KBDUZONY.value, 10) >= 0 && parseInt(KBDUZONY.value, 10) <= 20){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY = parseInt(KBDUZONY.value, 10);
+       KBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
+   }
+   else if(KBDUZONY.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY= 0;
+       console.log("KBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
+       return;
+   }
+   else
+       {
+        KBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //KExBDUZONY
-// KExBDUZONY.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KExBDUZONY.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KExBDUZONY.addEventListener('focus', ()=>{
-//     KExBDUZONY.style.boxShadow = 'none';
-// });
+KExBDUZONY.addEventListener('focus', ()=>{
+    KExBDUZONY.style.boxShadow = 'none';
+});
 
-// KExBDUZONY.addEventListener('blur', ()=>{
-//    if(KExBDUZONY.value.search(regEx) == -1){
-//    if(parseInt(KExBDUZONY.value, 10) >= 0 && parseInt(KExBDUZONY.value, 10) <= 20){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY = parseInt(KExBDUZONY.value, 10);
-//        KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
-//    }
-//    else if(KExBDUZONY.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
-//        return;
-//    }
-//    else
-//        {
-//         KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+KExBDUZONY.addEventListener('blur', ()=>{
+   if(KExBDUZONY.value.search(regEx) == -1){
+   if(parseInt(KExBDUZONY.value, 10) >= 0 && parseInt(KExBDUZONY.value, 10) <= 20){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY = parseInt(KExBDUZONY.value, 10);
+       KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KExBDUZONY: " +UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
+   }
+   else if(KExBDUZONY.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY= 0;
+       console.log("KExBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
+       return;
+   }
+   else
+       {
+        KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
     
-// });
+});
 
 // //KExLSBDU
-// KExLSBDU.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KExLSBDU.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KExLSBDU.addEventListener('focus', ()=>{
-//     KExLSBDU.style.boxShadow = 'none';
-// });
+KExLSBDU.addEventListener('focus', ()=>{
+    KExLSBDU.style.boxShadow = 'none';
+});
 
-// KExLSBDU.addEventListener('blur', ()=>{
-//    if(KExLSBDU.value.search(regEx) == -1){
-//    if(parseInt(KExLSBDU.value, 10) >= 0 && parseInt(KExLSBDU.value, 10) <= 15){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU = parseInt(KExLSBDU.value, 10);
-//        KExLSBDU.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
-//    }
-//    else if(KExLSBDU.value == ""){
-//        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU= 0;
-//        console.log( UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
-//        return;
-//    }
-//    else
-//        {
-//         KExLSBDU.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KExLSBDU.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
+KExLSBDU.addEventListener('blur', ()=>{
+   if(KExLSBDU.value.search(regEx) == -1){
+   if(parseInt(KExLSBDU.value, 10) >= 0 && parseInt(KExLSBDU.value, 10) <= 15){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU = parseInt(KExLSBDU.value, 10);
+       KExLSBDU.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KExLSBDU: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
+   }
+   else if(KExLSBDU.value == ""){
+       UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU= 0;
+       console.log("KExLSBDU: " +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
+       return;
+   }
+   else
+       {
+        KExLSBDU.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KExLSBDU.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
 
+let lineLoopsUpr = [], dynamicEventHandlersUpr = [], lineLoopsDataUpr = [];
+let curPosUpr, prevIndexUpr, nextIndexUpr;
+
+sbtForm4.addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(UpravleniePojaroTusheniem.KShPT ){
+            alert('Сконфигурировано!');
+            lineLoopBtnsUpr.style.display = 'block';
+            lineLoopsUpr.length = UpravleniePojaroTusheniem.KShPT;
+            for (let i = 0; i < lineLoopsUpr.length; i++) {
+                lineLoopsUpr[i] = UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia;
+            }
+            createlineLoopUpr(UpravleniePojaroTusheniem.KShPT);
+            // let lastPosUpr = document.getElementById('lastPosUpr'),
+            //     lineLoopPosUpr = document.getElementById('lineLoopPosUpr');
+
+            lastPosUpr.innerHTML = 'из ' + lineLoopsUpr.length;
+            lineLoopPosUpr.min = 1;
+            lineLoopPosUpr.max = lineLoopsUpr.length;
+            lineLoopPosUpr.value = 1;
+            curPosUpr = 1;
+            prevIndexUpr = lineLoopsUpr.length;
+            nextIndexUpr = curPosUpr + 1;
+            
+            if(lineLoopsUpr.length){
+                for (let i = 0; i < lineLoopsUpr.length; i++) {
+                    for (let j = 0; j < 28; j++) {
+                        dynamicEventHandlersUpr[i] = [];
+                    }
+                }
+             }
+
+            setDynHandlersUpr(dynamicEventHandlersUpr, lineLoopsUpr.length);
+            
+            showLineLoopsRuchn(0 + "_" + 2);
+            hideAutoObnarUpr();
+            if(lineLoopsUpr.length){
+                for (let i = 0; i < lineLoopsUpr.length; i++) {                
+                    lineLoopsDataUpr[i] = UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia;
+                    dynamicEventHandlersUpr[i][5].style.display = 'none';
+                }
+             }
+
+                //lineLoopConf = document.getElementById('lineLoopKonf');
+                setAdrShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+                setIPShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+                setExShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+                setTBIZShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);   
+                //setCheckboxUpr(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+
+                
+        }
+    else
+        alert('Конфигурация не завершена! Пропущены данные.');
+});
 // //ADRShPT
+function setAdrShPT(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0].addEventListener('focus', ()=>{
+                handlerArr[i][0].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][0].addEventListener('blur', ()=>{
+                if(handlerArr[i][0].value == ""){ 
+                    handlerArr[i][0].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][0].value.length <= 20){
+                    dataToSave[i].ADRShPT = handlerArr[i][0].value;
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    if( dataToSave[i].ADRShPT != '' &&
+                        dataToSave[i].IPShPT >= 1 ){
+                            handlerArr[i][6].checked = true;
+                            dataToSave[i].configured = true;
+                    }
+                    else{    
+                        handlerArr[i][6].checked = false;
+                        dataToSave[i].configured = false;
+                    }
+
+                    console.log(i + " ADRShPT: " + dataToSave[i].ADRShPT + " L: " + dataToSave[i].ADRShPT.length);
+                }
+                else
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
 // ADRShPT.addEventListener('focus', ()=>{
 //     ADRShPT.style.boxShadow = 'none';
 //     });
@@ -4415,6 +4453,86 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //IPShPT
+function setIPShPT(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][1].onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(handlerArr[i][1].value.indexOf('.') == -1)
+                    {
+                        while((pos = handlerArr[i][1].value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = handlerArr[i][1].value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        handlerArr[i][1].addEventListener('focus', ()=>{
+            handlerArr[i][1].style.boxShadow = 'none';
+        });
+
+        handlerArr[i][1].addEventListener('blur', ()=>{
+            if(handlerArr[i][1].value.indexOf(',')== -1 && handlerArr[i][1].value.indexOf('.')== -1)
+                handlerArr[i][1].value += ',0';
+            if(handlerArr[i][1].value[handlerArr[i][1].value.length - 1] == '.' || handlerArr[i][1].value[handlerArr[i][1].value.length - 1] == ',')
+                handlerArr[i][1].value += '0';
+
+            if(handlerArr[i][1].value.search(regExBroken) != -1){
+            
+                if(handlerArr[i][1].value.indexOf(',')!= -1) handlerArr[i][1].value = handlerArr[i][1].value.replace(/\,/, '.');
+
+            if(parseFloat(handlerArr[i][1].value) >= 0 && parseFloat(handlerArr[i][1].value) <= 3){
+                dataToSave[i].IPShPT = parseFloat(handlerArr[i][1].value);
+                handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                if( dataToSave[i].ADRShPT != '' &&
+                    dataToSave[i].IPShPT >= 1 ){
+                        handlerArr[i][6].checked = true;
+                        dataToSave[i].configured = true;
+                }
+                else{
+                    handlerArr[i][6].checked = false;
+                    dataToSave[i].configured = false;
+                }
+                console.log("IPShPT: " + dataToSave[i].IPShPT);
+            }
+            else if(handlerArr[i][1].value == ""){
+                return;
+            }
+            else
+                {
+                    handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }); 
+        
+    }
+}
 // IPShPT.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4483,6 +4601,48 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //ExShPT
+function setExShPT(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+            handlerArr[i][2].addEventListener('click', ()=>{
+                    if(handlerArr[i][2].checked)
+                    { 
+                        dataToSave[i].ExShPT = true;
+                        handlerArr[i][3].style.display = 'block';    
+                        handlerArr[i][4].style.display = 'block';  
+                        while(handlerArr[i][5].firstChild)
+                            handlerArr[i][5].removeChild(handlerArr[i][5].firstChild);
+                        
+                        let oOption = document.createElement("option");
+                        // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                        // oOption.setAttribute("value", "");
+                        // handlerArr[i][5].appendChild(oOption);   
+                    
+                        for (let j = 0; j < IntermediateModules.length; j++) {
+                            for(let prop in IntermediateModules[j]){
+                                if(IntermediateModules[j][prop] == "BIZ"){
+                                    oOption = document.createElement("option")
+                                    //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                    oOption.setAttribute("value", IntermediateModules[j].name);
+                                    handlerArr[i][5].appendChild(oOption);   
+                                }
+                            }        
+                        }
+                        if( handlerArr[i][6].checked ){
+                            handlerArr[i][6].checked = false;  
+                            dataToSave[i].configured = false;
+                        }
+                        //handlerArr[i][5].style.display = 'block';    
+                    }
+                    else  {
+                        dataToSave[i].ExShPT = false;
+                        handlerArr[i][3].style.display = 'none';
+                        while(handlerArr[i][5].firstChild)
+                            handlerArr[i][5].removeChild(handlerArr[i][5].firstChild);
+                        handlerArr[i][5].style.display = 'none';
+                    }
+            }); 
+    }
+}
 // ExShPT.addEventListener('click', ()=>{
 //     if(ExShPT.checked)
 //     { 
@@ -4518,6 +4678,67 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //TBIZShPT
+function setTBIZShPT(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][4].addEventListener('focus', ()=>{
+            handlerArr[i][4].style.boxShadow = 'none';
+            });
+            
+            handlerArr[i][4].addEventListener('blur', (e)=>{
+            if(handlerArr[i][4].value == ""){
+                let flag = confirm("Взрывозащита типа \"d\"");
+                if(flag)
+                {
+                    dataToSave[i].TBIZShPT  = "Взрывозащита типа \"d\"";
+                    handlerArr[i][4].value = "Взрывозащита типа \"d\"";
+                    console.log("TBIZShPT: " + dataToSave[i].TBIZShPT);
+                    //TBIZShPT.style.display = 'none';
+
+                    //handlerArr[i][5].style.display = 'none';
+                    e.preventDefault();
+
+                    if( dataToSave[i].ADRShPT != '' &&
+                    dataToSave[i].IPShPT >= 1 ){
+                        handlerArr[i][6].checked = true;
+                        dataToSave[i].configured = true;
+                    }
+                    else{    
+                        handlerArr[i][6].checked = false;
+                        dataToSave[i].configured = false;
+                    }
+                    list = false
+                    return;
+                }
+                handlerArr[i][4].style.boxShadow = 'none';
+                //handlerArr[i][5].style.display = 'block';
+                return;
+            }
+            else if(handlerArr[i][4].value.length <= 20){
+                dataToSave[i].TBIZShPT = handlerArr[i][4].value;
+                handlerArr[i][4].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                if( dataToSave[i].ADRShPT != '' &&
+                dataToSave[i].IPShPT >= 1 ){
+                    handlerArr[i][6].checked = true;
+                    dataToSave[i].configured = true;
+                }
+                else{    
+                    handlerArr[i][6].checked = false;
+                    dataToSave[i].configured = false;
+                }
+
+                console.log("АдрИзв: " + dataToSave[i].TBIZShPT + " L: " + dataToSave[i].TBIZShPT);
+            }
+            else
+            handlerArr[i][4].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        });
+
+        // handlerArr[i][4].onchange = ()=>{
+        //     if(TBIZShPT_Select.selectedIndex != 0){
+        //         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT = TBIZShPT_Select.options[TBIZShPT_Select.selectedIndex].text;
+        //     }
+        // };
+    }   
+}
 // TBIZShPT.addEventListener('focus', ()=>{
 //     TBIZShPT.style.boxShadow = 'none';
 //     });
@@ -4556,93 +4777,25 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 //     }
 // };
 
-// dlg4Sbt.addEventListener('click', (e)=>{
-//     if(UpravleniePojaroTusheniem.KShPT && 
-//         UpravleniePojaroTusheniem.KMIShPT >= 0 &&
-//         UpravleniePojaroTusheniem.REZShPT && 
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT &&
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT != "" && 
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY &&
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY >= 0 &&
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY >=0 &&
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY >= 0 &&
-//         UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU >= 0 &&
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT != "" &&
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.IPShPT >= 0){
-//             if(UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ExShPT == true &&
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT != ""){
-                
-//                 console.log("КШПТ: " + 
-//                 UpravleniePojaroTusheniem.KShPT +
-//                 "\nКМИШПТ: " + 
-//                 UpravleniePojaroTusheniem.KMIShPT +
-//                 "\nРЕЗШПТ: " + 
-//                 UpravleniePojaroTusheniem.REZShPT +
-//                 "\nЗОНАШПТ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT +
-//                 "\nАДРЗОНЫПТ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT +
-//                 "\nКШПТЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY +
-//                 "\nКДДЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY +
-//                 "\nКБДУЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY +
-//                 "\nКЕхБДУЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY +
-//                 "\nКЕхЛСБДУ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU +
-//                 "\nАДРШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT +
-//                 "\nІПШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.IPShPT +
-//                 "\nЕхШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ExShPT +
-//                 "\nТБИЗШПТ: "+
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT);
-//                 dialog4.close();
-//                 dialog5.showModal();
+// function setCheckboxUpr(handlerArr, size, dataToSave){
+//     for (let i = 0; i < size; i++) {
+//         handlerArr[i][6].addEventListener('click', (e) =>{
+//             e.preventDefault();
+//             if( dataToSave[i].ADRShPT != '' &&
+//                 dataToSave[i].IPShPt >= 1 ){
+//                     handlerArr[i][6].checked = true;
 //             }
-//             else{
-                
-//                 console.log("КШПТ: " + 
-//                 UpravleniePojaroTusheniem.KShPT +
-//                 "\nКМИШПТ: " + 
-//                 UpravleniePojaroTusheniem.KMIShPT +
-//                 "\nРЕЗШПТ: " + 
-//                 UpravleniePojaroTusheniem.REZShPT +
-//                 "\nЗОНАШПТ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT +
-//                 "\nАДРЗОНЫПТ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT +
-//                 "\nКШПТЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY +
-//                 "\nКДДЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY +
-//                 "\nКБДУЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY +
-//                 "\nКЕхБДУЗОНЫ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY +
-//                 "\nКЕхЛСБДУ: " + 
-//                 UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU +
-//                 "\nАДРШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT +
-//                 "\nІПШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.IPShPT +
-//                 "\nЕхШПТ: " + 
-//                 UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ExShPT);
-//                 dialog4.close();
-//                 dialog5.showModal();
-//             }
-//         }
-//         else
-//             alert("Не все данные введены...");
-// });
+//             else    
+//                 handlerArr[i][6].checked = false;
+//         });
+//     }
+// }
 
 
-// //Подсистема управления оповещением
-// const KZONOP = document.getElementById('KZONOP'),
-//         REZShO = document.getElementById('REZShO'),
+
+// //-----------------------------Подсистема управления оповещением-----------------------------//
+const KZONOP = document.getElementById('KZONOP'),
+        REZShO = document.getElementById('REZShO');
 //         ZONAShOP = document.getElementById('ZONAShOP'),
 //         ADRShOP = document.getElementById('ADRShOP'),
 //         KShOPZONY = document.getElementById('KShOPZONY'),
@@ -4655,97 +4808,262 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 //         IPOP = document.getElementById('IPOP');
 
 //         TBIZOPSh.style.display = 'none';
+const   sbtForm5 = document.getElementById('sbtForm5'),
+        lineLoopBtnsUprOp = document.getElementById('lineLoopBtnsUprOp'),
+        lineLoopPrevUprOp = document.getElementById('lineLoopPrevUprOp'),
+        lineLoopPosUprOp = document.getElementById('lineLoopPosUprOp'),
+        lastPosUprOp = document.getElementById('lastPosUprOp'),
+        lineLoopNextUprOp = document.getElementById('lineLoopNextUprOp');
+
+lineLoopPrevUprOp.addEventListener('click', ()=>{
+            if(prevIndexUprOp < 1) prevIndexUprOp = lineLoopsUprOp.length;
+            nextIndexUprOp = curPosUprOp;
+            curPosUprOp = prevIndexUprOp;
+            prevIndexUprOp--;
+            if(prevIndexUprOp < 1) prevIndexUprOp = lineLoopsUprOp.length;
+            lineLoopPosUprOp.value = curPosUprOp;
+            hideZonaOp(lineLoopsUprOp.length);
+            showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+        
+    
+    });
+    
+    lineLoopNextUprOp.addEventListener('click', ()=>{
+                if(nextIndexUprOp > lineLoopsUprOp.length ) nextIndexUprOp = 1;
+                prevIndexUprOp = curPosUprOp;
+                curPosUprOp = nextIndexUprOp;
+                nextIndexUprOp++;
+                if(nextIndexUprOp > lineLoopsUprOp.length) nextIndexUprOp = 1;
+                lineLoopPosUprOp.value = curPosUprOp;
+                hideZonaOp(lineLoopsUprOp.length);
+                showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+    
+    });
+    
+    
+    lineLoopPosUprOp.addEventListener('blur', ()=>{
+        curPosUprOp = parseInt(lineLoopPosUprOp.value, 10);
+        if(curPosUprOp + 1 > lineLoopsUprOp.length + 1){
+            nextIndexUprOp  = 1;
+            prevIndexUprOp  = curPosUprOp - 1;
+        }
+        else if(curPosUprOp - 1 < 1){
+            prevIndexUprOp = lineLoopsUprOp.length;
+            nextIndexUprOp = curPosUprOp + 1;
+        }
+        else{
+            prevIndexUprOp  = curPosUprOp - 1;
+            nextIndexUprOp  = curPosUprOp + 1;
+        }
+        hideZonaOp(lineLoopsUprOp.length);
+        showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+    });
+
+function hideZonaOp(KZONOP){
+    for (let i = 0; i < KZONOP; i++) {
+        document.querySelector('#_ZonaOpoveshenia_' + i).style.display = 'none';
+    }
+}
 // //KZONOP
 
-// KZONOP.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+KZONOP.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// KZONOP.addEventListener('focus', ()=>{
-//     KZONOP.style.boxShadow = 'none';
-// });
+KZONOP.addEventListener('focus', ()=>{
+    KZONOP.style.boxShadow = 'none';
+});
 
-// KZONOP.addEventListener('blur', ()=>{
-//    if(KZONOP.value.search(regEx) == -1){
-//    if(parseInt(KZONOP.value, 10) >= 1 && parseInt(KZONOP.value, 10) <= 64){
-//        UpravlenieOpovesheniem.KZONOP = parseInt(KZONOP.value, 10);
-//        KZONOP.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravlenieOpovesheniem.KZONOP);
-//    }
-//    else if(KZONOP.value == ""){
-//        UpravlenieOpovesheniem.KZONOP= 0;
-//        console.log( UpravlenieOpovesheniem.KZONOP);
-//        return;
-//    }
-//    else
-//        {
-//         KZONOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KZONOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
+KZONOP.addEventListener('blur', ()=>{
+   if(KZONOP.value.search(regEx) == -1){
+   if(parseInt(KZONOP.value, 10) >= 1 && parseInt(KZONOP.value, 10) <= 64){
+       UpravlenieOpovesheniem.KZONOP = parseInt(KZONOP.value, 10);
+       KZONOP.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KZONOP: "+ UpravlenieOpovesheniem.KZONOP);
+   }
+   else if(KZONOP.value == ""){
+       UpravlenieOpovesheniem.KZONOP= 0;
+       console.log("KZONOP: "+  UpravlenieOpovesheniem.KZONOP);
+       return;
+   }
+   else
+       {
+        KZONOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KZONOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
 
 
 // //REZShO
-// REZShO.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
+REZShO.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
 
-// REZShO.addEventListener('focus', ()=>{
-//     REZShO.style.boxShadow = 'none';
-// });
+REZShO.addEventListener('focus', ()=>{
+    REZShO.style.boxShadow = 'none';
+});
 
-// REZShO.addEventListener('blur', ()=>{
-//    if(REZShO.value.search(regEx) == -1){
-//    if(parseInt(REZShO.value, 10) >= 0 && parseInt(REZShO.value, 10) <= 100){
-//        UpravlenieOpovesheniem.REZShO = parseInt(REZShO.value, 10);
-//        REZShO.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravlenieOpovesheniem.REZShO);
-//    }
-//    else if(REZShO.value == ""){
-//        UpravlenieOpovesheniem.REZShO= 0;
-//        console.log( UpravlenieOpovesheniem.REZShO);
-//        return;
-//    }
-//    else
-//        {
-//         REZShO.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     REZShO.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
+REZShO.addEventListener('blur', ()=>{
+   if(REZShO.value.search(regEx) == -1){
+   if(parseInt(REZShO.value, 10) >= 0 && parseInt(REZShO.value, 10) <= 100){
+       UpravlenieOpovesheniem.REZShO = parseInt(REZShO.value, 10);
+       REZShO.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("REZShO: "+ UpravlenieOpovesheniem.REZShO);
+   }
+   else if(REZShO.value == ""){
+       UpravlenieOpovesheniem.REZShO= 0;
+       console.log("REZShO: "+  UpravlenieOpovesheniem.REZShO);
+       return;
+   }
+   else
+       {
+        REZShO.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    REZShO.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+let lineLoopsUprOp = [], dynamicEventHandlersUprOp = [], lineLoopsDataUprOp = [];
+let curPosUprOp, prevIndexUprOp, nextIndexUprOp;
+
+sbtForm5.addEventListener('click', (e) =>{
+    e.preventDefault();
+    if(UpravlenieOpovesheniem.KZONOP ){
+        alert('Сконфигурировано!');
+        lineLoopBtnsUprOp.style.display = 'block';
+        lineLoopsUprOp.length = UpravlenieOpovesheniem.KZONOP ;
+        for (let i = 0; i < lineLoopsUpr.length; i++) {
+            lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+        }
+        createlineLoopUprOp(UpravlenieOpovesheniem.KZONOP);
+        // let lastPosUpr = document.getElementById('lastPosUpr'),
+        //     lineLoopPosUpr = document.getElementById('lineLoopPosUpr');
+
+        lastPosUprOp.innerHTML = 'из ' + lineLoopsUprOp.length;
+        lineLoopPosUprOp.min = 1;
+        lineLoopPosUprOp.max = lineLoopsUprOp.length;
+        lineLoopPosUprOp.value = 1;
+        curPosUprOp = 1;
+        prevIndexUprOp = lineLoopsUprOp.length;
+        nextIndexUprOp = curPosUprOp + 1;
+        
+        if(lineLoopsUprOp.length){
+            for (let i = 0; i < lineLoopsUprOp.length; i++) {
+                for (let j = 0; j < 28; j++) {
+                    dynamicEventHandlersUprOp[i] = [];
+                }
+            }
+         }
+
+        setDynHandlersUprOp(dynamicEventHandlersUprOp, lineLoopsUprOp.length);
+        
+        showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+        //hideAutoObnarUpr();
+        if(lineLoopsUprOp.length){
+            for (let i = 0; i < lineLoopsUprOp.length; i++) {                
+                lineLoopsDataUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+                //dynamicEventHandlersUprOp[i][5].style.display = 'none';
+            }
+         }
+
+            //lineLoopConf = document.getElementById('lineLoopKonf');
+            setZONAShOP(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            setADRShOP(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            setKShOPZONY(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            setDlgZonaOp(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            //setCheckboxUpr(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+
+            
+    }
+    else
+        alert('Конфигурация не завершена! Пропущены данные.');
+});
 
 // //ZONAShOP
+function setZONAShOP(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        
+        handlerArr[i][0].onkeypress = (e)=>{
+            e = e || event;
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+        var chr = getChar(e);
+        console.log("Char pressed: " + chr);
+        if(chr == ',' || chr == '.')
+        {   
+            // iKShS.value.replace(/[\,|\.]+/g,'');
+            e.preventDefault();
+            return;
+        }
+        if(chr == null) return;
+
+        if (chr < '0' || chr > '9') {
+            return false;
+        }
+        };
+
+        handlerArr[i][0].addEventListener('focus', ()=>{
+                handlerArr[i][0].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][0].addEventListener('blur', ()=>{
+                if( handlerArr[i][0].value.search(regEx) == -1){
+                if(parseInt( handlerArr[i][0].value, 10) >= 1 && parseInt( handlerArr[i][0].value, 10) <= UpravlenieOpovesheniem.KZONOP){
+                    dataToSave[i].ZONAShOP = parseInt( handlerArr[i][0].value, 10);
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + "-ZONAShOP: " + dataToSave[i].ZONAShOP);
+
+                    // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
+                    //     for (let j = 0; j < array.length; j++) {
+                    //         _izveshateli[i] = [];                            
+                    //     }                       
+                        
+                    // }
+
+                }
+                else if( handlerArr[i][0].value == ""){
+                    return;
+                }
+                else
+                    {
+                        handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    }
+                }
+                else
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }); 
+    }  
+}
 // ZONAShOP.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4790,6 +5108,28 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //ADRShOP
+
+function setADRShOP(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][1].addEventListener('focus', ()=>{
+                handlerArr[i][1].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][1].addEventListener('blur', ()=>{
+                if(handlerArr[i][1].value == ""){ 
+                    handlerArr[i][1].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][1].value.length <= 20){
+                    dataToSave[i].ADRShOP = handlerArr[i][1].value;
+                    handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + " ADRShOP: " + dataToSave[i].ADRShOP + " L: " + dataToSave[i].ADRShOP.length);
+                }
+                else
+                    handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
 // ADRShOP.addEventListener('focus', ()=>{
 //     ADRShOP.style.boxShadow = 'none';
 //     });
@@ -4809,6 +5149,59 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //KShOPZONY
+function setKShOPZONY(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        
+        handlerArr[i][2].onkeypress = (e)=>{
+            e = e || event;
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+        var chr = getChar(e);
+        console.log("Char pressed: " + chr);
+        if(chr == ',' || chr == '.')
+        {   
+            // iKShS.value.replace(/[\,|\.]+/g,'');
+            e.preventDefault();
+            return;
+        }
+        if(chr == null) return;
+
+        if (chr < '0' || chr > '9') {
+            return false;
+        }
+        };
+
+        handlerArr[i][2].addEventListener('focus', ()=>{
+                handlerArr[i][2].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][2].addEventListener('blur', ()=>{
+                if( handlerArr[i][2].value.search(regEx) == -1){
+                if(parseInt( handlerArr[i][2].value, 10) >= 1 && parseInt( handlerArr[i][2].value, 10) <= 480){
+                    dataToSave[i].KShOPZONY = parseInt( handlerArr[i][2].value, 10);
+                    handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + "-KShOPZONY: " + dataToSave[i].KShOPZONY);
+
+                    // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
+                    //     for (let j = 0; j < array.length; j++) {
+                    //         _izveshateli[i] = [];                            
+                    //     }                       
+                        
+                    // }
+
+                }
+                else if( handlerArr[i][2].value == ""){
+                    return;
+                }
+                else
+                    {
+                        handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    }
+                }
+                else
+                    handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }); 
+    }  
+}
 // KShOPZONY.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4852,7 +5245,142 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 //     KShOPZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
 // });
 
+// переменные для перемещения по извещателям
+let curPosShleifOp = [], nextPosShleifOp = [], prevPosShleifOp = [], PositionShleifOp = [];
+let BtnsIDShleifOp = [], LasPosShleifOp = [], LastSpanShleifOp = [], BtnsNextShleifOp = [], BtnsPrevShleifOp = [],
+_ShleifOp = [], dynamicEvHandlerShleifOp;
+
+function setDlgZonaOp(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][3].addEventListener('click', (e) => {
+            e.preventDefault();
+            if(dataToSave[i].KShOPZONY >= 1){
+
+                createShleifOp(i,dataToSave[i].KShOPZONY);
+
+                for (let j = 0; j < dataToSave[i].KShOPZONY; j++) {
+                    curPosShleifOp[i] = [];
+                    nextPosShleifOp[i] = [];
+                    prevPosShleifOp[i] = [];
+                    
+                }
+                dynamicEvHandlerShleifOp = genIzvHandlers(lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, 10);
+                _ShleifOp = genIzvHandlers(lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, 4);
+
+                BtnsIDShleifOp[i] = document.getElementById(`BtnsIDShleifOp${i}`);
+                LasPosShleifOp[i] = document.getElementById(`LasPosShleifOp${i}`);
+                LastSpanShleifOp[i] = document.getElementById(`LastSpanShleifOp${i}`);
+                BtnsNextShleifOp[i] = document.getElementById(`BtnsNextShleifOp${i}`);
+                BtnsPrevShleifOp[i] = document.getElementById(`BtnsPrevShleifOp${i}`);
+
+                PositionShleifOp[curPosShleifOp - 1] = 0;
+
+                setHandlersShleifOp(dynamicEvHandlerShleifOp, i, dataToSave);
+                
+                for (let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++) {
+                    dynamicEvHandlerShleifOp[i][j][3].style.display = 'none';
+                }
+                
+                for (let k = 0; k < dataToSave[i].KIZVShS; k++) {
+                    console.log( dynamicEvHandlerIZV);
+                    
+                }
+                //hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+
+                // dynamicEvHandlerIZV[i][0][12].min = 1;
+                // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
+
+                curPosShleifOp[i][0] = 0;
+                nextPosShleifOp[i][0] = 1;
+                prevPosShleifOp[i][0] = dataToSave[i].KShOPZONY - 1;
+                LastSpanShleifOp[i].innerHTML = ' из ' + dataToSave[i].KShOPZONY;
+                LasPosShleifOp[i].value =  curPosShleifOp[i][0] + 1;
+                LasPosShleifOp[i].min = 1;
+                LasPosShleifOp[i].max = dataToSave[i].KShOPZONY;
+
+
+                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
+                showOp( curPosUprOp - 1, curPosShleifOp[i]);
+                // if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == false){
+                //     showIzvAdrExNet(dynamicEvHandlerIZV, i, 0);
+                // }
+                // else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
+                //     showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
+                // }
+
+                handlePrevShleifOp(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp, BtnsPrevShleifOp, dynamicEvHandlerShleifOp,
+                    dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+                handleNextShleifOp(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY,  LasPosShleifOp, BtnsNextShleifOp, dynamicEvHandlerShleifOp,
+                    dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+                handleOpPos(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp,  dynamicEvHandlerShleifOp, dataToSave,
+                    curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+
+                setKOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                setIPOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                setExOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                setTBIZOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                setDlgOpoveshatel(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);               
+                
+            }
+            else{
+                handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            }
+        });   
+    }
+}
+
 // //KOPSh
+function setKOPSh(handlerArr, size, KShOPZONY, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+                if(handlerArr[i][j][0]){
+                    handlerArr[i][j][0].onkeypress = (e)=>{
+                        e = e || event;
+                        if (e.ctrlKey || e.altKey || e.metaKey) return;
+                        var chr = getChar(e);
+                        console.log("Char pressed: " + chr);
+                        if(chr == ',' || chr == '.')
+                        {   
+                            // iKShS.value.replace(/[\,|\.]+/g,'');
+                            e.preventDefault();
+                            return;
+                        }
+                        if(chr == null) return;
+        
+                        if (chr < '0' || chr > '9') {
+                            return false;
+                        }
+                    };
+                
+
+                
+                    handlerArr[i][j][0].addEventListener('focus', ()=>{
+                        handlerArr[i][j][0].style.boxShadow = 'none';
+                    });
+                
+
+                handlerArr[i][j][0].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][0].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][0].value, 10) >= 1 && parseInt(handlerArr[i][j][0].value, 10) <= 480){
+                        dataToSave[i][j][0] = parseInt(handlerArr[i][j][0].value, 10);
+                        handlerArr[i][j][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log(j + " КОПШ: " + dataToSave[i][j][0]);
+                    }
+                    else if(handlerArr[i][j][0].value == ""){
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            }
+        }
+    }
+}
 // KOPSh.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4897,6 +5425,89 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //IPOPSh
+function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+            if(handlerArr[i][j][1]){
+                handlerArr[i][j][1].onkeypress = (e)=>{
+                    e = e || event;
+                   if (e.ctrlKey || e.altKey || e.metaKey) return;
+                   var chr = getChar(e);
+                   console.log("Char pressed: " + chr);
+                   if(chr == ',' || chr == '.')
+                   {   
+                       let count = 0, pos = -1;
+                       if(chr == ',' || chr == '.'){
+                            if(handlerArr[i][j][1].value.indexOf('.') == -1)
+                            {
+                                while((pos = handlerArr[i][j][1].value.indexOf(',', pos + 1 )) != -1){
+                                    count++;
+                                }
+                                if(count >= 1) {e.preventDefault(); count = 0; return;}
+                                else { count = 0;  }
+                            }
+                            else
+                            {
+                                while((pos = handlerArr[i][j][1].value.indexOf('.', pos + 1 )) != -1){
+                                    count++;
+                                }
+                                if(count >= 1) {e.preventDefault(); count = 0; return;}
+                                else  { count = 0;  }   
+                            }
+                       }
+        
+                       return;
+                   }
+                   if(chr == null) return;
+        
+                   if (chr < '0' || chr > '9') {
+                       return false;
+                   }
+                };
+        
+                handlerArr[i][j][1].addEventListener('focus', ()=>{
+                    handlerArr[i][j][1].style.boxShadow = 'none';
+                });
+        
+                handlerArr[i][j][1].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][1].value.indexOf(',')== -1 && handlerArr[i][j][1].value.indexOf('.')== -1)
+                        handlerArr[i][j][1].value += ',0';
+                    if(handlerArr[i][j][1].value[handlerArr[i][j][1].value.length - 1] == '.' || handlerArr[i][j][1].value[handlerArr[i][j][1].value.length - 1] == ',')
+                        handlerArr[i][j][1].value += '0';
+        
+                    if(handlerArr[i][j][1].value.search(regExBroken) != -1){
+                    
+                        if(handlerArr[i][j][1].value.indexOf(',')!= -1) handlerArr[i][j][1].value = handlerArr[i][j][1].value.replace(/\,/, '.');
+        
+                    if(parseFloat(handlerArr[i][j][1].value) >= 0 && parseFloat(handlerArr[i][j][1].value) <= 3){
+                        dataToSave[i][j][1] = parseFloat(handlerArr[i][j][1].value);
+                        handlerArr[i][j][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        // if( dataToSave[i].ADRShPT != '' &&
+                        //     dataToSave[i].IPShPT >= 1 ){
+                        //         handlerArr[i][6].checked = true;
+                        //         dataToSave[i].configured = true;
+                        // }
+                        // else{
+                        //     handlerArr[i][6].checked = false;
+                        //     dataToSave[i].configured = false;
+                        // }
+                        console.log("IPOPSh: " +  dataToSave[i][j][1]);
+                    }
+                    else if(handlerArr[i][j][1].value == ""){
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            }
+        }
+    }
+}
 // IPOPSh.onkeypress = (e)=>{
 //     e = e || event;
 //    if (e.ctrlKey || e.altKey || e.metaKey) return;
@@ -4965,6 +5576,47 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //ExOPSh
+function setExOPSh(handlerArr, size, KShOPZONY, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+            if(handlerArr[i][j][2]){
+                handlerArr[i][j][2].addEventListener('click', ()=>{
+                    if(handlerArr[i][j][2].checked)
+                    { 
+                        dataToSave[i][j][2] = true;
+                        handlerArr[i][j][3].style.display = 'block';    
+                        while(handlerArr[i][j][5].firstChild)
+                            handlerArr[i][j][5].removeChild(handlerArr[i][j][5].firstChild);
+                        
+                        let oOption = document.createElement("option");
+                        //oOption.appendChild(document.createTextNode("Выберите тип:"));
+                        //oOption.setAttribute("value", "");
+                        //handlerArr[i][j][5].appendChild(oOption);   
+                    
+                        for (let k = 0; k < IntermediateModules.length; k++) {
+                            for(let prop in IntermediateModules[k]){
+                                if(IntermediateModules[k][prop] == "O"){
+                                    oOption = document.createElement("option")
+                                    //oOption.appendChild(document.createTextNode(IntermediateModules[k].name));
+                                    oOption.setAttribute("value", IntermediateModules[k].name);
+                                    handlerArr[i][j][5].appendChild(oOption);   
+                                }
+                            }        
+                        }
+                        //handlerArr[i][j][5].style.display = 'block';    
+                    }
+                    else  {
+                        dataToSave[i][j][2] = false;
+                        handlerArr[i][j][3].style.display = 'none';
+                        while(handlerArr[i][j][5].firstChild)
+                            handlerArr[i][j][5].removeChild(handlerArr[i][j][5].firstChild);
+                        handlerArr[i][j][5].style.display = 'none';
+                    }
+                });
+            }
+        }
+    }
+}
 // ExOPSh.addEventListener('click', ()=>{
 //     if(ExOPSh.checked)
 //     { 
@@ -5000,6 +5652,44 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // });
 
 // //TBIZOPSh
+function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+            if(handlerArr[i][j][4]){
+                handlerArr[i][j][4].addEventListener('focus', ()=>{
+                    handlerArr[i][j][4].style.boxShadow = 'none';
+                    });
+                    
+                    handlerArr[i][j][4].addEventListener('blur', (e)=>{
+                    if(handlerArr[i][j][4].value == ""){
+                        let flag = confirm("Взрывозащита типа \"d\"");
+                        if(flag)
+                        {
+                            dataToSave[i][j][4]  = "Взрывозащита типа \"d\"";
+                            handlerArr[i][j][4].value = "Взрывозащита типа \"d\"";
+                            console.log("TBIZOPSh: " + dataToSave[i][j][4]);
+                            //TBIZOPSh.style.display = 'none';
+
+                            //TBIZOPSh_Select.style.display = 'none';
+                            e.preventDefault();
+                            return;
+                        }
+                        //handlerArr[i][j][4].style.boxShadow = 'none';
+                        //TBIZOPSh_Select.style.display = 'block';
+                        return;
+                    }
+                    else if(handlerArr[i][j][4].value.length <= 20){
+                        dataToSave[i][j][4] = handlerArr[i][j][4].value;
+                        handlerArr[i][j][4].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        console.log("TBIZOPSh: " + dataToSave[i][j][4] + " L: " + dataToSave[i][j][4].length);
+                    }
+                    else
+                    handlerArr[i][j][4].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            }
+        }
+    }
+}
 // TBIZOPSh.addEventListener('focus', ()=>{
 //     TBIZOPSh.style.boxShadow = 'none';
 //     });
@@ -5039,7 +5729,9 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 // };
 
 
+function setDlgOpoveshatel(){
 
+}
 
 //Funcs------------------------------
 
@@ -6102,8 +6794,6 @@ function handleNextIzv(curLine, KIZVSHsLength, izvLasPos1,
             }
             
     }  
-        
-
 }
 
 
@@ -6487,22 +7177,6 @@ function createIzv(lineLoopIndex, qIzv){
 
 function setHandlersIZV(eHandler, index, data){
     for (let i = 0; i < data[index].KIZVShS; i++) {
-        // eHandler[index][i].adrExNet = document.getElementById(`AdrExNet${index}_${i}`);
-        // eHandler[index][i].Taizv = document.getElementById(`TAIZV${index}_${i}`);
-        // eHandler[index][i].zonaIzv = document.getElementById(`ZONAIZV${index}_${i}`);
-        // eHandler[index][i].adrIzv = document.getElementById(`ADRIZV${index}_${i}`);
-        // eHandler[index][i].adrExDa = document.getElementById(`AdrExDa${index}_${i}`);
-        // eHandler[index][i].TaizvD = document.getElementById(`TAIZV_${index}_${i}`);
-        // eHandler[index][i].zonaIzvD = document.getElementById(`ZONAIZV_${index}_${i}`);
-        // eHandler[index][i].adrIzvD = document.getElementById(`ADRIZV_${index}_${i}`);
-        // eHandler[index][i].konfModbus = document.getElementById(`confModbus${index}_${i}`);
-        // eHandler[index][i].KMBUSLNK = document.getElementById(`KMBUSLNK${index}_${i}`);
-        // eHandler[index][i].btnsID = document.getElementById( `izvBtns${index}_${i}`);
-        // eHandler[index][i].prev = document.getElementById( `izvBtnsPrev${index}_${i}`);
-        // eHandler[index][i].cur = document.getElementById( `izvBtnsPos${index}_${i}`);
-        // eHandler[index][i].next = document.getElementById( `izvBtnsNext${index}_${i}`);
-        // eHandler[index][i].lastPos = document.getElementById( `izvBtnslastPos${index}_${i}`);
-
         eHandler[index][i][0] = document.getElementById(`AdrExNet${index}_${i}`);
         eHandler[index][i][1] = document.getElementById(`TAIZV${index}_${i}`);
         eHandler[index][i][2] = document.getElementById(`ZONAIZV${index}_${i}`);
@@ -6513,9 +7187,6 @@ function setHandlersIZV(eHandler, index, data){
         eHandler[index][i][7] = document.getElementById(`ADRIZV_${index}_${i}`);
         eHandler[index][i][8] = document.getElementById(`confModbus${index}_${i}`);
         eHandler[index][i][9] = document.getElementById(`KMBUSLNK${index}_${i}`);
-    
-
-        
     }
 }
 
@@ -6742,6 +7413,763 @@ function hideAutoObnarRuchn(){
     }    
 }
 
+function createIzvR(lineLoopIndex, qIzv){
+    if(lineLoopIndex >= 0){
+        let elem, subelem, option, mainDiv, subDiv, div;
+        mainDiv = document.getElementById((curPosRuchn - 1) + "_" + 1);
+
+        if(document.getElementById(`izvBtns1_${lineLoopIndex}`)){
+            mainDiv.removeChild(document.getElementById(`izvBtns1_${lineLoopIndex}`));
+        }
+            elem = document.createElement('div');
+            elem.setAttribute('id', `izvBtns1_${lineLoopIndex}`);
+            elem.setAttribute('class', `izvBtns_`);
+                        
+            subelem = document.createElement('button');
+            subelem.setAttribute('id', `izvBtnsPrev1_${lineLoopIndex}`);
+            subelem.setAttribute('class', `izvBtns-item`);
+            subelem.appendChild(document.createTextNode('Пред.'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `izvSpan1_${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('Извещатель №'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `izvBtnsPos1_${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('id', `izvBtnslastPos1_${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('button');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `izvBtnsNext1_${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('След.'));
+    
+            elem.appendChild(subelem);
+    
+            mainDiv.appendChild(elem);
+        
+    
+            if(document.getElementById(`IZV1_${lineLoopIndex}`)){
+                mainDiv.removeChild(document.getElementById(`IZV1_${lineLoopIndex}`));
+            }
+                subDiv = document.createElement('div');
+                subDiv.setAttribute('id',`IZV1_${lineLoopIndex}`);
+    
+                for (let j = 0; j < qIzv; j++) {
+    
+    
+    
+                    //----------------------------------------------
+                    
+                    div = document.createElement('div');
+                    div.setAttribute('id', `AdrExNet1_${lineLoopIndex}_${j}`)
+    
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+                    // div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('select');
+                    subelem.setAttribute('id', `TAIZV1_${lineLoopIndex}_${j}`);
+                    // option = document.createElement('option');
+                    // option.appendChild(document.createTextNode('ИАД'));
+                    // subelem.appendChild(option);
+                    // option = document.createElement('option');
+                    // option.appendChild(document.createTextNode('ИАТ'));
+                    // subelem.appendChild(option);
+                        option = document.createElement('option');
+                        option.appendChild(document.createTextNode('ИАР'));
+                        subelem.appendChild(option);
+                    
+
+                    div.appendChild(subelem);                    
+                    
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Зона:'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'number');
+                    subelem.setAttribute('id', `ZONAIZV1_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', `1...255`);
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Наименование/адрес:'));
+                    div.appendChild(subelem);
+    
+                    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `ADRIZV1_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', `до 20 символов...`);
+                    div.appendChild(subelem);
+    
+                    subDiv.appendChild(div);
+    
+                    div = document.createElement('div');
+                    div.setAttribute('id', `AdrExDa1_${lineLoopIndex}_${j}`);
+    
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
+                    // div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('select');
+                    subelem.setAttribute('id', `TAIZV_1_${lineLoopIndex}_${j}`);
+                    // option = document.createElement('option');
+                    // option.appendChild(document.createTextNode('ИАД-01'));
+                    // subelem.appendChild(option);
+                    // option = document.createElement('option');
+                    // option.appendChild(document.createTextNode('ИАТ-01'));
+                    // subelem.appendChild(option);
+                        option = document.createElement('option');
+                        option.appendChild(document.createTextNode('ИАР-01'));
+                        subelem.appendChild(option);
+
+    
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode("Зона:"));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'number');
+                    subelem.setAttribute('id', `ZONAIZV_1_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', '1...255');
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Наименование/адрес'));
+                    div.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `ADRIZV_1_${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', 'до 20 символов...');
+                    div.appendChild(subelem);
+    
+                    subDiv.appendChild(div);
+    
+                    // div = document.createElement('div');
+                    // div.setAttribute('id', `confModbus${lineLoopIndex}_${j}`);
+        
+                    // // subelem = document.createElement('h3');
+                    // // subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
+                    // // div.appendChild(subelem);
+        
+                    // subelem = document.createElement('p');
+                    // subelem.appendChild(document.createTextNode('Количество линий связи:'));
+                    // div.appendChild(subelem);
+        
+                    // subelem = document.createElement('input');
+                    // subelem.setAttribute('type', 'text');
+                    // subelem.setAttribute('id', `KMBUSLNK${lineLoopIndex}_${j}`);
+                    // div.appendChild(subelem);
+        
+                    // subDiv.appendChild(div);
+                 
+                    mainDiv.appendChild(subDiv);
+                       
+            }
+           
+        }
+}
+
+function setHandlersIZVR(eHandler, index, data){
+    for (let i = 0; i < data[index].KIZVShS; i++) {
+        eHandler[index][i][0] = document.getElementById(`AdrExNet1_${index}_${i}`);
+        eHandler[index][i][1] = document.getElementById(`TAIZV1_${index}_${i}`);
+        eHandler[index][i][2] = document.getElementById(`ZONAIZV1_${index}_${i}`);
+        eHandler[index][i][3] = document.getElementById(`ADRIZV1_${index}_${i}`);
+        eHandler[index][i][4] = document.getElementById(`AdrExDa1_${index}_${i}`);
+        eHandler[index][i][5] = document.getElementById(`TAIZV_1_${index}_${i}`);
+        eHandler[index][i][6] = document.getElementById(`ZONAIZV_1_${index}_${i}`);
+        eHandler[index][i][7] = document.getElementById(`ADRIZV_1_${index}_${i}`);
+    }
+}
+
+function hideIzvR(eHandler, index, data){
+    for (let i = 0; i < data[index].KIZVShS; i++) {
+        eHandler[index][i][0].style.display = 'none';
+        eHandler[index][i][4].style.display = 'none';      
+    }
+}
+
+function handlePrevIzvR(curLine, KIZVSHsLength, izvLasPos1, 
+    btnPrevHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        for(let i = 0; i < curLine; i++){
+            if( btnPrevHndlr[i]){
+               btnPrevHndlr[i].addEventListener('click', (e)=>{
+                   e.preventDefault();
+                  // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
+                   nextPosIzv1[i] = curPosIzv1[i];
+                   curPosIzv1[i] = prevPosIzv1[i];
+                   prevPosIzv1[i]--;
+                   if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
+                   izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                   
+                   hideIzvR(dynamicEvHandlerIZV1, i, data);
+                   let current = curPosIzv1[i];
+                   if(data[i].TShS == 0 && data[i].ExShS == false){
+                       showIzvAdrExNet(dynamicEvHandlerIZV1, i, current);
+                   }
+                   else if(data[i].TShS == 0 && data[i].ExShS == true){
+                       showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                   }
+                //    else{
+                //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                //    }
+               });
+            }
+   }
+}
+
+function handleNextIzvR(curLine, KIZVSHsLength, izvLasPos1, 
+    btnNextHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+
+       // let i = curLine;
+
+        for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[i]){
+                btnNextHndlr[i].addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
+                    prevPosIzv1[i] = curPosIzv1[i];
+                    curPosIzv1[i] = nextPosIzv1[i];
+                    nextPosIzv1[i]++;
+                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
+                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                    
+                    hideIzvR(dynamicEvHandlerIZV1, i, data);
+        
+                    if(data[i].TShS == 0 && data[i].ExShS == false){
+                        showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    }
+                    else if(data[i].TShS == 0 && data[i].ExShS == true){
+                        showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    }
+                    // else{
+                    //     showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    // }
+            
+            });
+            }
+            
+    }  
+}
+
+function handleIzvPosR(curLine, KIZVSHsLength, izvLasPos1, 
+    dynamicEvHandlerIZV1, data,
+   curPosIzv1, nextPosIzv1, prevPosIzv1){
+       
+       //let i = curLine;
+       for(let i = 0; i < curLine; i++){
+           if(izvLasPos1[i]){
+               izvLasPos1[i].addEventListener('blur', (e)=>{
+                   e.preventDefault();
+                   curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
+                   if(curPosIzv1[i] + 1 >= KIZVSHsLength){
+                       nextPosIzv1[i] = 1;
+                       prevPosIzv1[i] = curPosIzv1[i] - 1;
+                   }
+                   else if(curPosIzv1[i] - 1 < 1){
+                       prevPosIzv1[i] = KIZVSHsLength - 1;
+                       nextPosIzv1[i] = curPosIzv1[i] + 1;
+                   }
+                   else{
+                       prevPosIzv1[i] = curPosIzv1[i] - 1;
+                       nextPosIzv1[i] = curPosIzv1[i] + 1;
+                   }
+                       hideIzvR(dynamicEvHandlerIZV1, i, data);
+       
+                       if(data[i].TShS == 0 && data[i].ExShS == false){
+                           showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                       }
+                       else if(data[i].TShS == 0 && data[i].ExShS == true){
+                           showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                       }
+                    //    else{
+                    //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    //    }
+               });
+           }
+           
+           
+       }
+
+}
+
+function createlineLoopUpr(val){
+    if(val > 0){
+        let elem, subelem, option, mainDiv;
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonfUpr');
+        mainDiv.setAttribute('class','flex-item');
+        for (let i = 0; i < val; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", i + '_' + 2);
+            
+            // subelem = document.createElement('h3')
+            // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+            // elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование / адрес:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRShPT${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            elem.appendChild(subelem);
+
+            subelem= document.createElement('p');
+            subelem.appendChild(document.createTextNode('Пусковой ток шлейфа, А:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `IPShPT${i}`);
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Взрывозащита:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `ExShPT${i}`);
+            elem.appendChild(subelem);
+
+            let div = document.createElement('div');
+            div.setAttribute('id', `TypeBIZ3_${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+            div.appendChild(subelem);
+
+
+            option = document.createElement('label');
+            subelem = document.createElement('input');
+            subelem.setAttribute('list', `_adrBIZ3_${i}`);
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `TBIZShPT${i}`);
+            option.appendChild(subelem);
+            div.appendChild(option);
+            
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', `_adrBIZ3_${i}`);
+            div.appendChild(subelem);
+            elem.appendChild(div);
+            
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Шлейф сконфигурирован:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `checkboxUpr${i}`);
+            //subelem.setAttribute('class', `btn-after`);
+            subelem.setAttribute('disabled', `true`);
+            elem.appendChild(subelem);
+
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+            document.querySelector('div#uprPojSysConfiguration').appendChild(mainDiv);
+            //document.body.appendChild(mainDiv);           
+        }
+    }
+}
+
+function setDynHandlersUpr(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        
+        handlerArr[i][0] =document.getElementById(`ADRShPT`+i);
+        handlerArr[i][1] =document.getElementById(`IPShPT${i}`);
+        handlerArr[i][2] =document.getElementById(`ExShPT${i}`);
+        handlerArr[i][3] =document.getElementById(`TypeBIZ3_${i}`);
+        handlerArr[i][4] =document.getElementById(`TBIZShPT${i}`);
+        handlerArr[i][5] =document.getElementById(`_adrBIZ3_${i}`);
+        handlerArr[i][6] =document.getElementById(`checkboxUpr${i}`);
+    
+    }
+}
+
+function hideAutoObnarUpr(){
+    for (let i = 0; i < lineLoopsUpr.length; i++) {        
+        dynamicEventHandlersUpr[i][3].style.display = 'none';
+    }    
+}
+
+function hideLineLoopsUpr(arrLength){
+    if(arrLength){
+        for (let i = 0; i < arrLength; i++) {
+            let el = document.getElementById( i + '_' + 2);
+            el.style.display = 'none';
+        }
+    }  
+}   
+
+// Подсистема управления оповещением
+function createlineLoopUprOp(val){
+    if(val > 0){
+        let elem, subelem, option, mainDiv;
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonfUprOp');
+        mainDiv.setAttribute('class','flex-item');
+        for (let i = 0; i < val; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", '_ZonaOpoveshenia_' + i);
+            
+            // subelem = document.createElement('h3')
+            // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+            // elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Зона:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `ZONAShOP${i}`);
+            //subelem.setAttribute('placeholder', '1...32');
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование / адрес:'));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRShOP${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Количество шлейфов управления оповещением:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `KShOPZONY${i}`);
+            subelem.setAttribute('placeholder', '1...480');
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('br');
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('button');
+            subelem.setAttribute('type', 'submit');
+            subelem.setAttribute('id', `dlgSbtZonaOp${i}`);
+            subelem.setAttribute('class', `btn-after`);
+            subelem.style.marginTop = '19px';
+            subelem.style.marginBottom = '20px';
+            subelem.appendChild(document.createTextNode('Сконфигурировать шлейфы'));
+            elem.appendChild(subelem);
+
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+            document.querySelector('div#uprOpSysConfiguration').appendChild(mainDiv);
+         
+    }
+}
+}
+function setDynHandlersUprOp(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0] =document.getElementById(`ZONAShOP`+i);
+        handlerArr[i][1] =document.getElementById(`ADRShOP${i}`);
+        handlerArr[i][2] =document.getElementById(`KShOPZONY${i}`);   
+        handlerArr[i][3] =document.getElementById(`dlgSbtZonaOp${i}`);   
+    }
+}
+
+function createShleifOp(lineLoopIndex, qIzv){
+    if(lineLoopIndex >= 0){
+        let elem, subelem, option, mainDiv, subDiv, div;
+        mainDiv = document.getElementById('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+
+        if(document.getElementById(`BtnsIDShleifOp${lineLoopIndex}`)){
+            mainDiv.removeChild(document.getElementById(`BtnsIDShleifOp${lineLoopIndex}`));
+        }
+            elem = document.createElement('div');
+            elem.setAttribute('id', `BtnsIDShleifOp${lineLoopIndex}`);
+            elem.setAttribute('class', `izvBtns_`);
+                        
+            subelem = document.createElement('button');
+            subelem.setAttribute('id', `BtnsPrevShleifOp${lineLoopIndex}`);
+            subelem.setAttribute('class', `izvBtns-item`);
+            subelem.appendChild(document.createTextNode('Пред.'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `SpanShleifOp${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('Извещатель №'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `LasPosShleifOp${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('id', `LastSpanShleifOp${lineLoopIndex}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('button');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `BtnsNextShleifOp${lineLoopIndex}`);
+            subelem.appendChild(document.createTextNode('След.'));
+    
+            elem.appendChild(subelem);
+    
+            mainDiv.appendChild(elem);
+        
+    
+
+    
+                for (let j = 0; j < qIzv; j++) {
+
+                    if(document.getElementById(`ShleifOp${lineLoopIndex}_${j}`)){
+                        mainDiv.removeChild(document.getElementById(`ShleifOp${lineLoopIndex}_${j}`));
+                    }
+                        subDiv = document.createElement('div');
+                        subDiv.setAttribute('id',`ShleifOp${lineLoopIndex}_${j}`);
+                    //----------------------------------------------
+                    
+                    // div = document.createElement('div');
+                    // div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
+    
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+                    // div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Количество оповещателей:'));
+                    subDiv.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'number');
+                    subelem.setAttribute('id', `KOPSh${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('placeholder', `1...`);
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Сумарный ток оповещателей в режиме оповещения, мА:'));
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `IPOPSh${lineLoopIndex}_${j}`);
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode("Взрывозащита:"));
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'checkbox');
+                    subelem.setAttribute('id', `ExOPSh${lineLoopIndex}_${j}`);
+                    subDiv.appendChild(subelem);
+
+                    div = document.createElement('div');
+                    div.setAttribute('id', `TypeBIZShleifOp_${lineLoopIndex}_${j}`);
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+                    div.appendChild(subelem);
+
+
+                    option = document.createElement('label');
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('list', `_TBIZOPSh${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `TBIZOPSh${lineLoopIndex}_${j}`);
+                    option.appendChild(subelem);
+                    div.appendChild(option);
+                    
+                    subelem = document.createElement('datalist');
+                    subelem.setAttribute('id', `_TBIZOPSh${lineLoopIndex}_${j}`);
+                    div.appendChild(subelem);    
+                    subDiv.appendChild(div);
+                 
+                    subelem = document.createElement('br');
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('button');
+                    subelem.setAttribute('type', 'submit');
+                    subelem.setAttribute('id', `dlgSbtOpoveshateli${lineLoopIndex}_${j}`);
+                    subelem.setAttribute('class', `btn-after`);
+                    subelem.style.marginTop = '19px';
+                    subelem.style.marginBottom = '20px';
+                    subelem.appendChild(document.createTextNode('Сконфигурировать оповещатели'));
+                    subDiv.appendChild(subelem);
+
+                    mainDiv.appendChild(subDiv);           
+            }  
+        }
+}
+
+function setHandlersShleifOp(eHandler, index, data){
+    for (let i = 0; i < data[index].KShOPZONY; i++) {
+        eHandler[index][i][0] = document.getElementById(`KOPSh${index}_${i}`);
+        eHandler[index][i][1] = document.getElementById(`IPOPSh${index}_${i}`);
+        eHandler[index][i][2] = document.getElementById(`ExOPSh${index}_${i}`);
+        eHandler[index][i][3] = document.getElementById(`TypeBIZShleifOp_${index}_${i}`);
+        eHandler[index][i][4] = document.getElementById(`TBIZOPSh${index}_${i}`);
+        eHandler[index][i][5] = document.getElementById(`_TBIZOPSh${index}_${i}`);
+        eHandler[index][i][6] = document.getElementById(`dlgSbtOpoveshateli${index}_${i}`);
+    }
+}
+
+function handlePrevShleifOp(curLine, KIZVSHsLength, izvLasPos1, 
+    btnPrevHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        for(let i = 0; i < curLine; i++){
+            if( btnPrevHndlr[i]){
+               btnPrevHndlr[i].addEventListener('click', (e)=>{
+                   e.preventDefault();
+                  // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
+                   nextPosIzv1[i] = curPosIzv1[i];
+                   curPosIzv1[i] = prevPosIzv1[i];
+                   prevPosIzv1[i]--;
+                   if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
+                   izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                   
+                //    hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                //    let current = curPosIzv1[i];
+                   
+                //     showOp(dynamicEvHandlerIZV1, i, current);
+                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
+                showOp(curPosUprOp - 1, curPosIzv1[i]);   
+                return;
+
+               });
+            }
+   }
+}
+
+function handleNextShleifOp(curLine, KIZVSHsLength, izvLasPos1, 
+    btnNextHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[i]){
+                btnNextHndlr[i].addEventListener('click', (e)=>{
+                    e.preventDefault();
+                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
+                    prevPosIzv1[i] = curPosIzv1[i];
+                    curPosIzv1[i] = nextPosIzv1[i];
+                    nextPosIzv1[i]++;
+                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
+                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                    
+                    //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                    hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
+                    showOp(curPosUprOp - 1, curPosIzv1[i]);
+                    //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+
+                    // else{
+                    //     showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    // }
+            
+            });
+            }   
+    } 
+}
+
+function handleOpPos(curLine, KIZVSHsLength, izvLasPos1, 
+    dynamicEvHandlerIZV1, data,
+   curPosIzv1, nextPosIzv1, prevPosIzv1){
+    for(let i = 0; i < curLine; i++){
+        if(izvLasPos1[i]){
+            izvLasPos1[i].addEventListener('blur', (e)=>{
+                e.preventDefault();
+                curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
+                if(curPosIzv1[i] + 1 >= KIZVSHsLength){
+                    nextPosIzv1[i] = 1;
+                    prevPosIzv1[i] = curPosIzv1[i] - 1;
+                }
+                else if(curPosIzv1[i] - 1 < 1){
+                    prevPosIzv1[i] = KIZVSHsLength - 1;
+                    nextPosIzv1[i] = curPosIzv1[i] + 1;
+                }
+                else{
+                    prevPosIzv1[i] = curPosIzv1[i] - 1;
+                    nextPosIzv1[i] = curPosIzv1[i] + 1;
+                }
+                //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
+                showOp(curPosUprOp - 1, curPosIzv1[i]);
+                //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+
+                 //    else{
+                 //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                 //    }
+            });
+        }  
+    }
+}
+
+// function hideIzvOp(eHandler, index, data){
+//     for (let i = 0; i < data[index].KShOPZONY; i++) {
+//         eHandler[index][i][0].style.display = 'none';
+//         eHandler[index][i][1].style.display = 'none';      
+//         eHandler[index][i][2].style.display = 'none';   
+//         eHandler[index][i][3].style.display = 'none';         
+//     }
+//     
+// }
+function hideIzvOp( indexZona, indexShleif){ 
+    for (let i = 0; i < indexZona; i++) {
+        for (let j = 0; j < indexShleif; j++) {
+            if(document.querySelector(`#ShleifOp${i}_${j}`))
+                document.querySelector(`#ShleifOp${i}_${j}`).style.display = 'none';   
+        }   
+    }
+}
+
+function showOp(indexZona, indexShleif){
+    if(document.querySelector(`#ShleifOp${indexZona}_${indexShleif}`))
+        document.querySelector(`#ShleifOp${indexZona}_${indexShleif}`).style.display = 'block';
+}
+
+// function showOp(eHandler, index, pos){
+//     eHandler[index][pos][0].style.display = 'block';
+//     eHandler[index][pos][1].style.display = 'block';      
+//     eHandler[index][pos][2].style.display = 'block';   
+//     //eHandler[index][pos][3].style.display = 'block';   
+// }
 //Classes------------------------------
 class addInfoToList{
     constructor(mass){

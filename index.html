@@ -101,7 +101,7 @@
             padding: 50px;
         }
 
-        .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn{
+        .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn, .lineLoopBtnsUpr, .lineLoopBtnsUprOp{
             display: box;
             display: flex;
             width: 370px;
@@ -112,7 +112,7 @@
             margin-left: 0px;
             width: 100%;
         }
-        .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item{
+        .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item, .lineLoopBtnsUpr-item, .lineLoopBtnsUprOp-item{
             margin-right: 10px;
             padding: 5px;
         }
@@ -206,7 +206,7 @@
                 <div id="autoSysConfiguration">
                     <div class="item">
                         <form id="dialog2" class="form-2" >
-                            <h1>Подсистема автоматического обнаружения признаков пожара</h1> 
+                            <!-- <h1>Подсистема автоматического обнаружения признаков пожара</h1>  -->
                             <p>Количество шлейфов:</p>
                             <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShS1" placeholder="1...640"  pattern="[0-9]{3}" >
                             <p>Количество модулей интегральных:</p>
@@ -232,7 +232,7 @@
                 <div id="ruchSysConfiguration">
                     <div class="item">
                         <form id="dialog3" class="form-3" >
-                            <h1>Подсистема ручного обнаружения признаков пожара</h1> 
+                            <!-- <h1>Подсистема ручного обнаружения признаков пожара</h1>  -->
                             <p>Количество шлейфов:</p>
                             <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShSR" placeholder="1...640"  pattern="[0-9]{3}" >
                             <p>Разрешить использовать модуль интегральный МИ</p>
@@ -260,6 +260,110 @@
                 </div>
 
 
+                <div id="uprPojSysConfiguration">
+                    <div class="item">
+                        <form id="dialog4" class="form-4">
+
+                            <p>Количество шлейфов:</p>
+                            <input type="number" name="KShPT" id="KShPT">
+                    
+                            <p>Количество модулей интегральных:</p>
+                            <input type="number" name="KMIShPT" id="KMIShPT" placeholder="1...32">
+                    
+                            <p>Резерв шлейфов, %:</p>
+                            <input type="number" name="REZShPT" id="REZShPT" placeholder="0...100">
+                    
+                            <h3>Зона пожаротушения</h3>
+                            <p>Зона:</p>
+                            <input type="number" name="ZONAShPT" id="ZONAShPT">
+                    
+                            <p>Наменование/адрес:</p>
+                            <input type="text" name="ADRZONYPT" id="ADRZONYPT" placeholder="до ХХ символов">
+                    
+                            <p>Количество шлейфов управления пожаротушением:</p>
+                            <input type="number" name="KShPTZONY" id="KShPTZONY" placeholder="1...320">
+                    
+                            <P>Количество дискретных датчиков:</P>
+                            <input type="number" name="KDDZONY" id="KDDZONY" placeholder="0...20">
+                    
+                            <p>Количество устройств дистанционного пуска:</p>
+                            <input type="number" name="KBDUZONY" id="KBDUZONY" placeholder="0...20">
+                    
+                            <p>Количество взрывозащищенных устройств дистанционного пуска:</p>
+                            <input type="number" name="KExBDUZONY" id="KExBDUZONY" placeholder="0...20">
+                    
+                            <p>Количество взрывозащищенных линий управления дистанционного пуска:</p>
+                            <input type="number" name="KExLSBDU" id="KExLSBDU" placeholder="0...15">
+                            <br>
+                    
+                            <button type="submit" id="sbtForm4" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы управления пожаротушения</button>
+                        </form>
+                    </div>
+
+                    <div id="lineLoopBtnsUpr"  class="lineLoopBtnsUpr" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtnsUpr-item" id="lineLoopPrevUpr">Пред.</button>
+                        <span class="lineLoopBtnsUpr-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPosUpr" class="lineLoopBtnsUpr-item">
+                        <span id="lastPosUpr" class="lineLoopBtnsUpr-item"></span>
+                        <button class="lineLoopBtnsUpr-item" id="lineLoopNextUpr">След.</button>
+                    </div>
+                </div>
+
+                <div id="uprOpSysConfiguration">
+                    <form id="dialog5" class="form-5">
+                        <!-- <h1>Подсистема управления оповещением</h1> -->
+                        <p>Количество зон оповещения:</p>
+                        <input type="number" name="KZONOP" id="KZONOP" placeholder="1...64">
+                
+                        <p>Резерв шлейфов, %:</p>
+                        <input type="number" name="REZShO" id="REZShO" placeholder="0...100">
+                
+                        <!-- <h3>Зона оповещения</h3>
+                        <p>Зона:</p>
+                        <input type="number" name="ZONAShOP" id="ZONAShOP" placeholder="1...Количетво зон оповещения">
+                
+                        <p>Наименование/адрес:</p>
+                        <input type="text" name="ADRShOP" id="ADRShOP" placeholder="до 20 символов">
+                
+                        <p>Количество шлейфов управления оповещением:</p>
+                        <input type="number" name="KShOPZONY" id="KShOPZONY" placeholder="1...480">
+                
+                        <h3>Шлейф управления оповещением</h3>
+                        <p>Количество оповещателей:</p>
+                        <input type="number" name="KOPSh" id="KOPSh" placeholder="1...">
+                
+                        <p>Суммарный ток оповещателя в режиме оповещения, мА:</p>
+                        <input type="text" name="IPOPSh" id="IPOPSh" placeholder="0,0...20,0">
+                
+                        
+                        <p>Взрывозашита:</p>
+                        <input type="checkbox" name="ExOPSh" id="ExOPSh">
+                
+                        <p>Тип барьера:</p>
+                        <input type="text" name="TBIZOPSh" id="TBIZOPSh">
+                
+                        <select name="TBIZOPSh_Select" id="TBIZOPSh_Select">
+                            <option value="1">Выберите тип:</option>
+                        </select>
+                
+                        <h3>Оповещатель</h3>
+                        <p>Адрес:</p>
+                        <input type="text" name="ADROP" id="ADROP" placeholder="до 20 символов">
+                        
+                        <p>Ток оповещателя в режиме оповещения, мА:</p>
+                        <input type="text" name="IPOP" id="IPOP" placeholder="0,0...20,0"> -->
+                
+                        <button type="submit" id="sbtForm5" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать зоны</button>
+                    </form>
+
+                    <div id="lineLoopBtnsUprOp"  class="lineLoopBtnsUprOp" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtnsUprOp-item" id="lineLoopPrevUprOp">Пред.</button>
+                        <span class="lineLoopBtnsUprOp-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPosUprOp" class="lineLoopBtnsUprOp-item">
+                        <span id="lastPosUprOp" class="lineLoopBtnsUprOp-item"></span>
+                        <button class="lineLoopBtnsUprOp-item" id="lineLoopNextUprOp">След.</button>
+                    </div>
+                </div>
                 <!-- <div id="izvBtns" class="izvBtns_">
                     <button class="izvBtns-item" id="izvBtnsPrev">Пред.</button>
                     <span class="izvBtns-item">Шлейф №</span>
@@ -270,7 +374,6 @@
                 -->
             
             
-    
              </div>
         </div>
        
