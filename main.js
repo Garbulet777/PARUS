@@ -2713,11 +2713,11 @@ function setDlsSbt1(handlerArr, size, dataToSave){
                     showIzvAdrExDa(dynamicEvHandlerIZVR, i, 0);
                 }
 
-                handlePrevIzvR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR, izvBtnsPrevR, dynamicEvHandlerIZVR,
+                handlePrevIzvR(i, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR, izvBtnsPrevR, dynamicEvHandlerIZVR,
                     dataToSave, curPosIzvR, nextPosIzvR, prevPosIzvR);
-                handleNextIzvR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS,  izvLasPosR, izvBtnsNextR, dynamicEvHandlerIZVR,
+                handleNextIzvR(i, dataToSave[curPosRuchn-1].KIZVShS,  izvLasPosR, izvBtnsNextR, dynamicEvHandlerIZVR,
                     dataToSave, curPosIzvR, nextPosIzvR, prevPosIzvR);
-                handleIzvPosR(lineLoopsRuchn.length, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR,  dynamicEvHandlerIZVR, dataToSave,
+                handleIzvPosR(i, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR,  dynamicEvHandlerIZVR, dataToSave,
                     curPosIzvR, nextPosIzvR, prevPosIzvR);
 
                 setTAIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
@@ -5248,7 +5248,7 @@ function setKShOPZONY(handlerArr, size, dataToSave){
 // переменные для перемещения по извещателям
 let curPosShleifOp = [], nextPosShleifOp = [], prevPosShleifOp = [], PositionShleifOp = [];
 let BtnsIDShleifOp = [], LasPosShleifOp = [], LastSpanShleifOp = [], BtnsNextShleifOp = [], BtnsPrevShleifOp = [],
-_ShleifOp = [], dynamicEvHandlerShleifOp;
+_ShleifOp = [], dynamicEvHandlerShleifOp, currentZonaOp;
 
 function setDlgZonaOp(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
@@ -5291,6 +5291,7 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
                 // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
 
                 curPosShleifOp[i][0] = 0;
+                currentZonaOp = curPosShleifOp[i][0];
                 nextPosShleifOp[i][0] = 1;
                 prevPosShleifOp[i][0] = dataToSave[i].KShOPZONY - 1;
                 LastSpanShleifOp[i].innerHTML = ' из ' + dataToSave[i].KShOPZONY;
@@ -5308,11 +5309,11 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
                 //     showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
                 // }
 
-                handlePrevShleifOp(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp, BtnsPrevShleifOp, dynamicEvHandlerShleifOp,
+                handlePrevShleifOp(i, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp, BtnsPrevShleifOp, dynamicEvHandlerShleifOp,
                     dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
-                handleNextShleifOp(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY,  LasPosShleifOp, BtnsNextShleifOp, dynamicEvHandlerShleifOp,
+                handleNextShleifOp(i, dataToSave[curPosUprOp-1].KShOPZONY,  LasPosShleifOp, BtnsNextShleifOp, dynamicEvHandlerShleifOp,
                     dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
-                handleOpPos(lineLoopsUprOp.length, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp,  dynamicEvHandlerShleifOp, dataToSave,
+                handleOpPos(i, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp,  dynamicEvHandlerShleifOp, dataToSave,
                     curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
 
                 setKOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
@@ -5728,9 +5729,310 @@ function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
 //     }
 // };
 
+let curPosOp = [], nextPosOp = [], prevPosOp = [], PositionOp = [];
+let BtnsIDOp = [], LasPosOp = [], LastSpanOp = [], BtnsNextOp = [], BtnsPrevOp = [],
+_Opoveshateli = [], dynamicEvHandlerOp;
 
-function setDlgOpoveshatel(){
+function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+                if(handlerArr[i][j][6]){
+                handlerArr[i][j][6].addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if(dataToSave[i][j][0] >= 1){
+                        for (let z = 0; z < dataToSave[i][j][0]; z++) {
+                            
+                            
+                        createOpoveshatel(i, j, z, dataToSave[i][j][0]);
+                        
+                            for (let k = 0; k < dataToSave[i][j][0]; k++) {
+                                curPosOp[z] = [];
+                                nextPosOp[z] = [];
+                                prevPosOp[z] = [];
+                                
+                            }
+                        dynamicEvHandlerOp = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
+                        _Opoveshateli = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 2);
+        
+                        BtnsIDOp[z] = document.getElementById(`BtnsIDOp${j}_${z}`);
+                        LasPosOp[z] = document.getElementById(`LasPosOp${j}_${z}`);
+                        LastSpanOp[z] = document.getElementById(`LastSpanOp${j}_${z}`);
+                        BtnsNextOp[z] = document.getElementById(`BtnsNextOp${j}_${z}`);
+                        BtnsPrevOp[z] = document.getElementById(`BtnsPrevOp${j}_${z}`);
+        
+                        //PositionShleifOp[curPosShleifOp - 1] = 0;
+        
+                        setHandlersOp(dynamicEvHandlerOp, j, z, dataToSave);
+                        
+    
+                        
 
+                        //hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+        
+                        // dynamicEvHandlerIZV[i][0][12].min = 1;
+                        // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
+        
+                        curPosOp[z][0] = 0;
+                        nextPosOp[z][0] = 1;
+                        prevPosOp[z][0] = dataToSave[i][j][0] - 1;
+                        LastSpanOp[z].innerHTML = ' из ' + dataToSave[i][j][0];
+                        LasPosOp[z].value =  curPosOp[j][0] + 1;
+                        LasPosOp[z].min = 1;
+                        LasPosOp[z].max = dataToSave[i][j][0];
+                        hideOp(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0]);
+                        showOp1(j, z);
+                        let opLength = dataToSave[i][j][0];
+                        // hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
+                        // showOp( curPosUprOp - 1, curPosShleifOp[i]);
+                        // // if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == false){
+                        // //     showIzvAdrExNet(dynamicEvHandlerIZV, i, 0);
+                        // // }
+                        // // else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
+                        // //     showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
+                        // // }
+        
+                        handlePrevOp(z, opLength, LasPosOp, BtnsPrevOp, dynamicEvHandlerOp,
+                            opLength, curPosOp, nextPosOp, prevPosOp);
+                        handleNextOp(z, opLength,  LasPosOp, BtnsNextOp, dynamicEvHandlerOp,
+                            opLength, curPosOp, nextPosOp, prevPosOp);
+                        handleOpPosOp(z, opLength, LasPosOp,  dynamicEvHandlerOp, opLength,
+                            curPosOp, nextPosOp, prevPosOp);
+        
+                        // setKOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                        // setIPOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                        // setExOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                        // setTBIZOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                        // setDlgOpoveshatel(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);               
+                        } 
+                    }
+                    else{
+                        //handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    }
+                });
+            }
+        }
+    }
+}
+function hideOp(indexZona, indexShleif){
+    for (let i = 0; i < indexZona; i++) {
+        for (let j = 0; j < indexShleif; j++) {
+            if(document.querySelector(`#Opoveshatel${i}_${j}`))
+                document.querySelector(`#Opoveshatel${i}_${j}`).style.display = 'none';   
+        }   
+    }
+}
+
+function showOp1(indexZona, indexShleif){
+    if(document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}`))
+        document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}`).style.display = 'block';
+}
+
+function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
+    if(lineLoopIndex >= 0){
+        let elem, subelem, option, mainDiv, subDiv, div;
+        mainDiv = document.getElementById('ShleifOp' + zona  + "_" + shleif);
+        
+        if(document.getElementById(`BtnsIDOp${lineLoopIndex}_${shleif}`)){
+            mainDiv.removeChild(document.getElementById(`BtnsIDOp${lineLoopIndex}_${shleif}`));
+        }
+            elem = document.createElement('div');
+            elem.setAttribute('id', `BtnsIDOp${lineLoopIndex}_${shleif}`);
+            elem.setAttribute('class', `izvBtns_`);
+                        
+            subelem = document.createElement('button');
+            subelem.setAttribute('id', `BtnsPrevOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('class', `izvBtns-item`);
+            subelem.appendChild(document.createTextNode('Пред.'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `SpanOp${lineLoopIndex}_${shleif}`);
+            subelem.appendChild(document.createTextNode('Оповещатель №'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `LasPosOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('id', `LastSpanOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('button');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `BtnsNextOp${lineLoopIndex}_${shleif}`);
+            subelem.appendChild(document.createTextNode('След.'));
+    
+            elem.appendChild(subelem);
+    
+            mainDiv.appendChild(elem);
+        
+    
+
+    
+                for (let j = 0; j < qIzv; j++) {
+
+                    if(document.getElementById(`Opoveshatel${shleif}_${j}`)){
+                        mainDiv.removeChild(document.getElementById(`Opoveshatel${shleif}_${j}`));
+                    }
+                        subDiv = document.createElement('div');
+                        subDiv.setAttribute('id',`Opoveshatel${shleif}_${j}`);
+                    //----------------------------------------------
+                    
+                    // div = document.createElement('div');
+                    // div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
+    
+                    // subelem = document.createElement('h3');
+                    // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
+                    // div.appendChild(subelem);
+    
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Адрес:'));
+                    subDiv.appendChild(subelem);
+    
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `ADROP${shleif}_${j}`);
+                    subelem.setAttribute('placeholder', `До 20 символов...`);
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Ток оповещателя в режиме оповещения, мА:'));
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'text');
+                    subelem.setAttribute('id', `IPOP${shleif}_${j}`);
+                    subDiv.appendChild(subelem);
+                 
+                    subelem = document.createElement('br');
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('p');
+                    subelem.appendChild(document.createTextNode('Оповещатель сконфигурирован:'));
+                    subDiv.appendChild(subelem);
+
+                    subelem = document.createElement('input');
+                    subelem.setAttribute('type', 'checkbox');
+                    subelem.setAttribute('id', `checkboxOpoveshateli${shleif}_${j}`);
+                    subelem.setAttribute('class', `btn-after`);
+                    subelem.setAttribute('disabled', `true`);
+                    subDiv.appendChild(subelem);
+
+                    mainDiv.appendChild(subDiv);           
+            }  
+        }
+}
+
+function setHandlersOp(eHandler, index, shleif, data){
+    for (let i = 0; i < data[index][shleif][0]; i++) {
+        
+            eHandler[index][i][0] = document.getElementById(`ADROP${index}_${i}`);
+        
+            eHandler[index][i][1] = document.getElementById(`IPOP${index}_${i}`);
+        
+            eHandler[index][i][2] = document.getElementById(`checkboxOpoveshateli${index}_${i}`);
+    }
+}
+
+// function hideOp_1(id, index_1, index_2){
+//         for (let j = 0; j < index_2; j++) {
+//             if(document.querySelector(`#${id}${index_1}_${j}`))
+//                 document.querySelector(`#${id}${index_1}_${j}`).style.display = 'none';   
+//         }   
+    
+// }
+
+function handlePrevOp(curLine, KIZVSHsLength, izvLasPos1, 
+    btnPrevHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        if( btnPrevHndlr[curLine]){
+            btnPrevHndlr[curLine].addEventListener('click', (e)=>{
+                e.preventDefault();
+               // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
+                nextPosIzv1[curLine] = curPosIzv1[curLine];
+                curPosIzv1[curLine] = prevPosIzv1[curLine];
+                prevPosIzv1[curLine]--;
+                if(curPosIzv1[curLine] <= 0) prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                //currentZonaOp = parseInt(curPosIzv1[curLine], 10);
+             //    hideIzvOp(dynamicEvHandlerIZV1, i, data);
+             //    let current = curPosIzv1[i];
+                
+             //     showOp(dynamicEvHandlerIZV1, i, current);
+             //hideIzvOp(curPosUprOp, lineLoopsDataUprOp[curLine].KShOPZONY);
+             hideOp(curPosUprOp, data)
+             showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+             return;
+
+            });
+         }
+}
+
+function handleNextOp(curLine, KIZVSHsLength, izvLasPos1, 
+    btnNextHndlr, dynamicEvHandlerIZV1, data,
+    curPosIzv1, nextPosIzv1, prevPosIzv1){
+        if(btnNextHndlr[curLine]){
+            btnNextHndlr[curLine].addEventListener('click', (e)=>{
+                e.preventDefault();
+                if(nextPosIzv1[curLine] > KIZVSHsLength - 1) nextPosIzv1[curLine] = 0;
+                prevPosIzv1[curLine] = curPosIzv1[curLine];
+                curPosIzv1[curLine] = nextPosIzv1[curLine];
+                nextPosIzv1[curLine]++;
+                if(nextPosIzv1[curLine] > KIZVSHsLength + 1) nextPosIzv1[curLine] = 0;
+                izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                currentZonaOp = parseInt(curPosIzv1[curLine], 10);
+                //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                hideOp(curPosUprOp , data)
+                showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+                //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+
+                // else{
+                //     showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                // }
+        
+        });
+        }   
+}
+
+function handleOpPosOp(curLine, KIZVSHsLength, izvLasPos1, 
+    dynamicEvHandlerIZV1, data,
+   curPosIzv1, nextPosIzv1, prevPosIzv1){
+    if(izvLasPos1[curLine]){
+        izvLasPos1[curLine].addEventListener('blur', (e)=>{
+            e.preventDefault();
+            curPosIzv1[curLine] = parseInt(izvLasPos1[curLine].value, 10) - 1;
+            if(curPosIzv1[curLine] + 1 >= KIZVSHsLength){
+                nextPosIzv1[curLine] = 1;
+                prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
+            }
+            else if(curPosIzv1[curLine] - 1 < 1){
+                prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
+            }
+            else{
+                prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
+                nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
+            }
+            currentZonaOp = parseInt(curPosIzv1[curLine], 10);
+            //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+            hideOp(curPosUprOp, data)
+            showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+            //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+
+             //    else{
+             //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+             //    }
+        });
+    }  
 }
 
 //Funcs------------------------------
@@ -6704,11 +7006,11 @@ function setDlsSbt(handlerArr, size, dataToSave){
                     showIzvConfModbu(dynamicEvHandlerIZV, i, 0);
                 }
 
-                handlePrevIzv(lineLoops.length, dataToSave[curPos-1].KIZVShS, izvLasPos, izvBtnsPrev, dynamicEvHandlerIZV,
+                handlePrevIzv(i, dataToSave[curPos-1].KIZVShS, izvLasPos, izvBtnsPrev, dynamicEvHandlerIZV,
                     dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
-                handleNextIzv(lineLoops.length, dataToSave[curPos-1].KIZVShS,  izvLasPos, izvBtnsNext, dynamicEvHandlerIZV,
+                handleNextIzv(i, dataToSave[curPos-1].KIZVShS,  izvLasPos, izvBtnsNext, dynamicEvHandlerIZV,
                     dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
-                handleIzvPos(lineLoops.length, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
+                handleIzvPos(i, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
                     curPosIzv, nextPosIzv, prevPosIzv);
 
                 setTAIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
@@ -6732,33 +7034,31 @@ function handlePrevIzv(curLine, KIZVSHsLength, izvLasPos1,
                         btnPrevHndlr, dynamicEvHandlerIZV1, data,
                         curPosIzv1, nextPosIzv1, prevPosIzv1){
                 //let i = curLine;
-                     for(let i = 0; i < curLine; i++){
-                         if( btnPrevHndlr[i]){
-                            btnPrevHndlr[i].addEventListener('click', (e)=>{
+                     //for(let i = 0; i < curLine; i++){
+                         if( btnPrevHndlr[curLine]){
+                            btnPrevHndlr[curLine].addEventListener('click', (e)=>{
                                 e.preventDefault();
                                // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
-                                nextPosIzv1[i] = curPosIzv1[i];
-                                curPosIzv1[i] = prevPosIzv1[i];
-                                prevPosIzv1[i]--;
-                                if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
-                                izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                                nextPosIzv1[curLine] = curPosIzv1[curLine];
+                                curPosIzv1[curLine] = prevPosIzv1[curLine];
+                                prevPosIzv1[curLine]--;
+                                if(curPosIzv1[curLine] <= 0) prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                                izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                                 
-                                hideIzv(dynamicEvHandlerIZV1, i, data);
-                                let current = curPosIzv1[i];
-                                if(data[i].TShS == 0 && data[i].ExShS == false){
-                                    showIzvAdrExNet(dynamicEvHandlerIZV1, i, current);
+                                hideIzv(dynamicEvHandlerIZV1, curLine, data);
+                                let current = curPosIzv1[curLine];
+                                if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                                    showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, current);
                                 }
-                                else if(data[i].TShS == 0 && data[i].ExShS == true){
-                                    showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                                else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                                    showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                                 }
                                 else{
-                                    showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                                    showIzvConfModbu(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                                 }
                             });
                          }
-      
-                }
-
+                //}
 }
 
 function handleNextIzv(curLine, KIZVSHsLength, izvLasPos1, 
@@ -6767,33 +7067,33 @@ function handleNextIzv(curLine, KIZVSHsLength, izvLasPos1,
 
        // let i = curLine;
 
-        for(let i = 0; i < curLine; i++){
-            if(btnNextHndlr[i]){
-                btnNextHndlr[i].addEventListener('click', (e)=>{
+        //for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[curLine]){
+                btnNextHndlr[curLine].addEventListener('click', (e)=>{
                     e.preventDefault();
-                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
-                    prevPosIzv1[i] = curPosIzv1[i];
-                    curPosIzv1[i] = nextPosIzv1[i];
-                    nextPosIzv1[i]++;
-                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
-                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                    if(nextPosIzv1[curLine] > KIZVSHsLength - 1) nextPosIzv1[curLine] = 0;
+                    prevPosIzv1[curLine] = curPosIzv1[curLine];
+                    curPosIzv1[curLine] = nextPosIzv1[curLine];
+                    nextPosIzv1[curLine]++;
+                    if(nextPosIzv1[curLine] > KIZVSHsLength + 1) nextPosIzv1[curLine] = 0;
+                    izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                     
-                    hideIzv(dynamicEvHandlerIZV1, i, data);
+                    hideIzv(dynamicEvHandlerIZV1, curLine, data);
         
-                    if(data[i].TShS == 0 && data[i].ExShS == false){
-                        showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                        showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                     }
-                    else if(data[i].TShS == 0 && data[i].ExShS == true){
-                        showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                        showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                     }
                     else{
-                        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        showIzvConfModbu(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                     }
             
             });
             }
             
-    }  
+    //}  
 }
 
 
@@ -6802,39 +7102,39 @@ function handleIzvPos(curLine, KIZVSHsLength, izvLasPos1,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
         
         //let i = curLine;
-        for(let i = 0; i < curLine; i++){
-            if(izvLasPos1[i]){
-                izvLasPos1[i].addEventListener('blur', (e)=>{
+       // for(let i = 0; i < curLine; i++){
+            if(izvLasPos1[curLine]){
+                izvLasPos1[curLine].addEventListener('blur', (e)=>{
                     e.preventDefault();
-                    curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
-                    if(curPosIzv1[i] + 1 >= KIZVSHsLength){
-                        nextPosIzv1[i] = 1;
-                        prevPosIzv1[i] = curPosIzv1[i] - 1;
+                    curPosIzv1[curLine] = parseInt(izvLasPos1[curLine].value, 10) - 1;
+                    if(curPosIzv1[curLine] + 1 >= KIZVSHsLength){
+                        nextPosIzv1[curLine] = 1;
+                        prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
                     }
-                    else if(curPosIzv1[i] - 1 < 1){
-                        prevPosIzv1[i] = KIZVSHsLength - 1;
-                        nextPosIzv1[i] = curPosIzv1[i] + 1;
+                    else if(curPosIzv1[curLine] - 1 < 1){
+                        prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                        nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                     }
                     else{
-                        prevPosIzv1[i] = curPosIzv1[i] - 1;
-                        nextPosIzv1[i] = curPosIzv1[i] + 1;
+                        prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
+                        nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                     }
-                        hideIzv(dynamicEvHandlerIZV1, i, data);
+                        hideIzv(dynamicEvHandlerIZV1, curLine, data);
         
-                        if(data[i].TShS == 0 && data[i].ExShS == false){
-                            showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                            showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                         }
-                        else if(data[i].TShS == 0 && data[i].ExShS == true){
-                            showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                        else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                            showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                         }
                         else{
-                            showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                            showIzvConfModbu(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                         }
                 });
             }
             
             
-        }
+       // }
 
 }
 
@@ -7193,9 +7493,12 @@ function setHandlersIZV(eHandler, index, data){
 //скрыть извещатели
 function hideIzv(eHandler, index, data){
     for (let i = 0; i < data[index].KIZVShS; i++) {
-        eHandler[index][i][0].style.display = 'none';
-        eHandler[index][i][4].style.display = 'none';
-        eHandler[index][i][8].style.display = 'none';       
+        if(eHandler[index][i][0])
+            eHandler[index][i][0].style.display = 'none';
+        if(eHandler[index][i][4])
+            eHandler[index][i][4].style.display = 'none';
+        if(eHandler[index][i][8])
+            eHandler[index][i][8].style.display = 'none';       
     }
 }   
 
@@ -7612,39 +7915,41 @@ function setHandlersIZVR(eHandler, index, data){
 
 function hideIzvR(eHandler, index, data){
     for (let i = 0; i < data[index].KIZVShS; i++) {
-        eHandler[index][i][0].style.display = 'none';
-        eHandler[index][i][4].style.display = 'none';      
+        if(eHandler[index][i][0])
+            eHandler[index][i][0].style.display = 'none';
+        if(eHandler[index][i][4])
+            eHandler[index][i][4].style.display = 'none';      
     }
 }
 
 function handlePrevIzvR(curLine, KIZVSHsLength, izvLasPos1, 
     btnPrevHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
-        for(let i = 0; i < curLine; i++){
-            if( btnPrevHndlr[i]){
-               btnPrevHndlr[i].addEventListener('click', (e)=>{
+        //for(let i = 0; i < curLine; i++){
+            if( btnPrevHndlr[curLine]){
+               btnPrevHndlr[curLine].addEventListener('click', (e)=>{
                    e.preventDefault();
                   // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
-                   nextPosIzv1[i] = curPosIzv1[i];
-                   curPosIzv1[i] = prevPosIzv1[i];
-                   prevPosIzv1[i]--;
-                   if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
-                   izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                   nextPosIzv1[curLine] = curPosIzv1[curLine];
+                   curPosIzv1[curLine] = prevPosIzv1[curLine];
+                   prevPosIzv1[curLine]--;
+                   if(curPosIzv1[curLine] <= 0) prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                   izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                    
-                   hideIzvR(dynamicEvHandlerIZV1, i, data);
-                   let current = curPosIzv1[i];
-                   if(data[i].TShS == 0 && data[i].ExShS == false){
-                       showIzvAdrExNet(dynamicEvHandlerIZV1, i, current);
+                   hideIzvR(dynamicEvHandlerIZV1, curLine, data);
+                   let current = curPosIzv1[curLine];
+                   if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                       showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, current);
                    }
-                   else if(data[i].TShS == 0 && data[i].ExShS == true){
-                       showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                   else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                       showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                    }
                 //    else{
                 //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
                 //    }
                });
             }
-   }
+   //}
 }
 
 function handleNextIzvR(curLine, KIZVSHsLength, izvLasPos1, 
@@ -7653,24 +7958,24 @@ function handleNextIzvR(curLine, KIZVSHsLength, izvLasPos1,
 
        // let i = curLine;
 
-        for(let i = 0; i < curLine; i++){
-            if(btnNextHndlr[i]){
-                btnNextHndlr[i].addEventListener('click', (e)=>{
+        //for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[curLine]){
+                btnNextHndlr[curLine].addEventListener('click', (e)=>{
                     e.preventDefault();
-                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
-                    prevPosIzv1[i] = curPosIzv1[i];
-                    curPosIzv1[i] = nextPosIzv1[i];
-                    nextPosIzv1[i]++;
-                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
-                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
+                    if(nextPosIzv1[curLine] > KIZVSHsLength - 1) nextPosIzv1[curLine] = 0;
+                    prevPosIzv1[curLine] = curPosIzv1[curLine];
+                    curPosIzv1[curLine] = nextPosIzv1[curLine];
+                    nextPosIzv1[curLine]++;
+                    if(nextPosIzv1[curLine] > KIZVSHsLength + 1) nextPosIzv1[curLine] = 0;
+                    izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                     
-                    hideIzvR(dynamicEvHandlerIZV1, i, data);
+                    hideIzvR(dynamicEvHandlerIZV1, curLine, data);
         
-                    if(data[i].TShS == 0 && data[i].ExShS == false){
-                        showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                        showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                     }
-                    else if(data[i].TShS == 0 && data[i].ExShS == true){
-                        showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                    else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                        showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                     }
                     // else{
                     //     showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
@@ -7679,7 +7984,7 @@ function handleNextIzvR(curLine, KIZVSHsLength, izvLasPos1,
             });
             }
             
-    }  
+    //}  
 }
 
 function handleIzvPosR(curLine, KIZVSHsLength, izvLasPos1, 
@@ -7687,30 +7992,30 @@ function handleIzvPosR(curLine, KIZVSHsLength, izvLasPos1,
    curPosIzv1, nextPosIzv1, prevPosIzv1){
        
        //let i = curLine;
-       for(let i = 0; i < curLine; i++){
-           if(izvLasPos1[i]){
-               izvLasPos1[i].addEventListener('blur', (e)=>{
+       //for(let i = 0; i < curLine; i++){
+           if(izvLasPos1[curLine]){
+               izvLasPos1[curLine].addEventListener('blur', (e)=>{
                    e.preventDefault();
-                   curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
-                   if(curPosIzv1[i] + 1 >= KIZVSHsLength){
-                       nextPosIzv1[i] = 1;
-                       prevPosIzv1[i] = curPosIzv1[i] - 1;
+                   curPosIzv1[curLine] = parseInt(izvLasPos1[curLine].value, 10) - 1;
+                   if(curPosIzv1[curLine] + 1 >= KIZVSHsLength){
+                       nextPosIzv1[curLine] = 1;
+                       prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
                    }
-                   else if(curPosIzv1[i] - 1 < 1){
-                       prevPosIzv1[i] = KIZVSHsLength - 1;
-                       nextPosIzv1[i] = curPosIzv1[i] + 1;
+                   else if(curPosIzv1[curLine] - 1 < 1){
+                       prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                       nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                    }
                    else{
-                       prevPosIzv1[i] = curPosIzv1[i] - 1;
-                       nextPosIzv1[i] = curPosIzv1[i] + 1;
+                       prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
+                       nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                    }
-                       hideIzvR(dynamicEvHandlerIZV1, i, data);
+                       hideIzvR(dynamicEvHandlerIZV1, curLine, data);
        
-                       if(data[i].TShS == 0 && data[i].ExShS == false){
-                           showIzvAdrExNet(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                       if(data[curLine].TShS == 0 && data[curLine].ExShS == false){
+                           showIzvAdrExNet(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                        }
-                       else if(data[i].TShS == 0 && data[i].ExShS == true){
-                           showIzvAdrExDa(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
+                       else if(data[curLine].TShS == 0 && data[curLine].ExShS == true){
+                           showIzvAdrExDa(dynamicEvHandlerIZV1, curLine, curPosIzv1[curLine]);
                        }
                     //    else{
                     //        showIzvConfModbu(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
@@ -7719,7 +8024,7 @@ function handleIzvPosR(curLine, KIZVSHsLength, izvLasPos1,
            }
            
            
-       }
+       //}
 
 }
 
@@ -8056,47 +8361,47 @@ function setHandlersShleifOp(eHandler, index, data){
 function handlePrevShleifOp(curLine, KIZVSHsLength, izvLasPos1, 
     btnPrevHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
-        for(let i = 0; i < curLine; i++){
-            if( btnPrevHndlr[i]){
-               btnPrevHndlr[i].addEventListener('click', (e)=>{
+        //for(let i = 0; i < curLine; i++){
+            if( btnPrevHndlr[curLine]){
+               btnPrevHndlr[curLine].addEventListener('click', (e)=>{
                    e.preventDefault();
                   // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
-                   nextPosIzv1[i] = curPosIzv1[i];
-                   curPosIzv1[i] = prevPosIzv1[i];
-                   prevPosIzv1[i]--;
-                   if(curPosIzv1[i] <= 0) prevPosIzv1[i] = KIZVSHsLength - 1;
-                   izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
-                   
+                   nextPosIzv1[curLine] = curPosIzv1[curLine];
+                   curPosIzv1[curLine] = prevPosIzv1[curLine];
+                   prevPosIzv1[curLine]--;
+                   if(curPosIzv1[curLine] <= 0) prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                   izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                   currentZonaOp = parseInt(curPosIzv1[curLine], 10);
                 //    hideIzvOp(dynamicEvHandlerIZV1, i, data);
                 //    let current = curPosIzv1[i];
                    
                 //     showOp(dynamicEvHandlerIZV1, i, current);
-                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
-                showOp(curPosUprOp - 1, curPosIzv1[i]);   
+                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[curLine].KShOPZONY);
+                showOp(curPosUprOp - 1, curPosIzv1[curLine]);   
                 return;
 
                });
             }
-   }
+   //}
 }
 
 function handleNextShleifOp(curLine, KIZVSHsLength, izvLasPos1, 
     btnNextHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
-        for(let i = 0; i < curLine; i++){
-            if(btnNextHndlr[i]){
-                btnNextHndlr[i].addEventListener('click', (e)=>{
+        //for(let i = 0; i < curLine; i++){
+            if(btnNextHndlr[curLine]){
+                btnNextHndlr[curLine].addEventListener('click', (e)=>{
                     e.preventDefault();
-                    if(nextPosIzv1[i] > KIZVSHsLength - 1) nextPosIzv1[i] = 0;
-                    prevPosIzv1[i] = curPosIzv1[i];
-                    curPosIzv1[i] = nextPosIzv1[i];
-                    nextPosIzv1[i]++;
-                    if(nextPosIzv1[i] > KIZVSHsLength + 1) nextPosIzv1[i] = 0;
-                    izvLasPos1[i].value = parseInt(curPosIzv1[i], 10) + 1;
-                    
+                    if(nextPosIzv1[curLine] > KIZVSHsLength - 1) nextPosIzv1[curLine] = 0;
+                    prevPosIzv1[curLine] = curPosIzv1[curLine];
+                    curPosIzv1[curLine] = nextPosIzv1[curLine];
+                    nextPosIzv1[curLine]++;
+                    if(nextPosIzv1[curLine] > KIZVSHsLength + 1) nextPosIzv1[curLine] = 0;
+                    izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                    currentZonaOp = parseInt(curPosIzv1[curLine], 10);
                     //hideIzvOp(dynamicEvHandlerIZV1, i, data);
-                    hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
-                    showOp(curPosUprOp - 1, curPosIzv1[i]);
+                    hideIzvOp(curPosUprOp, lineLoopsDataUprOp[curLine].KShOPZONY);
+                    showOp(curPosUprOp - 1, curPosIzv1[curLine]);
                     //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
 
                     // else{
@@ -8105,32 +8410,33 @@ function handleNextShleifOp(curLine, KIZVSHsLength, izvLasPos1,
             
             });
             }   
-    } 
+    //} 
 }
 
 function handleOpPos(curLine, KIZVSHsLength, izvLasPos1, 
     dynamicEvHandlerIZV1, data,
    curPosIzv1, nextPosIzv1, prevPosIzv1){
-    for(let i = 0; i < curLine; i++){
-        if(izvLasPos1[i]){
-            izvLasPos1[i].addEventListener('blur', (e)=>{
+    //for(let i = 0; i < curLine; i++){
+        if(izvLasPos1[curLine]){
+            izvLasPos1[curLine].addEventListener('blur', (e)=>{
                 e.preventDefault();
-                curPosIzv1[i] = parseInt(izvLasPos1[i].value, 10) - 1;
-                if(curPosIzv1[i] + 1 >= KIZVSHsLength){
-                    nextPosIzv1[i] = 1;
-                    prevPosIzv1[i] = curPosIzv1[i] - 1;
+                curPosIzv1[curLine] = parseInt(izvLasPos1[curLine].value, 10) - 1;
+                if(curPosIzv1[curLine] + 1 >= KIZVSHsLength){
+                    nextPosIzv1[curLine] = 1;
+                    prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
                 }
-                else if(curPosIzv1[i] - 1 < 1){
-                    prevPosIzv1[i] = KIZVSHsLength - 1;
-                    nextPosIzv1[i] = curPosIzv1[i] + 1;
+                else if(curPosIzv1[curLine] - 1 < 1){
+                    prevPosIzv1[curLine] = KIZVSHsLength - 1;
+                    nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                 }
                 else{
-                    prevPosIzv1[i] = curPosIzv1[i] - 1;
-                    nextPosIzv1[i] = curPosIzv1[i] + 1;
+                    prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
+                    nextPosIzv1[curLine] = curPosIzv1[curLine] + 1;
                 }
+                currentZonaOp = parseInt(curPosIzv1[curLine], 10);
                 //hideIzvOp(dynamicEvHandlerIZV1, i, data);
-                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
-                showOp(curPosUprOp - 1, curPosIzv1[i]);
+                hideIzvOp(curPosUprOp, lineLoopsDataUprOp[curLine].KShOPZONY);
+                showOp(curPosUprOp - 1, curPosIzv1[curLine]);
                 //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
 
                  //    else{
@@ -8138,7 +8444,7 @@ function handleOpPos(curLine, KIZVSHsLength, izvLasPos1,
                  //    }
             });
         }  
-    }
+    //}
 }
 
 // function hideIzvOp(eHandler, index, data){
