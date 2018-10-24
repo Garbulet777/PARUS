@@ -4824,7 +4824,7 @@ lineLoopPrevUprOp.addEventListener('click', ()=>{
             lineLoopPosUprOp.value = curPosUprOp;
             hideZonaOp(lineLoopsUprOp.length);
             showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
-        
+            hideAll();
     
     });
     
@@ -4837,7 +4837,7 @@ lineLoopPrevUprOp.addEventListener('click', ()=>{
                 lineLoopPosUprOp.value = curPosUprOp;
                 hideZonaOp(lineLoopsUprOp.length);
                 showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
-    
+                hideAll();
     });
     
     
@@ -4857,6 +4857,7 @@ lineLoopPrevUprOp.addEventListener('click', ()=>{
         }
         hideZonaOp(lineLoopsUprOp.length);
         showLineLoopsRuchn('_ZonaOpoveshenia_' + (curPosUprOp - 1));
+        hideAll();
     });
 
 function hideZonaOp(KZONOP){
@@ -5740,29 +5741,29 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                 handlerArr[i][j][6].addEventListener('click', (e) => {
                     e.preventDefault();
                     if(dataToSave[i][j][0] >= 1){
-                        for (let z = 0; z < dataToSave[i][j][0]; z++) {
+                      //  for (let z = 0; z < dataToSave[i][j][0]; z++) {
                             
                             
-                        createOpoveshatel(i, j, z, dataToSave[i][j][0]);
+                        createOpoveshatel(i, j, dataToSave[i][j][0]);
                         
                             for (let k = 0; k < dataToSave[i][j][0]; k++) {
-                                curPosOp[z] = [];
-                                nextPosOp[z] = [];
-                                prevPosOp[z] = [];
+                                curPosOp[j] = [];
+                                nextPosOp[j] = [];
+                                prevPosOp[j] = [];
                                 
                             }
                         dynamicEvHandlerOp = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
                         _Opoveshateli = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 2);
         
-                        BtnsIDOp[z] = document.getElementById(`BtnsIDOp${j}_${z}`);
-                        LasPosOp[z] = document.getElementById(`LasPosOp${j}_${z}`);
-                        LastSpanOp[z] = document.getElementById(`LastSpanOp${j}_${z}`);
-                        BtnsNextOp[z] = document.getElementById(`BtnsNextOp${j}_${z}`);
-                        BtnsPrevOp[z] = document.getElementById(`BtnsPrevOp${j}_${z}`);
+                        BtnsIDOp[j] = document.getElementById(`BtnsIDOp${i}_${j}`);
+                        LasPosOp[j] = document.getElementById(`LasPosOp${i}_${j}`);
+                        LastSpanOp[j] = document.getElementById(`LastSpanOp${i}_${j}`);
+                        BtnsNextOp[j] = document.getElementById(`BtnsNextOp${i}_${j}`);
+                        BtnsPrevOp[j] = document.getElementById(`BtnsPrevOp${i}_${j}`);
         
                         //PositionShleifOp[curPosShleifOp - 1] = 0;
         
-                        setHandlersOp(dynamicEvHandlerOp, j, z, dataToSave);
+                        setHandlersOp(dynamicEvHandlerOp, i, j, dataToSave);
                         
     
                         
@@ -5772,15 +5773,16 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         // dynamicEvHandlerIZV[i][0][12].min = 1;
                         // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
         
-                        curPosOp[z][0] = 0;
-                        nextPosOp[z][0] = 1;
-                        prevPosOp[z][0] = dataToSave[i][j][0] - 1;
-                        LastSpanOp[z].innerHTML = ' из ' + dataToSave[i][j][0];
-                        LasPosOp[z].value =  curPosOp[j][0] + 1;
-                        LasPosOp[z].min = 1;
-                        LasPosOp[z].max = dataToSave[i][j][0];
-                        hideOp(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0]);
-                        showOp1(j, z);
+                        curPosOp[j][0] = 0;
+                        nextPosOp[j][0] = 1;
+                        prevPosOp[j][0] = dataToSave[i][j][0] - 1;
+                        LastSpanOp[j].innerHTML = ' из ' + dataToSave[i][j][0];
+                        LasPosOp[j].value =  curPosOp[j][0] + 1;
+                        LasPosOp[j].min = 1;
+                        LasPosOp[j].max = dataToSave[i][j][0];
+                        
+                        hideOp( UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0]);
+                        showOp1(i, j, curPosOp[j]);
                         let opLength = dataToSave[i][j][0];
                         // hideIzvOp(curPosUprOp, lineLoopsDataUprOp[i].KShOPZONY);
                         // showOp( curPosUprOp - 1, curPosShleifOp[i]);
@@ -5791,11 +5793,11 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         // //     showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
                         // // }
         
-                        handlePrevOp(z, opLength, LasPosOp, BtnsPrevOp, dynamicEvHandlerOp,
+                        handlePrevOp(i, j, opLength, LasPosOp, BtnsPrevOp, dynamicEvHandlerOp,
                             opLength, curPosOp, nextPosOp, prevPosOp);
-                        handleNextOp(z, opLength,  LasPosOp, BtnsNextOp, dynamicEvHandlerOp,
+                        handleNextOp(i, j, opLength,  LasPosOp, BtnsNextOp, dynamicEvHandlerOp,
                             opLength, curPosOp, nextPosOp, prevPosOp);
-                        handleOpPosOp(z, opLength, LasPosOp,  dynamicEvHandlerOp, opLength,
+                        handleOpPosOp(i, j, opLength, LasPosOp,  dynamicEvHandlerOp, opLength,
                             curPosOp, nextPosOp, prevPosOp);
         
                         // setKOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
@@ -5803,7 +5805,7 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         // setExOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setTBIZOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setDlgOpoveshatel(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);               
-                        } 
+                        //}
                     }
                     else{
                         //handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
@@ -5813,34 +5815,55 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
-function hideOp(indexZona, indexShleif){
+function hideOp(indexZona, indexShleif, kopsh){
     for (let i = 0; i < indexZona; i++) {
         for (let j = 0; j < indexShleif; j++) {
-            if(document.querySelector(`#Opoveshatel${i}_${j}`))
-                document.querySelector(`#Opoveshatel${i}_${j}`).style.display = 'none';   
+            for (let k = 0; k < kopsh; k++) {
+                if(document.querySelector(`#Opoveshatel${i}_${j}_${k}`))
+                document.querySelector(`#Opoveshatel${i}_${j}_${k}`).style.display = 'none';   
+            }
+           
         }   
     }
 }
 
-function showOp1(indexZona, indexShleif){
-    if(document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}`))
-        document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}`).style.display = 'block';
+function hideAll(){
+    if(UpravlenieOpovesheniem.KZONOP){
+        for (let i = 0; i < UpravlenieOpovesheniem.KZONOP; i++) {
+            if(lineLoopsDataUprOp[i].KShOPZONY){
+                for (let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++) {
+                   if(_ShleifOp[i][j][0]){
+                       for (let k = 0; k < _ShleifOp[i][j][0]; k++) {
+                        if(document.querySelector(`#Opoveshatel${i}_${j}_${k}`))
+                        document.querySelector(`#Opoveshatel${i}_${j}_${k}`).style.display = 'none';       
+                       }
+                   }
+                }
+            }
+            
+        }
+    }
 }
 
-function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
+function showOp1(indexZona, indexShleif, opoveshatel){
+    if(document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}_${opoveshatel}`))
+        document.querySelector(`#Opoveshatel${indexZona}_${indexShleif}_${opoveshatel}`).style.display = 'block';
+}
+
+function createOpoveshatel(zona ,lineLoopIndex, qIzv){
     if(lineLoopIndex >= 0){
         let elem, subelem, option, mainDiv, subDiv, div;
-        mainDiv = document.getElementById('ShleifOp' + zona  + "_" + shleif);
+        mainDiv = document.getElementById('ShleifOp' + zona  + "_" + lineLoopIndex);
         
-        if(document.getElementById(`BtnsIDOp${lineLoopIndex}_${shleif}`)){
-            mainDiv.removeChild(document.getElementById(`BtnsIDOp${lineLoopIndex}_${shleif}`));
+        if(document.getElementById(`BtnsIDOp${zona}_${lineLoopIndex}`)){
+            mainDiv.removeChild(document.getElementById(`BtnsIDOp${zona}_${lineLoopIndex}`));
         }
             elem = document.createElement('div');
-            elem.setAttribute('id', `BtnsIDOp${lineLoopIndex}_${shleif}`);
+            elem.setAttribute('id', `BtnsIDOp${zona}_${lineLoopIndex}`);
             elem.setAttribute('class', `izvBtns_`);
                         
             subelem = document.createElement('button');
-            subelem.setAttribute('id', `BtnsPrevOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('id', `BtnsPrevOp${zona}_${lineLoopIndex}`);
             subelem.setAttribute('class', `izvBtns-item`);
             subelem.appendChild(document.createTextNode('Пред.'));
     
@@ -5848,27 +5871,27 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
     
             subelem = document.createElement('span');
             subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttribute('id', `SpanOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('id', `SpanOp${zona}_${lineLoopIndex}`);
             subelem.appendChild(document.createTextNode('Оповещатель №'));
     
             elem.appendChild(subelem);
     
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'number');
-            subelem.setAttribute('id', `LasPosOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('id', `LasPosOp${zona}_${lineLoopIndex}`);
             subelem.setAttribute('class', 'izvBtns-item');
     
             elem.appendChild(subelem);
     
             subelem = document.createElement('span');
-            subelem.setAttribute('id', `LastSpanOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('id', `LastSpanOp${zona}_${lineLoopIndex}`);
             subelem.setAttribute('class', 'izvBtns-item');
     
             elem.appendChild(subelem);
     
             subelem = document.createElement('button');
             subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttribute('id', `BtnsNextOp${lineLoopIndex}_${shleif}`);
+            subelem.setAttribute('id', `BtnsNextOp${zona}_${lineLoopIndex}`);
             subelem.appendChild(document.createTextNode('След.'));
     
             elem.appendChild(subelem);
@@ -5880,11 +5903,11 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
     
                 for (let j = 0; j < qIzv; j++) {
 
-                    if(document.getElementById(`Opoveshatel${shleif}_${j}`)){
-                        mainDiv.removeChild(document.getElementById(`Opoveshatel${shleif}_${j}`));
+                    if(document.getElementById(`Opoveshatel${zona}_${lineLoopIndex}_${j}`)){
+                        mainDiv.removeChild(document.getElementById(`Opoveshatel${zona}_${lineLoopIndex}_${j}`));
                     }
                         subDiv = document.createElement('div');
-                        subDiv.setAttribute('id',`Opoveshatel${shleif}_${j}`);
+                        subDiv.setAttribute('id',`Opoveshatel${zona}_${lineLoopIndex}_${j}`);
                     //----------------------------------------------
                     
                     // div = document.createElement('div');
@@ -5900,7 +5923,7 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
     
                     subelem = document.createElement('input');
                     subelem.setAttribute('type', 'text');
-                    subelem.setAttribute('id', `ADROP${shleif}_${j}`);
+                    subelem.setAttribute('id', `ADROP${zona}_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `До 20 символов...`);
                     subDiv.appendChild(subelem);
 
@@ -5910,7 +5933,7 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
 
                     subelem = document.createElement('input');
                     subelem.setAttribute('type', 'text');
-                    subelem.setAttribute('id', `IPOP${shleif}_${j}`);
+                    subelem.setAttribute('id', `IPOP${zona}_${lineLoopIndex}_${j}`);
                     subDiv.appendChild(subelem);
                  
                     subelem = document.createElement('br');
@@ -5922,7 +5945,7 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
 
                     subelem = document.createElement('input');
                     subelem.setAttribute('type', 'checkbox');
-                    subelem.setAttribute('id', `checkboxOpoveshateli${shleif}_${j}`);
+                    subelem.setAttribute('id', `checkboxOpoveshateli${zona}_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('class', `btn-after`);
                     subelem.setAttribute('disabled', `true`);
                     subDiv.appendChild(subelem);
@@ -5932,14 +5955,14 @@ function createOpoveshatel(zona ,lineLoopIndex, shleif, qIzv){
         }
 }
 
-function setHandlersOp(eHandler, index, shleif, data){
-    for (let i = 0; i < data[index][shleif][0]; i++) {
+function setHandlersOp(eHandler, zona, index, data){
+    for (let i = 0; i < data[zona][index][0]; i++) {
         
-            eHandler[index][i][0] = document.getElementById(`ADROP${index}_${i}`);
+            eHandler[zona][index][0] = document.getElementById(`ADROP${zona}_${index}_${i}`);
         
-            eHandler[index][i][1] = document.getElementById(`IPOP${index}_${i}`);
+            eHandler[zona][index][1] = document.getElementById(`IPOP${zona}_${index}_${i}`);
         
-            eHandler[index][i][2] = document.getElementById(`checkboxOpoveshateli${index}_${i}`);
+            eHandler[zona][index][2] = document.getElementById(`checkboxOpoveshateli${zona}_${index}_${i}`);
     }
 }
 
@@ -5951,7 +5974,7 @@ function setHandlersOp(eHandler, index, shleif, data){
     
 // }
 
-function handlePrevOp(curLine, KIZVSHsLength, izvLasPos1, 
+function handlePrevOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     btnPrevHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
         if( btnPrevHndlr[curLine]){
@@ -5969,15 +5992,17 @@ function handlePrevOp(curLine, KIZVSHsLength, izvLasPos1,
                 
              //     showOp(dynamicEvHandlerIZV1, i, current);
              //hideIzvOp(curPosUprOp, lineLoopsDataUprOp[curLine].KShOPZONY);
-             hideOp(curPosUprOp, data)
-             showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+             
+             hideOp(UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[curPosUprOp - 1].KShOPZONY, KIZVSHsLength)
+             showOp1(shleif, curLine, curPosIzv1[curLine]);   
              return;
 
             });
          }
 }
 
-function handleNextOp(curLine, KIZVSHsLength, izvLasPos1, 
+
+function handleNextOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     btnNextHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
         if(btnNextHndlr[curLine]){
@@ -5991,8 +6016,8 @@ function handleNextOp(curLine, KIZVSHsLength, izvLasPos1,
                 izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                 currentZonaOp = parseInt(curPosIzv1[curLine], 10);
                 //hideIzvOp(dynamicEvHandlerIZV1, i, data);
-                hideOp(curPosUprOp , data)
-                showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+                hideOp(UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[curPosUprOp - 1].KShOPZONY, KIZVSHsLength)
+                showOp1(shleif, curLine, curPosIzv1[curLine]);    
                 //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
 
                 // else{
@@ -6003,7 +6028,7 @@ function handleNextOp(curLine, KIZVSHsLength, izvLasPos1,
         }   
 }
 
-function handleOpPosOp(curLine, KIZVSHsLength, izvLasPos1, 
+function handleOpPosOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     dynamicEvHandlerIZV1, data,
    curPosIzv1, nextPosIzv1, prevPosIzv1){
     if(izvLasPos1[curLine]){
@@ -6024,8 +6049,8 @@ function handleOpPosOp(curLine, KIZVSHsLength, izvLasPos1,
             }
             currentZonaOp = parseInt(curPosIzv1[curLine], 10);
             //hideIzvOp(dynamicEvHandlerIZV1, i, data);
-            hideOp(curPosUprOp, data)
-            showOp1(curPosUprOp - 1, curPosIzv1[curLine]);   
+            hideOp(UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[curPosUprOp - 1].KShOPZONY, KIZVSHsLength)
+            showOp1(shleif, curLine, curPosIzv1[curLine]);   
             //showOp(dynamicEvHandlerIZV1, i, curPosIzv1[i]);
 
              //    else{
@@ -6034,6 +6059,8 @@ function handleOpPosOp(curLine, KIZVSHsLength, izvLasPos1,
         });
     }  
 }
+
+
 
 //Funcs------------------------------
 
