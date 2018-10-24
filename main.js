@@ -4958,15 +4958,22 @@ REZShO.addEventListener('blur', ()=>{
 let lineLoopsUprOp = [], dynamicEventHandlersUprOp = [], lineLoopsDataUprOp = [];
 let curPosUprOp, prevIndexUprOp, nextIndexUprOp;
 
+function initLineLoopsUprOp(){
+    for (let i = 0; i < 64; i++) {
+        lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+    }
+}
+initLineLoopsUprOp();
+
 sbtForm5.addEventListener('click', (e) =>{
     e.preventDefault();
     if(UpravlenieOpovesheniem.KZONOP ){
         alert('Сконфигурировано!');
         lineLoopBtnsUprOp.style.display = 'block';
         lineLoopsUprOp.length = UpravlenieOpovesheniem.KZONOP ;
-        for (let i = 0; i < lineLoopsUpr.length; i++) {
-            lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
-        }
+        // for (let i = 0; i < lineLoopsUpr.length; i++) {
+        //     lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+        // }
         createlineLoopUprOp(UpravlenieOpovesheniem.KZONOP);
         // let lastPosUpr = document.getElementById('lastPosUpr'),
         //     lineLoopPosUpr = document.getElementById('lineLoopPosUpr');
@@ -5150,6 +5157,7 @@ function setADRShOP(handlerArr, size, dataToSave){
 // });
 
 // //KShOPZONY
+
 function setKShOPZONY(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         
@@ -5181,7 +5189,8 @@ function setKShOPZONY(handlerArr, size, dataToSave){
                     dataToSave[i].KShOPZONY = parseInt( handlerArr[i][2].value, 10);
                     handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + "-KShOPZONY: " + dataToSave[i].KShOPZONY);
-
+                    
+                    
                     // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
                     //     for (let j = 0; j < array.length; j++) {
                     //         _izveshateli[i] = [];                            
@@ -5309,6 +5318,9 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
                 // else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
                 //     showIzvAdrExDa(dynamicEvHandlerIZV, i, 0);
                 // }
+
+
+
 
                 handlePrevShleifOp(i, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp, BtnsPrevShleifOp, dynamicEvHandlerShleifOp,
                     dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
@@ -5481,7 +5493,7 @@ function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
                     
                         if(handlerArr[i][j][1].value.indexOf(',')!= -1) handlerArr[i][j][1].value = handlerArr[i][j][1].value.replace(/\,/, '.');
         
-                    if(parseFloat(handlerArr[i][j][1].value) >= 0 && parseFloat(handlerArr[i][j][1].value) <= 3){
+                    if(parseFloat(handlerArr[i][j][1].value) >= 0 && parseFloat(handlerArr[i][j][1].value) <= 20){
                         dataToSave[i][j][1] = parseFloat(handlerArr[i][j][1].value);
                         handlerArr[i][j][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         // if( dataToSave[i].ADRShPT != '' &&
@@ -5734,6 +5746,8 @@ let curPosOp = [], nextPosOp = [], prevPosOp = [], PositionOp = [];
 let BtnsIDOp = [], LasPosOp = [], LastSpanOp = [], BtnsNextOp = [], BtnsPrevOp = [],
 _Opoveshateli = [], dynamicEvHandlerOp;
 
+initBtnsOp();
+
 function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
     for (let i = 0; i < size; i++) {
         for (let j = 0; j < KShOPZONY; j++) {
@@ -5752,14 +5766,16 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                                 prevPosOp[j] = [];
                                 
                             }
-                        dynamicEvHandlerOp = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
-                        _Opoveshateli = genIzvHandlers(lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 2);
+                        dynamicEvHandlerOp = genIzvHandlers(size, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
+                        _Opoveshateli = genIzvHandlers(size, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 2);
         
-                        BtnsIDOp[j] = document.getElementById(`BtnsIDOp${i}_${j}`);
-                        LasPosOp[j] = document.getElementById(`LasPosOp${i}_${j}`);
-                        LastSpanOp[j] = document.getElementById(`LastSpanOp${i}_${j}`);
-                        BtnsNextOp[j] = document.getElementById(`BtnsNextOp${i}_${j}`);
-                        BtnsPrevOp[j] = document.getElementById(`BtnsPrevOp${i}_${j}`);
+
+
+                        BtnsIDOp[i][j] = document.getElementById(`BtnsIDOp${i}_${j}`);
+                        LasPosOp[i][j] = document.getElementById(`LasPosOp${i}_${j}`);
+                        LastSpanOp[i][j] = document.getElementById(`LastSpanOp${i}_${j}`);
+                        BtnsNextOp[i][j] = document.getElementById(`BtnsNextOp${i}_${j}`);
+                        BtnsPrevOp[i][j] = document.getElementById(`BtnsPrevOp${i}_${j}`);
         
                         //PositionShleifOp[curPosShleifOp - 1] = 0;
         
@@ -5776,10 +5792,10 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         curPosOp[j][0] = 0;
                         nextPosOp[j][0] = 1;
                         prevPosOp[j][0] = dataToSave[i][j][0] - 1;
-                        LastSpanOp[j].innerHTML = ' из ' + dataToSave[i][j][0];
-                        LasPosOp[j].value =  curPosOp[j][0] + 1;
-                        LasPosOp[j].min = 1;
-                        LasPosOp[j].max = dataToSave[i][j][0];
+                        LastSpanOp[i][j].innerHTML = ' из ' + dataToSave[i][j][0];
+                        LasPosOp[i][j].value =  curPosOp[j][0] + 1;
+                        LasPosOp[i][j].min = 1;
+                        LasPosOp[i][j].max = dataToSave[i][j][0];
                         
                         hideOp( UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0]);
                         showOp1(i, j, curPosOp[j]);
@@ -5800,8 +5816,8 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         handleOpPosOp(i, j, opLength, LasPosOp,  dynamicEvHandlerOp, opLength,
                             curPosOp, nextPosOp, prevPosOp);
         
-                        // setKOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
-                        // setIPOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
+                         setADROP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
+                         setIPOP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
                         // setExOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setTBIZOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setDlgOpoveshatel(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);               
@@ -5815,6 +5831,21 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
+
+function initBtnsOp(){
+            for (let x = 0; x < 64; x++) {
+                    for (let y = 0; y < 480; y++) {
+                        BtnsIDOp[x] = [];
+                        LasPosOp[x] = [];
+                        LastSpanOp[x] = [];
+                        BtnsNextOp[x] = [];
+                        BtnsPrevOp[x] = [];
+                        
+                    }
+                           
+            }     
+}
+
 function hideOp(indexZona, indexShleif, kopsh){
     for (let i = 0; i < indexZona; i++) {
         for (let j = 0; j < indexShleif; j++) {
@@ -5958,11 +5989,11 @@ function createOpoveshatel(zona ,lineLoopIndex, qIzv){
 function setHandlersOp(eHandler, zona, index, data){
     for (let i = 0; i < data[zona][index][0]; i++) {
         
-            eHandler[zona][index][0] = document.getElementById(`ADROP${zona}_${index}_${i}`);
+            eHandler[zona][index][i][0] = document.getElementById(`ADROP${zona}_${index}_${i}`);
         
-            eHandler[zona][index][1] = document.getElementById(`IPOP${zona}_${index}_${i}`);
+            eHandler[zona][index][i][1] = document.getElementById(`IPOP${zona}_${index}_${i}`);
         
-            eHandler[zona][index][2] = document.getElementById(`checkboxOpoveshateli${zona}_${index}_${i}`);
+            eHandler[zona][index][i][2] = document.getElementById(`checkboxOpoveshateli${zona}_${index}_${i}`);
     }
 }
 
@@ -5977,15 +6008,15 @@ function setHandlersOp(eHandler, zona, index, data){
 function handlePrevOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     btnPrevHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
-        if( btnPrevHndlr[curLine]){
-            btnPrevHndlr[curLine].addEventListener('click', (e)=>{
+        if( btnPrevHndlr[shleif][curLine]){
+            btnPrevHndlr[shleif][curLine].addEventListener('click', (e)=>{
                 e.preventDefault();
                // if(prevPosIzv1[i] < 1) prevPosIzv1[i]  = KIZVSHsLength - 1;
                 nextPosIzv1[curLine] = curPosIzv1[curLine];
                 curPosIzv1[curLine] = prevPosIzv1[curLine];
                 prevPosIzv1[curLine]--;
                 if(curPosIzv1[curLine] <= 0) prevPosIzv1[curLine] = KIZVSHsLength - 1;
-                izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                izvLasPos1[shleif][curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                 //currentZonaOp = parseInt(curPosIzv1[curLine], 10);
              //    hideIzvOp(dynamicEvHandlerIZV1, i, data);
              //    let current = curPosIzv1[i];
@@ -6005,15 +6036,15 @@ function handlePrevOp(shleif, curLine, KIZVSHsLength, izvLasPos1,
 function handleNextOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     btnNextHndlr, dynamicEvHandlerIZV1, data,
     curPosIzv1, nextPosIzv1, prevPosIzv1){
-        if(btnNextHndlr[curLine]){
-            btnNextHndlr[curLine].addEventListener('click', (e)=>{
+        if(btnNextHndlr[shleif][curLine]){
+            btnNextHndlr[shleif][curLine].addEventListener('click', (e)=>{
                 e.preventDefault();
                 if(nextPosIzv1[curLine] > KIZVSHsLength - 1) nextPosIzv1[curLine] = 0;
                 prevPosIzv1[curLine] = curPosIzv1[curLine];
                 curPosIzv1[curLine] = nextPosIzv1[curLine];
                 nextPosIzv1[curLine]++;
                 if(nextPosIzv1[curLine] > KIZVSHsLength + 1) nextPosIzv1[curLine] = 0;
-                izvLasPos1[curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
+                izvLasPos1[shleif][curLine].value = parseInt(curPosIzv1[curLine], 10) + 1;
                 currentZonaOp = parseInt(curPosIzv1[curLine], 10);
                 //hideIzvOp(dynamicEvHandlerIZV1, i, data);
                 hideOp(UpravlenieOpovesheniem.KZONOP, lineLoopsDataUprOp[curPosUprOp - 1].KShOPZONY, KIZVSHsLength)
@@ -6031,10 +6062,10 @@ function handleNextOp(shleif, curLine, KIZVSHsLength, izvLasPos1,
 function handleOpPosOp(shleif, curLine, KIZVSHsLength, izvLasPos1, 
     dynamicEvHandlerIZV1, data,
    curPosIzv1, nextPosIzv1, prevPosIzv1){
-    if(izvLasPos1[curLine]){
-        izvLasPos1[curLine].addEventListener('blur', (e)=>{
+    if(izvLasPos1[shleif][curLine]){
+        izvLasPos1[shleif][curLine].addEventListener('blur', (e)=>{
             e.preventDefault();
-            curPosIzv1[curLine] = parseInt(izvLasPos1[curLine].value, 10) - 1;
+            curPosIzv1[curLine] = parseInt(izvLasPos1[shleif][curLine].value, 10) - 1;
             if(curPosIzv1[curLine] + 1 >= KIZVSHsLength){
                 nextPosIzv1[curLine] = 1;
                 prevPosIzv1[curLine] = curPosIzv1[curLine] - 1;
@@ -6060,7 +6091,122 @@ function handleOpPosOp(shleif, curLine, KIZVSHsLength, izvLasPos1,
     }  
 }
 
+function setADROP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+            for(let x = 0; x < KOPSh; x++){
+                if(handlerArr[i][j][x][0]){
+                    //handlerArr[i][j][x][0].addEventListener('blur', ()=>{
+                        handlerArr[i][j][x][0].addEventListener('focus', ()=>{
+                            handlerArr[i][j][x][0].style.boxShadow = 'none';
+                        });
+            
+                        handlerArr[i][j][x][0].addEventListener('blur', ()=>{
+                            if(handlerArr[i][j][x][0].value == ""){ 
+                                handlerArr[i][j][x][0].style.boxShadow = 'none';
+                                return;
+                            }
+                            else if(handlerArr[i][j][x][0].value.length <= 20){
+                                dataToSave[i][j][x][0] = handlerArr[i][j][x][0].value;
+                                handlerArr[i][j][x][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                                console.log(i + " ADROP: " + dataToSave[i][j][x][0] + " L: " + dataToSave[i][j][x][0].length);
+                            }
+                            else
+                                handlerArr[i][j][x][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        });
+                    //});
+                }
 
+            }
+        }
+    }
+}
+
+function setIPOP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KShOPZONY; j++) {
+            for(let x = 0; x < KOPSh; x++){
+                if(handlerArr[i][j][x][1]){
+                    handlerArr[i][j][x][1].onkeypress = (e)=>{
+                        e = e || event;
+                       if (e.ctrlKey || e.altKey || e.metaKey) return;
+                       var chr = getChar(e);
+                       console.log("Char pressed: " + chr);
+                       if(chr == ',' || chr == '.')
+                       {   
+                           let count = 0, pos = -1;
+                           if(chr == ',' || chr == '.'){
+                                if(handlerArr[i][j][x][1].value.indexOf('.') == -1)
+                                {
+                                    while((pos = handlerArr[i][j][x][1].value.indexOf(',', pos + 1 )) != -1){
+                                        count++;
+                                    }
+                                    if(count >= 1) {e.preventDefault(); count = 0; return;}
+                                    else { count = 0;  }
+                                }
+                                else
+                                {
+                                    while((pos = handlerArr[i][j][x][1].value.indexOf('.', pos + 1 )) != -1){
+                                        count++;
+                                    }
+                                    if(count >= 1) {e.preventDefault(); count = 0; return;}
+                                    else  { count = 0;  }   
+                                }
+                           }
+            
+                           return;
+                       }
+                       if(chr == null) return;
+            
+                       if (chr < '0' || chr > '9') {
+                           return false;
+                       }
+                    };
+            
+                    handlerArr[i][j][x][1].addEventListener('focus', ()=>{
+                        handlerArr[i][j][x][1].style.boxShadow = 'none';
+                    });
+            
+                    handlerArr[i][j][x][1].addEventListener('blur', ()=>{
+                        if(handlerArr[i][j][x][1].value.indexOf(',')== -1 && handlerArr[i][j][x][1].value.indexOf('.')== -1)
+                            handlerArr[i][j][x][1].value += ',0';
+                        if(handlerArr[i][j][x][1].value[handlerArr[i][j][x][1].value.length - 1] == '.' || handlerArr[i][j][x][1].value[handlerArr[i][j][x][1].value.length - 1] == ',')
+                            handlerArr[i][j][x][1].value += '0';
+            
+                        if(handlerArr[i][j][x][1].value.search(regExBroken) != -1){
+                        
+                            if(handlerArr[i][j][x][1].value.indexOf(',')!= -1) handlerArr[i][j][x][1].value = handlerArr[i][j][x][1].value.replace(/\,/, '.');
+            
+                        if(parseFloat(handlerArr[i][j][x][1].value) >= 0 && parseFloat(handlerArr[i][j][x][1].value) <= 20){
+                            dataToSave[i][j][x][1] = parseFloat(handlerArr[i][j][x][1].value);
+                            handlerArr[i][j][x][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                            // if( dataToSave[i].ADRShPT != '' &&
+                            //     dataToSave[i].IPShPT >= 1 ){
+                            //         handlerArr[i][6].checked = true;
+                            //         dataToSave[i].configured = true;
+                            // }
+                            // else{
+                            //     handlerArr[i][6].checked = false;
+                            //     dataToSave[i].configured = false;
+                            // }
+                            console.log("IPOP: " +  dataToSave[i][j][x][1]);
+                        }
+                        else if(handlerArr[i][j][x][1].value == ""){
+                            return;
+                        }
+                        else
+                            {
+                                handlerArr[i][j][x][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                            }
+                        }
+                        else
+                            handlerArr[i][j][x][1].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                    }); 
+                }
+            }
+        }
+    }
+}
 
 //Funcs------------------------------
 
