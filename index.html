@@ -101,7 +101,7 @@
             padding: 50px;
         }
 
-        .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn, .lineLoopBtnsUpr, .lineLoopBtnsUprOp{
+        .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn, .lineLoopBtnsUpr, .lineLoopBtnsUprOp, .lineLoopBtnsformSys, .lineLoopBtnsdiagnSys{
             display: box;
             display: flex;
             width: 370px;
@@ -112,7 +112,7 @@
             margin-left: 0px;
             width: 100%;
         }
-        .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item, .lineLoopBtnsUpr-item, .lineLoopBtnsUprOp-item{
+        .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item, .lineLoopBtnsUpr-item, .lineLoopBtnsUprOp-item, .lineLoopBtnsformSys-item, .lineLoopBtnsdiagnSys-item{
             margin-right: 10px;
             padding: 5px;
         }
@@ -317,42 +317,7 @@
                 
                         <p>Резерв шлейфов, %:</p>
                         <input type="number" name="REZShO" id="REZShO" placeholder="0...100">
-                
-                        <!-- <h3>Зона оповещения</h3>
-                        <p>Зона:</p>
-                        <input type="number" name="ZONAShOP" id="ZONAShOP" placeholder="1...Количетво зон оповещения">
-                
-                        <p>Наименование/адрес:</p>
-                        <input type="text" name="ADRShOP" id="ADRShOP" placeholder="до 20 символов">
-                
-                        <p>Количество шлейфов управления оповещением:</p>
-                        <input type="number" name="KShOPZONY" id="KShOPZONY" placeholder="1...480">
-                
-                        <h3>Шлейф управления оповещением</h3>
-                        <p>Количество оповещателей:</p>
-                        <input type="number" name="KOPSh" id="KOPSh" placeholder="1...">
-                
-                        <p>Суммарный ток оповещателя в режиме оповещения, мА:</p>
-                        <input type="text" name="IPOPSh" id="IPOPSh" placeholder="0,0...20,0">
-                
-                        
-                        <p>Взрывозашита:</p>
-                        <input type="checkbox" name="ExOPSh" id="ExOPSh">
-                
-                        <p>Тип барьера:</p>
-                        <input type="text" name="TBIZOPSh" id="TBIZOPSh">
-                
-                        <select name="TBIZOPSh_Select" id="TBIZOPSh_Select">
-                            <option value="1">Выберите тип:</option>
-                        </select>
-                
-                        <h3>Оповещатель</h3>
-                        <p>Адрес:</p>
-                        <input type="text" name="ADROP" id="ADROP" placeholder="до 20 символов">
-                        
-                        <p>Ток оповещателя в режиме оповещения, мА:</p>
-                        <input type="text" name="IPOP" id="IPOP" placeholder="0,0...20,0"> -->
-                
+                        <br>
                         <button type="submit" id="sbtForm5" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать зоны</button>
                     </form>
 
@@ -363,6 +328,62 @@
                         <span id="lastPosUprOp" class="lineLoopBtnsUprOp-item"></span>
                         <button class="lineLoopBtnsUprOp-item" id="lineLoopNextUprOp">След.</button>
                     </div>
+                </div>
+
+                <div id="formSysConfiguration">
+                    <form action="" id="dialog6" class="form-6">
+                        <p>Количество дискретных выходов (контакт реле), кроме "Пожар" и "Неисправность":</p>
+                        <input type="number" name="KRVYKh" id="KRVYKh" placeholder="0...640">
+
+                        <p>Резерв выходов, %:</p>
+                        <input type="number" name="KRREZ" id="KRREZ" placeholder="0...100">
+                        <br>
+                        <button type="submit" id="sbtForm6" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать дискретный релейный выход</button>
+                    </form>
+
+                    <div id="lineLoopBtnsformSys"  class="lineLoopBtnsformSys" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtnsformSys-item" id="lineLoopPrevformSys">Пред.</button>
+                        <span class="lineLoopBtnsformSys-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPosformSys" class="lineLoopBtnsformSys-item">
+                        <span id="lastPosformSys" class="lineLoopBtnsformSys-item"></span>
+                        <button class="lineLoopBtnsformSys-item" id="lineLoopNextformSys">След.</button>
+                    </div>
+                </div>
+
+                <div id="diagnSysConfiguration">
+                    <form action="" id="dialog7" class="form-7">
+                        <p>Количество дискретных входов, входов "неисправность":</p>
+                        <input type="number" name="KDVKh" id="KDVKh" placeholder="0...640">
+
+                        <p>Резерв дискретных входов:</p>
+                        <input type="number" name="KDVKhREZ" id="KDVKhREZ" placeholder="0...100">
+
+                        <p>Количество аналоговых входов:</p>
+                        <input type="number" name="KAVKh" id="KAVKh" placeholder="0...320">
+
+                        <p>Резерв аналоговых входов:</p>
+                        <input type="number" name="KAVKhREZ" id="KAVKhREZ" placeholder="0...100">
+                        <br>
+                        <button type="submit" id="sbtForm7" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать</button>
+                    </form>
+
+                    <div id="lineLoopBtnsdiagnSys"  class="lineLoopBtnsdiagnSys" style="flex-wrap: nowrap;">
+                        <button class="lineLoopBtnsdiagnSys-item" id="lineLoopPrevdiagnSys">Пред.</button>
+                        <span class="lineLoopBtnsdiagnSys-item">Шлейф №</span>
+                        <input type="number" name="" id="lineLoopPosdiagnSys" class="lineLoopBtnsdiagnSys-item">
+                        <span id="lastPosdiagnSys" class="lineLoopBtnsdiagnSys-item"></span>
+                        <button class="lineLoopBtnsdiagnSys-item" id="lineLoopNextdiagnSys">След.</button>
+                    </div>
+                </div>
+
+                <div id="connSysConfiguration">
+                    <form  id="dialog8" class="form-8">
+                            <p>Количество последовательных портов RS-485:</p>
+                            <input type="number" name="KRS485" id="KRS485" placeholder="0...160">
+        
+                            <p>Сконфигурировано:</p>
+                            <input type="checkbox"  id="KRS485_checked" disabled="true">
+                    </form>
                 </div>
                 <!-- <div id="izvBtns" class="izvBtns_">
                     <button class="izvBtns-item" id="izvBtnsPrev">Пред.</button>

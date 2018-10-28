@@ -3,7 +3,19 @@
 
 document.addEventListener('DOMContentLoaded', function(){
     const socket = io.connect();
-
+    let genIzvHandlers = function () {
+        var arr, len, i;
+        if(arguments.length > 0) {
+            len = [].slice.call(arguments, 0, 1)[0];
+            arr = new Array(len);
+            for(i = 0; i < len; i++) {
+                arr[i] = genIzvHandlers.apply(null, [].slice.call(arguments, 1));
+            }
+        } else {
+            return null; //or whatever you want to initialize values to.
+        }
+        return arr;
+    };
     // const SaveConfBtn = document.getElementById('saveConf');
     // SaveConfBtn.style.display = 'none';
     // SaveConfBtn.addEventListener('click', (e)=>{
@@ -725,6 +737,9 @@ let ds = [];
               dialog3 = document.getElementById('dialog3'),
               dialog4 = document.getElementById('dialog4'),
               dialog5 = document.getElementById('dialog5'),
+              dialog6 = document.getElementById('dialog6'),
+              dialog7 = document.getElementById('dialog7'),
+              dialog8 = document.getElementById('dialog8'),
               KonfiguratsiaSPZ = document.getElementById('KonfiguratsiaSPZ'),
               topMenu = document.getElementById('topMenu'),
               podsystemi = document.getElementById('podsystemi'),
@@ -813,6 +828,9 @@ let ds = [];
             document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
             document.querySelector('div#autoSysConfiguration').style.display = 'block';
             document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
             
             autoSys.style.backgroundColor = '#5f97ef';
             autoSys.style.color = 'white';
@@ -822,6 +840,12 @@ let ds = [];
             uprPojSys.style.color = '#000';
             uprOpSys.style.backgroundColor = '#fff';
             uprOpSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
 
             if(AutoSignalizatsiya.KShS)
                 iKShS1.value = AutoSignalizatsiya.KShS;
@@ -838,6 +862,9 @@ let ds = [];
             document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
             document.querySelector('div#ruchSysConfiguration').style.display = 'block';
             document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
 
             ruchSys.style.backgroundColor = '#5f97ef';
             ruchSys.style.color = 'white';
@@ -847,6 +874,12 @@ let ds = [];
             uprPojSys.style.color = '#000';
             uprOpSys.style.backgroundColor = '#fff';
             uprOpSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
 
             if(RutshnayaSignalizatsiya.KShSR)
                 iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
@@ -863,6 +896,9 @@ let ds = [];
             document.querySelector('div#uprPojSysConfiguration').style.display = 'block';
             document.querySelector('div#ruchSysConfiguration').style.display = 'none';
             document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
 
             uprPojSys.style.backgroundColor = '#5f97ef';
             uprPojSys.style.color = 'white';
@@ -872,6 +908,12 @@ let ds = [];
             ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
 
             if(RutshnayaSignalizatsiya.KShSR)
                 iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
@@ -889,6 +931,9 @@ let ds = [];
             document.querySelector('div#autoSysConfiguration').style.display = 'none';
             document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
             document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
             document.querySelector('div#uprOpSysConfiguration').style.display = 'block';
 
             uprOpSys.style.backgroundColor = '#5f97ef';
@@ -899,6 +944,12 @@ let ds = [];
             ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
 
             // if(RutshnayaSignalizatsiya.KShSR)
             //     iKShSR2.value = RutshnayaSignalizatsiya.KShSR;
@@ -906,6 +957,87 @@ let ds = [];
             //     iKMIShSR2.value = RutshnayaSignalizatsiya.KMIShSR;
             // if(RutshnayaSignalizatsiya.REZShS > 0)
             //     iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
+        });
+
+        formSys.addEventListener('click', () =>{
+            dialog6.style.display = 'inline';
+            dialog6.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'block';
+
+            formSys.style.backgroundColor = '#5f97ef';
+            formSys.style.color = 'white';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
+        });
+        
+        diagnSys.addEventListener('click', () =>{
+            dialog7.style.display = 'inline';
+            dialog7.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'block';
+
+            diagnSys.style.backgroundColor = '#5f97ef';
+            diagnSys.style.color = 'white';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
+        });
+
+        connSys.addEventListener('click', () =>{
+            dialog8.style.display = 'inline';
+            dialog8.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'block';
+
+            connSys.style.backgroundColor = '#5f97ef';
+            connSys.style.color = 'white';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
         });
 
 
@@ -5259,6 +5391,12 @@ function setKShOPZONY(handlerArr, size, dataToSave){
 let curPosShleifOp = [], nextPosShleifOp = [], prevPosShleifOp = [], PositionShleifOp = [];
 let BtnsIDShleifOp = [], LasPosShleifOp = [], LastSpanShleifOp = [], BtnsNextShleifOp = [], BtnsPrevShleifOp = [],
 _ShleifOp = [], dynamicEvHandlerShleifOp, currentZonaOp;
+//_ShleifOp = genIzvHandlers(64, 480, 4);
+
+function initShleifOp(){
+    _ShleifOp = genIzvHandlers(64, 480, 4);
+}
+initShleifOp();
 
 function setDlgZonaOp(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
@@ -5275,7 +5413,7 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
                     
                 }
                 dynamicEvHandlerShleifOp = genIzvHandlers(lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, 10);
-                _ShleifOp = genIzvHandlers(lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, 4);
+                
 
                 BtnsIDShleifOp[i] = document.getElementById(`BtnsIDShleifOp${i}`);
                 LasPosShleifOp[i] = document.getElementById(`LasPosShleifOp${i}`);
@@ -5744,9 +5882,10 @@ function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
 
 let curPosOp = [], nextPosOp = [], prevPosOp = [], PositionOp = [];
 let BtnsIDOp = [], LasPosOp = [], LastSpanOp = [], BtnsNextOp = [], BtnsPrevOp = [],
-_Opoveshateli = [], dynamicEvHandlerOp;
-
+ dynamicEvHandlerOp;
+let _Opoveshateli = genIzvHandlers(64, 480, 100, 2);
 initBtnsOp();
+//_Opoveshateli = genIzvHandlers(64, 480, 100, 2);
 
 function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
     for (let i = 0; i < size; i++) {
@@ -5767,7 +5906,7 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                                 
                             }
                         dynamicEvHandlerOp = genIzvHandlers(size, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
-                        _Opoveshateli = genIzvHandlers(size, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 2);
+                        
         
 
 
@@ -6208,6 +6347,1283 @@ function setIPOP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
     }
 }
 
+//-----------------------------Подсистема формирования выходных сигналов 
+//исполнительных устройств и взаимодйствия с смежными подсистемами-----------------------------//
+document.querySelector('div#formSysConfiguration').style.display = 'none';
+const KRVYKh = document.getElementById('KRVYKh'),
+    KRREZ = document.getElementById('KRREZ');
+
+const   sbtForm6 = document.getElementById('sbtForm6'),
+        lineLoopBtnsFormSys = document.getElementById('lineLoopBtnsformSys'),
+        lineLoopPrevFormSys = document.getElementById('lineLoopPrevformSys'),
+        lineLoopPosFormSys = document.getElementById('lineLoopPosformSys'),
+        lastPosFormSys= document.getElementById('lastPosformSys'),
+        lineLoopNextFormSys = document.getElementById('lineLoopNextformSys');
+
+        lineLoopBtnsFormSys.style.display = 'none';
+        
+function hideForm(id, length){
+    for (let i = 0; i < length; i++) {
+        if(document.querySelector(`#${id}` + i))
+            document.querySelector(`#${id}` + i).style.display = 'none';
+    }
+}
+    lineLoopPrevFormSys.addEventListener('click', ()=>{
+            if(prevIndexFormSys < 1) prevIndexFormSys = lineLoopsFormSys.length;
+            nextIndexFormSys = curPosFormSys;
+            curPosFormSys = prevIndexFormSys;
+            prevIndexFormSys--;
+            if(prevIndexFormSys < 1) prevIndexFormSys = lineLoopsFormSys.length;
+            lineLoopPosFormSys.value = curPosFormSys;
+            hideForm('_DRV_' ,lineLoopsFormSys.length);
+            showLineLoopsRuchn('_DRV_' + (curPosFormSys - 1));
+            //hideAll();
+    
+    });
+    
+    lineLoopNextFormSys.addEventListener('click', ()=>{
+                if(nextIndexFormSys > lineLoopsFormSys.length ) nextIndexFormSys = 1;
+                prevIndexFormSys = curPosFormSys;
+                curPosFormSys = nextIndexFormSys;
+                nextIndexFormSys++;
+                if(nextIndexFormSys > lineLoopsFormSys.length) nextIndexFormSys = 1;
+                lineLoopPosFormSys.value = curPosFormSys;
+                hideForm('_DRV_' ,lineLoopsFormSys.length);
+                showLineLoopsRuchn('_DRV_' + (curPosFormSys - 1));
+                //hideAll();
+    });
+    
+    
+    lineLoopPosFormSys.addEventListener('blur', ()=>{
+        curPosFormSys = parseInt(lineLoopPosFormSys.value, 10);
+        if(curPosFormSys + 1 > lineLoopsFormSys.length + 1){
+            nextIndexFormSys  = 1;
+            prevIndexFormSys  = curPosFormSys - 1;
+        }
+        else if(curPosFormSys - 1 < 1){
+            prevIndexFormSys = lineLoopsFormSys.length;
+            nextIndexFormSys = curPosFormSys + 1;
+        }
+        else{
+            prevIndexFormSys  = curPosFormSys - 1;
+            nextIndexFormSys  = curPosFormSys + 1;
+        }
+        hideForm('_DRV_' ,lineLoopsFormSys.length);
+        showLineLoopsRuchn('_DRV_' + (curPosFormSys - 1));
+        //hideAll();
+    });
+
+//KRVYKh   
+KRVYKh.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KRVYKh.addEventListener('focus', ()=>{
+    KRVYKh.style.boxShadow = 'none';
+});
+
+KRVYKh.addEventListener('blur', ()=>{
+   if(KRVYKh.value.search(regEx) == -1){
+   if(parseInt(KRVYKh.value, 10) >= 1 && parseInt(KRVYKh.value, 10) <= 640){
+       FVSIUiVsSP.KRVYH = parseInt(KRVYKh.value, 10);
+       KRVYKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KRVYKh: "+ FVSIUiVsSP.KRVYH);
+   }
+   else if(KRVYKh.value == ""){
+       FVSIUiVsSP.KRVYH = 0;
+       console.log("KRVYKh: "+  FVSIUiVsSP.KRVYH);
+       return;
+   }
+   else
+       {
+        KRVYKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KRVYKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+//KRREZ
+KRREZ.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KRREZ.addEventListener('focus', ()=>{
+    KRREZ.style.boxShadow = 'none';
+});
+
+KRREZ.addEventListener('blur', ()=>{
+   if(KRREZ.value.search(regEx) == -1){
+   if(parseInt(KRREZ.value, 10) >= 0 && parseInt(KRREZ.value, 10) <= 100){
+       FVSIUiVsSP.KRREZ = parseInt(KRREZ.value, 10);
+       KRREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KRREZ: "+ FVSIUiVsSP.KRREZ);
+   }
+   else if(KRREZ.value == ""){
+       FVSIUiVsSP.KRREZ = 0;
+       console.log("KRREZ: "+  FVSIUiVsSP.KRREZ);
+       return;
+   }
+   else
+       {
+        KRREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+        KRREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+let lineLoopsFormSys = [], dynamicEventHandlersFormSys = [], lineLoopsDataFormSys = [];
+let curPosFormSys, prevIndexFormSys, nextIndexFormSys;
+
+sbtForm6.addEventListener('click', (e) =>{
+    e.preventDefault();
+    if(FVSIUiVsSP.KRVYH ){
+        alert('Сконфигурировано!');
+        lineLoopBtnsFormSys.style.display = 'block';
+        lineLoopsFormSys.length = FVSIUiVsSP.KRVYH ;
+        // for (let i = 0; i < lineLoopsUpr.length; i++) {
+        //     lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+        // }
+        createlineLoopFormSys(FVSIUiVsSP.KRVYH);
+        // let lastPosUpr = document.getElementById('lastPosUpr'),
+        //     lineLoopPosUpr = document.getElementById('lineLoopPosUpr');
+
+        lastPosFormSys.innerHTML = 'из ' + lineLoopsFormSys.length;
+        lineLoopPosFormSys.min = 1;
+        lineLoopPosFormSys.max = lineLoopsFormSys.length;
+        lineLoopPosFormSys.value = 1;
+        curPosFormSys = 1;
+        prevIndexFormSys = lineLoopsFormSys.length;
+        nextIndexFormSys = curPosFormSys + 1;
+        
+        if(lineLoopsFormSys.length){
+            for (let i = 0; i < lineLoopsFormSys.length; i++) {
+                for (let j = 0; j < 3; j++) {
+                    dynamicEventHandlersFormSys[i] = [];
+                }
+            }
+         }
+
+        setDynHandlersFormSys(dynamicEventHandlersFormSys, lineLoopsFormSys.length);
+        
+        showLineLoopsRuchn('_DRV_' + (curPosFormSys - 1));
+        //hideAutoObnarUpr();
+        if(lineLoopsFormSys.length){
+            for (let i = 0; i < lineLoopsFormSys.length; i++) {                
+                lineLoopsDataFormSys[i] = FVSIUiVsSP.DRV;
+                //dynamicEventHandlersUprOp[i][5].style.display = 'none';
+            }
+         }
+
+            //lineLoopConf = document.getElementById('lineLoopKonf');
+            setADRRVYKh(dynamicEventHandlersFormSys, lineLoopsFormSys.length, lineLoopsDataFormSys);
+            setExRVYKh(dynamicEventHandlersFormSys, lineLoopsFormSys.length, lineLoopsDataFormSys);
+            setTBIZR(dynamicEventHandlersFormSys, lineLoopsFormSys.length, lineLoopsDataFormSys);
+            // setKShOPZONY(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            // setDlgZonaOp(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            //setCheckboxUpr(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+
+            
+    }
+    else
+        alert('Конфигурация не завершена! Пропущены данные.');
+});
+
+function createlineLoopFormSys(val){
+        if(val > 0){
+            let elem, subelem, option, mainDiv;
+            mainDiv = document.createElement('div');
+            mainDiv.setAttribute('id','lineLoopKonfFormSys');
+            mainDiv.setAttribute('class','flex-item');
+            for (let i = 0; i < val; i++) {
+                elem = document.createElement('form');
+                elem.setAttribute("id", '_DRV_' + i);
+                
+                // subelem = document.createElement('h3')
+                // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
+                // elem.appendChild(subelem);
+
+                // subelem = document.createElement('p');
+                // subelem.appendChild(document.createTextNode("Зона:"));
+                // elem.appendChild(subelem);
+
+                // subelem = document.createElement('input');
+                // subelem.setAttribute('type', 'number');
+                // subelem.setAttribute('id', `ZONAShOP${i}`);
+                // //subelem.setAttribute('placeholder', '1...32');
+                // elem.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Наименование, адрес:'));
+                elem.appendChild(subelem);
+
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'text');
+                subelem.setAttribute('id', `ADRRVYKh${i}`);
+                subelem.setAttribute('placeholder', `до 20 символов...`);
+                elem.appendChild(subelem);
+
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode("Взрывозащита:"));
+                elem.appendChild(subelem);
+
+                subelem = document.createElement('input');
+                subelem.setAttribute('type', 'checkbox');
+                subelem.setAttribute('id', `ExRVYKh${i}`);
+                elem.appendChild(subelem);
+
+                let div = document.createElement('div');
+                div.setAttribute('id', `TypeBIZdrv_${i}`);
+                subelem = document.createElement('p');
+                subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+                div.appendChild(subelem);
+
+
+                option = document.createElement('label');
+                subelem = document.createElement('input');
+                subelem.setAttribute('list', `_TBIZR_${i}`);
+                subelem.setAttribute('type', 'text');
+                subelem.setAttribute('id', `TBIZR${i}`);
+                option.appendChild(subelem);
+                div.appendChild(option);
+                
+                subelem = document.createElement('datalist');
+                subelem.setAttribute('id', `_TBIZR_${i}`);
+                div.appendChild(subelem);
+                div.style.display = 'none';
+                elem.appendChild(div);
+
+                subelem = document.createElement('br');
+                elem.appendChild(subelem);
+
+                elem.style.display = 'none';
+                mainDiv.appendChild(elem);
+                document.querySelector('div#formSysConfiguration').appendChild(mainDiv);
+            
+        }
+    }
+}
+
+function setDynHandlersFormSys(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0] =document.getElementById(`ADRRVYKh`+i);
+        handlerArr[i][1] =document.getElementById(`ExRVYKh${i}`);
+        handlerArr[i][2] =document.getElementById(`TypeBIZdrv_${i}`);     
+        handlerArr[i][3] =document.getElementById(`TBIZR${i}`); 
+        handlerArr[i][4] =document.getElementById(`_TBIZR_${i}`); 
+    }
+}
+
+function setADRRVYKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0].addEventListener('focus', ()=>{
+                handlerArr[i][0].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][0].addEventListener('blur', ()=>{
+                if(handlerArr[i][0].value == ""){ 
+                    handlerArr[i][0].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][0].value.length <= 20){
+                    dataToSave[i].ADRRVYKh = handlerArr[i][0].value;
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + " ADRRVYKh: " + dataToSave[i].ADRRVYKh + " L: " + dataToSave[i].ADRRVYKh.length);
+                }
+                else
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
+
+function setExRVYKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+
+        if(handlerArr[i][1]){
+            handlerArr[i][1].addEventListener('click', ()=>{
+                if(handlerArr[i][1].checked)
+                { 
+                    dataToSave[i].ExRVYKh = true;
+                    handlerArr[i][2].style.display = 'block';
+                
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                
+                    let oOption = document.createElement("option");
+                    // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                    // oOption.setAttribute("value", "");
+                    // handlerArr[i][5].appendChild(oOption);   
+                
+                    for (let j = 0; j < IntermediateModules.length; j++) {
+                        for(let prop in IntermediateModules[j]){
+                            if(IntermediateModules[j][prop] == "BIZ"){
+                                oOption = document.createElement("option")
+                                //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                oOption.setAttribute("value", IntermediateModules[j].name);
+                                handlerArr[i][4].appendChild(oOption);   
+                            }
+                        }        
+                    }
+                    
+                }
+                else  {
+                    dataToSave[i].ExRVYKh = false;
+                    handlerArr[i][2].style.display = 'none';
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                }
+                //e.preventDefault();
+            });
+                    
+        }
+    }
+}
+
+function setTBIZR(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        if(handlerArr[i][3]){
+                handlerArr[i][3].addEventListener('focus', ()=>{
+                    handlerArr[i][3].style.boxShadow = 'none';
+                    });
+                    
+                    handlerArr[i][3].addEventListener('blur', (e)=>{
+                    if(handlerArr[i][3].value == ""){
+                        let flag = confirm("Взрывозащита типа \"d\"");
+                        if(flag)
+                        {
+                            dataToSave[i].TBIZR  = "Взрывозащита типа \"d\"";
+                            handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            console.log("TBIZR: " + dataToSave[i].TBIZR);
+                            //TBIZShPT.style.display = 'none';
+        
+                            //handlerArr[i][5].style.display = 'none';
+                            e.preventDefault();
+        
+                            // if( dataToSave[i].ADRShPT != '' &&
+                            // dataToSave[i].IPShPT >= 1 ){
+                            //     handlerArr[i][6].checked = true;
+                            //     dataToSave[i].configured = true;
+                            // }
+                            // else{    
+                            //     handlerArr[i][6].checked = false;
+                            //     dataToSave[i].configured = false;
+                            // }
+                            // list = false
+                            return;
+                        }
+                        handlerArr[i][3].style.boxShadow = 'none';
+                        //handlerArr[i][5].style.display = 'block';
+                        return;
+                    }
+                    else if(handlerArr[i][3].value.length <= 20){
+                        dataToSave[i].TBIZR = handlerArr[i][3].value;
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        // if( dataToSave[i].ADRShPT != '' &&
+                        // dataToSave[i].IPShPT >= 1 ){
+                        //     handlerArr[i][6].checked = true;
+                        //     dataToSave[i].configured = true;
+                        // }
+                        // else{    
+                        //     handlerArr[i][6].checked = false;
+                        //     dataToSave[i].configured = false;
+                        // }
+        
+                        console.log("TBIZR: " + dataToSave[i].TBIZR + " L: " + dataToSave[i].TBIZR.length);
+                    }
+                    else
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            } 
+        }   
+}
+
+//-----------------------------Подсистема диагностики-----------------------------//
+document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+const KDVKh = document.getElementById('KDVKh'),
+KDVKhREZ = document.getElementById('KDVKhREZ'),
+KAVKh = document.getElementById('KAVKh'),
+KAVKhREZ = document.getElementById('KAVKhREZ');
+    
+const   sbtForm7 = document.getElementById('sbtForm7'),
+lineLoopBtnsdiagnSys = document.getElementById('lineLoopBtnsdiagnSys'),
+lineLoopPrevdiagnSys = document.getElementById('lineLoopPrevdiagnSys'),
+lineLoopPosdiagnSys = document.getElementById('lineLoopPosdiagnSys'),
+lastPosdiagnSys= document.getElementById('lastPosdiagnSys'),
+lineLoopNextdiagnSys = document.getElementById('lineLoopNextdiagnSys');
+
+lineLoopBtnsdiagnSys.style.display = 'none';
+
+lineLoopPrevdiagnSys.addEventListener('click', ()=>{
+    if(prevIndexdiagnSys < 1) prevIndexdiagnSys = lineLoopsdiagnSys.length;
+    nextIndexdiagnSys = curPosdiagnSys;
+    curPosdiagnSys = prevIndexdiagnSys;
+    prevIndexdiagnSys--;
+    if(prevIndexdiagnSys < 1) prevIndexdiagnSys = lineLoopsdiagnSys.length;
+    lineLoopPosdiagnSys.value = curPosdiagnSys;
+    hideForm('_VD_' ,lineLoopsdiagnSys.length);
+    showLineLoopsRuchn('_VD_' + (curPosdiagnSys - 1));
+    //hideAll();
+
+});
+
+lineLoopNextdiagnSys.addEventListener('click', ()=>{
+        if(nextIndexdiagnSys > lineLoopsdiagnSys.length ) nextIndexdiagnSys = 1;
+        prevIndexdiagnSys = curPosdiagnSys;
+        curPosdiagnSys = nextIndexdiagnSys;
+        nextIndexdiagnSys++;
+        if(nextIndexdiagnSys > lineLoopsdiagnSys.length) nextIndexdiagnSys = 1;
+        lineLoopPosdiagnSys.value = curPosdiagnSys;
+        hideForm('_VD_' ,lineLoopsdiagnSys.length);
+        showLineLoopsRuchn('_VD_' + (curPosdiagnSys - 1));
+        //hideAll();
+});
+
+
+lineLoopPosdiagnSys.addEventListener('blur', ()=>{
+curPosdiagnSys = parseInt(lineLoopPosdiagnSys.value, 10);
+if(curPosdiagnSys + 1 > lineLoopsdiagnSys.length + 1){
+    nextIndexdiagnSys  = 1;
+    prevIndexdiagnSys  = curPosdiagnSys - 1;
+}
+else if(curPosdiagnSys - 1 < 1){
+    prevIndexdiagnSys = lineLoopsdiagnSys.length;
+    nextIndexdiagnSys = curPosdiagnSys + 1;
+}
+else{
+    prevIndexdiagnSys  = curPosdiagnSys - 1;
+    nextIndexdiagnSys  = curPosdiagnSys + 1;
+}
+hideForm('_VD_' ,lineLoopsdiagnSys.length);
+showLineLoopsRuchn('_VD_' + (curPosdiagnSys - 1));
+//hideAll();
+});
+
+//KDVKh
+KDVKh.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KDVKh.addEventListener('focus', ()=>{
+    KDVKh.style.boxShadow = 'none';
+});
+
+KDVKh.addEventListener('blur', ()=>{
+   if(KDVKh.value.search(regEx) == -1){
+   if(parseInt(KDVKh.value, 10) >= 1 && parseInt(KDVKh.value, 10) <= 640){
+       PodsysDiagnostiki.KDVKh = parseInt(KDVKh.value, 10);
+       KDVKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KRVYKh: "+ PodsysDiagnostiki.KDVKh);
+   }
+   else if(KDVKh.value == ""){
+        PodsysDiagnostiki.KDVKh = 0;
+       console.log("KDVKh: "+  PodsysDiagnostiki.KDVKh);
+       return;
+   }
+   else
+       {
+        KDVKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KDVKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+//KDVKhREZ
+KDVKhREZ.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KDVKhREZ.addEventListener('focus', ()=>{
+    KDVKhREZ.style.boxShadow = 'none';
+});
+
+KDVKhREZ.addEventListener('blur', ()=>{
+   if(KDVKhREZ.value.search(regEx) == -1){
+   if(parseInt(KDVKhREZ.value, 10) >= 0 && parseInt(KDVKhREZ.value, 10) <= 100){
+       PodsysDiagnostiki.KDVKhREZ = parseInt(KDVKhREZ.value, 10);
+       KDVKhREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KDVKhREZ: "+ PodsysDiagnostiki.KDVKhREZ);
+   }
+   else if(KDVKhREZ.value == ""){
+        PodsysDiagnostiki.KDVKhREZ = 0;
+       console.log("KDVKhREZ: "+  PodsysDiagnostiki.KDVKhREZ);
+       return;
+   }
+   else
+       {
+        KDVKhREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KDVKhREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+//KAVKh
+KAVKh.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KAVKh.addEventListener('focus', ()=>{
+    KAVKh.style.boxShadow = 'none';
+});
+
+KAVKh.addEventListener('blur', ()=>{
+   if(KAVKh.value.search(regEx) == -1){
+   if(parseInt(KAVKh.value, 10) >= 0 && parseInt(KAVKh.value, 10) <= 320){
+       PodsysDiagnostiki.KAVkh = parseInt(KAVKh.value, 10);
+       KAVKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KAVKh: "+ PodsysDiagnostiki.KAVkh);
+   }
+   else if(KAVKh.value == ""){
+       PodsysDiagnostiki.KAVkh = 0;
+       console.log("KAVKh: "+  PodsysDiagnostiki.KAVkh);
+       return;
+   }
+   else
+       {
+        KAVKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+   KAVKh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+//KAVKhREZ
+KAVKhREZ.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KAVKhREZ.addEventListener('focus', ()=>{
+    KAVKhREZ.style.boxShadow = 'none';
+});
+
+KAVKhREZ.addEventListener('blur', ()=>{
+   if(KAVKhREZ.value.search(regEx) == -1){
+   if(parseInt(KAVKhREZ.value, 10) >= 0 && parseInt(KAVKhREZ.value, 10) <= 100){
+       PodsysDiagnostiki.KAVKhREZ = parseInt(KAVKhREZ.value, 10);
+       KAVKhREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KAVKhREZ: "+ PodsysDiagnostiki.KAVKhREZ);
+   }
+   else if(KAVKhREZ.value == ""){
+       PodsysDiagnostiki.KAVKhREZ = 0;
+       console.log("KAVKhREZ: "+  PodsysDiagnostiki.KAVKhREZ);
+       return;
+   }
+   else
+       {
+        KAVKhREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+    KAVKhREZ.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
+
+let lineLoopsdiagnSys = [], lineLoopsVA = [], dynamicEventHandlersdiagnSys = [], 
+dynamicEventHandlersVA = [], dynamicEventHandlersVAbtns = [],
+DataVhodDiskretniy = [], DataVhodAnalogoviy = [];
+let curPosdiagnSys, prevIndexdiagnSys, nextIndexdiagnSys, curPosVA, prevIndexVA, nextIndexVA;
+
+sbtForm7.addEventListener('click', (e)=>{
+    e.preventDefault();
+    if(PodsysDiagnostiki.KDVKh && PodsysDiagnostiki.KAVkh){
+        alert('Сконфигурировано!');
+        lineLoopBtnsdiagnSys.style.display = 'block';
+        lineLoopsdiagnSys.length = PodsysDiagnostiki.KDVKh;
+        lineLoopsVA.length = PodsysDiagnostiki.KAVkh;
+        // for (let i = 0; i < lineLoopsUpr.length; i++) {
+        //     lineLoopsUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+        // }
+        createlineLoopdiagnSys(PodsysDiagnostiki.KDVKh, PodsysDiagnostiki.KAVkh);
+        // let lastPosUpr = document.getElementById('lastPosUpr'),
+        //     lineLoopPosUpr = document.getElementById('lineLoopPosUpr');
+
+        lastPosdiagnSys.innerHTML = 'из ' + lineLoopsdiagnSys.length;
+        lineLoopPosdiagnSys.min = 1;
+        lineLoopPosdiagnSys.max = lineLoopsdiagnSys.length;
+        lineLoopPosdiagnSys.value = 1;
+        curPosdiagnSys = 1;
+        prevIndexdiagnSys = lineLoopsdiagnSys.length;
+        nextIndexdiagnSys = curPosdiagnSys + 1;
+        
+        if(lineLoopsdiagnSys.length){
+            for (let i = 0; i < lineLoopsdiagnSys.length; i++) {
+                for (let j = 0; j < 5; j++) {
+                    dynamicEventHandlersdiagnSys[i] = [];
+                }
+            }
+         }
+
+         if(lineLoopsVA.length){
+            for (let i = 0; i < lineLoopsVA.length; i++) {
+                for (let j = 0; j < 5; j++) {
+                    dynamicEventHandlersVA[i] = [];
+                }
+            }
+         }
+
+        setDynHandlersdiagnSys(dynamicEventHandlersdiagnSys, lineLoopsdiagnSys.length);
+        setDynHandlersVA(dynamicEventHandlersVA, lineLoopsVA.length);
+
+        showLineLoopsRuchn('_VD_' + (curPosdiagnSys - 1));
+        dynamicEventHandlersVAbtns[0] = document.getElementById('BtnsIDVA');
+        dynamicEventHandlersVAbtns[1] = document.getElementById('BtnsPrevVA');
+        dynamicEventHandlersVAbtns[2] = document.getElementById('SpanVA');
+        dynamicEventHandlersVAbtns[3] = document.getElementById('LasPosVA');
+        dynamicEventHandlersVAbtns[4] = document.getElementById('LastSpanVA');
+        dynamicEventHandlersVAbtns[5] = document.getElementById('BtnsNextVA');
+
+        dynamicEventHandlersVAbtns[0].style.display = 'block';
+        dynamicEventHandlersVAbtns[4].innerHTML = 'из ' + lineLoopsVA.length;
+        dynamicEventHandlersVAbtns[3].min = 1;
+        dynamicEventHandlersVAbtns[3].max = lineLoopsVA.length;
+        dynamicEventHandlersVAbtns[3].value = 1;
+        curPosVA = 0;
+        prevIndexVA = lineLoopsVA.length;
+        nextIndexVA = curPosVA +1;
+                
+        showLineLoopsRuchn('_VA_' + (curPosVA + 1));
+        
+
+        //hideAutoObnarUpr();
+        if(lineLoopsdiagnSys.length){
+            for (let i = 0; i < lineLoopsdiagnSys.length; i++) {                
+                DataVhodDiskretniy[i] = PodsysDiagnostiki.DI;
+                //dynamicEventHandlersUprOp[i][5].style.display = 'none';
+            }
+         }
+
+         if(lineLoopsVA.length){
+            for (let i = 0; i < lineLoopsVA.length; i++) {                
+                DataVhodAnalogoviy[i] = PodsysDiagnostiki.AI;
+                //dynamicEventHandlersUprOp[i][5].style.display = 'none';
+            }
+         }
+
+            //lineLoopConf = document.getElementById('lineLoopKonf');
+            dynamicEventHandlersVAbtns[1].addEventListener('click', (e)=>{
+                e.preventDefault();
+                nextIndexVA = curPosVA;
+                curPosVA = prevIndexVA;
+                prevIndexVA--;
+                if(curPosVA <= 0) prevIndexVA = lineLoopsVA.length - 1;
+                dynamicEventHandlersVAbtns[3].value = parseInt(curPosVA, 10) + 1;
+                
+                hideForm('_VA_', lineLoopsVA.length);
+                showLineLoopsRuchn('_VA_' + (curPosVA ));  
+                return;//curPosVA, prevIndexVA, nextIndexVA
+            });
+
+            dynamicEventHandlersVAbtns[3].addEventListener('click', (e)=>{
+                e.preventDefault();
+                curPosVA = parseInt(dynamicEventHandlersVAbtns[3].value, 10) - 1;
+                if(curPosVA + 1 >= lineLoopsVA.length){
+                    nextIndexVA = 1;
+                    prevIndexVA = curPosVA - 1;
+                }
+                else if(curPosVA - 1 < 1){
+                    prevIndexVA = lineLoopsVA.length - 1;
+                    nextIndexVA = curPosVA + 1;
+                }
+                else{
+                    prevIndexVA = curPosVA - 1;
+                    nextIndexVA = curPosVA + 1;
+                }
+                //currentZonaOp = parseInt(curPosVA, 10);
+                //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                hideForm('_VA_', lineLoopsVA.length);
+                showLineLoopsRuchn('_VA_' + (curPosVA ));  
+            });
+
+            dynamicEventHandlersVAbtns[5].addEventListener('click', (e)=>{
+                e.preventDefault();
+                if(nextIndexVA > lineLoopsVA.length - 1) nextIndexVA = 0;
+                    prevIndexVA = curPosVA;
+                    curPosVA = nextIndexVA;
+                    nextIndexVA++;
+                    if(nextIndexVA > lineLoopsVA.length + 1) nextIndexVA = 0;
+                    dynamicEventHandlersVAbtns[3].value = parseInt(curPosVA, 10) + 1;
+                    //currentZonaOp = parseInt(curPosIzv1[curLine], 10);
+                    //hideIzvOp(dynamicEvHandlerIZV1, i, data);
+                    hideForm('_VA_', lineLoopsVA.length);
+                    showLineLoopsRuchn('_VA_' + (curPosVA ));  
+            });
+
+            // handlePrevVA(i, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp, BtnsPrevShleifOp, dynamicEvHandlerShleifOp,
+            //     dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+            // handleNextVA(i, dataToSave[curPosUprOp-1].KShOPZONY,  LasPosShleifOp, BtnsNextShleifOp, dynamicEvHandlerShleifOp,
+            //     dataToSave, curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+            // handleVAPos(i, dataToSave[curPosUprOp-1].KShOPZONY, LasPosShleifOp,  dynamicEvHandlerShleifOp, dataToSave,
+            //     curPosShleifOp, nextPosShleifOp, prevPosShleifOp);
+
+            setADRDVKh(dynamicEventHandlersdiagnSys, lineLoopsdiagnSys.length, DataVhodDiskretniy);
+            setExDVKh(dynamicEventHandlersdiagnSys, lineLoopsdiagnSys.length, DataVhodDiskretniy);
+            setTBIZDVKh(dynamicEventHandlersdiagnSys, lineLoopsdiagnSys.length, DataVhodDiskretniy);
+
+            setADRAVKh(dynamicEventHandlersVA, lineLoopsVA.length, DataVhodAnalogoviy);
+            setExAVKh(dynamicEventHandlersVA, lineLoopsVA.length, DataVhodAnalogoviy);
+            setTBIZAVKh(dynamicEventHandlersVA, lineLoopsVA.length, DataVhodAnalogoviy);
+            // setKShOPZONY(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            // setDlgZonaOp(dynamicEventHandlersUprOp, lineLoopsUprOp.length, lineLoopsDataUprOp);
+            //setCheckboxUpr(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+
+            
+    }
+    else
+        alert('Конфигурация не завершена! Пропущены данные.');
+});
+
+function createlineLoopdiagnSys(val1, val2){
+    if(val1 > 0 && val2 > 0){
+        let elem, subelem, option, mainDiv;
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonfDiagnSys');
+        mainDiv.setAttribute('class','flex-item');
+
+        for (let i = 0; i < val1; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", '_VD_' + i);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование, адрес:'));
+            elem.appendChild(subelem);                
+            
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRDVKh${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Взрывозащита:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `ExDVKh${i}`);
+            elem.appendChild(subelem);
+
+            let div = document.createElement('div');
+            div.setAttribute('id', `TypeBIZDV_${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+            div.appendChild(subelem);
+
+
+            option = document.createElement('label');
+            subelem = document.createElement('input');
+            subelem.setAttribute('list', `_TBIZDVKh_${i}`);
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `TBIZDVKh${i}`);
+            option.appendChild(subelem);
+            div.appendChild(option);
+                
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', `_TBIZDVKh_${i}`);
+            div.appendChild(subelem);
+            div.style.display = 'none';
+            elem.appendChild(div);
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+        }
+
+        if(!(document.getElementById('BtnsIDVA'))){
+            elem = document.createElement('div');
+            elem.setAttribute('id', `BtnsIDVA`);
+            elem.setAttribute('class', `izvBtns_`);
+                        
+            subelem = document.createElement('button');
+            subelem.setAttribute('id', `BtnsPrevVA`);
+            subelem.setAttribute('class', `izvBtns-item`);
+            subelem.appendChild(document.createTextNode('Пред.'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `SpanVA`);
+            subelem.appendChild(document.createTextNode('Вход аналоговый №'));
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'number');
+            subelem.setAttribute('id', `LasPosVA`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('span');
+            subelem.setAttribute('id', `LastSpanVA`);
+            subelem.setAttribute('class', 'izvBtns-item');
+    
+            elem.appendChild(subelem);
+    
+            subelem = document.createElement('button');
+            subelem.setAttribute('class', 'izvBtns-item');
+            subelem.setAttribute('id', `BtnsNextVA`);
+            subelem.appendChild(document.createTextNode('След.'));
+    
+            elem.appendChild(subelem);
+    
+            mainDiv.appendChild(elem);
+        }
+
+        for (let i = 0; i < val2; i++) {
+            elem = document.createElement('form');
+            elem.setAttribute("id", '_VA_' + i);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Наименование, адрес:'));
+            elem.appendChild(subelem);                
+            
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ADRAVKh${i}`);
+            subelem.setAttribute('placeholder', `до 20 символов...`);
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode("Взрывозащита:"));
+            elem.appendChild(subelem);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('type', 'checkbox');
+            subelem.setAttribute('id', `ExAVKh${i}`);
+            elem.appendChild(subelem);
+
+            let div = document.createElement('div');
+            div.setAttribute('id', `TypeBIZVA_${i}`);
+            subelem = document.createElement('p');
+            subelem.appendChild(document.createTextNode('Тип искробарьера:'));
+            div.appendChild(subelem);
+
+
+            option = document.createElement('label');
+            subelem = document.createElement('input');
+            subelem.setAttribute('list', `_TBIZAVKh_${i}`);
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `TBIZAVKh${i}`);
+            option.appendChild(subelem);
+            div.appendChild(option);
+                
+            subelem = document.createElement('datalist');
+            subelem.setAttribute('id', `_TBIZAVKh_${i}`);
+            div.appendChild(subelem);
+            div.style.display = 'none';
+            elem.appendChild(div);
+
+            elem.style.display = 'none';
+            mainDiv.appendChild(elem);
+            document.querySelector('div#diagnSysConfiguration').appendChild(mainDiv);
+        }
+        
+    }
+}
+
+function setDynHandlersdiagnSys(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0] = document.getElementById(`ADRDVKh${i}`);
+        handlerArr[i][1] = document.getElementById(`ExDVKh${i}`);
+        handlerArr[i][2] = document.getElementById(`TypeBIZDV_${i}`);
+        handlerArr[i][3] = document.getElementById(`TBIZDVKh${i}`);
+        handlerArr[i][4] = document.getElementById(`_TBIZDVKh_${i}`);
+        
+    }
+}
+
+function setDynHandlersVA(handlerArr, size){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0] = document.getElementById(`ADRAVKh${i}`);
+        handlerArr[i][1] = document.getElementById(`ExAVKh${i}`);
+        handlerArr[i][2] = document.getElementById(`TypeBIZVA_${i}`);
+        handlerArr[i][3] = document.getElementById(`TBIZAVKh${i}`);
+        handlerArr[i][4] = document.getElementById(`_TBIZAVKh_${i}`);
+    }
+}
+
+function setADRDVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0].addEventListener('focus', ()=>{
+                handlerArr[i][0].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][0].addEventListener('blur', ()=>{
+                if(handlerArr[i][0].value == ""){ 
+                    handlerArr[i][0].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][0].value.length <= 20){
+                    dataToSave[i].ADRDVKh = handlerArr[i][0].value;
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + " ADRRVYKh: " + dataToSave[i].ADRDVKh + " L: " + dataToSave[i].ADRDVKh.length);
+                }
+                else
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
+
+function setExDVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        
+        if(handlerArr[i][1]){
+            handlerArr[i][1].addEventListener('click', ()=>{
+                if(handlerArr[i][1].checked)
+                { 
+                    dataToSave[i].ExDVKh = true;
+                    handlerArr[i][2].style.display = 'block';
+                
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                
+                    let oOption = document.createElement("option");
+                    // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                    // oOption.setAttribute("value", "");
+                    // handlerArr[i][5].appendChild(oOption);   
+                
+                    for (let j = 0; j < IntermediateModules.length; j++) {
+                        for(let prop in IntermediateModules[j]){
+                            if(IntermediateModules[j][prop] == "BIZ"){
+                                oOption = document.createElement("option")
+                                //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                oOption.setAttribute("value", IntermediateModules[j].name);
+                                handlerArr[i][4].appendChild(oOption);   
+                            }
+                        }        
+                    }
+                    
+                }
+                else  {
+                    dataToSave[i].ExDVKh = false;
+                    handlerArr[i][2].style.display = 'none';
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                }
+                //e.preventDefault();
+            });
+                    
+        }
+    }
+}
+
+function setTBIZDVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        if(handlerArr[i][3]){
+                handlerArr[i][3].addEventListener('focus', ()=>{
+                    handlerArr[i][3].style.boxShadow = 'none';
+                    });
+                    
+                    handlerArr[i][3].addEventListener('blur', (e)=>{
+                    if(handlerArr[i][3].value == ""){
+                        let flag = confirm("Взрывозащита типа \"d\"");
+                        if(flag)
+                        {
+                            dataToSave[i].TBIZDVKh  = "Взрывозащита типа \"d\"";
+                            handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            console.log("TBIZDVKh: " + dataToSave[i].TBIZDVKh);
+                            //TBIZShPT.style.display = 'none';
+        
+                            //handlerArr[i][5].style.display = 'none';
+                            e.preventDefault();
+        
+                            // if( dataToSave[i].ADRShPT != '' &&
+                            // dataToSave[i].IPShPT >= 1 ){
+                            //     handlerArr[i][6].checked = true;
+                            //     dataToSave[i].configured = true;
+                            // }
+                            // else{    
+                            //     handlerArr[i][6].checked = false;
+                            //     dataToSave[i].configured = false;
+                            // }
+                            // list = false
+                            return;
+                        }
+                        handlerArr[i][3].style.boxShadow = 'none';
+                        //handlerArr[i][5].style.display = 'block';
+                        return;
+                    }
+                    else if(handlerArr[i][3].value.length <= 20){
+                        dataToSave[i].TBIZDVKh = handlerArr[i][3].value;
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        // if( dataToSave[i].ADRShPT != '' &&
+                        // dataToSave[i].IPShPT >= 1 ){
+                        //     handlerArr[i][6].checked = true;
+                        //     dataToSave[i].configured = true;
+                        // }
+                        // else{    
+                        //     handlerArr[i][6].checked = false;
+                        //     dataToSave[i].configured = false;
+                        // }
+        
+                        console.log("TBIZDVKh: " + dataToSave[i].TBIZDVKh + " L: " + dataToSave[i].TBIZDVKh.length);
+                    }
+                    else
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            } 
+        }   
+}
+
+function setADRAVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][0].addEventListener('focus', ()=>{
+                handlerArr[i][0].style.boxShadow = 'none';
+            });
+
+            handlerArr[i][0].addEventListener('blur', ()=>{
+                if(handlerArr[i][0].value == ""){ 
+                    handlerArr[i][0].style.boxShadow = 'none';
+                    return;
+                }
+                else if(handlerArr[i][0].value.length <= 20){
+                    dataToSave[i].ADRAVKh = handlerArr[i][0].value;
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    console.log(i + " ADRAVKh: " + dataToSave[i].ADRAVKh + " L: " + dataToSave[i].ADRAVKh.length);
+                }
+                else
+                    handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+            });
+    }
+}
+
+function setExAVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        
+        if(handlerArr[i][1]){
+            handlerArr[i][1].addEventListener('click', ()=>{
+                if(handlerArr[i][1].checked)
+                { 
+                    dataToSave[i].ExAVKh = true;
+                    handlerArr[i][2].style.display = 'block';
+                
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                
+                    let oOption = document.createElement("option");
+                    // oOption.appendChild(document.createTextNode("Выберите тип:"));
+                    // oOption.setAttribute("value", "");
+                    // handlerArr[i][5].appendChild(oOption);   
+                
+                    for (let j = 0; j < IntermediateModules.length; j++) {
+                        for(let prop in IntermediateModules[j]){
+                            if(IntermediateModules[j][prop] == "BIZ"){
+                                oOption = document.createElement("option")
+                                //oOption.appendChild(document.createTextNode(IntermediateModules[j].name));
+                                oOption.setAttribute("value", IntermediateModules[j].name);
+                                handlerArr[i][4].appendChild(oOption);   
+                            }
+                        }        
+                    }
+                    
+                }
+                else  {
+                    dataToSave[i].ExAVKh = false;
+                    handlerArr[i][2].style.display = 'none';
+                    while(handlerArr[i][4].firstChild)
+                        handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
+                }
+                //e.preventDefault();
+            });
+                    
+        }
+    }
+}
+
+function setTBIZAVKh(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        if(handlerArr[i][3]){
+                handlerArr[i][3].addEventListener('focus', ()=>{
+                    handlerArr[i][3].style.boxShadow = 'none';
+                    });
+                    
+                    handlerArr[i][3].addEventListener('blur', (e)=>{
+                    if(handlerArr[i][3].value == ""){
+                        let flag = confirm("Взрывозащита типа \"d\"");
+                        if(flag)
+                        {
+                            dataToSave[i].TBIZAVKh  = "Взрывозащита типа \"d\"";
+                            handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            console.log("TBIZAVKh: " + dataToSave[i].TBIZAVKh);
+                            //TBIZShPT.style.display = 'none';
+        
+                            //handlerArr[i][5].style.display = 'none';
+                            e.preventDefault();
+        
+                            // if( dataToSave[i].ADRShPT != '' &&
+                            // dataToSave[i].IPShPT >= 1 ){
+                            //     handlerArr[i][6].checked = true;
+                            //     dataToSave[i].configured = true;
+                            // }
+                            // else{    
+                            //     handlerArr[i][6].checked = false;
+                            //     dataToSave[i].configured = false;
+                            // }
+                            // list = false
+                            return;
+                        }
+                        handlerArr[i][3].style.boxShadow = 'none';
+                        //handlerArr[i][5].style.display = 'block';
+                        return;
+                    }
+                    else if(handlerArr[i][3].value.length <= 20){
+                        dataToSave[i].TBIZAVKh = handlerArr[i][3].value;
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        // if( dataToSave[i].ADRShPT != '' &&
+                        // dataToSave[i].IPShPT >= 1 ){
+                        //     handlerArr[i][6].checked = true;
+                        //     dataToSave[i].configured = true;
+                        // }
+                        // else{    
+                        //     handlerArr[i][6].checked = false;
+                        //     dataToSave[i].configured = false;
+                        // }
+        
+                        console.log("TBIZAVKh: " + dataToSave[i].TBIZAVKh + " L: " + dataToSave[i].TBIZAVKh.length);
+                    }
+                    else
+                        handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            } 
+        }   
+}
+
+//-----------------------------Подсистема связи с устройствами с подключением 
+//-----------------------------по последовательному интерфейсу RS-485
+document.querySelector('div#connSysConfiguration').style.display = 'none';
+const KRS485 = document.getElementById('KRS485'),
+KRS485_checked = document.getElementById('KRS485_checked');
+
+//KRS485
+KRS485.onkeypress = (e)=>{
+    e = e || event;
+   if (e.ctrlKey || e.altKey || e.metaKey) return;
+   var chr = getChar(e);
+   console.log("Char pressed: " + chr);
+   if(chr == ',' || chr == '.')
+   {   
+       // iKShS.value.replace(/[\,|\.]+/g,'');
+       e.preventDefault();
+       return;
+   }
+   if(chr == null) return;
+
+   if (chr < '0' || chr > '9') {
+       return false;
+   }
+};
+
+KRS485.addEventListener('focus', ()=>{
+    KRS485.style.boxShadow = 'none';
+});
+
+KRS485.addEventListener('blur', ()=>{
+   if(KRS485.value.search(regEx) == -1){
+   if(parseInt(KRS485.value, 10) >= 0 && parseInt(KRS485.value, 10) <= 160){
+        ConnSysRS485.KRS485 = parseInt(KRS485.value, 10);
+        KRS485_checked.checked = true;
+       KRS485.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       console.log("KRS485: "+ ConnSysRS485.KRS485);
+   }
+   else if(KRS485.value == ""){
+        ConnSysRS485.KRS485 = 0;
+        KRS485_checked.checked = false;
+       console.log("KRS485: "+  ConnSysRS485.KRS485);
+       return;
+   }
+   else
+       {
+        KRS485.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+       }
+   }
+   else
+   KRS485.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
+});
 //Funcs------------------------------
 
 function hideAutoObnar(){
@@ -7104,19 +8520,7 @@ function setKMBUSLNK(handlerArr, size, KIZVsize, dataToSave){
 }
 
 // Обработка кнопки сабмит шлейфа
- let genIzvHandlers = function () {
-    var arr, len, i;
-    if(arguments.length > 0) {
-        len = [].slice.call(arguments, 0, 1)[0];
-        arr = new Array(len);
-        for(i = 0; i < len; i++) {
-            arr[i] = genIzvHandlers.apply(null, [].slice.call(arguments, 1));
-        }
-    } else {
-        return null; //or whatever you want to initialize values to.
-    }
-    return arr;
-};
+
 
 // переменные для перемещения по извещателям
 let curPosIzv = [], nextPosIzv = [], prevPosIzv = [], izvPosition = [];
