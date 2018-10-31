@@ -1,6 +1,13 @@
 'use strict';
 //let x= [];
-
+document.body.onload = function(){
+    setTimeout(function(){
+        const preloader = document.getElementById('page-preloader');
+        if(!preloader.classList.contains('done')){
+            preloader.classList.add('done');
+        }
+    }, 1000);
+};
 document.addEventListener('DOMContentLoaded', function(){
     const socket = io.connect();
     let genIzvHandlers = function () {
@@ -1777,7 +1784,7 @@ let
 sbtForm2.addEventListener('click', (e)=>{
     e.preventDefault();
     if(AutoSignalizatsiya.KShS ){
-            alert('Сконфигурировано!');
+            //alert('Сконфигурировано!');
             lineLoopBtns.style.display = 'block';
             lineLoops.length = AutoSignalizatsiya.KShS;
             for (let i = 0; i < lineLoops.length; i++) {
@@ -2512,7 +2519,7 @@ sbtForm2.addEventListener('click', (e)=>{
 //------------------------------------------------Ручная сигнализация------------------------------------------------
 document.querySelector('div#ruchSysConfiguration').style.display = 'none';
 document.querySelector('div#KMIShSR_open').style.display = 'none';
-document.querySelector('div.lineLoopBtnsRuchn').style.display = 'none';
+document.querySelector('div#lineLoopBtnsRuchn').style.display = 'none';
 // const adrBIZ2 = document.getElementById('adrBIZ2'),
 // bezAdr2_2 = document.getElementById('bezAdr2_2'),
 // AdrExNet2 = document.getElementById('AdrExNet2'),
@@ -2726,7 +2733,7 @@ let dynamicEventHandlersRuchn = [],
 sbtForm3.addEventListener('click', (e)=>{
     e.preventDefault();
     if(RutshnayaSignalizatsiya.KShSR ){
-            alert('Сконфигурировано!');
+            //alert('Сконфигурировано!');
             document.querySelector('div.lineLoopBtnsRuchn').style.display = 'block';
             lineLoopBtns.style.display = 'block';
             lineLoopsRuchn.length = RutshnayaSignalizatsiya.KShSR;
@@ -2937,6 +2944,7 @@ function setTShSR(handlerArr, size, dataToSave){
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             console.log(i + " ТШСR: " + dataToSave[i].TShS);
                             handlerArr[i][10].style.display = 'block';    
+                            handlerArr[i][15].style.display = 'none';   
 
                             // if(izvBtnsID[i])
                             //     izvBtnsID[i].style.display = 'none';
@@ -2984,7 +2992,7 @@ function setTShSR(handlerArr, size, dataToSave){
                             
                             handlerArr[i][2].style.display = 'none';
                             handlerArr[i][10].style.display = 'none';
-                            
+                            handlerArr[i][15].style.display = 'block';   
                             //handlerArr[i][26].style.display = 'none';             
                             //document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
 
@@ -4079,10 +4087,12 @@ KShPT.addEventListener('blur', ()=>{
    if(parseInt(KShPT.value, 10) >= 1 && parseInt(KShPT.value, 10) <= 640){
        UpravleniePojaroTusheniem.KShPT = parseInt(KShPT.value, 10);
        KShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       ZONAShPT.placeholder = `1...${UpravleniePojaroTusheniem.KShPT}`;
        console.log(UpravleniePojaroTusheniem.KShPT);
    }
    else if(KShPT.value == ""){
        UpravleniePojaroTusheniem.KShPT= 0;
+       ZONAShPT.placeholder = `1...64`;
        console.log("КШПТ: " + UpravleniePojaroTusheniem.KShPT);
        return;
    }
@@ -4485,7 +4495,7 @@ let curPosUpr, prevIndexUpr, nextIndexUpr;
 sbtForm4.addEventListener('click', (e)=>{
     e.preventDefault();
     if(UpravleniePojaroTusheniem.KShPT ){
-            alert('Сконфигурировано!');
+            //alert('Сконфигурировано!');
             lineLoopBtnsUpr.style.display = 'block';
             lineLoopsUpr.length = UpravleniePojaroTusheniem.KShPT;
             for (let i = 0; i < lineLoopsUpr.length; i++) {
@@ -4947,6 +4957,8 @@ const   sbtForm5 = document.getElementById('sbtForm5'),
         lastPosUprOp = document.getElementById('lastPosUprOp'),
         lineLoopNextUprOp = document.getElementById('lineLoopNextUprOp');
 
+        lineLoopBtnsUprOp.style.display = 'none';
+
 lineLoopPrevUprOp.addEventListener('click', ()=>{
             if(prevIndexUprOp < 1) prevIndexUprOp = lineLoopsUprOp.length;
             nextIndexUprOp = curPosUprOp;
@@ -5100,7 +5112,7 @@ initLineLoopsUprOp();
 sbtForm5.addEventListener('click', (e) =>{
     e.preventDefault();
     if(UpravlenieOpovesheniem.KZONOP ){
-        alert('Сконфигурировано!');
+        //alert('Сконфигурировано!');
         lineLoopBtnsUprOp.style.display = 'block';
         lineLoopsUprOp.length = UpravlenieOpovesheniem.KZONOP ;
         // for (let i = 0; i < lineLoopsUpr.length; i++) {
@@ -6507,7 +6519,7 @@ let curPosFormSys, prevIndexFormSys, nextIndexFormSys;
 sbtForm6.addEventListener('click', (e) =>{
     e.preventDefault();
     if(FVSIUiVsSP.KRVYH ){
-        alert('Сконфигурировано!');
+        //alert('Сконфигурировано!');
         lineLoopBtnsFormSys.style.display = 'block';
         lineLoopsFormSys.length = FVSIUiVsSP.KRVYH ;
         // for (let i = 0; i < lineLoopsUpr.length; i++) {
@@ -7011,7 +7023,7 @@ let curPosdiagnSys, prevIndexdiagnSys, nextIndexdiagnSys, curPosVA, prevIndexVA,
 sbtForm7.addEventListener('click', (e)=>{
     e.preventDefault();
     if(PodsysDiagnostiki.KDVKh && PodsysDiagnostiki.KAVkh){
-        alert('Сконфигурировано!');
+        //alert('Сконфигурировано!');
         lineLoopBtnsdiagnSys.style.display = 'block';
         lineLoopsdiagnSys.length = PodsysDiagnostiki.KDVKh;
         lineLoopsVA.length = PodsysDiagnostiki.KAVkh;
@@ -7063,7 +7075,7 @@ sbtForm7.addEventListener('click', (e)=>{
         dynamicEventHandlersVAbtns[3].max = lineLoopsVA.length;
         dynamicEventHandlersVAbtns[3].value = 1;
         curPosVA = 0;
-        prevIndexVA = lineLoopsVA.length;
+        prevIndexVA = lineLoopsVA.length - 1;
         nextIndexVA = curPosVA +1;
                 
         showLineLoopsRuchn('_VA_' + (curPosVA + 1));
@@ -9739,6 +9751,7 @@ function createlineLoopUprOp(val){
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `ZONAShOP${i}`);
+            subelem.setAttribute('placeholder', `1...${UpravlenieOpovesheniem.KZONOP}`);
             //subelem.setAttribute('placeholder', '1...32');
             elem.appendChild(subelem);
 
@@ -9813,7 +9826,7 @@ function createShleifOp(lineLoopIndex, qIzv){
             subelem = document.createElement('span');
             subelem.setAttribute('class', 'izvBtns-item');
             subelem.setAttribute('id', `SpanShleifOp${lineLoopIndex}`);
-            subelem.appendChild(document.createTextNode('Извещатель №'));
+            subelem.appendChild(document.createTextNode('Шлейф управления оповещением №'));
     
             elem.appendChild(subelem);
     

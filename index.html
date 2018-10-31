@@ -143,6 +143,56 @@
             margin: 0 150px 0 100px;
         }
 
+        .preloader{
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index:2;
+            transition: 1s all;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loader{
+            width: 75px;
+            height: 75px;
+            border: 10px solid #fff;
+            border-radius: 50%;
+            border-top-color: #5f97ef;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            animation: 1s spin infinite linear;
+        }
+
+        .done{
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        @keyframes spin{
+            from{
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to{
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+
+        .ARM{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        #selTypePPKP{
+            margin-bottom: 20px;
+        }
 
 
     </style>
@@ -150,6 +200,11 @@
 
 </head>
 <body>
+
+    <div id="page-preloader" class="preloader">
+        <div class="loader"></div>
+    </div>
+
     <div class="container">
             <!-- <div class="buttons">
                     <button type="submit" id="exitConf" style="display:none;">Выход</button>
@@ -191,14 +246,18 @@
                 <h1>Общие параметры СПЗ</h1>
                 <p>Название проекта:</p>
                 <input type="text" id="projectName">
-                <p>Наличие АРМ в составе оборудования:</p>
-                <input type="checkbox" name="" id="ARM_PARUS">
+                <div class="ARM">
+                    <p class="ARM-item">Наличие АРМ в составе оборудования:</p>
+                    <input class="ARM-item" type="checkbox" name="" id="ARM_PARUS">
+                </div>
+
                 <select name="selTypePPKP" id="selTypePPKP">
                     <option value="1">Выберите тип ППКП:</option>
                     <option value="PK">ПК</option>
                     <option value="BR">БР</option>
                     <option value="PIUZ">ПИУЗ</option>
                 </select>
+                <br>
                 <button type="submit" id="btnSubmitDlg1">Далее</button>
             </form>
 
@@ -265,7 +324,7 @@
                         <form id="dialog4" class="form-4">
 
                             <p>Количество шлейфов:</p>
-                            <input type="number" name="KShPT" id="KShPT">
+                            <input type="number" name="KShPT" id="KShPT" placeholder="1...640">
                     
                             <p>Количество модулей интегральных:</p>
                             <input type="number" name="KMIShPT" id="KMIShPT" placeholder="1...32">
@@ -323,7 +382,7 @@
 
                     <div id="lineLoopBtnsUprOp"  class="lineLoopBtnsUprOp" style="flex-wrap: nowrap;">
                         <button class="lineLoopBtnsUprOp-item" id="lineLoopPrevUprOp">Пред.</button>
-                        <span class="lineLoopBtnsUprOp-item">Шлейф №</span>
+                        <span class="lineLoopBtnsUprOp-item">Зона оповещения №</span>
                         <input type="number" name="" id="lineLoopPosUprOp" class="lineLoopBtnsUprOp-item">
                         <span id="lastPosUprOp" class="lineLoopBtnsUprOp-item"></span>
                         <button class="lineLoopBtnsUprOp-item" id="lineLoopNextUprOp">След.</button>
@@ -343,7 +402,7 @@
 
                     <div id="lineLoopBtnsformSys"  class="lineLoopBtnsformSys" style="flex-wrap: nowrap;">
                         <button class="lineLoopBtnsformSys-item" id="lineLoopPrevformSys">Пред.</button>
-                        <span class="lineLoopBtnsformSys-item">Шлейф №</span>
+                        <span class="lineLoopBtnsformSys-item">Дискретный выход №</span>
                         <input type="number" name="" id="lineLoopPosformSys" class="lineLoopBtnsformSys-item">
                         <span id="lastPosformSys" class="lineLoopBtnsformSys-item"></span>
                         <button class="lineLoopBtnsformSys-item" id="lineLoopNextformSys">След.</button>
@@ -369,7 +428,7 @@
 
                     <div id="lineLoopBtnsdiagnSys"  class="lineLoopBtnsdiagnSys" style="flex-wrap: nowrap;">
                         <button class="lineLoopBtnsdiagnSys-item" id="lineLoopPrevdiagnSys">Пред.</button>
-                        <span class="lineLoopBtnsdiagnSys-item">Шлейф №</span>
+                        <span class="lineLoopBtnsdiagnSys-item">Дискретный вход №</span>
                         <input type="number" name="" id="lineLoopPosdiagnSys" class="lineLoopBtnsdiagnSys-item">
                         <span id="lastPosdiagnSys" class="lineLoopBtnsdiagnSys-item"></span>
                         <button class="lineLoopBtnsdiagnSys-item" id="lineLoopNextdiagnSys">След.</button>
