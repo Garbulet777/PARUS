@@ -103,7 +103,7 @@
 
         .lineLoopBtns, .izvBtns_, .lineLoopBtnsRuchn, .lineLoopBtnsUpr, .lineLoopBtnsUprOp, .lineLoopBtnsformSys, .lineLoopBtnsdiagnSys{
             display: box;
-            display: flex;
+            display: block;
             width: 370px;
             margin: 20px;
             border-top: 1px solid #f2f2f2;
@@ -111,6 +111,7 @@
             padding-top: 12px;
             margin-left: 0px;
             width: 100%;
+            text-align: center;
         }
         .lineLoopBtns-item, .izvBtns-item, .lineLoopBtnsRuchn-item, .lineLoopBtnsUpr-item, .lineLoopBtnsUprOp-item, .lineLoopBtnsformSys-item, .lineLoopBtnsdiagnSys-item{
             margin-right: 10px;
@@ -141,6 +142,7 @@
         .working-area{
             flex-flow: column nowrap;
             margin: 0 150px 0 100px;
+            max-width: 600px;
         }
 
         .preloader{
@@ -185,11 +187,38 @@
 
 
         .ARM{
+            display: inline-flex;
+            /* flex-direction: row; */
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+        /* .ARM > p{
+             margin-right: 5px;
+        } */
+        .flex-item:first-child{
+            flex-grow: 1;
+            margin-right: 20px;
+        }
+        .flex-item:last-child{
+            /* width: 130px; */
+        }
+
+        .flex-items{
             display: flex;
             flex-direction: row;
             align-items: center;
+             width: 220%;
+            /* align-content: space-between; */
         }
 
+        .flex-items > p{
+            margin-right: 30px;
+        }
+
+        .flex-items > select{
+            /* width: 77%; */
+        }
         #selTypePPKP{
             margin-bottom: 20px;
         }
@@ -213,7 +242,7 @@
             </div> -->
         <ul id="topMenu" class="left-menu" style="border-right: 1px solid #f2f2f2;" >
             <li id="clkKonf" style="border: 1px solid #000;">Конфигурация СПЗ</li>
-            <li>Расчет номенклатуры</li>
+            <li id="calcList">Расчет номенклатуры</li>
             <li>Структура СПЗ</li>
             <li>Структурная схема СПЗ</li>
             <li>Статистика проекта</li>
@@ -244,19 +273,27 @@
             <!-- </dialog> -->
             <form id="dialog1" class="form-1" >
                 <h1>Общие параметры СПЗ</h1>
-                <p>Название проекта:</p>
-                <input type="text" id="projectName">
+                
                 <div class="ARM">
-                    <p class="ARM-item">Наличие АРМ в составе оборудования:</p>
-                    <input class="ARM-item" type="checkbox" name="" id="ARM_PARUS">
+                    <p class="flex-item">Название проекта:</p>
+                    <input class="flex-item" type="text" id="projectName">
                 </div>
 
-                <select name="selTypePPKP" id="selTypePPKP">
-                    <option value="1">Выберите тип ППКП:</option>
-                    <option value="PK">ПК</option>
-                    <option value="BR">БР</option>
-                    <option value="PIUZ">ПИУЗ</option>
-                </select>
+                <div class="ARM">
+                    <p class="flex-item">Наличие АРМ в составе оборудования:</p>
+                    <input class="flex-item" type="checkbox" name="" id="ARM_PARUS">
+                </div>
+
+                <div class="ARM">
+                    <p class="flex-item">Выберите тип ППКП:</p>
+                    <select class="flex-item" name="selTypePPKP" id="selTypePPKP">
+                        
+                        <option value="PK">ПК</option>
+                        
+                        <!-- <option value="PIUZ">ПУИЗ</option> -->
+                    </select>
+                </div>
+
                 <br>
                 <button type="submit" id="btnSubmitDlg1">Далее</button>
             </form>
@@ -266,14 +303,21 @@
                     <div class="item">
                         <form id="dialog2" class="form-2" >
                             <!-- <h1>Подсистема автоматического обнаружения признаков пожара</h1>  -->
-                            <p>Количество шлейфов:</p>
-                            <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShS1" placeholder="1...640"  pattern="[0-9]{3}" >
-                            <p>Количество модулей интегральных:</p>
-                            <input style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShS1" placeholder="0...32">
-                            <p>Резерв шлейфов,%:</p>
-                            <input style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShS1" placeholder="0...100">
-                            <br>
-                            <button class="btn-after" type="submit" id="sbtForm2" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы</button>
+                            <div class="ARM">
+                                <p class="flex-item">Количество шлейфов:</p>
+                                <input class="flex-item" style="margin-top: 0px;" type="number" name="KShS1" id="iKShS1" placeholder="1...640"  pattern="[0-9]{3}" >
+                            </div>
+                            <div class="ARM">
+                                <p class="flex-item">Количество модулей интегральных:</p>
+                                <input class="flex-item" style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShS1" placeholder="0...32">
+                            </div>
+                            <div class="ARM">
+                                <p class="flex-item">Резерв шлейфов,%:</p>
+                                <input class="flex-item" style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShS1" placeholder="0...100">
+                            </div>
+
+                            <!-- <br>
+                            <button class="btn-after" type="submit" id="sbtForm2" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы</button> -->
                         </form>
         
                     </div>
@@ -292,18 +336,31 @@
                     <div class="item">
                         <form id="dialog3" class="form-3" >
                             <!-- <h1>Подсистема ручного обнаружения признаков пожара</h1>  -->
-                            <p>Количество шлейфов:</p>
-                            <input style="margin-top: 0px;" type="number" name="KShS1" id="iKShSR" placeholder="1...640"  pattern="[0-9]{3}" >
-                            <p>Разрешить использовать модуль интегральный МИ</p>
-                            <input type="checkbox" value="" id="MIShSR">
+                            <div class="ARM">
+                                <p class="flex-item">Количество шлейфов:</p>
+                                <input class="flex-item" style="margin-top: 0px;" type="number" name="KShS1" id="iKShSR" placeholder="1...640"  pattern="[0-9]{3}" >
+                            </div>
+                            <div class="ARM">
+                                <p class="flex-item">Разрешить использовать модуль интегральный МИ</p>
+                                <input class="flex-item" type="checkbox" value="" id="MIShSR">
+                            </div>
+
+                            
+                            
+
         
                             <div id="KMIShSR_open">
-                                <p>Количество модулей интегральных:</p>
-                                <input style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShSR" placeholder="1...32">
+                                <div class="ARM">
+                                        <p class="flex-item">Количество модулей интегральных:</p>
+                                        <input class="flex-item" style="margin-top: 0px;" type="number" name="KMIShS1" id="iKMIShSR" placeholder="1...32">
+                                </div>
                             </div>
-        
-                            <p>Резерв шлейфов,%:</p>
-                            <input style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShSR" placeholder="0...100">
+                            
+                            <div class="ARM">
+                                <p class="flex-item">Резерв шлейфов,%:</p>
+                                <input class="flex-item" style="margin-top: 0px;" type="number" name="REZShS1" id="iREZShSR" placeholder="0...100">
+                            </div>
+                            
                             <br>
                             <button class="btn-after" type="submit" id="sbtForm3" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы</button>
                         </form>

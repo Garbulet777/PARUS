@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         return arr;
     };
+    
     // const SaveConfBtn = document.getElementById('saveConf');
     // SaveConfBtn.style.display = 'none';
     // SaveConfBtn.addEventListener('click', (e)=>{
@@ -525,14 +526,15 @@ const getModuls = JSON.parse(localStorage.getItem("IOmoduls"));
 // for (let i = 0; i < getModuls.length; i++) {
 //     alert("Module: "+ getModuls[i].module + " Name: " + getModuls[i].name + " Slot: " + getModuls[i].slot);   
 // }
-function showBu(){
-    // BU.innerText = BlokiUpravleniya[0].name;
-    sel.style.display = 'block';  
-}
+// function showBu(){
+//     // BU.innerText = BlokiUpravleniya[0].name;
+//     sel.style.display = 'block';  
+// }
 //------------!!------------
 //Структура СПЗ
 //------------!!------------
 let ds = [];
+
 
 // const   BU = document.getElementById('ManagementBlock'),
 //         mod1 = document.getElementById('module#1'),
@@ -787,6 +789,8 @@ let ds = [];
                 dialog1.style.display = 'block';
                 clkKonf.style.backgroundColor = '#5f97ef';
                 clkKonf.style.color = 'white';
+                calcList.style.backgroundColor = 'white';
+                calcList.style.color = '#000';
             //podsystemi.style.display = 'block';
             //topMenu.style.display = 'none';
             //exitConf.style.display = 'block';
@@ -1113,7 +1117,7 @@ let ds = [];
                 // selType.onchange = ()=>{
                 //     TypeOfPPKP = selType.options[selType.selectedIndex].text;
                 // };
-            if(projname.value && TypeOfPPKP){
+            if(projname.value ){
 
                 if(ARM_PARUS.checked) PresenceOfARM = true;
                 else  PresenceOfARM = false;
@@ -1376,6 +1380,11 @@ let ds = [];
 //Обработка полей ввода
 const regEx = /\D+/g;
 let lineLoops = [];
+let autoInputCount  = [];
+autoInputCount['KShS'] = false;
+autoInputCount['KMIShS'] = false;
+autoInputCount['REZShS'] = false;
+
 
 //KShS
 
@@ -1399,22 +1408,88 @@ iKShS.onkeypress = (e)=>{
 
 iKShS.addEventListener('focus', ()=>{
     iKShS.style.boxShadow = 'none';
-    destroyKonf();
+   
 });
 
 iKShS.addEventListener('blur', ()=>{
     if(iKShS.value.search(regEx) == -1){
     if(parseInt(iKShS.value, 10) >= 1 && parseInt(iKShS.value, 10) <= 640){
         AutoSignalizatsiya.KShS = parseInt(iKShS.value, 10);
-
+        autoInputCount['KShS'] = true;
         iKShS.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        //destroyKonf();
+        lineLoopBtns.style.display = 'block';
+        lineLoops.length = AutoSignalizatsiya.KShS;
+        for (let i = 0; i < lineLoops.length; i++) {
+            lineLoops[i] = AutoSignalizatsiya.KonfShleifa;
+            shleifCount[`KIZVShS${i}`] = false;
+        }
+        createlineLoop(AutoSignalizatsiya.KShS);
+        let lastSpan = document.getElementById('lastPos'),
+            lineLoopPos = document.getElementById('lineLoopPos');
+
+        lastSpan.innerHTML = 'из ' + lineLoops.length;
+        lineLoopPos.min = 1;
+        lineLoopPos.max = lineLoops.length;
+        lineLoopPos.value = 1;
+        curPos = 1;
+        prevIndex = lineLoops.length;
+        nextIndex = curPos + 1;
+        
+        if(lineLoops.length){
+            for (let i = 0; i < lineLoops.length; i++) {
+                for (let j = 0; j < 28; j++) {
+                    dynamicEventHandlers[i] = [];
+                }
+            }
+         }
+
+        setDynHandlers(dynamicEventHandlers, lineLoops.length);
+        
+        showLineLoops(lineLoops.length, 1);
+        hideAutoObnar();
+        if(lineLoops.length){
+            for (let i = 0; i < lineLoops.length; i++) {                
+             //   lineLoopsData[i] = AutoSignalizatsiya.KonfShleifa;
+             lineLoopsData[i] = Object.assign({}, AutoSignalizatsiya.KonfShleifa);
+                dynamicEventHandlers[i][5].style.display = 'none';
+            }
+         } 
+         //shleifCount['TShS'] = true; shleifCount['TShSBIZ'] = false;
+         //SKhShS
+        //  izvBezAdrCount['TIZVauto'] = false;
+        //  izvBezAdrCount['IOIZV'] = false;
+        //  shleifCount['KMBUSLNK'] = false; shleifCount['TShSBIZ'] = true;
+            lineLoopConf = document.getElementById('lineLoopKonf');
+            setTShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setSKhShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setExShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setTShSBIZ(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setAdrBiz(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setKIZVShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setZonaShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setAdrShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setRRIShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            //setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            //setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            //setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            //setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setZonaIzvadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setAdrIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setTIZVauto(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setIOIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setiIPIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
+            setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
         console.log(AutoSignalizatsiya.KShS);
     }
     else if(iKShS.value == ""){
+        autoInputCount['KShS'] = false;
         return;
     }
     else
         {
+            autoInputCount['KShS'] = false;
             iKShS.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         }
     }
@@ -1431,13 +1506,13 @@ iKShS.addEventListener('blur', ()=>{
 
 
 function destroyKonf(){
-    let div = document.getElementById('lineLoopKonf');
+    let div = document.body.getElementById('lineLoopKonf');
     document.body.removeChild(div);
 }
 
 function createlineLoop(val){
     if(val > 0){
-        let elem, subelem, option, mainDiv;
+        let elem, subelem, option, mainDiv, div_1, div_2;
         mainDiv = document.createElement('div');
         mainDiv.setAttribute('id','lineLoopKonf');
         mainDiv.setAttribute('class','flex-item');
@@ -1445,13 +1520,19 @@ function createlineLoop(val){
             elem = document.createElement('form');
             elem.setAttribute("id", i);
             
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
             // subelem = document.createElement('h3')
             // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
             // elem.appendChild(subelem);
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Тип шлейфа:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('select');
             subelem.setAttribute("id", `TShS${i}`);
@@ -1465,20 +1546,25 @@ function createlineLoop(val){
             option.appendChild(document.createTextNode("MODBUS"));
             subelem.appendChild(option);
 
-            
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             let div = document.createElement('div');
             div.setAttribute('id', `bezAdr_${i}`);
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Схема включения:"));
-            div.appendChild(subelem);
+            div_1.appendChild(subelem);
+            div.appendChild(div_1);
+
+
             subelem = document.createElement('select');
             subelem.setAttribute('id', `SKhShS${i}`);
 
             option = document.createElement('option');
-            option.appendChild(document.createTextNode("Пассивный ПР"));
+            option.appendChild(document.createTextNode("Пассивный НР"));
             subelem.appendChild(option);
 
             option = document.createElement('option');
@@ -1492,33 +1578,49 @@ function createlineLoop(val){
             option = document.createElement('option');
             option.appendChild(document.createTextNode("Линейный Т"));
             subelem.appendChild(option);
-
-            div.appendChild(subelem);
+            div_1.appendChild(subelem);
+            div.appendChild(div_1);
             elem.appendChild(div);
 
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
+
             subelem = document.createElement('p');
+            
             subelem.appendChild(document.createTextNode("Взрывозащита:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
+            
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `ExShS${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             div = document.createElement('div');
             div.setAttribute('id', `TypeBIZ${i}`);
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-            div.appendChild(subelem);
+            div_1.appendChild(subelem);
+            div.appendChild(div_1);
 
 
             option = document.createElement('label');
+            option.setAttribute('class', 'flex-item');
             subelem = document.createElement('input');
             subelem.setAttribute('list', `_adrBIZ${i}`);
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `TShSBIZ${i}`);
             option.appendChild(subelem);
-            div.appendChild(option);
+            div_1.appendChild(option);
+            div.appendChild(div_1);
+            
             
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `_adrBIZ${i}`);
@@ -1535,91 +1637,143 @@ function createlineLoop(val){
             div.appendChild(subelem);
 
             elem.appendChild(div);
-
-            subelem = document.createElement('p');
-            subelem.appendChild(document.createTextNode('Количество извещателей:'));
+            
+            subelem = document.createElement('br');
             elem.appendChild(subelem);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
+            subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
+            subelem.appendChild(document.createTextNode('Количество извещателей:'));
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `KIZVShS${i}`);
             subelem.setAttribute('placeholder', '1...32');
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             div = document.createElement('div');
             div.setAttribute('id', `bezAdr__${i}`);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Зона:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `ZONAShS${i}`);
             subelem.setAttribute('placeholder', '1...255');
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование / адрес:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRShS${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             elem.appendChild(div);
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode('Разрешить подключение ручных извещателей:'));
             subelem.setAttribute('class', `RRIShS_p_${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id',`RRIShS${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             div = document.createElement('div');
             div.setAttribute('id', `bezAdr___${i}`);   
 
             subelem = document.createElement('h3');
-            subelem.appendChild(document.createTextNode('Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты'));
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя безадресного шлейфа'));
             div.appendChild(subelem);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип извещателя:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('label');
+            subelem.setAttribute('class', 'flex-item');
             let subSub = document.createElement('input');
             subSub.setAttribute('list', `enteredItems${i}`);
             subSub.setAttribute('id', `TIZV${i}`);
             subelem.appendChild(subSub);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `enteredItems${i}`);
             div.appendChild(subelem);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Ток в режиме "ДЕЖУРНЫЙ", мА:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `IOIZV${i}`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Ток в режиме "ПОЖАР", мА:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `IPIZV${i}`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
 
             elem.appendChild(div);
 
@@ -1690,12 +1844,15 @@ iKMIShS1.addEventListener('blur', ()=>{
         AutoSignalizatsiya.KMIShS = parseInt(iKMIShS1.value, 10);
         iKMIShS1.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
         console.log( AutoSignalizatsiya.KMIShS);
+        autoInputCount['KMIShS'] = true;
     }
     else if(iKMIShS1.value == ""){
+        autoInputCount['KMIShS'] = false;
         return;
     }
     else
         {
+            autoInputCount['KMIShS'] = false;
             iKMIShS1.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         }
     }
@@ -1733,12 +1890,15 @@ iREZShS1.addEventListener('blur', ()=>{
         AutoSignalizatsiya.REZShS = parseInt(iREZShS1.value, 10);
         iREZShS1.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
         console.log(AutoSignalizatsiya.REZShS);
+        autoInputCount['REZShS'] = true;
     }
     else if(iREZShS1.value == ""){
+        autoInputCount['REZShS'] = false;
         return;
     }
     else
         {
+            autoInputCount['REZShS'] = false;
             iREZShS1.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         }
     }
@@ -1750,27 +1910,32 @@ iREZShS1.addEventListener('blur', ()=>{
 let dynamicEventHandlers = [],
      lineLoopsData = [],
      lineLoopConf ;
+     //lineLoopsData = genIzvHandlers(640, )
+    //  for (let i = 0; i < 640; i++) {                
+    //     lineLoopsData[i] =   Object.assign({}, AutoSignalizatsiya.KonfShleifa);//AutoSignalizatsiya.KonfShleifa;
+    //     //dynamicEventHandlers[i][5].style.display = 'none';
+    // }
 
-let 
-    izvNodes = {
-        adrExNet: '',
-        Taizv: '',
-        zonaIzv: '',
-        adrIzv: '',
-        adrExDa: '',
-        TaizvD: '',
-        zonaIzvD: '',
-        adrIzvD: '',
-        konfModbus: '',
-        KMBUSLNK: '',
-        btnsID: '',
-        prev: '',
-        cur:'',
-        next: '',
-        pos: '',
-        lastPos:''
+// let 
+//     izvNodes = {
+//         adrExNet: '',
+//         Taizv: '',
+//         zonaIzv: '',
+//         adrIzv: '',
+//         adrExDa: '',
+//         TaizvD: '',
+//         zonaIzvD: '',
+//         adrIzvD: '',
+//         konfModbus: '',
+//         KMBUSLNK: '',
+//         btnsID: '',
+//         prev: '',
+//         cur:'',
+//         next: '',
+//         pos: '',
+//         lastPos:''
 
-    };
+//     };
 
 // if(document.querySelector('div#lineLoopKonf'))
 // {
@@ -1780,72 +1945,88 @@ let
 //     });
 // }
 
+let shleifCount = [];
+let izvAdrNetCount = [];
+let izvAdrDaCount = [];
+let izvBezAdrCount = [];
+let modbusCount = [];
 
-sbtForm2.addEventListener('click', (e)=>{
-    e.preventDefault();
-    if(AutoSignalizatsiya.KShS ){
-            //alert('Сконфигурировано!');
-            lineLoopBtns.style.display = 'block';
-            lineLoops.length = AutoSignalizatsiya.KShS;
-            for (let i = 0; i < lineLoops.length; i++) {
-                lineLoops[i] = AutoSignalizatsiya.KonfShleifa;
-            }
-            createlineLoop(AutoSignalizatsiya.KShS);
-            let lastSpan = document.getElementById('lastPos'),
-                lineLoopPos = document.getElementById('lineLoopPos');
 
-            lastSpan.innerHTML = 'из ' + lineLoops.length;
-            lineLoopPos.min = 1;
-            lineLoopPos.max = lineLoops.length;
-            lineLoopPos.value = 1;
-            curPos = 1;
-            prevIndex = lineLoops.length;
-            nextIndex = curPos + 1;
+
+
+// sbtForm2.addEventListener('click', (e)=>{
+//     e.preventDefault();
+//     if(AutoSignalizatsiya.KShS && isThereFalse(autoInputCount)){
+//             // if(isThereFalse(autoInputCount))
+//             //     console.log(false)
+//             //alert('Сконфигурировано!');
+//             lineLoopBtns.style.display = 'block';
+//             lineLoops.length = AutoSignalizatsiya.KShS;
+//             for (let i = 0; i < lineLoops.length; i++) {
+//                 lineLoops[i] = AutoSignalizatsiya.KonfShleifa;
+//                 shleifCount[`KIZVShS${i}`] = false;
+//             }
+//             createlineLoop(AutoSignalizatsiya.KShS);
+//             let lastSpan = document.getElementById('lastPos'),
+//                 lineLoopPos = document.getElementById('lineLoopPos');
+
+//             lastSpan.innerHTML = 'из ' + lineLoops.length;
+//             lineLoopPos.min = 1;
+//             lineLoopPos.max = lineLoops.length;
+//             lineLoopPos.value = 1;
+//             curPos = 1;
+//             prevIndex = lineLoops.length;
+//             nextIndex = curPos + 1;
             
-            if(lineLoops.length){
-                for (let i = 0; i < lineLoops.length; i++) {
-                    for (let j = 0; j < 28; j++) {
-                        dynamicEventHandlers[i] = [];
-                    }
-                }
-             }
+//             if(lineLoops.length){
+//                 for (let i = 0; i < lineLoops.length; i++) {
+//                     for (let j = 0; j < 28; j++) {
+//                         dynamicEventHandlers[i] = [];
+//                     }
+//                 }
+//              }
 
-            setDynHandlers(dynamicEventHandlers, lineLoops.length);
+//             setDynHandlers(dynamicEventHandlers, lineLoops.length);
             
-            showLineLoops(lineLoops.length, 1);
-            hideAutoObnar();
-            if(lineLoops.length){
-                for (let i = 0; i < lineLoops.length; i++) {                
-                    lineLoopsData[i] = AutoSignalizatsiya.KonfShleifa;
-                    dynamicEventHandlers[i][5].style.display = 'none';
-                }
-             }
-
-                lineLoopConf = document.getElementById('lineLoopKonf');
-                setTShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setSKhShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setExShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setTShSBIZ(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setAdrBiz(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setKIZVShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setZonaShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setAdrShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setRRIShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                //setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                //setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                //setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                //setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setZonaIzvadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setAdrIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setTIZVauto(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setIOIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setiIPIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-                setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
-                setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
-        }
-    else
-        alert('Конфигурация не завершена! Пропущены данные.');
-});
+//             showLineLoops(lineLoops.length, 1);
+//             hideAutoObnar();
+//             if(lineLoops.length){
+//                 for (let i = 0; i < lineLoops.length; i++) {                
+//                  //   lineLoopsData[i] = AutoSignalizatsiya.KonfShleifa;
+//                  lineLoopsData[i] = Object.assign({}, AutoSignalizatsiya.KonfShleifa);
+//                     dynamicEventHandlers[i][5].style.display = 'none';
+//                 }
+//              } 
+//              //shleifCount['TShS'] = true; shleifCount['TShSBIZ'] = false;
+//              //SKhShS
+//             //  izvBezAdrCount['TIZVauto'] = false;
+//             //  izvBezAdrCount['IOIZV'] = false;
+//             //  shleifCount['KMBUSLNK'] = false; shleifCount['TShSBIZ'] = true;
+//                 lineLoopConf = document.getElementById('lineLoopKonf');
+//                 setTShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setSKhShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setExShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setTShSBIZ(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setAdrBiz(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setKIZVShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setZonaShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setAdrShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setRRIShS(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 //setTAIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 //setZonaIzvadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 //setAdrIZVadrNet(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 //setTAIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setZonaIzvadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setAdrIZVadrDa(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setTIZVauto(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setIOIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setiIPIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//                 setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
+//                 setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+//         }
+//     else
+//         alert('Конфигурация не завершена! Пропущены данные.');
+// });
 
 
 
@@ -2520,32 +2701,6 @@ sbtForm2.addEventListener('click', (e)=>{
 document.querySelector('div#ruchSysConfiguration').style.display = 'none';
 document.querySelector('div#KMIShSR_open').style.display = 'none';
 document.querySelector('div#lineLoopBtnsRuchn').style.display = 'none';
-// const adrBIZ2 = document.getElementById('adrBIZ2'),
-// bezAdr2_2 = document.getElementById('bezAdr2_2'),
-// AdrExNet2 = document.getElementById('AdrExNet2'),
-// AdrExDa2 = document.getElementById('AdrExDa2'),
-// iKIZVShS2 = document.getElementById('iKIZVShS2'),
-// iZONAShS2 = document.getElementById('iZONAShS2'),
-// iADRShS2 = document.getElementById('iADRShS2'),
-// iTAIZV2 = document.getElementById('iTAIZV2'),
-// iTAIZV2_1 = document.getElementById('iTAIZV2_1'),
-// iZONAIZV2 = document.getElementById('iZONAIZV2'),
-// iZONAIZV2_1 = document.getElementById('iZONAIZV2_1'),
-// iADRIZV2 = document.getElementById('iADRIZV2'),
-// iADRIZV2_1 = document.getElementById('iADRIZV2_1'),
-// iTIZV2 = document.getElementById('iTIZV2'),
-// iIOIZV2 = document.getElementById('iIOIZV2'),
-// iIPIZV2 = document.getElementById('iIPIZV2'),
-// KMIShSR = document.getElementById('KMIShSR');  
-
-// bezAdr1.style.display = 'none';
-// bezAdr1_1.style.display = 'none';
-// bezAdr2_2.style.display = 'none';
-// KMIShSR.style.display = 'none';
-
-// adrBIZ2.style.display = 'block';
-// AdrExNet2.style.display = 'none';   
-// AdrExDa2.style.display = 'none';  
 
 
 
@@ -2573,6 +2728,9 @@ let lineLoopsRuchn = [];
 // else
 //     AdrExNet2.style.display = 'block';
 
+let pressedBtnsRuchnCount = [];
+pressedBtnsRuchnCount['KShSR'] = false;
+pressedBtnsRuchnCount['REZShSR'] = false;
 
 // //KShSR
 
@@ -2602,11 +2760,13 @@ iKShSR2.addEventListener('blur', ()=>{
    if(iKShSR2.value.search(regEx) == -1){
    if(parseInt(iKShSR2.value, 10) >= 1 && parseInt(iKShSR2.value, 10) <= 640){
        RutshnayaSignalizatsiya.KShSR = parseInt(iKShSR2.value, 10);
+       pressedBtnsRuchnCount['KShSR'] = true;
        iKShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
        console.log("Ручная сигнализация " + RutshnayaSignalizatsiya.KShSR);
    }
    else if(iKShSR2.value == ""){
        RutshnayaSignalizatsiya.KonfShleifa.KIZVShS = 0;
+       pressedBtnsRuchnCount['KShSR'] = false;
        console.log("Ручная сигнализация " + RutshnayaSignalizatsiya.KShSR);
        return;
    }
@@ -2625,11 +2785,13 @@ iMIShSR2.addEventListener('click', ()=>{
     if(iMIShSR2.checked)
     { 
         RutshnayaSignalizatsiya.MIShSR = true;
+        pressedBtnsRuchnCount['MIShSR'] = false;
         KMIShSR_open.style.display = 'block';
     }
     else  
     {
         RutshnayaSignalizatsiya.MIShSR = false;
+        pressedBtnsRuchnCount['MIShSR'] = true;
         KMIShSR_open.style.display = 'none';
         RutshnayaSignalizatsiya.KMIShSR = 0;
     }
@@ -2662,10 +2824,12 @@ iKMIShSR2.addEventListener('blur', ()=>{
    if(iKMIShSR2.value.search(regEx) == -1){
    if(parseInt(iKMIShSR2.value, 10) >= 0 && parseInt(iKMIShSR2.value, 10) <= 32){
        RutshnayaSignalizatsiya.KMIShSR = parseInt(iKMIShSR2.value, 10);
+       pressedBtnsRuchnCount['KMIShSR'] = true;
        iKMIShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
        console.log("КМИШСР: " + RutshnayaSignalizatsiya.KMIShSR);
    }
    else if(iKMIShSR2.value == ""){
+       pressedBtnsRuchnCount['KMIShSR'] = false;
        RutshnayaSignalizatsiya.KMIShSR = 0;
        return;
    }
@@ -2707,9 +2871,11 @@ iREZShSR2.addEventListener('blur', ()=>{
     if(parseInt(iREZShSR2.value, 10) >= 0 && parseInt(iREZShSR2.value, 10) <= 100){
         RutshnayaSignalizatsiya.REZShSR = parseInt(iREZShSR2.value, 10);
         iREZShSR2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        pressedBtnsRuchnCount['REZShSR'] = true;
         console.log("РЕЗШСР: " + RutshnayaSignalizatsiya.REZShSR);
     }
     else if(iREZShSR2.value == ""){
+        pressedBtnsRuchnCount['REZShSR'] = false;
         RutshnayaSignalizatsiya.REZShSR = 0;
         return;
     }
@@ -2727,18 +2893,52 @@ iREZShSR2.addEventListener('blur', ()=>{
 let dynamicEventHandlersRuchn = [],
     lineLoopsDataRuchn = [];
 
+let pressedBtnsRuchnCount_sbt3 = [];
 
 
+
+let pressedBtnsRuchnCount_bezAdr = [];
+
+// pressedBtnsRuchnCount_bezAdr['TIZV'] = true;
+// pressedBtnsRuchnCount_bezAdr['IOIZV'] = true;
+// pressedBtnsRuchnCount_bezAdr['IPIZV'] = true;
+
+// pressedBtnsRuchnCount_bezAdr['TIZV'] = false;
+// pressedBtnsRuchnCount_bezAdr['IOIZV'] = false;
+// pressedBtnsRuchnCount_bezAdr['IPIZV'] = false;
+
+let pressedBtnsRuchnCount_adrExShSn = [];
+let pressedBtnsRuchnCount_adrExShSd = [];
+// pressedBtnsRuchnCount_adrExShS[`TAIZVd${i}-${j}`] = false;
+// pressedBtnsRuchnCount_adrExShS[`ZONAIZVd${i}-${j}`] = false;
+// pressedBtnsRuchnCount_adrExShS[`ADRIZVd${i}-${j}`] = false;
+
+// pressedBtnsRuchnCount_adrExShS[`TAIZVn${i}-${j}`] = false;
+// pressedBtnsRuchnCount_adrExShS[`ZONAIZVn${i}-${j}`] = false;
+// pressedBtnsRuchnCount_adrExShS[`ADRIZVn${i}-${j}`] = false;
 
 sbtForm3.addEventListener('click', (e)=>{
     e.preventDefault();
-    if(RutshnayaSignalizatsiya.KShSR ){
+    if(RutshnayaSignalizatsiya.KShSR && isThereFalse(pressedBtnsRuchnCount)){
             //alert('Сконфигурировано!');
+            console.log(izvAdrNetCount);
+            console.log(izvAdrDaCount);
+            console.log(shleifCount);
+            // console.log(lineLoopsData);
+            // console.log(_izveshateli);
+            
+
             document.querySelector('div.lineLoopBtnsRuchn').style.display = 'block';
             lineLoopBtns.style.display = 'block';
             lineLoopsRuchn.length = RutshnayaSignalizatsiya.KShSR;
+
             for (let i = 0; i < lineLoopsRuchn.length; i++) {
                 lineLoopsRuchn[i] = RutshnayaSignalizatsiya.KonfShleifa;
+                
+                pressedBtnsRuchnCount_sbt3[`KIZVShSR${i}`] = false;
+                pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = false;
+                pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = false;
+                
             }
             createlineLoopRuchn(RutshnayaSignalizatsiya.KShSR);
             let lastSpanRuchn = document.getElementById('lastPosRuchn'),
@@ -2766,7 +2966,7 @@ sbtForm3.addEventListener('click', (e)=>{
             hideAutoObnarRuchn();
             if(lineLoopsRuchn.length){
                 for (let i = 0; i < lineLoopsRuchn.length; i++) {                
-                    lineLoopsDataRuchn[i] = RutshnayaSignalizatsiya.KonfShleifa;
+                    lineLoopsDataRuchn[i] = Object.assign({}, RutshnayaSignalizatsiya.KonfShleifa);
                     //dynamicEventHandlersRuchn[i][5].style.display = 'none';
                 }
              }
@@ -2813,6 +3013,16 @@ function setDlsSbt1(handlerArr, size, dataToSave){
                     nextPosIzvR[i] = [];
                     prevPosIzvR[i] = [];
                     
+                    if(dataToSave[i].ExShS){
+                        // pressedBtnsRuchnCount_adrExShSd[`TAIZV${i}-${j}`] = false;
+                        pressedBtnsRuchnCount_adrExShSd[`ZonaIzv${i}-${j}`] = false;
+                        pressedBtnsRuchnCount_adrExShSd[`AdrIZV${i}-${j}`] = false;
+                    }
+                    else{
+                        // pressedBtnsRuchnCount_adrExShSn[`TAIZV${i}-${j}`] = false;
+                        pressedBtnsRuchnCount_adrExShSn[`ZonaIzv${i}-${j}`] = false;
+                        pressedBtnsRuchnCount_adrExShSn[`AdrIZV${i}-${j}`] = false;
+                    }
                 }
                 dynamicEvHandlerIZVR = genIzvHandlers(lineLoopsRuchn.length, 32, 10);
                 _izveshateliR = genIzvHandlers(lineLoopsRuchn.length, 32, 7);
@@ -2859,12 +3069,12 @@ function setDlsSbt1(handlerArr, size, dataToSave){
                 handleIzvPosR(i, dataToSave[curPosRuchn-1].KIZVShS, izvLasPosR,  dynamicEvHandlerIZVR, dataToSave,
                     curPosIzvR, nextPosIzvR, prevPosIzvR);
 
-                setTAIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
-                setZonaIzvadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
-                setAdrIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
-                setTAIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
-                setZonaIzvadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
-                setAdrIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR);
+                setTAIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR, pressedBtnsRuchnCount_adrExShSn);
+                setZonaIzvadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR, pressedBtnsRuchnCount_adrExShSn);
+                setAdrIZVadrNet(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR, pressedBtnsRuchnCount_adrExShSn);
+                setTAIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR), pressedBtnsRuchnCount_adrExShSd;
+                setZonaIzvadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR, pressedBtnsRuchnCount_adrExShSd);
+                setAdrIZVadrDa(dynamicEvHandlerIZVR, lineLoopsRuchn.length, dataToSave[i].KIZVShS, _izveshateliR, pressedBtnsRuchnCount_adrExShSd);
                 //setKMBUSLNK(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
             }
             else{
@@ -2946,18 +3156,9 @@ function setTShSR(handlerArr, size, dataToSave){
                             handlerArr[i][10].style.display = 'block';    
                             handlerArr[i][15].style.display = 'none';   
 
-                            // if(izvBtnsID[i])
-                            //     izvBtnsID[i].style.display = 'none';
-
-                            // if(lineLoopsData[i].KIZVShS != 0){
-                            //     for (let j = 0; j < lineLoopsData[i].KIZVShS; j++) {
-                            //         if(dynamicEvHandlerIZV[i][j][4]  &&
-                            //             dynamicEvHandlerIZV[i][j][0] ){                                       
-                            //                 dynamicEvHandlerIZV[i][j][4].style.display = 'none';
-                            //                 dynamicEvHandlerIZV[i][j][0].style.display = 'none';
-                            //             }
-                            //     }
-                            // }
+                            pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = false;
+                            pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = false;
+                            pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = false;
                         
 
                                 while(handlerArr[i][4].firstChild)
@@ -2982,13 +3183,17 @@ function setTShSR(handlerArr, size, dataToSave){
                         else if(handlerArr[i][0].selectedIndex == 0 ){
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             console.log(i + " ТШСR: " + dataToSave[i].TShS);
+
+                            pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = true;
+                            pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = true;
+                            pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = true;
                 
-                            if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
-                                //handlerArr[i][17].style.display = 'block';
-                            }                                
-                            else{
-                                //handlerArr[i][13].style.display = 'block';
-                            }
+                            // if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
+                            //     //handlerArr[i][17].style.display = 'block';
+                            // }                                
+                            // else{
+                            //     //handlerArr[i][13].style.display = 'block';
+                            // }
                             
                             handlerArr[i][2].style.display = 'none';
                             handlerArr[i][10].style.display = 'none';
@@ -3018,66 +3223,6 @@ function setTShSR(handlerArr, size, dataToSave){
         }
     }
 }
-// iTShS2.onchange = ()=>{
-//     if(iTShS2.selectedIndex == 1){
-//         RutshnayaSignalizatsiya.KonfShleifa.TShS = iTShS2.selectedIndex;
-        
-//         AdrExNet2.style.display = 'none';
-//         AdrExDa2.style.display = 'none';
-//         bezAdr2_2.style.display = 'block';
-//         rtBiz.style.display = 'block';
-
-//         while(adrBIZ2.firstChild)
-//             adrBIZ2.removeChild(adrBIZ2.firstChild);
-            
-//             let oOption = document.createElement("option");
-//             oOption.appendChild(document.createTextNode("Выберите тип:"));
-//             oOption.setAttribute("value", "");
-//             adrBIZ2.appendChild(oOption);   
-           
-//             for (let i = 0; i < IntermediateModules.length; i++) {
-//                 for(let prop in IntermediateModules[i]){
-//                     if(IntermediateModules[i][prop] == "BIZ"){
-//                         oOption = document.createElement("option")
-//                         oOption.appendChild(document.createTextNode(IntermediateModules[i].name));
-//                         oOption.setAttribute("value", "");
-//                         adrBIZ2.appendChild(oOption);   
-//                     }
-//                 }        
-//             }
-//     }
-//     else if(iTShS2.selectedIndex == 0){
-//         RutshnayaSignalizatsiya.KonfShleifa.TShS = iTShS2.selectedIndex;
-
-//         if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == true)
-//             AdrExDa2.style.display = 'block';
-//         else
-//             AdrExNet2.style.display = 'block';
-           
-//         // AdrExNet2.style.display = 'block';
-//         // AdrExDa2.style.display = 'block';
-//         bezAdr2_2.style.display = 'none';
-//         rtBiz.style.display = 'none';
-//         while(adrBIZ2.firstChild)
-//             adrBIZ2.removeChild(adrBIZ2.firstChild);
-
-//         let oOption = document.createElement("option");
-//         oOption.appendChild(document.createTextNode("Выберите тип:"));
-//         oOption.setAttribute("value", "");
-//         adrBIZ2.appendChild(oOption);  
-//         for (let i = 0; i < IntermediateModules.length; i++) {
-//             for(let prop in IntermediateModules[i]){
-//                 if(IntermediateModules[i][prop] == "I"){
-//                      oOption = document.createElement("option");
-//                     oOption.appendChild(document.createTextNode(IntermediateModules[i].name));
-//                     oOption.setAttribute("value", "");
-//                     adrBIZ2.appendChild(oOption);   
-//                 }
-//             }        
-//         }
-//     }
-// };
-
 
 
 // // ExShSR
@@ -3088,13 +3233,16 @@ function setExShSR(handlerArr, size, dataToSave){
             if(handlerArr[i][1].checked)
             { 
                 dataToSave[i].ExShS = true;
-
+                if(handlerArr[i][3].value == "")
+                    pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = false;
                 if( dataToSave[i].TShS == 0){ 
                     handlerArr[i][2].style.display = 'block';
                     handlerArr[i][3].style.display = 'none';
                     handlerArr[i][4].style.display = 'none';
                     handlerArr[i][5].style.display = 'block';
                     
+
+
                     while(handlerArr[i][5].firstChild)
                         handlerArr[i][5].removeChild(handlerArr[i][5].firstChild);
                     
@@ -3118,6 +3266,9 @@ function setExShSR(handlerArr, size, dataToSave){
                     handlerArr[i][3].style.display = 'block';
                     handlerArr[i][4].style.display = 'none';
                     handlerArr[i][5].style.display = 'none';  
+
+
+
                     while(handlerArr[i][4].firstChild)
                         handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
                     
@@ -3141,6 +3292,7 @@ function setExShSR(handlerArr, size, dataToSave){
             else  {
                 dataToSave[i].ExShS = false;
                 handlerArr[i][2].style.display = 'none';
+                pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = true;
                 if( dataToSave[i].TShS == 0) {
                     // handlerArr[i][17].style.display = 'none'; 
                     // handlerArr[i][13].style.display = 'block';
@@ -3153,46 +3305,7 @@ function setExShSR(handlerArr, size, dataToSave){
     }
 }
 
-// iExShS2.addEventListener('click', function(){
-//     if(this.checked)
-//     { 
-//         RutshnayaSignalizatsiya.KonfShleifa.ExShS = true;
-//         TypeBIZ2.style.display = 'block';
-//         if( RutshnayaSignalizatsiya.KonfShleifa.TShS == 0){ 
-//             AdrExNet2.style.display = 'none'; 
-//             AdrExDa2.style.display = 'block';
-//             rtBiz.style.display = 'none';
-//             while(adrBIZ2.firstChild)
-//             adrBIZ2.removeChild(adrBIZ2.firstChild);
 
-//             let oOption = document.createElement("option");
-//             oOption.appendChild(document.createTextNode("Выберите тип:"));
-//             oOption.setAttribute("value", "");
-//             adrBIZ2.appendChild(oOption);  
-//             for (let i = 0; i < IntermediateModules.length; i++) {
-//                 for(let prop in IntermediateModules[i]){
-//                     if(IntermediateModules[i][prop] == "I"){
-//                         oOption = document.createElement("option");
-//                         oOption.appendChild(document.createTextNode(IntermediateModules[i].name));
-//                         oOption.setAttribute("value", "");
-//                         adrBIZ2.appendChild(oOption);   
-//                     }
-//                 }        
-//             }
-//         }
-        
-//     }
-//     else  {
-//         RutshnayaSignalizatsiya.KonfShleifa.ExShS = false;
-//         TypeBIZ2.style.display = 'none';
-//         if( RutshnayaSignalizatsiya.KonfShleifa.TShS == 0) {
-//             AdrExDa2.style.display = 'none'; 
-//             AdrExNet2.style.display = 'block';
-//             rtBiz.style.display = 'block';
-//         }
-//     }
-//     //e.preventDefault();
-// });
 
 //     //Ввод пустой строки для ТШСБИЗ
 
@@ -3210,25 +3323,27 @@ function setTShSBIZR(handlerArr, size, dataToSave){
                             console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
                             handlerArr[i][5].style.display = 'none';
                             e.preventDefault();
-                            
+                            pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = true;
                             return;
                         }
-                        //andlerArr[i][7].style.display = 'block';
+                        pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`]  = false;
                     }
                     else
                     {
                         dataToSave[i].TShSBIZ = handlerArr[i][3].value;
+                        pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`]  = true;
                         console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
                     }
                 }
                 else{
                     if(handlerArr[i][3].value == ""){
+                        pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`]  = false;
                         return;
                     }
                     else{
-                    dataToSave[i].TShSBIZ = handlerArr[i][3].value;   
-                    
-                    console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
+                        dataToSave[i].TShSBIZ = handlerArr[i][3].value;   
+                        pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = true;
+                        console.log("ТШСБИЗR: " + dataToSave[i].TShSBIZ);
                     }
                 }
             }
@@ -3238,57 +3353,15 @@ function setTShSBIZR(handlerArr, size, dataToSave){
 }
 
 
-//     rtBiz.addEventListener('blur', (e)=>{
-//         if(RutshnayaSignalizatsiya.KonfShleifa.ExShS == true){
-//             if(RutshnayaSignalizatsiya.KonfShleifa.TShS == 1){
-//                 if(rtBiz.value == ""){
-//                     let flag = confirm("Взрывозащита типа \"d\"");
-//                     if(flag)
-//                     {
-//                         RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ = "Взрывозащита типа \"d\"";
-//                         rtBiz.value = "Взрывозащита типа \"d\"";
-//                         console.log("ТШСБИЗ: " + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ);
-//                         adrBIZ2.style.display = 'none';
-//                         e.preventDefault();
-//                         list = false
-//                         return;
-//                     }
-//                     adrBIZ2.style.display = 'block';
-//                 }
-//                 else
-//                 {
-//                     RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ = rtBiz.value;
-//                     console.log("ТШСБИЗ: " + RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ);
-//                     list = false;
-//                     flag = false;
-//                 }
-//             }
-//             else{
-//                 if(rtBiz.value == ""){
-//                     return;
-//                 }
-//                 else
-//                 RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ = rtBiz.value;    
-//             }
-//             list = false;
-//         }
-//     })
- 
-//     //List 
-//     adrBIZ2.onchange = ()=>{
-//         if(adrBIZ2.selectedIndex == 0)
-//             return;
-
-//         RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ = adrBIZ2.options[adrBIZ2.selectedIndex].text;
-//         console.log(RutshnayaSignalizatsiya.KonfShleifa.TShSBIZ );
-//     };
-
 function setAdrBizR(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         handlerArr[i][5].onchange = ()=>{
-            if(handlerArr[i][5].selectedIndex == 0)
+            if(handlerArr[i][5].selectedIndex == 0){
+                pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = false;
                 return;
+            }
 
+            pressedBtnsRuchnCount_sbt3[`TShSBIZ${i}`] = true;
             dataToSave[i].TShSBIZ = handlerArr[i][5].options[handlerArr[i][5].selectedIndex].text;
             console.log("X: " + dataToSave[i].TShSBIZ );
         };        
@@ -3326,6 +3399,7 @@ function setKIZVShSR(handlerArr, size, dataToSave){
                 if( handlerArr[i][6].value.search(regEx) == -1){
                 if(parseInt( handlerArr[i][6].value, 10) >= 1 && parseInt( handlerArr[i][6].value, 10) <= 32){
                     dataToSave[i].KIZVShS = parseInt( handlerArr[i][6].value, 10);
+                    pressedBtnsRuchnCount_sbt3[`KIZVShSR${i}`] = true;
                     handlerArr[i][6].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + "-КІЗВШСR: " + dataToSave[i].KIZVShS);
 
@@ -3338,6 +3412,7 @@ function setKIZVShSR(handlerArr, size, dataToSave){
 
                 }
                 else if( handlerArr[i][6].value == ""){
+                    pressedBtnsRuchnCount_sbt3[`KIZVShSR${i}`] = false;
                     return;
                 }
                 else
@@ -3350,48 +3425,7 @@ function setKIZVShSR(handlerArr, size, dataToSave){
             }); 
     }  
 }
-//     iKIZVShS2.onkeypress = (e)=>{
-//         e = e || event;
-//        if (e.ctrlKey || e.altKey || e.metaKey) return;
-//        var chr = getChar(e);
-//        console.log("Char pressed: " + chr);
-//        if(chr == ',' || chr == '.')
-//        {   
-//            // iKShS.value.replace(/[\,|\.]+/g,'');
-//            e.preventDefault();
-//            return;
-//        }
-//        if(chr == null) return;
-    
-//        if (chr < '0' || chr > '9') {
-//            return false;
-//        }
-//     };
-    
-//         iKIZVShS2.addEventListener('focus', ()=>{
-//             iKIZVShS2.style.boxShadow = 'none';
-//         });
-    
-//         iKIZVShS2.addEventListener('blur', ()=>{
-//             if(iKIZVShS2.value.search(regEx) == -1){
-//             if(parseInt(iKIZVShS2.value, 10) >= 1 && parseInt(iKIZVShS2.value, 10) <= 32){
-//                 RutshnayaSignalizatsiya.KonfShleifa.KIZVShS = parseInt(iKIZVShS2.value, 10);
-//                 iKIZVShS2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//                 console.log("КИЗВШС: " + RutshnayaSignalizatsiya.KonfShleifa.KIZVShS);
-//             }
-//             else if(iKIZVShS2.value == ""){
-//                 return;
-//             }
-//             else
-//                 {
-//                     iKIZVShS2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//                 }
-//             }
-//             else
-//                 iKIZVShS2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-            
-//             if(iKIZVShS2.value == "") RutshnayaSignalizatsiya.KonfShleifa.KIZVShS = 0;
-//         });
+
 
 //     //Зона
 //     //iZONAShS2
@@ -3424,10 +3458,12 @@ function setZonaShSR(handlerArr, size, dataToSave){
             if(handlerArr[i][8].value.search(regEx) == -1){
             if(parseInt(handlerArr[i][8].value, 10) >= 1 && parseInt(handlerArr[i][8].value, 10) <= 255){
                 dataToSave[i].ZONAShS = parseInt(handlerArr[i][8].value, 10);
+                pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = true;
                 handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(i + " - ЗОНАШСR: " + dataToSave[i].ZONAShS);
             }
             else if(handlerArr[i][8].value == ""){
+                pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = false;
                 return;
             }
             else
@@ -3442,46 +3478,6 @@ function setZonaShSR(handlerArr, size, dataToSave){
     }
 }
 
-//     iZONAShS2.onkeypress = (e)=>{
-//         e = e || event;
-//        if (e.ctrlKey || e.altKey || e.metaKey) return;
-//        var chr = getChar(e);
-//        console.log("Char pressed: " + chr);
-//        if(chr == ',' || chr == '.')
-//        {   
-//            // iKShS.value.replace(/[\,|\.]+/g,'');
-//            e.preventDefault();
-//            return;
-//        }
-//        if(chr == null) return;
-    
-//        if (chr < '0' || chr > '9') {
-//            return false;
-//        }
-//     };
-    
-//     iZONAShS2.addEventListener('focus', ()=>{
-//         iZONAShS2.style.boxShadow = 'none';
-//     });
-    
-//     iZONAShS2.addEventListener('blur', ()=>{
-//         if(iZONAShS2.value.search(regEx) == -1){
-//         if(parseInt(iZONAShS2.value, 10) >= 1 && parseInt(iZONAShS2.value, 10) <= 255){
-//             RutshnayaSignalizatsiya.KonfShleifa.ZONAShS = parseInt(iZONAShS2.value, 10);
-//             iZONAShS2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//             console.log("ЗонаШС: " +  RutshnayaSignalizatsiya.KonfShleifa.ZONAShS);
-//         }
-//         else if(iZONAShS2.value == ""){
-//             return;
-//         }
-//         else
-//             {
-//                 iZONAShS2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//             }
-//         }
-//         else
-//             iZONAShS2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//     });
 
 
 //     //iADRShS2
@@ -3493,11 +3489,13 @@ function setAdrShSR(handlerArr, size, dataToSave){
 
             handlerArr[i][9].addEventListener('blur', ()=>{
                 if(handlerArr[i][9].value == ""){ 
+                    pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = false;
                     handlerArr[i][9].style.boxShadow = 'none';
                     return;
                 }
                 else if(handlerArr[i][9].value.length <= 20){
                     dataToSave[i].ADRShS = handlerArr[i][9].value;
+                    pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = true;
                     handlerArr[i][9].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + " АДРШСR: " + dataToSave[i].ADRShS + " L: " + dataToSave[i].ADRShS.length);
                 }
@@ -3507,160 +3505,6 @@ function setAdrShSR(handlerArr, size, dataToSave){
     }
 }
 
-//     iADRShS2.addEventListener('focus', ()=>{
-//         iADRShS2.style.boxShadow = 'none';
-//     });
-    
-//     iADRShS2.addEventListener('blur', ()=>{
-//         if(iADRShS2.value == ""){ 
-//             iADRShS2.style.boxShadow = 'none';
-//             return;
-//         }
-//         else if(iADRShS2.value.length <= 20){
-//             RutshnayaSignalizatsiya.KonfShleifa.ADRShS = iADRShS2.value;
-//             iADRShS2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//             console.log("АДРШС: " + RutshnayaSignalizatsiya.KonfShleifa.ADRShS + " L: " + RutshnayaSignalizatsiya.KonfShleifa.ADRShS.length);
-//         }
-//         else
-//             iADRShS2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//     });
-
-//     //Конфигурация извещателя ТШС="адресный"ЕхШС = "Нет"
-//     //ТАИЗВ
-
-//     iTAIZV2.onchange = ()=>{
-//         RutshnayaSignalizatsiya.AdrExNet.TAIZV = iTAIZV2.selectedIndex;
-//         console.log( RutshnayaSignalizatsiya.AdrExNet.TAIZV);
-//     };
-
-//     //ZonaIzv
-// iZONAIZV2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
-
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// iZONAIZV2.addEventListener('focus', ()=>{
-//     iZONAIZV2.style.boxShadow = 'none';
-// });
-
-// iZONAIZV2.addEventListener('blur', ()=>{
-//     if(iZONAIZV2.value.search(regEx) == -1){
-//     if(parseInt(iZONAIZV2.value, 10) >= 1 && parseInt(iZONAIZV2.value, 10) <= 255){
-//         RutshnayaSignalizatsiya.AdrExNet.ZONAIZV = parseInt(iZONAIZV2.value, 10);
-//         iZONAIZV2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("ЗонаИзв: " + RutshnayaSignalizatsiya.AdrExNet.ZONAIZV);
-//     }
-//     else if(iZONAIZV2.value == ""){
-//         return;
-//     }
-//     else
-//         {
-//             iZONAIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//         }
-//     }
-//     else
-//         iZONAIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-// // ADRIZV 
-// iADRIZV2.addEventListener('focus', ()=>{
-//     iADRIZV2.style.boxShadow = 'none';
-// });
-
-// iADRIZV2.addEventListener('blur', ()=>{
-//     if(iADRIZV2.value == ""){ 
-//         iADRIZV2.style.boxShadow = 'none';
-//         return;
-//     }
-//     else if(iADRIZV2.value.length <= 20){
-//         RutshnayaSignalizatsiya.AdrExNet.ADRIZV = iADRIZV2.value;
-//         iADRIZV2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + RutshnayaSignalizatsiya.AdrExNet.ADRIZV + " L: " + RutshnayaSignalizatsiya.AdrExNet.ADRIZV.length);
-//     }
-//     else
-//         iADRIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-// //Обработка конф ТШС="Адр" ЕхШС ="да"
-// //ТАИЗВ
-// iTAIZV2.onchange = ()=>{
-//     RutshnayaSignalizatsiya.AdrExDa.TAIZV = iTAIZV2.selectedIndex;
-//     console.log( RutshnayaSignalizatsiya.AdrExDa.TAIZV);
-// };
-
-// //ZonaIzv
-// iZONAIZV2_1.onkeypress = (e)=>{
-// e = e || event;
-// if (e.ctrlKey || e.altKey || e.metaKey) return;
-// var chr = getChar(e);
-// console.log("Char pressed: " + chr);
-// if(chr == ',' || chr == '.')
-// {   
-//    // iKShS.value.replace(/[\,|\.]+/g,'');
-//    e.preventDefault();
-//    return;
-// }
-// if(chr == null) return;
-
-// if (chr < '0' || chr > '9') {
-//    return false;
-// }
-// };
-
-// iZONAIZV2_1.addEventListener('focus', ()=>{
-// iZONAIZV2_1.style.boxShadow = 'none';
-// });
-
-// iZONAIZV2_1.addEventListener('blur', ()=>{
-// if(iZONAIZV2_1.value.search(regEx) == -1){
-// if(parseInt(iZONAIZV2_1.value, 10) >= 1 && parseInt(iZONAIZV2_1.value, 10) <= 255){
-//     RutshnayaSignalizatsiya.AdrExDa.ZONAIZV = parseInt(iZONAIZV2_1.value, 10);
-//     iZONAIZV2_1.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//     console.log("ЗонаИзв: " + RutshnayaSignalizatsiya.AdrExDa.ZONAIZV);
-// }
-// else if(iZONAIZV2_1.value == ""){
-//     return;
-// }
-// else
-//     {
-//         iZONAIZV2_1.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//     }
-// }
-// else
-//     iZONAIZV2_1.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-// // ADRIZV 
-// iADRIZV2_1.addEventListener('focus', ()=>{
-// iADRIZV2_1.style.boxShadow = 'none';
-// });
-
-// iADRIZV2_1.addEventListener('blur', ()=>{
-// if(iADRIZV2_1.value == ""){ 
-//     iADRIZV2_1.style.boxShadow = 'none';
-//     return;
-// }
-// else if(iADRIZV2_1.value.length <= 20){
-//     RutshnayaSignalizatsiya.AdrExDa.ADRIZV = iADRIZV2_1.value;
-//     iADRIZV2_1.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//     console.log("АдрИзв: " + RutshnayaSignalizatsiya.AdrExDa.ADRIZV + " L: " + RutshnayaSignalizatsiya.AdrExDa.ADRIZV.length);
-// }
-// else
-//     iADRIZV2_1.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
 
 // //Конфигурация извещателя при ТШС="Безадресный"
 // //iTIZV2
@@ -3671,12 +3515,14 @@ function setTIZVautoR(handlerArr, size, dataToSave){
         });
 
         handlerArr[i][11].addEventListener('blur', ()=>{
-            if(handlerArr[i][11].value == ""){ 
+            if(handlerArr[i][11].value == ""){
+                pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = false; 
                 handlerArr[i][11].style.boxShadow = 'none';
                 return;
             }
             else if(handlerArr[i][11].value.length <= 20){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][11].value;
+                pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = true;
                 //добавляем введённую инфу в массив
                 addItemsDouble(handlerArr[i][12], i, handlerArr);
                 // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
@@ -3753,10 +3599,12 @@ function setIOIZVR(handlerArr, size, dataToSave){
 
             if(parseFloat(handlerArr[i][13].value) >= 0 && parseFloat(handlerArr[i][13].value) <= 32){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][13].value);
+                pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = true;
                 handlerArr[i][13].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log("IOIZVR: " + dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV);
             }
             else if(handlerArr[i][13].value == ""){
+                pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = false;
                 return;
             }
             else
@@ -3772,73 +3620,6 @@ function setIOIZVR(handlerArr, size, dataToSave){
 }
 
 
-
-// iIOIZV2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        let count = 0, pos = -1;
-//        if(chr == ',' || chr == '.'){
-//             if(iIOIZV2.value.indexOf('.') == -1)
-//             {
-//                 while((pos = iIOIZV2.value.indexOf(',', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else { count = 0;  }
-//             }
-//             else
-//             {
-//                 while((pos = iIOIZV2.value.indexOf('.', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else  { count = 0;  }   
-//             }
-//        }
-
-//        return;
-//    }
-//    if(chr == null) return;
-
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// iIOIZV2.addEventListener('focus', ()=>{
-//     iIOIZV2.style.boxShadow = 'none';
-// });
-
-// iIOIZV2.addEventListener('blur', ()=>{
-//     if(iIOIZV2.value.indexOf(',')== -1 && iIOIZV2.value.indexOf('.')== -1)
-//         iIOIZV2.value += ',0';
-//     if(iIOIZV2.value[iIOIZV2.value.length - 1] == '.' || iIOIZV2.value[iIOIZV2.value.length - 1] == ',')
-//         iIOIZV2.value += '0';
-
-//     if(iIOIZV2.value.search(regExBroken) != -1){
-    
-//     if(iIOIZV2.value.indexOf(',')!= -1) iIOIZV2.value = iIOIZV2.value.replace(/\,/, '.');
-
-//     if(parseFloat(iIOIZV2.value) >= 0 && parseFloat(iIOIZV2.value) <= 32){
-//         RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV = parseFloat(iIOIZV2.value);
-//         iIOIZV2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("IOIZV: " + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV);
-//     }
-//     else if(iIOIZV2.value == ""){
-//         return;
-//     }
-//     else
-//         {
-//             iIOIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//         }
-//     }
-//     else
-//         iIOIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
 
 // //iIPIZV2
 function setiIPIZVR(handlerArr, size, dataToSave){
@@ -3894,10 +3675,12 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 
             if(parseFloat(handlerArr[i][14].value) >= 0 && parseFloat(handlerArr[i][14].value) <= 32){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][14].value);
+                pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = true;
                 handlerArr[i][14].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log("IPIZVR: " +  dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV);
             }
             else if(handlerArr[i][14].value == ""){
+                pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = false;
                 return;
             }
             else
@@ -3916,74 +3699,6 @@ function setiIPIZVR(handlerArr, size, dataToSave){
 
 
 
-// iIPIZV2.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        let count = 0, pos = -1;
-//        if(chr == ',' || chr == '.'){
-//             if(iIPIZV2.value.indexOf('.') == -1)
-//             {
-//                 while((pos = iIPIZV2.value.indexOf(',', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else { count = 0;  }
-//             }
-//             else
-//             {
-//                 while((pos = iIPIZV2.value.indexOf('.', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else  { count = 0;  }   
-//             }
-//        }
-
-//        return;
-//    }
-//    if(chr == null) return;
-
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// iIPIZV2.addEventListener('focus', ()=>{
-//     iIPIZV2.style.boxShadow = 'none';
-// });
-
-// iIPIZV2.addEventListener('blur', ()=>{
-//     if(iIPIZV2.value.indexOf(',')== -1 && iIPIZV2.value.indexOf('.')== -1)
-//          iIPIZV2.value += ',0';
-//     if(iIPIZV2.value[iIPIZV2.value.length - 1] == '.' || iIPIZV2.value[iIPIZV2.value.length - 1] == ',')
-//          iIPIZV2.value += '0';
-
-//     if(iIPIZV2.value.search(regExBroken) != -1){
-    
-//         if(iIPIZV2.value.indexOf(',')!= -1) iIPIZV2.value = iIPIZV2.value.replace(/\,/, '.');
-
-//     if(parseFloat(iIPIZV2.value) >= 0 && parseFloat(iIPIZV2.value) <= 32){
-//         RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV = parseFloat(iIPIZV2.value);
-//         iIPIZV2.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log( "IPIZV: " + RutshnayaSignalizatsiya.KonfIzvBezAdr.IPIZV);
-//     }
-//     else if(iIPIZV2.value == ""){
-//         return;
-//     }
-//     else
-//         {
-//             iIPIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//         }
-//     }
-//     else
-//         iIPIZV2.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-
 // //Подсистема управления пожаротушением
 
 
@@ -3997,20 +3712,26 @@ const   KShPT = document.getElementById('KShPT'),
         KBDUZONY = document.getElementById('KBDUZONY'),
         KExBDUZONY = document.getElementById('KExBDUZONY'),
         KExLSBDU = document.getElementById('KExLSBDU');
-//         ADRShPT = document.getElementById('ADRShPT'),
-//         IPShPT = document.getElementById('IPShPT'),
-//         ExShPT = document.getElementById('ExShPT'),
-//         TBIZShPT = document.getElementById('TBIZShPT'),
-//         TBIZShPT_Select = document.getElementById('TBIZShPT_Select');
 
-//         TBIZShPT.style.display = 'none';
-//         TBIZShPT_Select.style.display = 'none';
 
 const lineLoopBtnsUpr = document.getElementById('lineLoopBtnsUpr'),
     lineLoopPrevUpr = document.getElementById('lineLoopPrevUpr'),
     lineLoopPosUpr = document.getElementById('lineLoopPosUpr'),
     lastPosUpr = document.getElementById('lastPosUpr'),
     lineLoopNextUpr = document.getElementById('lineLoopNextUpr');
+
+let pressedBtnsPojCount = [];
+pressedBtnsPojCount['KShPT'] = false;
+pressedBtnsPojCount['KMIShPT'] = false;
+pressedBtnsPojCount['REZShPT'] = false;
+pressedBtnsPojCount['ZONAShPT'] = false;
+pressedBtnsPojCount['ADRZONYPT'] = false;
+pressedBtnsPojCount['KShPTZONY'] = false;
+pressedBtnsPojCount['KDDZONY'] = false;
+pressedBtnsPojCount['KBDUZONY'] = false;
+pressedBtnsPojCount['KExBDUZONY'] = false;
+pressedBtnsPojCount['KExLSBDU'] = false;
+
 
 lineLoopPrevUpr.addEventListener('click', ()=>{
         if(prevIndexUpr < 1) prevIndexUpr = lineLoopsUpr.length;
@@ -4087,11 +3808,13 @@ KShPT.addEventListener('blur', ()=>{
    if(parseInt(KShPT.value, 10) >= 1 && parseInt(KShPT.value, 10) <= 640){
        UpravleniePojaroTusheniem.KShPT = parseInt(KShPT.value, 10);
        KShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KShPT'] = true;
        ZONAShPT.placeholder = `1...${UpravleniePojaroTusheniem.KShPT}`;
        console.log(UpravleniePojaroTusheniem.KShPT);
    }
    else if(KShPT.value == ""){
        UpravleniePojaroTusheniem.KShPT= 0;
+       pressedBtnsPojCount['KShPT'] = false;
        ZONAShPT.placeholder = `1...64`;
        console.log("КШПТ: " + UpravleniePojaroTusheniem.KShPT);
        return;
@@ -4135,10 +3858,12 @@ KMIShPT.addEventListener('blur', ()=>{
    if(parseInt(KMIShPT.value, 10) >= 1 && parseInt(KMIShPT.value, 10) <= 32){
        UpravleniePojaroTusheniem.KMIShPT = parseInt(KMIShPT.value, 10);
        KMIShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KMIShPT'] = true;
        console.log(UpravleniePojaroTusheniem.KMIShPT);
    }
    else if(KMIShPT.value == ""){
        UpravleniePojaroTusheniem.KMIShPT= 0;
+       pressedBtnsPojCount['KMIShPT'] = false;
        console.log("КМИШПТ: " + UpravleniePojaroTusheniem.KMIShPT);
        return;
    }
@@ -4181,10 +3906,12 @@ REZShPT.addEventListener('blur', ()=>{
    if(parseInt(REZShPT.value, 10) >= 0 && parseInt(REZShPT.value, 10) <= 100){
        UpravleniePojaroTusheniem.REZShPT = parseInt(REZShPT.value, 10);
        REZShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['REZShPT'] = true;
        console.log(UpravleniePojaroTusheniem.REZShPT);
    }
    else if(REZShPT.value == ""){
        UpravleniePojaroTusheniem.REZShPT= 0;
+       pressedBtnsPojCount['REZShPT'] = false;
        console.log("РЕЗШПТ: " + UpravleniePojaroTusheniem.REZShPT);
        return;
    }
@@ -4229,10 +3956,12 @@ ZONAShPT.addEventListener('blur', ()=>{
    parseInt(ZONAShPT.value, 10) <= 64){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT = parseInt(ZONAShPT.value, 10);
        ZONAShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['ZONAShPT'] = true;
        console.log(UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
    }
    else if(ZONAShPT.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT= 0;
+       pressedBtnsPojCount['ZONAShPT'] = false;
        console.log("ЗонаШПТ: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ZONAShPT);
        return;
    }
@@ -4253,12 +3982,14 @@ ADRZONYPT.addEventListener('focus', ()=>{
     
     ADRZONYPT.addEventListener('blur', ()=>{
     if(ADRZONYPT.value == ""){
+        pressedBtnsPojCount['ADRZONYPT'] = false;
         ADRZONYPT.style.boxShadow = 'none';
         return;
     }
     else if(ADRZONYPT.value.length <= 20){
         UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT = ADRZONYPT.value;
         ADRZONYPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        pressedBtnsPojCount['ADRZONYPT'] = true;
         console.log("АдрЗоныПТ: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT + " L: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.ADRZONYPT);
     }
     else
@@ -4293,10 +4024,12 @@ KShPTZONY.addEventListener('blur', ()=>{
    if(parseInt(KShPTZONY.value, 10) >= 1 && parseInt(KShPTZONY.value, 10) <= 320){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY = parseInt(KShPTZONY.value, 10);
        KShPTZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KShPTZONY'] = true;
        console.log("KShPTZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
    }
    else if(KShPTZONY.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY= 0;
+       pressedBtnsPojCount['KShPTZONY'] = false;
        console.log("KShPTZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KShPTZONY);
        return;
    }
@@ -4338,10 +4071,12 @@ KDDZONY.addEventListener('blur', ()=>{
    if(parseInt(KDDZONY.value, 10) >= 0 && parseInt(KDDZONY.value, 10) <= 20){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY = parseInt(KDDZONY.value, 10);
        KDDZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KDDZONY'] = true;
        console.log("KDDZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
    }
    else if(KDDZONY.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY= 0;
+       pressedBtnsPojCount['KDDZONY'] = false;
        console.log("KDDZONY: " +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY);
        return;
    }
@@ -4383,10 +4118,12 @@ KBDUZONY.addEventListener('blur', ()=>{
    if(parseInt(KBDUZONY.value, 10) >= 0 && parseInt(KBDUZONY.value, 10) <= 20){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY = parseInt(KBDUZONY.value, 10);
        KBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KBDUZONY'] = true;
        console.log("KBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
    }
    else if(KBDUZONY.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY= 0;
+       pressedBtnsPojCount['KBDUZONY'] = false;
        console.log("KBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY);
        return;
    }
@@ -4428,10 +4165,12 @@ KExBDUZONY.addEventListener('blur', ()=>{
    if(parseInt(KExBDUZONY.value, 10) >= 0 && parseInt(KExBDUZONY.value, 10) <= 20){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY = parseInt(KExBDUZONY.value, 10);
        KExBDUZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KExBDUZONY'] = true;
        console.log("KExBDUZONY: " +UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
    }
    else if(KExBDUZONY.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY= 0;
+       pressedBtnsPojCount['KExBDUZONY'] = false;
        console.log("KExBDUZONY: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY);
        return;
    }
@@ -4473,10 +4212,12 @@ KExLSBDU.addEventListener('blur', ()=>{
    if(parseInt(KExLSBDU.value, 10) >= 0 && parseInt(KExLSBDU.value, 10) <= 15){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU = parseInt(KExLSBDU.value, 10);
        KExLSBDU.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsPojCount['KExLSBDU'] = true;
        console.log("KExLSBDU: " + UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
    }
    else if(KExLSBDU.value == ""){
        UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU= 0;
+       pressedBtnsPojCount['KExLSBDU'] = false;
        console.log("KExLSBDU: " +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExLSBDU);
        return;
    }
@@ -4492,14 +4233,25 @@ KExLSBDU.addEventListener('blur', ()=>{
 let lineLoopsUpr = [], dynamicEventHandlersUpr = [], lineLoopsDataUpr = [];
 let curPosUpr, prevIndexUpr, nextIndexUpr;
 
+let pressedBtnsPojCount_sbt4 = [];
+
 sbtForm4.addEventListener('click', (e)=>{
     e.preventDefault();
-    if(UpravleniePojaroTusheniem.KShPT ){
+    if(UpravleniePojaroTusheniem.KShPT && isThereFalse(pressedBtnsPojCount) ){
             //alert('Сконфигурировано!');
+            console.log(pressedBtnsRuchnCount_sbt3);
+            console.log(pressedBtnsRuchnCount_bezAdr);
+            console.log(pressedBtnsRuchnCount_adrExShSn);
+            console.log(pressedBtnsRuchnCount_adrExShSd);
+
             lineLoopBtnsUpr.style.display = 'block';
             lineLoopsUpr.length = UpravleniePojaroTusheniem.KShPT;
             for (let i = 0; i < lineLoopsUpr.length; i++) {
                 lineLoopsUpr[i] = UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia;
+
+                pressedBtnsPojCount_sbt4[`ADRShPT${i}`] = false;
+                pressedBtnsPojCount_sbt4[`IPShPT${i}`] = false;
+                pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = true;
             }
             createlineLoopUpr(UpravleniePojaroTusheniem.KShPT);
             // let lastPosUpr = document.getElementById('lastPosUpr'),
@@ -4527,7 +4279,7 @@ sbtForm4.addEventListener('click', (e)=>{
             hideAutoObnarUpr();
             if(lineLoopsUpr.length){
                 for (let i = 0; i < lineLoopsUpr.length; i++) {                
-                    lineLoopsDataUpr[i] = UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia;
+                    lineLoopsDataUpr[i] = Object.assign({}, UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia);
                     dynamicEventHandlersUpr[i][5].style.display = 'none';
                 }
              }
@@ -4553,11 +4305,13 @@ function setAdrShPT(handlerArr, size, dataToSave){
 
             handlerArr[i][0].addEventListener('blur', ()=>{
                 if(handlerArr[i][0].value == ""){ 
+                    pressedBtnsPojCount_sbt4[`ADRShPT${i}`] = false;
                     handlerArr[i][0].style.boxShadow = 'none';
                     return;
                 }
                 else if(handlerArr[i][0].value.length <= 20){
                     dataToSave[i].ADRShPT = handlerArr[i][0].value;
+                    pressedBtnsPojCount_sbt4[`ADRShPT${i}`] = true;
                     handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     if( dataToSave[i].ADRShPT != '' &&
                         dataToSave[i].IPShPT >= 1 ){
@@ -4576,23 +4330,7 @@ function setAdrShPT(handlerArr, size, dataToSave){
             });
     }
 }
-// ADRShPT.addEventListener('focus', ()=>{
-//     ADRShPT.style.boxShadow = 'none';
-//     });
-    
-//     ADRShPT.addEventListener('blur', ()=>{
-//     if(ADRShPT.value == ""){
-//         ADRShPT.style.boxShadow = 'none';
-//         return;
-//     }
-//     else if(ADRShPT.value.length <= 20){
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT = ADRShPT.value;
-//         ADRShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT + " L: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ADRShPT);
-//     }
-//     else
-//         ADRShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
+
 
 // //IPShPT
 function setIPShPT(handlerArr, size, dataToSave){
@@ -4649,6 +4387,7 @@ function setIPShPT(handlerArr, size, dataToSave){
 
             if(parseFloat(handlerArr[i][1].value) >= 0 && parseFloat(handlerArr[i][1].value) <= 3){
                 dataToSave[i].IPShPT = parseFloat(handlerArr[i][1].value);
+                pressedBtnsPojCount_sbt4[`IPShPT${i}`] = true;
                 handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 if( dataToSave[i].ADRShPT != '' &&
                     dataToSave[i].IPShPT >= 1 ){
@@ -4662,6 +4401,7 @@ function setIPShPT(handlerArr, size, dataToSave){
                 console.log("IPShPT: " + dataToSave[i].IPShPT);
             }
             else if(handlerArr[i][1].value == ""){
+                pressedBtnsPojCount_sbt4[`IPShPT${i}`] = false;
                 return;
             }
             else
@@ -4675,72 +4415,7 @@ function setIPShPT(handlerArr, size, dataToSave){
         
     }
 }
-// IPShPT.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        let count = 0, pos = -1;
-//        if(chr == ',' || chr == '.'){
-//             if(IPShPT.value.indexOf('.') == -1)
-//             {
-//                 while((pos = IPShPT.value.indexOf(',', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else { count = 0;  }
-//             }
-//             else
-//             {
-//                 while((pos = IPShPT.value.indexOf('.', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else  { count = 0;  }   
-//             }
-//        }
 
-//        return;
-//    }
-//    if(chr == null) return;
-
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// IPShPT.addEventListener('focus', ()=>{
-//     IPShPT.style.boxShadow = 'none';
-// });
-
-// IPShPT.addEventListener('blur', ()=>{
-//     if(IPShPT.value.indexOf(',')== -1 && IPShPT.value.indexOf('.')== -1)
-//         IPShPT.value += ',0';
-//     if(IPShPT.value[IPShPT.value.length - 1] == '.' || IPShPT.value[IPShPT.value.length - 1] == ',')
-//         IPShPT.value += '0';
-
-//     if(IPShPT.value.search(regExBroken) != -1){
-        
-//         if(IPShPT.value.indexOf(',')!= -1) IPShPT.value = IPShPT.value.replace(/\,/, '.');
-
-//         if(parseFloat(IPShPT.value) >= 0 && parseFloat(IPShPT.value) <= 3){
-//             UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.IPShPT = parseFloat(IPShPT.value);
-//             IPShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//             console.log("IOIZV: " + RutshnayaSignalizatsiya.KonfIzvBezAdr.IOIZV);
-//         }
-//         else if(IPShPT.value == ""){
-//             return;
-//         }
-//         else
-//             {
-//                 IPShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//             }
-//     }
-//     else
-//         IPShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
 
 // //ExShPT
 function setExShPT(handlerArr, size, dataToSave){
@@ -4749,6 +4424,8 @@ function setExShPT(handlerArr, size, dataToSave){
                     if(handlerArr[i][2].checked)
                     { 
                         dataToSave[i].ExShPT = true;
+                        if(handlerArr[i][4].value == "")
+                            pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = false;
                         handlerArr[i][3].style.display = 'block';    
                         handlerArr[i][4].style.display = 'block';  
                         while(handlerArr[i][5].firstChild)
@@ -4777,6 +4454,7 @@ function setExShPT(handlerArr, size, dataToSave){
                     }
                     else  {
                         dataToSave[i].ExShPT = false;
+                        pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = true;
                         handlerArr[i][3].style.display = 'none';
                         while(handlerArr[i][5].firstChild)
                             handlerArr[i][5].removeChild(handlerArr[i][5].firstChild);
@@ -4785,39 +4463,6 @@ function setExShPT(handlerArr, size, dataToSave){
             }); 
     }
 }
-// ExShPT.addEventListener('click', ()=>{
-//     if(ExShPT.checked)
-//     { 
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ExShPT = true;
-//         TBIZShPT.style.display = 'block';    
-//         while(TBIZShPT_Select.firstChild)
-//             TBIZShPT_Select.removeChild(TBIZShPT_Select.firstChild);
-        
-//         let oOption = document.createElement("option");
-//         oOption.appendChild(document.createTextNode("Выберите тип:"));
-//         oOption.setAttribute("value", "");
-//         TBIZShPT_Select.appendChild(oOption);   
-       
-//         for (let i = 0; i < IntermediateModules.length; i++) {
-//             for(let prop in IntermediateModules[i]){
-//                 if(IntermediateModules[i][prop] == "BIZ"){
-//                     oOption = document.createElement("option")
-//                     oOption.appendChild(document.createTextNode(IntermediateModules[i].name));
-//                     oOption.setAttribute("value", "");
-//                     TBIZShPT_Select.appendChild(oOption);   
-//                 }
-//             }        
-//         }
-//         TBIZShPT_Select.style.display = 'block';    
-//     }
-//     else  {
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.ExShPT = false;
-//         TBIZShPT.style.display = 'none';
-//         while(TBIZShPT_Select.firstChild)
-//             TBIZShPT_Select.removeChild(TBIZShPT_Select.firstChild);
-//         TBIZShPT_Select.style.display = 'none';
-//     }
-// });
 
 // //TBIZShPT
 function setTBIZShPT(handlerArr, size, dataToSave){
@@ -4833,6 +4478,7 @@ function setTBIZShPT(handlerArr, size, dataToSave){
                 {
                     dataToSave[i].TBIZShPT  = "Взрывозащита типа \"d\"";
                     handlerArr[i][4].value = "Взрывозащита типа \"d\"";
+                    pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = true;
                     console.log("TBIZShPT: " + dataToSave[i].TBIZShPT);
                     //TBIZShPT.style.display = 'none';
 
@@ -4852,11 +4498,13 @@ function setTBIZShPT(handlerArr, size, dataToSave){
                     return;
                 }
                 handlerArr[i][4].style.boxShadow = 'none';
+                pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = false;
                 //handlerArr[i][5].style.display = 'block';
                 return;
             }
             else if(handlerArr[i][4].value.length <= 20){
                 dataToSave[i].TBIZShPT = handlerArr[i][4].value;
+                pressedBtnsPojCount_sbt4[`TBIZShPT${i}`] = true;
                 handlerArr[i][4].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 if( dataToSave[i].ADRShPT != '' &&
                 dataToSave[i].IPShPT >= 1 ){
@@ -4873,81 +4521,16 @@ function setTBIZShPT(handlerArr, size, dataToSave){
             else
             handlerArr[i][4].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
         });
-
-        // handlerArr[i][4].onchange = ()=>{
-        //     if(TBIZShPT_Select.selectedIndex != 0){
-        //         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT = TBIZShPT_Select.options[TBIZShPT_Select.selectedIndex].text;
-        //     }
-        // };
     }   
 }
-// TBIZShPT.addEventListener('focus', ()=>{
-//     TBIZShPT.style.boxShadow = 'none';
-//     });
-    
-//     TBIZShPT.addEventListener('blur', (e)=>{
-//     if(TBIZShPT.value == ""){
-//         let flag = confirm("Взрывозащита типа \"d\"");
-//         if(flag)
-//         {
-//             UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT  = "Взрывозащита типа \"d\"";
-//             TBIZShPT.value = "Взрывозащита типа \"d\"";
-//             console.log("ТШСБИЗ: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT);
-//             //TBIZShPT.style.display = 'none';
 
-//             TBIZShPT_Select.style.display = 'none';
-//             e.preventDefault();
-//             list = false
-//             return;
-//         }
-//         TBIZShPT.style.boxShadow = 'none';
-//         TBIZShPT_Select.style.display = 'block';
-//         return;
-//     }
-//     else if(TBIZShPT.value.length <= 20){
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT = TBIZShPT.value;
-//         TBIZShPT.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT + " L: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT);
-//     }
-//     else
-//         TBIZShPT.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-// TBIZShPT_Select.onchange = ()=>{
-//     if(TBIZShPT_Select.selectedIndex != 0){
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZShPT = TBIZShPT_Select.options[TBIZShPT_Select.selectedIndex].text;
-//     }
-// };
-
-// function setCheckboxUpr(handlerArr, size, dataToSave){
-//     for (let i = 0; i < size; i++) {
-//         handlerArr[i][6].addEventListener('click', (e) =>{
-//             e.preventDefault();
-//             if( dataToSave[i].ADRShPT != '' &&
-//                 dataToSave[i].IPShPt >= 1 ){
-//                     handlerArr[i][6].checked = true;
-//             }
-//             else    
-//                 handlerArr[i][6].checked = false;
-//         });
-//     }
-// }
 
 
 
 // //-----------------------------Подсистема управления оповещением-----------------------------//
 const KZONOP = document.getElementById('KZONOP'),
         REZShO = document.getElementById('REZShO');
-//         ZONAShOP = document.getElementById('ZONAShOP'),
-//         ADRShOP = document.getElementById('ADRShOP'),
-//         KShOPZONY = document.getElementById('KShOPZONY'),
-//         KOPSh = document.getElementById('KOPSh'),
-//         IPOPSh = document.getElementById('IPOPSh'),
-//         ExOPSh = document.getElementById('ExOPSh'),
-//         TBIZOPSh = document.getElementById('TBIZOPSh'),
-//         TBIZOPSh_Select = document.getElementById('TBIZOPSh_Select'),
-//         ADROP = document.getElementById('ADROP'),
-//         IPOP = document.getElementById('IPOP');
+
 
 //         TBIZOPSh.style.display = 'none';
 const   sbtForm5 = document.getElementById('sbtForm5'),
@@ -4956,6 +4539,10 @@ const   sbtForm5 = document.getElementById('sbtForm5'),
         lineLoopPosUprOp = document.getElementById('lineLoopPosUprOp'),
         lastPosUprOp = document.getElementById('lastPosUprOp'),
         lineLoopNextUprOp = document.getElementById('lineLoopNextUprOp');
+
+let pressedBtnsOpCount = [];
+pressedBtnsOpCount['KZONOP'] = false;
+pressedBtnsOpCount['REZShO'] = false;
 
         lineLoopBtnsUprOp.style.display = 'none';
 
@@ -5036,11 +4623,13 @@ KZONOP.addEventListener('focus', ()=>{
 KZONOP.addEventListener('blur', ()=>{
    if(KZONOP.value.search(regEx) == -1){
    if(parseInt(KZONOP.value, 10) >= 1 && parseInt(KZONOP.value, 10) <= 64){
+    pressedBtnsOpCount['KZONOP'] = true;
        UpravlenieOpovesheniem.KZONOP = parseInt(KZONOP.value, 10);
        KZONOP.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
        console.log("KZONOP: "+ UpravlenieOpovesheniem.KZONOP);
    }
    else if(KZONOP.value == ""){
+    pressedBtnsOpCount['KZONOP'] = false;
        UpravlenieOpovesheniem.KZONOP= 0;
        console.log("KZONOP: "+  UpravlenieOpovesheniem.KZONOP);
        return;
@@ -5082,10 +4671,12 @@ REZShO.addEventListener('blur', ()=>{
    if(REZShO.value.search(regEx) == -1){
    if(parseInt(REZShO.value, 10) >= 0 && parseInt(REZShO.value, 10) <= 100){
        UpravlenieOpovesheniem.REZShO = parseInt(REZShO.value, 10);
+       pressedBtnsOpCount['REZShO'] = true;
        REZShO.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
        console.log("REZShO: "+ UpravlenieOpovesheniem.REZShO);
    }
    else if(REZShO.value == ""){
+    pressedBtnsOpCount['REZShO'] = false;
        UpravlenieOpovesheniem.REZShO= 0;
        console.log("REZShO: "+  UpravlenieOpovesheniem.REZShO);
        return;
@@ -5109,9 +4700,17 @@ function initLineLoopsUprOp(){
 }
 initLineLoopsUprOp();
 
+let pressedBtnsOpCount_sbt5 = [];
+
+let pressedBtnsOpCount_Shleif = [];
+
+let pressedBtnsOpCount_Opoveshatel = [];
+
 sbtForm5.addEventListener('click', (e) =>{
     e.preventDefault();
-    if(UpravlenieOpovesheniem.KZONOP ){
+    if(UpravlenieOpovesheniem.KZONOP && isThereFalse(pressedBtnsOpCount)){
+        // console.log(pressedBtnsPojCount_sbt4)
+        // console.log(pressedBtnsPojCount)
         //alert('Сконфигурировано!');
         lineLoopBtnsUprOp.style.display = 'block';
         lineLoopsUprOp.length = UpravlenieOpovesheniem.KZONOP ;
@@ -5135,6 +4734,7 @@ sbtForm5.addEventListener('click', (e) =>{
                 for (let j = 0; j < 28; j++) {
                     dynamicEventHandlersUprOp[i] = [];
                 }
+
             }
          }
 
@@ -5144,7 +4744,10 @@ sbtForm5.addEventListener('click', (e) =>{
         //hideAutoObnarUpr();
         if(lineLoopsUprOp.length){
             for (let i = 0; i < lineLoopsUprOp.length; i++) {                
-                lineLoopsDataUprOp[i] = UpravlenieOpovesheniem.ZonaOpoveshenia;
+                lineLoopsDataUprOp[i] = Object.assign({}, UpravlenieOpovesheniem.ZonaOpoveshenia);
+                pressedBtnsOpCount_sbt5[`ZONAShOP${i}`] = false;
+                pressedBtnsOpCount_sbt5[`ADRShOP${i}`] = false;
+                pressedBtnsOpCount_sbt5[`KShOPZONY${i}`] = false;
                 //dynamicEventHandlersUprOp[i][5].style.display = 'none';
             }
          }
@@ -5192,6 +4795,7 @@ function setZONAShOP(handlerArr, size, dataToSave){
                 if( handlerArr[i][0].value.search(regEx) == -1){
                 if(parseInt( handlerArr[i][0].value, 10) >= 1 && parseInt( handlerArr[i][0].value, 10) <= UpravlenieOpovesheniem.KZONOP){
                     dataToSave[i].ZONAShOP = parseInt( handlerArr[i][0].value, 10);
+                    pressedBtnsOpCount_sbt5[`ZONAShOP${i}`] = true;
                     handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + "-ZONAShOP: " + dataToSave[i].ZONAShOP);
 
@@ -5204,6 +4808,7 @@ function setZONAShOP(handlerArr, size, dataToSave){
 
                 }
                 else if( handlerArr[i][0].value == ""){
+                    pressedBtnsOpCount_sbt5[`ZONAShOP${i}`] = false;
                     return;
                 }
                 else
@@ -5216,48 +4821,7 @@ function setZONAShOP(handlerArr, size, dataToSave){
             }); 
     }  
 }
-// ZONAShOP.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// ZONAShOP.addEventListener('focus', ()=>{
-//     ZONAShOP.style.boxShadow = 'none';
-// });
-
-// ZONAShOP.addEventListener('blur', ()=>{
-//    if(ZONAShOP.value.search(regEx) == -1){
-//    if(parseInt(ZONAShOP.value, 10) >= 0 && parseInt(ZONAShOP.value, 10) <= 100){
-//        UpravlenieOpovesheniem.ZonaOpoveshenia.ZONAShOP = parseInt(ZONAShOP.value, 10);
-//        ZONAShOP.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravlenieOpovesheniem.ZonaOpoveshenia.ZONAShOP);
-//    }
-//    else if(ZONAShOP.value == ""){
-//        UpravlenieOpovesheniem.ZonaOpoveshenia.ZONAShOP= 0;
-//        console.log( UpravlenieOpovesheniem.ZonaOpoveshenia.ZONAShOP);
-//        return;
-//    }
-//    else
-//        {
-//         ZONAShOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     ZONAShOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
 
 // //ADRShOP
 
@@ -5269,11 +4833,13 @@ function setADRShOP(handlerArr, size, dataToSave){
 
             handlerArr[i][1].addEventListener('blur', ()=>{
                 if(handlerArr[i][1].value == ""){ 
+                    pressedBtnsOpCount_sbt5[`ADRShOP${i}`] = false;
                     handlerArr[i][1].style.boxShadow = 'none';
                     return;
                 }
                 else if(handlerArr[i][1].value.length <= 20){
                     dataToSave[i].ADRShOP = handlerArr[i][1].value;
+                    pressedBtnsOpCount_sbt5[`ADRShOP${i}`] = true;
                     handlerArr[i][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + " ADRShOP: " + dataToSave[i].ADRShOP + " L: " + dataToSave[i].ADRShOP.length);
                 }
@@ -5282,23 +4848,7 @@ function setADRShOP(handlerArr, size, dataToSave){
             });
     }
 }
-// ADRShOP.addEventListener('focus', ()=>{
-//     ADRShOP.style.boxShadow = 'none';
-//     });
-    
-//     ADRShOP.addEventListener('blur', ()=>{
-//     if(ADRShOP.value == ""){
-//         ADRShOP.style.boxShadow = 'none';
-//         return;
-//     }
-//     else if(ADRShOP.value.length <= 20){
-//         UpravlenieOpovesheniem.ZonaOpoveshenia.ADRShOP = ADRShOP.value;
-//         ADRShOP.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + UpravlenieOpovesheniem.ZonaOpoveshenia.ADRShOP + " L: " + UpravlenieOpovesheniem.ZonaOpoveshenia.ADRShOP);
-//     }
-//     else
-//         ADRShOP.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
+
 
 // //KShOPZONY
 
@@ -5332,6 +4882,7 @@ function setKShOPZONY(handlerArr, size, dataToSave){
                 if(parseInt( handlerArr[i][2].value, 10) >= 1 && parseInt( handlerArr[i][2].value, 10) <= 480){
                     dataToSave[i].KShOPZONY = parseInt( handlerArr[i][2].value, 10);
                     handlerArr[i][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    pressedBtnsOpCount_sbt5[`KShOPZONY${i}`] = true;
                     console.log(i + "-KShOPZONY: " + dataToSave[i].KShOPZONY);
                     
                     
@@ -5344,6 +4895,7 @@ function setKShOPZONY(handlerArr, size, dataToSave){
 
                 }
                 else if( handlerArr[i][2].value == ""){
+                    pressedBtnsOpCount_sbt5[`KShOPZONY${i}`] = false;
                     return;
                 }
                 else
@@ -5356,48 +4908,7 @@ function setKShOPZONY(handlerArr, size, dataToSave){
             }); 
     }  
 }
-// KShOPZONY.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// KShOPZONY.addEventListener('focus', ()=>{
-//     KShOPZONY.style.boxShadow = 'none';
-// });
-
-// KShOPZONY.addEventListener('blur', ()=>{
-//    if(KShOPZONY.value.search(regEx) == -1){
-//    if(parseInt(KShOPZONY.value, 10) >= 1 && parseInt(KShOPZONY.value, 10) <= 480){
-//        UpravlenieOpovesheniem.ZonaOpoveshenia.KShOPZONY = parseInt(KShOPZONY.value, 10);
-//        KShOPZONY.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravlenieOpovesheniem.ZonaOpoveshenia.KShOPZONY);
-//    }
-//    else if(KShOPZONY.value == ""){
-//        UpravlenieOpovesheniem.ZonaOpoveshenia.KShOPZONY= 0;
-//        console.log( UpravlenieOpovesheniem.ZonaOpoveshenia.KShOPZONY);
-//        return;
-//    }
-//    else
-//        {
-//         KShOPZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KShOPZONY.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
 
 // переменные для перемещения по извещателям
 let curPosShleifOp = [], nextPosShleifOp = [], prevPosShleifOp = [], PositionShleifOp = [];
@@ -5414,7 +4925,10 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         handlerArr[i][3].addEventListener('click', (e) => {
             e.preventDefault();
-            if(dataToSave[i].KShOPZONY >= 1){
+            if(dataToSave[i].KShOPZONY >= 1 
+                && pressedBtnsOpCount_sbt5[`ZONAShOP${i}`]
+                && pressedBtnsOpCount_sbt5[`ADRShOP${i}`]
+                && pressedBtnsOpCount_sbt5[`KShOPZONY${i}`]){
 
                 createShleifOp(i,dataToSave[i].KShOPZONY);
 
@@ -5422,6 +4936,10 @@ function setDlgZonaOp(handlerArr, size, dataToSave){
                     curPosShleifOp[i] = [];
                     nextPosShleifOp[i] = [];
                     prevPosShleifOp[i] = [];
+
+                    pressedBtnsOpCount_Shleif[`KOPSh${i}-${j}`] = false;
+                    pressedBtnsOpCount_Shleif[`IPOPSh${i}-${j}`] = false;
+                    pressedBtnsOpCount_Shleif[`TBIZOPSh${i}-${j}`] = true;
                     
                 }
                 dynamicEvHandlerShleifOp = genIzvHandlers(lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, 10);
@@ -5528,9 +5046,11 @@ function setKOPSh(handlerArr, size, KShOPZONY, dataToSave){
                     if(parseInt(handlerArr[i][j][0].value, 10) >= 1 && parseInt(handlerArr[i][j][0].value, 10) <= 480){
                         dataToSave[i][j][0] = parseInt(handlerArr[i][j][0].value, 10);
                         handlerArr[i][j][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        pressedBtnsOpCount_Shleif[`KOPSh${i}-${j}`] = true;
                         console.log(j + " КОПШ: " + dataToSave[i][j][0]);
                     }
                     else if(handlerArr[i][j][0].value == ""){
+                        pressedBtnsOpCount_Shleif[`KOPSh${i}-${j}`] = false;
                         return;
                     }
                     else
@@ -5545,48 +5065,7 @@ function setKOPSh(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
-// KOPSh.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        // iKShS.value.replace(/[\,|\.]+/g,'');
-//        e.preventDefault();
-//        return;
-//    }
-//    if(chr == null) return;
 
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// KOPSh.addEventListener('focus', ()=>{
-//     KOPSh.style.boxShadow = 'none';
-// });
-
-// KOPSh.addEventListener('blur', ()=>{
-//    if(KOPSh.value.search(regEx) == -1){
-//    if(parseInt(KOPSh.value, 10) >= 1 && parseInt(KOPSh.value, 10) <= 480){
-//        UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.KOPSh = parseInt(KOPSh.value, 10);
-//        KOPSh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//        console.log(UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.KOPSh);
-//    }
-//    else if(KOPSh.value == ""){
-//        UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.KOPSh= 0;
-//        console.log( UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.KOPSh);
-//        return;
-//    }
-//    else
-//        {
-//         KOPSh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//        }
-//    }
-//    else
-//     KOPSh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';  
-// });
 
 // //IPOPSh
 function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
@@ -5645,6 +5124,7 @@ function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
         
                     if(parseFloat(handlerArr[i][j][1].value) >= 0 && parseFloat(handlerArr[i][j][1].value) <= 20){
                         dataToSave[i][j][1] = parseFloat(handlerArr[i][j][1].value);
+                        pressedBtnsOpCount_Shleif[`IPOPSh${i}-${j}`] = true;
                         handlerArr[i][j][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         // if( dataToSave[i].ADRShPT != '' &&
                         //     dataToSave[i].IPShPT >= 1 ){
@@ -5658,6 +5138,7 @@ function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
                         console.log("IPOPSh: " +  dataToSave[i][j][1]);
                     }
                     else if(handlerArr[i][j][1].value == ""){
+                        pressedBtnsOpCount_Shleif[`IPOPSh${i}-${j}`] = false;
                         return;
                     }
                     else
@@ -5672,72 +5153,7 @@ function setIPOPSh(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
-// IPOPSh.onkeypress = (e)=>{
-//     e = e || event;
-//    if (e.ctrlKey || e.altKey || e.metaKey) return;
-//    var chr = getChar(e);
-//    console.log("Char pressed: " + chr);
-//    if(chr == ',' || chr == '.')
-//    {   
-//        let count = 0, pos = -1;
-//        if(chr == ',' || chr == '.'){
-//             if(IPOPSh.value.indexOf('.') == -1)
-//             {
-//                 while((pos = IPOPSh.value.indexOf(',', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else { count = 0;  }
-//             }
-//             else
-//             {
-//                 while((pos = IPOPSh.value.indexOf('.', pos + 1 )) != -1){
-//                     count++;
-//                 }
-//                 if(count >= 1) {e.preventDefault(); count = 0; return;}
-//                 else  { count = 0;  }   
-//             }
-//        }
 
-//        return;
-//    }
-//    if(chr == null) return;
-
-//    if (chr < '0' || chr > '9') {
-//        return false;
-//    }
-// };
-
-// IPOPSh.addEventListener('focus', ()=>{
-//     IPOPSh.style.boxShadow = 'none';
-// });
-
-// IPOPSh.addEventListener('blur', ()=>{
-//     if(IPOPSh.value.indexOf(',')== -1 && IPOPSh.value.indexOf('.')== -1)
-//         IPOPSh.value += ',0';
-//     if(IPOPSh.value[IPOPSh.value.length - 1] == '.' || IPOPSh.value[IPOPSh.value.length - 1] == ',')
-//         IPOPSh.value += '0';
-
-//     if(IPOPSh.value.search(regExBroken) != -1){
-        
-//         if(IPOPSh.value.indexOf(',')!= -1) IPOPSh.value = IPOPSh.value.replace(/\,/, '.');
-
-//         if(parseFloat(IPOPSh.value) >= 0 && parseFloat(IPOPSh.value) <= 20){
-//             UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.IPOPSh = parseFloat(IPOPSh.value);
-//             IPOPSh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//             console.log("IPOPSh: " + UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.IPOPSh);
-//         }
-//         else if(IPOPSh.value == ""){
-//             return;
-//         }
-//         else
-//             {
-//                 IPOPSh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-//             }
-//     }
-//     else
-//         IPOPSh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
 
 // //ExOPSh
 function setExOPSh(handlerArr, size, KShOPZONY, dataToSave){
@@ -5748,6 +5164,8 @@ function setExOPSh(handlerArr, size, KShOPZONY, dataToSave){
                     if(handlerArr[i][j][2].checked)
                     { 
                         dataToSave[i][j][2] = true;
+                        if(handlerArr[i][j][4].value == "")
+                            pressedBtnsOpCount_Shleif[`TBIZOPSh${i}-${j}`] = false;
                         handlerArr[i][j][3].style.display = 'block';    
                         while(handlerArr[i][j][5].firstChild)
                             handlerArr[i][j][5].removeChild(handlerArr[i][j][5].firstChild);
@@ -5771,6 +5189,7 @@ function setExOPSh(handlerArr, size, KShOPZONY, dataToSave){
                     }
                     else  {
                         dataToSave[i][j][2] = false;
+                        pressedBtnsOpCount_Shleif[`TBIZOPSh${i}-${j}`] = true;
                         handlerArr[i][j][3].style.display = 'none';
                         while(handlerArr[i][j][5].firstChild)
                             handlerArr[i][j][5].removeChild(handlerArr[i][j][5].firstChild);
@@ -5781,39 +5200,7 @@ function setExOPSh(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
-// ExOPSh.addEventListener('click', ()=>{
-//     if(ExOPSh.checked)
-//     { 
-//         UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.ExOPSh = true;
-//         TBIZOPSh.style.display = 'block';    
-//         while(TBIZOPSh_Select.firstChild)
-//             TBIZOPSh_Select.removeChild(TBIZOPSh_Select.firstChild);
-        
-//         let oOption = document.createElement("option");
-//         oOption.appendChild(document.createTextNode("Выберите тип:"));
-//         oOption.setAttribute("value", "");
-//         TBIZOPSh_Select.appendChild(oOption);   
-       
-//         for (let i = 0; i < IntermediateModules.length; i++) {
-//             for(let prop in IntermediateModules[i]){
-//                 if(IntermediateModules[i][prop] == "O"){
-//                     oOption = document.createElement("option")
-//                     oOption.appendChild(document.createTextNode(IntermediateModules[i].name));
-//                     oOption.setAttribute("value", "");
-//                     TBIZOPSh_Select.appendChild(oOption);   
-//                 }
-//             }        
-//         }
-//         TBIZOPSh_Select.style.display = 'block';    
-//     }
-//     else  {
-//         UpravlenieOpovesheniem.ShleifUpravleniaOpovesheniem.ExOPSh = false;
-//         TBIZOPSh.style.display = 'none';
-//         while(TBIZOPSh_Select.firstChild)
-//             TBIZOPSh_Select.removeChild(TBIZOPSh_Select.firstChild);
-//         TBIZOPSh_Select.style.display = 'none';
-//     }
-// });
+
 
 // //TBIZOPSh
 function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
@@ -5831,6 +5218,7 @@ function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
                         {
                             dataToSave[i][j][4]  = "Взрывозащита типа \"d\"";
                             handlerArr[i][j][4].value = "Взрывозащита типа \"d\"";
+                            pressedBtnsOpCount_Shleif[`TBIZOPSh${i}-${j}`] = true;
                             console.log("TBIZOPSh: " + dataToSave[i][j][4]);
                             //TBIZOPSh.style.display = 'none';
 
@@ -5838,12 +5226,12 @@ function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
                             e.preventDefault();
                             return;
                         }
-                        //handlerArr[i][j][4].style.boxShadow = 'none';
-                        //TBIZOPSh_Select.style.display = 'block';
+                        pressedBtnsPojCount_Shleif[`TBIZOPSh${i}-${j}`] = false;
                         return;
                     }
                     else if(handlerArr[i][j][4].value.length <= 20){
                         dataToSave[i][j][4] = handlerArr[i][j][4].value;
+                        pressedBtnsOpCount_Shleif[`TBIZOPSh${i}-${j}`] = true;
                         handlerArr[i][j][4].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         console.log("TBIZOPSh: " + dataToSave[i][j][4] + " L: " + dataToSave[i][j][4].length);
                     }
@@ -5854,48 +5242,13 @@ function setTBIZOPSh(handlerArr, size, KShOPZONY, dataToSave){
         }
     }
 }
-// TBIZOPSh.addEventListener('focus', ()=>{
-//     TBIZOPSh.style.boxShadow = 'none';
-//     });
-    
-//     TBIZOPSh.addEventListener('blur', (e)=>{
-//     if(TBIZOPSh.value == ""){
-//         let flag = confirm("Взрывозащита типа \"d\"");
-//         if(flag)
-//         {
-//             UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh  = "Взрывозащита типа \"d\"";
-//             TBIZOPSh.value = "Взрывозащита типа \"d\"";
-//             console.log("ТШСБИЗ: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh);
-//             //TBIZOPSh.style.display = 'none';
 
-//             TBIZOPSh_Select.style.display = 'none';
-//             e.preventDefault();
-//             list = false
-//             return;
-//         }
-//         TBIZOPSh.style.boxShadow = 'none';
-//         TBIZOPSh_Select.style.display = 'block';
-//         return;
-//     }
-//     else if(TBIZOPSh.value.length <= 20){
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh = TBIZOPSh.value;
-//         TBIZOPSh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-//         console.log("АдрИзв: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh + " L: " + UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh);
-//     }
-//     else
-//         TBIZOPSh.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-// });
-
-// TBIZOPSh_Select.onchange = ()=>{
-//     if(TBIZOPSh_Select.selectedIndex != 0){
-//         UpravleniePojaroTusheniem.ShleifUpravleniaPojaroTushenia.TBIZOPSh = TBIZOPSh_Select.options[TBIZOPSh_Select.selectedIndex].text;
-//     }
-// };
 
 let curPosOp = [], nextPosOp = [], prevPosOp = [], PositionOp = [];
 let BtnsIDOp = [], LasPosOp = [], LastSpanOp = [], BtnsNextOp = [], BtnsPrevOp = [],
  dynamicEvHandlerOp;
 let _Opoveshateli = genIzvHandlers(64, 480, 100, 2);
+//dynamicEvHandlerOp = genIzvHandlers(64, 480, 100, 3);
 initBtnsOp();
 //_Opoveshateli = genIzvHandlers(64, 480, 100, 2);
 
@@ -5916,6 +5269,9 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                                 nextPosOp[j] = [];
                                 prevPosOp[j] = [];
                                 
+                                pressedBtnsOpCount_Opoveshatel[`ADROP${i}-${j}-${k}`] = false;
+                                pressedBtnsOpCount_Opoveshatel[`IPOP${i}-${j}-${k}`] = false;
+
                             }
                         dynamicEvHandlerOp = genIzvHandlers(size, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], 3);
                         
@@ -5967,8 +5323,8 @@ function setDlgOpoveshatel(handlerArr, size, KShOPZONY, dataToSave){
                         handleOpPosOp(i, j, opLength, LasPosOp,  dynamicEvHandlerOp, opLength,
                             curPosOp, nextPosOp, prevPosOp);
         
-                         setADROP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
-                         setIPOP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
+                         setADROP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
+                         setIPOP(dynamicEvHandlerOp, lineLoopsUprOp.length, lineLoopsDataUprOp[i].KShOPZONY, dataToSave[i][j][0], _Opoveshateli);
                         // setExOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setTBIZOPSh(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);
                         // setDlgOpoveshatel(dynamicEvHandlerShleifOp, lineLoopsUprOp.length, dataToSave[i].KShOPZONY, _ShleifOp);               
@@ -6254,11 +5610,13 @@ function setADROP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
             
                         handlerArr[i][j][x][0].addEventListener('blur', ()=>{
                             if(handlerArr[i][j][x][0].value == ""){ 
+                                pressedBtnsOpCount_Opoveshatel[`ADROP${i}-${j}-${x}`] = false;
                                 handlerArr[i][j][x][0].style.boxShadow = 'none';
                                 return;
                             }
                             else if(handlerArr[i][j][x][0].value.length <= 20){
                                 dataToSave[i][j][x][0] = handlerArr[i][j][x][0].value;
+                                pressedBtnsOpCount_Opoveshatel[`ADROP${i}-${j}-${x}`] = true;
                                 handlerArr[i][j][x][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                                 console.log(i + " ADROP: " + dataToSave[i][j][x][0] + " L: " + dataToSave[i][j][x][0].length);
                             }
@@ -6330,6 +5688,7 @@ function setIPOP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
             
                         if(parseFloat(handlerArr[i][j][x][1].value) >= 0 && parseFloat(handlerArr[i][j][x][1].value) <= 20){
                             dataToSave[i][j][x][1] = parseFloat(handlerArr[i][j][x][1].value);
+                            pressedBtnsOpCount_Opoveshatel[`IPOP${i}-${j}-${x}`] = true;
                             handlerArr[i][j][x][1].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                             // if( dataToSave[i].ADRShPT != '' &&
                             //     dataToSave[i].IPShPT >= 1 ){
@@ -6343,6 +5702,7 @@ function setIPOP(handlerArr, size, KShOPZONY, KOPSh, dataToSave){
                             console.log("IPOP: " +  dataToSave[i][j][x][1]);
                         }
                         else if(handlerArr[i][j][x][1].value == ""){
+                            pressedBtnsOpCount_Opoveshatel[`IPOP${i}-${j}-${x}`] = false;
                             return;
                         }
                         else
@@ -6374,6 +5734,10 @@ const   sbtForm6 = document.getElementById('sbtForm6'),
 
         lineLoopBtnsFormSys.style.display = 'none';
         
+let pressedBtnsFromCount = [];
+pressedBtnsFromCount['KRVYKh'] = false;
+pressedBtnsFromCount['KRREZ'] = false;
+
 function hideForm(id, length){
     for (let i = 0; i < length; i++) {
         if(document.querySelector(`#${id}` + i))
@@ -6453,9 +5817,11 @@ KRVYKh.addEventListener('blur', ()=>{
    if(parseInt(KRVYKh.value, 10) >= 1 && parseInt(KRVYKh.value, 10) <= 640){
        FVSIUiVsSP.KRVYH = parseInt(KRVYKh.value, 10);
        KRVYKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsFromCount['KRVYKh'] = true;
        console.log("KRVYKh: "+ FVSIUiVsSP.KRVYH);
    }
    else if(KRVYKh.value == ""){
+        pressedBtnsFromCount['KRVYKh'] = false;
        FVSIUiVsSP.KRVYH = 0;
        console.log("KRVYKh: "+  FVSIUiVsSP.KRVYH);
        return;
@@ -6497,10 +5863,12 @@ KRREZ.addEventListener('blur', ()=>{
    if(parseInt(KRREZ.value, 10) >= 0 && parseInt(KRREZ.value, 10) <= 100){
        FVSIUiVsSP.KRREZ = parseInt(KRREZ.value, 10);
        KRREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsFromCount['KRREZ'] = true;
        console.log("KRREZ: "+ FVSIUiVsSP.KRREZ);
    }
    else if(KRREZ.value == ""){
        FVSIUiVsSP.KRREZ = 0;
+       pressedBtnsFromCount['KRREZ'] = false;
        console.log("KRREZ: "+  FVSIUiVsSP.KRREZ);
        return;
    }
@@ -6516,9 +5884,15 @@ KRREZ.addEventListener('blur', ()=>{
 let lineLoopsFormSys = [], dynamicEventHandlersFormSys = [], lineLoopsDataFormSys = [];
 let curPosFormSys, prevIndexFormSys, nextIndexFormSys;
 
+let pressedBtnsFromCount_sbt6 = [];
+
 sbtForm6.addEventListener('click', (e) =>{
     e.preventDefault();
     if(FVSIUiVsSP.KRVYH ){
+        // console.log(pressedBtnsOpCount)
+        // console.log(pressedBtnsOpCount_sbt5)
+        // console.log(pressedBtnsOpCount_Shleif)
+        // console.log(pressedBtnsOpCount_Opoveshatel)
         //alert('Сконфигурировано!');
         lineLoopBtnsFormSys.style.display = 'block';
         lineLoopsFormSys.length = FVSIUiVsSP.KRVYH ;
@@ -6551,8 +5925,10 @@ sbtForm6.addEventListener('click', (e) =>{
         //hideAutoObnarUpr();
         if(lineLoopsFormSys.length){
             for (let i = 0; i < lineLoopsFormSys.length; i++) {                
-                lineLoopsDataFormSys[i] = FVSIUiVsSP.DRV;
+                lineLoopsDataFormSys[i] = Object.assign({}, FVSIUiVsSP.DRV);
                 //dynamicEventHandlersUprOp[i][5].style.display = 'none';
+                pressedBtnsFromCount_sbt6[`ADRRVYKh${i}`] = false;
+                pressedBtnsFromCount_sbt6[`TBIZR${i}`] = true;
             }
          }
 
@@ -6663,12 +6039,14 @@ function setADRRVYKh(handlerArr, size, dataToSave){
 
             handlerArr[i][0].addEventListener('blur', ()=>{
                 if(handlerArr[i][0].value == ""){ 
+                    pressedBtnsFromCount_sbt6[`ADRRVYKh${i}`] = false;
                     handlerArr[i][0].style.boxShadow = 'none';
                     return;
                 }
                 else if(handlerArr[i][0].value.length <= 20){
                     dataToSave[i].ADRRVYKh = handlerArr[i][0].value;
                     handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    pressedBtnsFromCount_sbt6[`ADRRVYKh${i}`] = true;
                     console.log(i + " ADRRVYKh: " + dataToSave[i].ADRRVYKh + " L: " + dataToSave[i].ADRRVYKh.length);
                 }
                 else
@@ -6685,6 +6063,8 @@ function setExRVYKh(handlerArr, size, dataToSave){
                 if(handlerArr[i][1].checked)
                 { 
                     dataToSave[i].ExRVYKh = true;
+                    if(handlerArr[i][3].value == "")
+                        pressedBtnsFromCount_sbt6[`TBIZR${i}`] = false;
                     handlerArr[i][2].style.display = 'block';
                 
                     while(handlerArr[i][4].firstChild)
@@ -6709,6 +6089,7 @@ function setExRVYKh(handlerArr, size, dataToSave){
                 }
                 else  {
                     dataToSave[i].ExRVYKh = false;
+                    pressedBtnsFromCount_sbt6[`TBIZR${i}`] = true;
                     handlerArr[i][2].style.display = 'none';
                     while(handlerArr[i][4].firstChild)
                         handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
@@ -6734,6 +6115,7 @@ function setTBIZR(handlerArr, size, dataToSave){
                         {
                             dataToSave[i].TBIZR  = "Взрывозащита типа \"d\"";
                             handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            pressedBtnsFromCount_sbt6[`TBIZR${i}`] = true;
                             console.log("TBIZR: " + dataToSave[i].TBIZR);
                             //TBIZShPT.style.display = 'none';
         
@@ -6753,12 +6135,14 @@ function setTBIZR(handlerArr, size, dataToSave){
                             return;
                         }
                         handlerArr[i][3].style.boxShadow = 'none';
+                        pressedBtnsFromCount_sbt6[`TBIZR${i}`] = false;
                         //handlerArr[i][5].style.display = 'block';
                         return;
                     }
                     else if(handlerArr[i][3].value.length <= 20){
                         dataToSave[i].TBIZR = handlerArr[i][3].value;
                         handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        pressedBtnsFromCount_sbt6[`TBIZR${i}`] = true;
                         // if( dataToSave[i].ADRShPT != '' &&
                         // dataToSave[i].IPShPT >= 1 ){
                         //     handlerArr[i][6].checked = true;
@@ -6793,6 +6177,12 @@ lastPosdiagnSys= document.getElementById('lastPosdiagnSys'),
 lineLoopNextdiagnSys = document.getElementById('lineLoopNextdiagnSys');
 
 lineLoopBtnsdiagnSys.style.display = 'none';
+
+let pressedBtnsDiagnCount = [];
+pressedBtnsDiagnCount['KDVKh'] = false;
+pressedBtnsDiagnCount['KDVKhREZ'] = false;
+pressedBtnsDiagnCount['KAVKh'] = false;
+pressedBtnsDiagnCount['KAVKhREZ'] = false;
 
 lineLoopPrevdiagnSys.addEventListener('click', ()=>{
     if(prevIndexdiagnSys < 1) prevIndexdiagnSys = lineLoopsdiagnSys.length;
@@ -6867,10 +6257,12 @@ KDVKh.addEventListener('blur', ()=>{
    if(parseInt(KDVKh.value, 10) >= 1 && parseInt(KDVKh.value, 10) <= 640){
        PodsysDiagnostiki.KDVKh = parseInt(KDVKh.value, 10);
        KDVKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsDiagnCount['KDVKh'] = true;
        console.log("KRVYKh: "+ PodsysDiagnostiki.KDVKh);
    }
    else if(KDVKh.value == ""){
         PodsysDiagnostiki.KDVKh = 0;
+        pressedBtnsDiagnCount['KDVKh'] = false;
        console.log("KDVKh: "+  PodsysDiagnostiki.KDVKh);
        return;
    }
@@ -6911,10 +6303,12 @@ KDVKhREZ.addEventListener('blur', ()=>{
    if(parseInt(KDVKhREZ.value, 10) >= 0 && parseInt(KDVKhREZ.value, 10) <= 100){
        PodsysDiagnostiki.KDVKhREZ = parseInt(KDVKhREZ.value, 10);
        KDVKhREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsDiagnCount['KDVKhREZ'] = true;
        console.log("KDVKhREZ: "+ PodsysDiagnostiki.KDVKhREZ);
    }
    else if(KDVKhREZ.value == ""){
         PodsysDiagnostiki.KDVKhREZ = 0;
+        pressedBtnsDiagnCount['KDVKhREZ'] = false;
        console.log("KDVKhREZ: "+  PodsysDiagnostiki.KDVKhREZ);
        return;
    }
@@ -6955,10 +6349,12 @@ KAVKh.addEventListener('blur', ()=>{
    if(parseInt(KAVKh.value, 10) >= 0 && parseInt(KAVKh.value, 10) <= 320){
        PodsysDiagnostiki.KAVkh = parseInt(KAVKh.value, 10);
        KAVKh.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsDiagnCount['KAVKh'] = true;
        console.log("KAVKh: "+ PodsysDiagnostiki.KAVkh);
    }
    else if(KAVKh.value == ""){
        PodsysDiagnostiki.KAVkh = 0;
+       pressedBtnsDiagnCount['KAVKh'] = false;
        console.log("KAVKh: "+  PodsysDiagnostiki.KAVkh);
        return;
    }
@@ -6999,10 +6395,12 @@ KAVKhREZ.addEventListener('blur', ()=>{
    if(parseInt(KAVKhREZ.value, 10) >= 0 && parseInt(KAVKhREZ.value, 10) <= 100){
        PodsysDiagnostiki.KAVKhREZ = parseInt(KAVKhREZ.value, 10);
        KAVKhREZ.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsDiagnCount['KAVKhREZ'] = true;
        console.log("KAVKhREZ: "+ PodsysDiagnostiki.KAVKhREZ);
    }
    else if(KAVKhREZ.value == ""){
        PodsysDiagnostiki.KAVKhREZ = 0;
+       pressedBtnsDiagnCount['KAVKhREZ'] = false;
        console.log("KAVKhREZ: "+  PodsysDiagnostiki.KAVKhREZ);
        return;
    }
@@ -7019,6 +6417,10 @@ let lineLoopsdiagnSys = [], lineLoopsVA = [], dynamicEventHandlersdiagnSys = [],
 dynamicEventHandlersVA = [], dynamicEventHandlersVAbtns = [],
 DataVhodDiskretniy = [], DataVhodAnalogoviy = [];
 let curPosdiagnSys, prevIndexdiagnSys, nextIndexdiagnSys, curPosVA, prevIndexVA, nextIndexVA;
+
+let pressedBtnsDiagnCount_VD = [];
+
+let pressedBtnsDiagnCount_VA = [];
 
 sbtForm7.addEventListener('click', (e)=>{
     e.preventDefault();
@@ -7084,14 +6486,18 @@ sbtForm7.addEventListener('click', (e)=>{
         //hideAutoObnarUpr();
         if(lineLoopsdiagnSys.length){
             for (let i = 0; i < lineLoopsdiagnSys.length; i++) {                
-                DataVhodDiskretniy[i] = PodsysDiagnostiki.DI;
+                DataVhodDiskretniy[i] = Object.assign({},PodsysDiagnostiki.DI);
+                pressedBtnsDiagnCount_VD[`ADRDVKh${i}`] = false;
+                pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = true;
                 //dynamicEventHandlersUprOp[i][5].style.display = 'none';
             }
          }
 
          if(lineLoopsVA.length){
             for (let i = 0; i < lineLoopsVA.length; i++) {                
-                DataVhodAnalogoviy[i] = PodsysDiagnostiki.AI;
+                DataVhodAnalogoviy[i] = Object.assign({},PodsysDiagnostiki.AI);
+                pressedBtnsDiagnCount_VA[`ADRAVKh${i}`] = false;
+                pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = true;
                 //dynamicEventHandlersUprOp[i][5].style.display = 'none';
             }
          }
@@ -7346,13 +6752,15 @@ function setADRDVKh(handlerArr, size, dataToSave){
             });
 
             handlerArr[i][0].addEventListener('blur', ()=>{
-                if(handlerArr[i][0].value == ""){ 
+                if(handlerArr[i][0].value == ""){
+                    pressedBtnsDiagnCount_VD[`ADRDVKh${i}`] = false; 
                     handlerArr[i][0].style.boxShadow = 'none';
                     return;
                 }
                 else if(handlerArr[i][0].value.length <= 20){
                     dataToSave[i].ADRDVKh = handlerArr[i][0].value;
                     handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    pressedBtnsDiagnCount_VD[`ADRDVKh${i}`] = true;
                     console.log(i + " ADRRVYKh: " + dataToSave[i].ADRDVKh + " L: " + dataToSave[i].ADRDVKh.length);
                 }
                 else
@@ -7369,6 +6777,8 @@ function setExDVKh(handlerArr, size, dataToSave){
                 if(handlerArr[i][1].checked)
                 { 
                     dataToSave[i].ExDVKh = true;
+                    if(handlerArr[i][3].value == "")
+                        pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = false;
                     handlerArr[i][2].style.display = 'block';
                 
                     while(handlerArr[i][4].firstChild)
@@ -7393,6 +6803,7 @@ function setExDVKh(handlerArr, size, dataToSave){
                 }
                 else  {
                     dataToSave[i].ExDVKh = false;
+                    pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = true;
                     handlerArr[i][2].style.display = 'none';
                     while(handlerArr[i][4].firstChild)
                         handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
@@ -7418,6 +6829,7 @@ function setTBIZDVKh(handlerArr, size, dataToSave){
                         {
                             dataToSave[i].TBIZDVKh  = "Взрывозащита типа \"d\"";
                             handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = true;
                             console.log("TBIZDVKh: " + dataToSave[i].TBIZDVKh);
                             //TBIZShPT.style.display = 'none';
         
@@ -7437,12 +6849,13 @@ function setTBIZDVKh(handlerArr, size, dataToSave){
                             return;
                         }
                         handlerArr[i][3].style.boxShadow = 'none';
-                        //handlerArr[i][5].style.display = 'block';
+                        pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = false;
                         return;
                     }
                     else if(handlerArr[i][3].value.length <= 20){
                         dataToSave[i].TBIZDVKh = handlerArr[i][3].value;
                         handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        pressedBtnsDiagnCount_VD[`TBIZDVKh${i}`] = true;
                         // if( dataToSave[i].ADRShPT != '' &&
                         // dataToSave[i].IPShPT >= 1 ){
                         //     handlerArr[i][6].checked = true;
@@ -7471,11 +6884,13 @@ function setADRAVKh(handlerArr, size, dataToSave){
             handlerArr[i][0].addEventListener('blur', ()=>{
                 if(handlerArr[i][0].value == ""){ 
                     handlerArr[i][0].style.boxShadow = 'none';
+                    pressedBtnsDiagnCount_VA[`ADRAVKh${i}`] = false;
                     return;
                 }
                 else if(handlerArr[i][0].value.length <= 20){
                     dataToSave[i].ADRAVKh = handlerArr[i][0].value;
                     handlerArr[i][0].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                    pressedBtnsDiagnCount_VA[`ADRAVKh${i}`] = true;
                     console.log(i + " ADRAVKh: " + dataToSave[i].ADRAVKh + " L: " + dataToSave[i].ADRAVKh.length);
                 }
                 else
@@ -7492,6 +6907,8 @@ function setExAVKh(handlerArr, size, dataToSave){
                 if(handlerArr[i][1].checked)
                 { 
                     dataToSave[i].ExAVKh = true;
+                    if(handlerArr[i][3].value == "")
+                        pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = false;
                     handlerArr[i][2].style.display = 'block';
                 
                     while(handlerArr[i][4].firstChild)
@@ -7516,6 +6933,7 @@ function setExAVKh(handlerArr, size, dataToSave){
                 }
                 else  {
                     dataToSave[i].ExAVKh = false;
+                    pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = true;
                     handlerArr[i][2].style.display = 'none';
                     while(handlerArr[i][4].firstChild)
                         handlerArr[i][4].removeChild(handlerArr[i][4].firstChild);
@@ -7541,6 +6959,7 @@ function setTBIZAVKh(handlerArr, size, dataToSave){
                         {
                             dataToSave[i].TBIZAVKh  = "Взрывозащита типа \"d\"";
                             handlerArr[i][3].value = "Взрывозащита типа \"d\"";
+                            pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = true;
                             console.log("TBIZAVKh: " + dataToSave[i].TBIZAVKh);
                             //TBIZShPT.style.display = 'none';
         
@@ -7560,12 +6979,14 @@ function setTBIZAVKh(handlerArr, size, dataToSave){
                             return;
                         }
                         handlerArr[i][3].style.boxShadow = 'none';
+                        pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = false;
                         //handlerArr[i][5].style.display = 'block';
                         return;
                     }
                     else if(handlerArr[i][3].value.length <= 20){
                         dataToSave[i].TBIZAVKh = handlerArr[i][3].value;
                         handlerArr[i][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        pressedBtnsDiagnCount_VA[`TBIZAVKh${i}`] = true;
                         // if( dataToSave[i].ADRShPT != '' &&
                         // dataToSave[i].IPShPT >= 1 ){
                         //     handlerArr[i][6].checked = true;
@@ -7590,6 +7011,9 @@ function setTBIZAVKh(handlerArr, size, dataToSave){
 document.querySelector('div#connSysConfiguration').style.display = 'none';
 const KRS485 = document.getElementById('KRS485'),
 KRS485_checked = document.getElementById('KRS485_checked');
+
+let pressedBtnsKRSCount = [];
+pressedBtnsKRSCount['KRS485'] = false;
 
 //KRS485
 KRS485.onkeypress = (e)=>{
@@ -7620,10 +7044,12 @@ KRS485.addEventListener('blur', ()=>{
         ConnSysRS485.KRS485 = parseInt(KRS485.value, 10);
         KRS485_checked.checked = true;
        KRS485.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+       pressedBtnsKRSCount['KRS485'] = true;
        console.log("KRS485: "+ ConnSysRS485.KRS485);
    }
    else if(KRS485.value == ""){
         ConnSysRS485.KRS485 = 0;
+        pressedBtnsKRSCount['KRS485'] = false;
         KRS485_checked.checked = false;
        console.log("KRS485: "+  ConnSysRS485.KRS485);
        return;
@@ -7659,6 +7085,18 @@ function setTShS(handlerArr, size, dataToSave){
         for (let i = 0; i < size; i++) {
             handlerArr[i][0].onchange = ()=>{
                         if(handlerArr[i][0].selectedIndex == 1){
+                            
+                            //shleifCount['TShS'] = true;
+                            //shleifCount[`SKhShS${i}`] = false;
+                            shleifCount[`ZonaShS${i}`] = false;
+                            shleifCount[`AdrShS${i}`] = false;
+
+                            izvBezAdrCount[`TIZVauto${i}`] = false;
+                            izvBezAdrCount[`IOIZV${i}`] = false;
+                            izvBezAdrCount[`IPIZV${i}`] = false;
+                            modbusCount[`KMBUSLNK${i}`] = true;
+
+
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                             handlerArr[i][13].style.display = 'block';
@@ -7725,6 +7163,15 @@ function setTShS(handlerArr, size, dataToSave){
 
                         }
                         else if(handlerArr[i][0].selectedIndex == 0 ){
+                            //shleifCount['TShS'] = true;
+                            modbusCount[`KMBUSLNK${i}`] = true;
+                            //shleifCount[`SKhShS${i}`] = true;
+                            shleifCount[`ZonaShS${i}`] = true;
+                            shleifCount[`AdrShS${i}`] = true;
+                            izvBezAdrCount[`TIZVauto${i}`] = true;
+                            izvBezAdrCount[`IOIZV${i}`] = true;
+                            izvBezAdrCount[`IPIZV${i}`] = true;
+
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                 
@@ -7766,6 +7213,15 @@ function setTShS(handlerArr, size, dataToSave){
                             }
                         }
                         else{
+                            //shleifCount['TShS'] = true;
+                            modbusCount[`KMBUSLNK${i}`] = false;
+                            //shleifCount[`SKhShS${i}`] = true;
+                            shleifCount[`ZonaShS${i}`] = true;
+                            shleifCount[`AdrShS${i}`] = true;
+                            izvBezAdrCount[`TIZVauto${i}`] = true;
+                            izvBezAdrCount[`IOIZV${i}`] = true;
+                            izvBezAdrCount[`IPIZV${i}`] = true;
+
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                             //handlerArr[i][26].style.display = 'block';
@@ -7823,6 +7279,7 @@ function setTShS(handlerArr, size, dataToSave){
 function setSKhShS(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         handlerArr[i][2].onchange = ()=>{
+            //shleifCount['SKhShS'] = true;
             dataToSave[i].SHShS = handlerArr[i][2].selectedIndex;
             console.log(i + " СХШС: " + dataToSave[i].SHShS);
         };
@@ -7841,6 +7298,8 @@ function setExShS(handlerArr, size, dataToSave){
         if(handlerArr[i][3].checked)
         { 
             dataToSave[i].ExShS = true;
+            if(handlerArr[i][5].value == "")
+                shleifCount[`TShSBIZ${i}`] = false;
             handlerArr[i][4].style.display = 'block';
             if( dataToSave[i].TShS == 0){ 
                 // handlerArr[i][13].style.display = 'none'; 
@@ -7888,6 +7347,7 @@ function setExShS(handlerArr, size, dataToSave){
         }
         else  {
             dataToSave[i].ExShS = false;
+            shleifCount[`TShSBIZ${i}`] = true;
             handlerArr[i][4].style.display = 'none';
             if( dataToSave[i].TShS == 0) {
                 // handlerArr[i][17].style.display = 'none'; 
@@ -7911,6 +7371,8 @@ function setTShSBIZ(handlerArr, size, dataToSave){
                         let flag = confirm("Взрывозащита типа \"d\"");
                         if(flag)
                         {
+                            shleifCount[`TShSBIZ${i}`] = true;
+                            console.log(shleifCount);
                             dataToSave[i].TShSBIZ = "Взрывозащита типа \"d\"";
                             handlerArr[i][5].value = "Взрывозащита типа \"d\"";
                             console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
@@ -7919,21 +7381,27 @@ function setTShSBIZ(handlerArr, size, dataToSave){
                             
                             return;
                         }
+                        shleifCount[`TShSBIZ${i}`] = false;
+                        console.log(shleifCount);
                         //andlerArr[i][7].style.display = 'block';
                     }
                     else
                     {
+                        shleifCount[`TShSBIZ${i}`] = true;
+                        console.log(shleifCount);
                         dataToSave[i].TShSBIZ = handlerArr[i][5].value;
                         console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
                     }
                 }
                 else{
                     if(handlerArr[i][5].value == ""){
+                        shleifCount[`TShSBIZ${i}`] = false;
+                        console.log(shleifCount);
                         return;
                     }
                     else{
                     dataToSave[i].TShSBIZ = handlerArr[i][5].value;   
-                    
+                    shleifCount[`TShSBIZ${i}`] = true;
                     console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
                     }
                 }
@@ -7947,9 +7415,13 @@ function setTShSBIZ(handlerArr, size, dataToSave){
 function setAdrBiz(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
         handlerArr[i][7].onchange = ()=>{
-            if(handlerArr[i][7].selectedIndex == 0)
+            if(handlerArr[i][7].selectedIndex == 0){
+                shleifCount[`TShSBIZ${i}`] = false;
                 return;
+            }
+                
 
+            shleifCount[`TShSBIZ${i}`] = true;
             dataToSave[i].TShSBIZ = handlerArr[i][7].options[handlerArr[i][7].selectedIndex].text;
             console.log(dataToSave[i].TShSBIZ );
         };        
@@ -7986,6 +7458,7 @@ function setKIZVShS(handlerArr, size, dataToSave){
                 if( handlerArr[i][8].value.search(regEx) == -1){
                 if(parseInt( handlerArr[i][8].value, 10) >= 1 && parseInt( handlerArr[i][8].value, 10) <= 32){
                     dataToSave[i].KIZVShS = parseInt( handlerArr[i][8].value, 10);
+                    shleifCount[`KIZVShS${i}`] = true;
                     handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + "-КІЗВШС: " + dataToSave[i].KIZVShS);
 
@@ -7998,6 +7471,7 @@ function setKIZVShS(handlerArr, size, dataToSave){
 
                 }
                 else if( handlerArr[i][8].value == ""){
+                    shleifCount[`KIZVShS${i}`] = false;
                     return;
                 }
                 else
@@ -8041,9 +7515,11 @@ function setZonaShS(handlerArr, size, dataToSave){
             if(parseInt(handlerArr[i][10].value, 10) >= 1 && parseInt(handlerArr[i][10].value, 10) <= 255){
                 dataToSave[i].ZONAShS = parseInt(handlerArr[i][10].value, 10);
                 handlerArr[i][10].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                shleifCount[`ZonaShS${i}`] = true;
                 console.log(i + " - ЗОНАШС: " + dataToSave[i].ZONAShS);
             }
             else if(handlerArr[i][10].value == ""){
+                shleifCount[`ZonaShS${i}`] = false;
                 return;
             }
             else
@@ -8069,10 +7545,12 @@ function setAdrShS(handlerArr, size, dataToSave){
             handlerArr[i][11].addEventListener('blur', ()=>{
                 if(handlerArr[i][11].value == ""){ 
                     handlerArr[i][11].style.boxShadow = 'none';
+                    shleifCount[`AdrShS${i}`] = false;
                     return;
                 }
                 else if(handlerArr[i][11].value.length <= 20){
                     dataToSave[i].ADRShS = handlerArr[i][11].value;
+                    shleifCount[`AdrShS${i}`] = true;
                     handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log(i + " АДРШС: " + dataToSave[i].ADRShS + " L: " + dataToSave[i].ADRShS.length);
                 }
@@ -8112,6 +7590,21 @@ function setTAIZVadrNet(handlerArr, size, KIZVsize, dataToSave){
             if(handlerArr[i][j][1]){
                 handlerArr[i][j][1].onchange = ()=>{
                     dataToSave[i][j][0] = handlerArr[i][j][1].selectedIndex;
+                    //izvAdrNetCount[`TAIZV${i}-${j}`] = true;
+                    console.log("Шлейф: " + i + " изв: " + j + " - ТАИЗВ: " +  dataToSave[i][j][0]);
+                };   
+            }
+        }
+    }
+}
+
+function setTAIZVadrNet(handlerArr, size, KIZVsize, dataToSave, izvAdrNetCount){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][1]){
+                handlerArr[i][j][1].onchange = ()=>{
+                    dataToSave[i][j][0] = handlerArr[i][j][1].selectedIndex;
+                    //izvAdrNetCount[`TAIZV${i}-${j}`] = true;
                     console.log("Шлейф: " + i + " изв: " + j + " - ТАИЗВ: " +  dataToSave[i][j][0]);
                 };   
             }
@@ -8155,9 +7648,66 @@ function setZonaIzvadrNet(handlerArr, size, KIZVsize, dataToSave){
                     if(parseInt(handlerArr[i][j][2].value, 10) >= 1 && parseInt(handlerArr[i][j][2].value, 10) <= 255){
                         dataToSave[i][j][1] = parseInt(handlerArr[i][j][2].value, 10);
                         handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        //izvAdrNetCount[`ZonaIzv${i}-${j}`] = true;
                         console.log(i + " ЗонаИзв: " + dataToSave[i][j][1]);
                     }
                     else if(handlerArr[i][j][2].value == ""){
+                        //izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                });
+            }
+        }
+    }
+}
+
+function setZonaIzvadrNet(handlerArr, size, KIZVsize, dataToSave, izvAdrNetCount){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][2]){
+                    handlerArr[i][j][2].onkeypress = (e)=>{
+                        e = e || event;
+                        if (e.ctrlKey || e.altKey || e.metaKey) return;
+                        var chr = getChar(e);
+                        console.log("Char pressed: " + chr);
+                        if(chr == ',' || chr == '.')
+                        {   
+                            // iKShS.value.replace(/[\,|\.]+/g,'');
+                            e.preventDefault();
+                            return;
+                        }
+                        if(chr == null) return;
+        
+                        if (chr < '0' || chr > '9') {
+                            return false;
+                        }
+                    };
+                
+
+                
+                    handlerArr[i][j][2].addEventListener('focus', ()=>{
+                        handlerArr[i][j][2].style.boxShadow = 'none';
+                    });
+                
+
+    
+                handlerArr[i][j][2].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][2].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][2].value, 10) >= 1 && parseInt(handlerArr[i][j][2].value, 10) <= 255){
+                        dataToSave[i][j][1] = parseInt(handlerArr[i][j][2].value, 10);
+                        handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        izvAdrNetCount[`ZonaIzv${i}-${j}`] = true;
+                        console.log(i + " ЗонаИзв: " + dataToSave[i][j][1]);
+                    }
+                    else if(handlerArr[i][j][2].value == ""){
+                        izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
                         return;
                     }
                     else
@@ -8187,12 +7737,44 @@ function setAdrIZVadrNet(handlerArr, size, KIZVsize, dataToSave){
             
                 handlerArr[i][j][3].addEventListener('blur', ()=>{
                     if(handlerArr[i][j][3].value == ""){ 
+                        //izvAdrNetCount[`AdrIZV${i}-${j}`] = false;
                         handlerArr[i][j][3].style.boxShadow = 'none';
                         return;
                     }
                     else if(handlerArr[i][j][3].value.length <= 20){
                         dataToSave[i][j][2] = handlerArr[i][j][3].value;
                         handlerArr[i][j][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        //izvAdrNetCount[`AdrIZV${i}-${j}`] = true;
+                        console.log(i + "АДРИЗВ: " + dataToSave[i][j][2] + " L: " + dataToSave[i][j][2]);
+                    }
+                    else
+                        handlerArr[i][j][3].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            } 
+        } 
+    }
+}
+
+function setAdrIZVadrNet(handlerArr, size, KIZVsize, dataToSave, izvAdrNetCount){
+    for (let i = 0; i < size; i++) {
+            for (let j = 0; j < KIZVsize; j++) {
+                if(handlerArr[i][j][3]){
+
+                
+                handlerArr[i][j][3].addEventListener('focus', ()=>{
+                    handlerArr[i][j][3].style.boxShadow = 'none';
+                });
+            
+                handlerArr[i][j][3].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][3].value == ""){ 
+                        izvAdrNetCount[`AdrIZV${i}-${j}`] = false;
+                        handlerArr[i][j][3].style.boxShadow = 'none';
+                        return;
+                    }
+                    else if(handlerArr[i][j][3].value.length <= 20){
+                        dataToSave[i][j][2] = handlerArr[i][j][3].value;
+                        handlerArr[i][j][3].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        izvAdrNetCount[`AdrIZV${i}-${j}`] = true;
                         console.log(i + "АДРИЗВ: " + dataToSave[i][j][2] + " L: " + dataToSave[i][j][2]);
                     }
                     else
@@ -8211,6 +7793,21 @@ function setTAIZVadrDa(handlerArr, size, KIZVsize, dataToSave){
             if( handlerArr[i][j][5]){
                 handlerArr[i][j][5].onchange = ()=>{
                     dataToSave[i][j][3] = handlerArr[i][j][5].selectedIndex;
+                    //izvAdrDaCount[`TAIZV${i}-${j}`] = true;
+                    console.log("Шлейф: " + i + " изв(adrDa): " + j + " - ТАИЗВ: " +  dataToSave[i][j][3]);
+                }; 
+            }  
+        }
+    }
+}
+
+function setTAIZVadrDa(handlerArr, size, KIZVsize, dataToSave, izvAdrDaCount){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KIZVsize; j++) {
+            if( handlerArr[i][j][5]){
+                handlerArr[i][j][5].onchange = ()=>{
+                    dataToSave[i][j][3] = handlerArr[i][j][5].selectedIndex;
+                    //izvAdrDaCount[`TAIZV${i}-${j}`] = true;
                     console.log("Шлейф: " + i + " изв(adrDa): " + j + " - ТАИЗВ: " +  dataToSave[i][j][3]);
                 }; 
             }  
@@ -8251,9 +7848,62 @@ function setZonaIzvadrDa(handlerArr, size, KIZVsize, dataToSave){
                     if(parseInt(handlerArr[i][j][6].value, 10) >= 1 && parseInt(handlerArr[i][j][6].value, 10) <= 255){
                         dataToSave[i][j][4] = parseInt(handlerArr[i][j][6].value, 10);
                         handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        //izvAdrDaCount[`ZonaIzv${i}-${j}`] = true;
                         console.log(i + " ЗонаИзв: " + dataToSave[i][j][4]);
                     }
                     else if(handlerArr[i][j][6].value == ""){
+                        //izvAdrDaCount[`ZonaIzv${i}-${j}`] = false;
+                        return;
+                    }
+                    else
+                        {
+                            handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                        }
+                    }
+                    else
+                        handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            }
+        } 
+    }
+}
+
+function setZonaIzvadrDa(handlerArr, size, KIZVsize, dataToSave, izvAdrDaCount){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][6]){
+                handlerArr[i][j][6].onkeypress = (e)=>{
+                    e = e || event;
+                   if (e.ctrlKey || e.altKey || e.metaKey) return;
+                   var chr = getChar(e);
+                   console.log("Char pressed: " + chr);
+                   if(chr == ',' || chr == '.')
+                   {   
+                       // iKShS.value.replace(/[\,|\.]+/g,'');
+                       e.preventDefault();
+                       return;
+                   }
+                   if(chr == null) return;
+    
+                   if (chr < '0' || chr > '9') {
+                       return false;
+                   }
+                };
+    
+                handlerArr[i][j][6].addEventListener('focus', ()=>{
+                    handlerArr[i][j][6].style.boxShadow = 'none';
+                });
+    
+                handlerArr[i][j][6].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][6].value.search(regEx) == -1){
+                    if(parseInt(handlerArr[i][j][6].value, 10) >= 1 && parseInt(handlerArr[i][j][6].value, 10) <= 255){
+                        dataToSave[i][j][4] = parseInt(handlerArr[i][j][6].value, 10);
+                        handlerArr[i][j][6].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        izvAdrDaCount[`ZonaIzv${i}-${j}`] = true;
+                        console.log(i + " ЗонаИзв: " + dataToSave[i][j][4]);
+                    }
+                    else if(handlerArr[i][j][6].value == ""){
+                        izvAdrDaCount[`ZonaIzv${i}-${j}`] = false;
                         return;
                     }
                     else
@@ -8281,12 +7931,14 @@ function setAdrIZVadrDa(handlerArr, size, KIZVsize, dataToSave){
             
                 handlerArr[i][j][7].addEventListener('blur', ()=>{
                     if(handlerArr[i][j][7].value == ""){ 
+                        //izvAdrDaCount[`AdrIZV${i}-${j}`] = false;
                         handlerArr[i][j][7].style.boxShadow = 'none';
                         return;
                     }
                     else if(handlerArr[i][j][7].value.length <= 20){
                         dataToSave[i][j][5] = handlerArr[i][j][7].value;
                         handlerArr[i][j][7].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        //izvAdrDaCount[`AdrIZV${i}-${j}`] = true;
                         console.log(i + "АДРИЗВ: " + dataToSave[i][j][5] + " L: " + dataToSave[i][j][5].length);
                     }
                     else
@@ -8297,6 +7949,33 @@ function setAdrIZVadrDa(handlerArr, size, KIZVsize, dataToSave){
     }
 }
 
+function setAdrIZVadrDa(handlerArr, size, KIZVsize, dataToSave, izvAdrDaCount){
+    for (let i = 0; i < size; i++) {
+        for (let j = 0; j < KIZVsize; j++) {
+            if(handlerArr[i][j][7]){
+                handlerArr[i][j][7].addEventListener('focus', ()=>{
+                    handlerArr[i][j][7].style.boxShadow = 'none';
+                });
+            
+                handlerArr[i][j][7].addEventListener('blur', ()=>{
+                    if(handlerArr[i][j][7].value == ""){ 
+                        izvAdrDaCount[`AdrIZV${i}-${j}`] = false;
+                        handlerArr[i][j][7].style.boxShadow = 'none';
+                        return;
+                    }
+                    else if(handlerArr[i][j][7].value.length <= 20){
+                        dataToSave[i][j][5] = handlerArr[i][j][7].value;
+                        handlerArr[i][j][7].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                        izvAdrDaCount[`AdrIZV${i}-${j}`] = true;
+                        console.log(i + "АДРИЗВ: " + dataToSave[i][j][5] + " L: " + dataToSave[i][j][5].length);
+                    }
+                    else
+                        handlerArr[i][j][7].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }); 
+            } 
+        }
+    }
+}
 
 
 const regExBroken = /\d*(\.|\,)?\d+?/g;
@@ -8311,11 +7990,13 @@ function setTIZVauto(handlerArr, size, dataToSave){
 
         handlerArr[i][14].addEventListener('blur', ()=>{
             if(handlerArr[i][14].value == ""){ 
+                izvBezAdrCount[`TIZVauto${i}`] = false;
                 handlerArr[i][14].style.boxShadow = 'none';
                 return;
             }
             else if(handlerArr[i][14].value.length <= 20){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][14].value;
+                izvBezAdrCount[`TIZVauto${i}`] = true;
                 //добавляем введённую инфу в массив
                 addItemsDouble(handlerArr[i][15], i, handlerArr);
                 // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
@@ -8388,10 +8069,12 @@ function setIOIZV(handlerArr, size, dataToSave){
 
             if(parseFloat(handlerArr[i][16].value) >= 0 && parseFloat(handlerArr[i][16].value) <= 32){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV = parseFloat(handlerArr[i][16].value);
+                izvBezAdrCount[`IOIZV${i}`] = true;
                 handlerArr[i][16].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(  dataToSave[i].izveshateli.KonfIzvBezAdr.IOIZV);
             }
             else if(handlerArr[i][16].value == ""){
+                izvBezAdrCount[`IOIZV${i}`]= false;
                 return;
             }
             else
@@ -8460,10 +8143,12 @@ function setiIPIZV(handlerArr, size, dataToSave){
 
             if(parseFloat(handlerArr[i][17].value) >= 0 && parseFloat(handlerArr[i][17].value) <= 32){
                 dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV = parseFloat(handlerArr[i][17].value);
+                izvBezAdrCount[`IPIZV${i}`] = true;
                 handlerArr[i][17].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                 console.log(  dataToSave[i].izveshateli.KonfIzvBezAdr.IPIZV);
             }
             else if(handlerArr[i][17].value == ""){
+                izvBezAdrCount[`IPIZV${i}`]  = false;
                 return;
             }
             else
@@ -8512,10 +8197,12 @@ function setKMBUSLNK(handlerArr, size, KIZVsize, dataToSave){
                     if(handlerArr[i][j][9].value.search(regEx) == -1){
                     if(parseInt(handlerArr[i][j][9].value, 10) >= 0 && parseInt(handlerArr[i][j][9].value, 10) <= 20){
                         dataToSave[i][j][6] = parseInt(handlerArr[i][j][9].value, 10);
+                        modbusCount[`KMBUSLNK${i}`] = true;
                         handlerArr[i][j][9].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         console.log("KMBUSLNK: "+ dataToSave[i][j][6]);
                     }
                     else if(handlerArr[i][j][9].value == ""){
+                        modbusCount[`KMBUSLNK${i}`] = false;
                         return;
                     }
                     else
@@ -8538,6 +8225,12 @@ function setKMBUSLNK(handlerArr, size, KIZVsize, dataToSave){
 let curPosIzv = [], nextPosIzv = [], prevPosIzv = [], izvPosition = [];
 let izvBtnsID = [], izvLasPos = [], izvLastSpan = [], izvBtnsNext = [], izvBtnsPrev = [],
 _izveshateli = [];
+_izveshateli = genIzvHandlers(640, 32, 7);
+// function getIzv(){
+//     if(AutoSignalizatsiya.KShS)
+//         _izveshateli = genIzvHandlers(lineLoops.length, 32, 7);
+// }
+// getIzv();
 
 function setDlsSbt(handlerArr, size, dataToSave){
     
@@ -8546,16 +8239,31 @@ function setDlsSbt(handlerArr, size, dataToSave){
             e.preventDefault();
             if(dataToSave[i].KIZVShS >= 1){
 
+
                 createIzv(i,dataToSave[i].KIZVShS);
 
                 for (let j = 0; j < dataToSave[i].KIZVShS; j++) {
                     curPosIzv[i] = [];
                     nextPosIzv[i] = [];
                     prevPosIzv[i] = [];
+
+
+
+                    if(dataToSave[i].ExShS){
+                        //izvAdrDaCount[`TAIZV${i}-${j}`] = false;
+                        izvAdrDaCount[`ZonaIzv${i}-${j}`] = false;
+                        izvAdrDaCount[`AdrIZV${i}-${j}`] = false;
+                    }
+                    else{
+                        //izvAdrNetCount[`TAIZV${i}-${j}`] = false;
+                        izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
+                        izvAdrNetCount[`AdrIZV${i}-${j}`] = false;
+                    }
+                    
                     
                 }
                 dynamicEvHandlerIZV = genIzvHandlers(lineLoops.length, 32, 10);
-                _izveshateli = genIzvHandlers(lineLoops.length, 32, 7);
+                //_izveshateli = genIzvHandlers(lineLoops.length, 32, 7);
 
                 izvBtnsID[i] = document.getElementById(`izvBtns${i}`);
                 izvLasPos[i] = document.getElementById(`izvBtnsPos${i}`);
@@ -8602,12 +8310,12 @@ function setDlsSbt(handlerArr, size, dataToSave){
                 handleIzvPos(i, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
                     curPosIzv, nextPosIzv, prevPosIzv);
 
-                setTAIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
-                setZonaIzvadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
-                setAdrIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
-                setTAIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
-                setZonaIzvadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
-                setAdrIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+                setTAIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setZonaIzvadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setAdrIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setTAIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
+                setZonaIzvadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
+                setAdrIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
                 setKMBUSLNK(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
             }
             else{
@@ -10060,12 +9768,96 @@ function showOp(indexZona, indexShleif){
         document.querySelector(`#ShleifOp${indexZona}_${indexShleif}`).style.display = 'block';
 }
 
+function isThereFalse(obj){
+    for(let val in obj){
+        if(obj[val] == false) return false
+    }
+    return true;
+}
+
 // function showOp(eHandler, index, pos){
 //     eHandler[index][pos][0].style.display = 'block';
 //     eHandler[index][pos][1].style.display = 'block';      
 //     eHandler[index][pos][2].style.display = 'block';   
 //     //eHandler[index][pos][3].style.display = 'block';   
 // }
+
+//-----------------"РАСЧЕТ НОМЕНКЛАТУРЫ"-----------------
+const calcList = document.getElementById('calcList');
+let KShSsumm,
+    KShSrez,
+    MI,
+    KShPTrez,
+    MIuser,
+    MIUP;
+calcList.addEventListener('click', function(){
+    if(
+        isThereFalse(autoInputCount) &&
+        isThereFalse(shleifCount) &&
+        isThereFalse(izvAdrNetCount) &&
+        isThereFalse(izvAdrDaCount) &&
+        isThereFalse(izvBezAdrCount) &&
+        isThereFalse(modbusCount) &&
+        isThereFalse(pressedBtnsRuchnCount) &&
+        isThereFalse(pressedBtnsRuchnCount_sbt3) &&
+        isThereFalse(pressedBtnsRuchnCount_bezAdr) &&
+        isThereFalse(pressedBtnsRuchnCount_adrExShSn) &&
+        isThereFalse(pressedBtnsRuchnCount_adrExShSd) &&
+        isThereFalse(pressedBtnsPojCount) &&
+        isThereFalse(pressedBtnsPojCount_sbt4) &&
+        isThereFalse(pressedBtnsOpCount) &&
+        isThereFalse(pressedBtnsOpCount_sbt5) &&
+        isThereFalse(pressedBtnsOpCount_Shleif) &&
+        isThereFalse(pressedBtnsOpCount_Opoveshatel) &&
+        isThereFalse(pressedBtnsFromCount) &&
+        isThereFalse(pressedBtnsFromCount_sbt6) &&
+        isThereFalse(pressedBtnsDiagnCount) &&
+        isThereFalse(pressedBtnsDiagnCount_VD) &&
+        isThereFalse(pressedBtnsDiagnCount_VA) &&
+        isThereFalse(pressedBtnsKRSCount)
+    ){
+        clkKonf.style.backgroundColor = 'white';
+        clkKonf.style.color = '#000';
+        calcList.style.backgroundColor = '#5f97ef';
+        calcList.style.color = 'white';
+        KonfiguratsiaSPZ.style.display = 'none';
+
+        //Суммарное количество шлейфов
+        KShSsumm = AutoSignalizatsiya.KShS + RutshnayaSignalizatsiya.KShSR;
+        //Количество резервных входов
+        if((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR) > 0)
+        {
+            KShSrez = Math.ceil((1 + AutoSignalizatsiya.REZShS/100) * AutoSignalizatsiya.KShS + (1 + RutshnayaSignalizatsiya.REZShSR/100) * RutshnayaSignalizatsiya.KShSR); 
+            //MI
+            MI = (KShSsumm + KShSrez)/IOmoduls[4].ShS;
+            MIuser = (AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4; 
+            //3.4.4.3
+            if((KShSsumm + KShSrez) > ((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4)){
+                
+                let restMI = (KShSsumm + KShSrez) - MIuser;
+                let MOPI = restMI/IOmoduls[0].ShS;
+            }
+        }
+
+        //Количество модулей управления пожаротушения
+        //Количество резервных выходов
+        if(UpravleniePojaroTusheniem.KMIShPT ){
+            KShPTrez = Math.ceil((1 + UpravleniePojaroTusheniem.REZShPT/100) * UpravleniePojaroTusheniem.KShPT);
+            if((UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 > UpravleniePojaroTusheniem.KMIShPT){
+                let MIdiff = (UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 - UpravleniePojaroTusheniem.KMIShPT;
+                MIUP = Math.ceil(MIdiff / 2);
+            }
+        }
+
+        //Количество модулей подключения оповещателей
+
+
+    }
+    else{
+        alert('Не все поля заполнены в режиме \"Конфигурация СПЗ\"');
+    }
+});
+
 //Classes------------------------------
 class addInfoToList{
     constructor(mass){
