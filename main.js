@@ -1480,7 +1480,7 @@ iKShS.addEventListener('blur', ()=>{
             setIOIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
             setiIPIZV(dynamicEventHandlers, lineLoops.length, lineLoopsData);
             setKMBUSLNK(dynamicEventHandlers, lineLoops.length, lineLoopsData);          
-            setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
+            //setDlsSbt(dynamicEventHandlers, lineLoops.length, lineLoopsData);
         console.log(AutoSignalizatsiya.KShS);
     }
     else if(iKShS.value == ""){
@@ -1777,17 +1777,17 @@ function createlineLoop(val){
 
             elem.appendChild(div);
 
-            subelem = document.createElement('br');
-            elem.appendChild(subelem);
+            // subelem = document.createElement('br');
+            // elem.appendChild(subelem);
 
-            subelem = document.createElement('button');
-            subelem.setAttribute('type', 'submit');
-            subelem.setAttribute('id', `dlgSbt${i}`);
-            subelem.setAttribute('class', `btn-after`);
-            subelem.style.marginTop = '19px';
-            subelem.style.marginBottom = '20px';
-            subelem.appendChild(document.createTextNode('Сконфигурировать извещатели'));
-            elem.appendChild(subelem);
+            // subelem = document.createElement('button');
+            // subelem.setAttribute('type', 'submit');
+            // subelem.setAttribute('id', `dlgSbt${i}`);
+            // subelem.setAttribute('class', `btn-after`);
+            // subelem.style.marginTop = '19px';
+            // subelem.style.marginBottom = '20px';
+            // subelem.appendChild(document.createTextNode('Сконфигурировать извещатели'));
+            // elem.appendChild(subelem);
 
 
             elem.style.display = 'none';
@@ -7096,7 +7096,7 @@ function setTShS(handlerArr, size, dataToSave){
                             izvBezAdrCount[`IPIZV${i}`] = false;
                             modbusCount[`KMBUSLNK${i}`] = true;
 
-
+                            hideIzv(dynamicEvHandlerIZV, i, dataToSave);
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                             handlerArr[i][13].style.display = 'block';
@@ -7460,6 +7460,85 @@ function setKIZVShS(handlerArr, size, dataToSave){
                     dataToSave[i].KIZVShS = parseInt( handlerArr[i][8].value, 10);
                     shleifCount[`KIZVShS${i}`] = true;
                     handlerArr[i][8].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+
+                    createIzv(i,dataToSave[i].KIZVShS);
+
+                for (let j = 0; j < dataToSave[i].KIZVShS; j++) {
+                    // curPosIzv[i] = [];
+                    // nextPosIzv[i] = [];
+                    // prevPosIzv[i] = [];
+
+
+
+                    if(dataToSave[i].ExShS){
+                        //izvAdrDaCount[`TAIZV${i}-${j}`] = false;
+                        izvAdrDaCount[`ZonaIzv${i}-${j}`] = false;
+                        izvAdrDaCount[`AdrIZV${i}-${j}`] = false;
+                    }
+                    else{
+                        //izvAdrNetCount[`TAIZV${i}-${j}`] = false;
+                        izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
+                        izvAdrNetCount[`AdrIZV${i}-${j}`] = false;
+                    }
+                    
+                    
+                }
+                dynamicEvHandlerIZV = genIzvHandlers(lineLoops.length, 32, 10);
+                //_izveshateli = genIzvHandlers(lineLoops.length, 32, 7);
+
+                // izvBtnsID[i] = document.getElementById(`izvBtns${i}`);
+                // izvLasPos[i] = document.getElementById(`izvBtnsPos${i}`);
+                // izvLastSpan[i] = document.getElementById(`izvBtnslastPos${i}`);
+                // izvBtnsNext[i] = document.getElementById(`izvBtnsNext${i}`);
+                // izvBtnsPrev[i] = document.getElementById(`izvBtnsPrev${i}`);
+
+                // izvPosition[curPos - 1] = 0;
+
+                setHandlersIZV(dynamicEvHandlerIZV, i, dataToSave);
+
+                for (let k = 0; k < dataToSave[i].KIZVShS; k++) {
+                    console.log( dynamicEvHandlerIZV);
+                    
+                }
+                hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+
+                // dynamicEvHandlerIZV[i][0][12].min = 1;
+                // dynamicEvHandlerIZV[i][0][12].max = dataToSave[i].KIZVShS;
+
+                // curPosIzv[i][0] = 0;
+                // nextPosIzv[i][0] = 1;
+                // prevPosIzv[i][0] = dataToSave[i].KIZVShS - 1;
+                // izvLastSpan[i].innerHTML = ' из ' + dataToSave[i].KIZVShS;
+                // izvLasPos[i].value =  curPosIzv[i][0] + 1;
+                // izvLasPos[i].min = 1;
+                // izvLasPos[i].max = dataToSave[i].KIZVShS;
+
+
+                if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == false){
+                    showIzvAdrExNet1(dynamicEvHandlerIZV, i, dataToSave[i].KIZVShS);
+                }
+                else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
+                    showIzvAdrExDa1(dynamicEvHandlerIZV, i, dataToSave[i].KIZVShS);
+                }
+                else{
+                    showIzvConfModbu1(dynamicEvHandlerIZV, i, dataToSave[i].KIZVShS);
+                }
+
+                // handlePrevIzv(i, dataToSave[curPos-1].KIZVShS, izvLasPos, izvBtnsPrev, dynamicEvHandlerIZV,
+                //     dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
+                // handleNextIzv(i, dataToSave[curPos-1].KIZVShS,  izvLasPos, izvBtnsNext, dynamicEvHandlerIZV,
+                //     dataToSave, curPosIzv, nextPosIzv, prevPosIzv);
+                // handleIzvPos(i, dataToSave[curPos-1].KIZVShS, izvLasPos,  dynamicEvHandlerIZV, dataToSave,
+                //     curPosIzv, nextPosIzv, prevPosIzv);
+
+                setTAIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setZonaIzvadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setAdrIZVadrNet(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrNetCount);
+                setTAIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
+                setZonaIzvadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
+                setAdrIZVadrDa(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli, izvAdrDaCount);
+                setKMBUSLNK(dynamicEvHandlerIZV, lineLoops.length, dataToSave[i].KIZVShS, _izveshateli);
+
                     console.log(i + "-КІЗВШС: " + dataToSave[i].KIZVShS);
 
                     // for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {
@@ -7649,7 +7728,7 @@ function setZonaIzvadrNet(handlerArr, size, KIZVsize, dataToSave){
                         dataToSave[i][j][1] = parseInt(handlerArr[i][j][2].value, 10);
                         handlerArr[i][j][2].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         //izvAdrNetCount[`ZonaIzv${i}-${j}`] = true;
-                        console.log(i + " ЗонаИзв: " + dataToSave[i][j][1]);
+                        console.log(j + " ЗонаИзв: " + dataToSave[i][j][1]);
                     }
                     else if(handlerArr[i][j][2].value == ""){
                         //izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
@@ -8586,51 +8665,51 @@ let dynamicEvHandlerIZV = [];
 
 function createIzv(lineLoopIndex, qIzv){
     if(lineLoopIndex >= 0){
-        let elem, subelem, option, mainDiv, subDiv, div;
+        let elem, subelem, option, mainDiv, subDiv, div, div_1, div_2;
         mainDiv = document.getElementById((curPos - 1).toString());
 
-        if(document.getElementById(`izvBtns${lineLoopIndex}`)){
-            mainDiv.removeChild(document.getElementById(`izvBtns${lineLoopIndex}`));
-        }
-            elem = document.createElement('div');
-            elem.setAttribute('id', `izvBtns${lineLoopIndex}`);
-            elem.setAttribute('class', `izvBtns_`);
+        // if(document.getElementById(`izvBtns${lineLoopIndex}`)){
+        //     mainDiv.removeChild(document.getElementById(`izvBtns${lineLoopIndex}`));
+        // }
+        //     elem = document.createElement('div');
+        //     elem.setAttribute('id', `izvBtns${lineLoopIndex}`);
+        //     elem.setAttribute('class', `izvBtns_`);
                         
-            subelem = document.createElement('button');
-            subelem.setAttribute('id', `izvBtnsPrev${lineLoopIndex}`);
-            subelem.setAttribute('class', `izvBtns-item`);
-            subelem.appendChild(document.createTextNode('Пред.'));
+        //     subelem = document.createElement('button');
+        //     subelem.setAttribute('id', `izvBtnsPrev${lineLoopIndex}`);
+        //     subelem.setAttribute('class', `izvBtns-item`);
+        //     subelem.appendChild(document.createTextNode('Пред.'));
     
-            elem.appendChild(subelem);
+        //     elem.appendChild(subelem);
     
-            subelem = document.createElement('span');
-            subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttribute('id', `izvSpan${lineLoopIndex}`);
-            subelem.appendChild(document.createTextNode('Извещатель №'));
+        //     subelem = document.createElement('span');
+        //     subelem.setAttribute('class', 'izvBtns-item');
+        //     subelem.setAttribute('id', `izvSpan${lineLoopIndex}`);
+        //     subelem.appendChild(document.createTextNode('Извещатель №'));
     
-            elem.appendChild(subelem);
+        //     elem.appendChild(subelem);
     
-            subelem = document.createElement('input');
-            subelem.setAttribute('type', 'number');
-            subelem.setAttribute('id', `izvBtnsPos${lineLoopIndex}`);
-            subelem.setAttribute('class', 'izvBtns-item');
+        //     subelem = document.createElement('input');
+        //     subelem.setAttribute('type', 'number');
+        //     subelem.setAttribute('id', `izvBtnsPos${lineLoopIndex}`);
+        //     subelem.setAttribute('class', 'izvBtns-item');
     
-            elem.appendChild(subelem);
+        //     elem.appendChild(subelem);
     
-            subelem = document.createElement('span');
-            subelem.setAttribute('id', `izvBtnslastPos${lineLoopIndex}`);
-            subelem.setAttribute('class', 'izvBtns-item');
+        //     subelem = document.createElement('span');
+        //     subelem.setAttribute('id', `izvBtnslastPos${lineLoopIndex}`);
+        //     subelem.setAttribute('class', 'izvBtns-item');
     
-            elem.appendChild(subelem);
+        //     elem.appendChild(subelem);
     
-            subelem = document.createElement('button');
-            subelem.setAttribute('class', 'izvBtns-item');
-            subelem.setAttribute('id', `izvBtnsNext${lineLoopIndex}`);
-            subelem.appendChild(document.createTextNode('След.'));
+        //     subelem = document.createElement('button');
+        //     subelem.setAttribute('class', 'izvBtns-item');
+        //     subelem.setAttribute('id', `izvBtnsNext${lineLoopIndex}`);
+        //     subelem.appendChild(document.createTextNode('След.'));
     
-            elem.appendChild(subelem);
+        //     elem.appendChild(subelem);
     
-            mainDiv.appendChild(elem);
+        //     mainDiv.appendChild(elem);
         
     
             if(document.getElementById(`IZV${lineLoopIndex}`)){
@@ -8647,16 +8726,29 @@ function createIzv(lineLoopIndex, qIzv){
                     
                     div = document.createElement('div');
                     div.setAttribute('id', `AdrExNet${lineLoopIndex}_${j}`)
+                    div.style.border = '1px solid #000';
+                    div.style.padding = '10px';
+                    div.style.marginBottom = '15px';
     
                     // subelem = document.createElement('h3');
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
                     // div.appendChild(subelem);
-    
-                    subelem = document.createElement('p');
-                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    subelem = document.createElement('h3');
+                    subelem.appendChild(document.createTextNode(`Извещатель № ${j+1}`));
+                    subelem.style.textAlign = 'center';
                     div.appendChild(subelem);
+
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
+
+                    subelem = document.createElement('p');
+                    
+                    subelem.appendChild(document.createTextNode('Тип извещателя:'));
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('select');
+                    
                     subelem.setAttribute('id', `TAIZV${lineLoopIndex}_${j}`);
                     option = document.createElement('option');
                     option.appendChild(document.createTextNode('ИАД'));
@@ -8670,43 +8762,67 @@ function createIzv(lineLoopIndex, qIzv){
                         option.appendChild(document.createTextNode('ИАР'));
                         subelem.appendChild(option);
                     }
-
-                    div.appendChild(subelem);                    
-                    
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+                                     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Зона:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'number');
                     subelem.setAttribute('id', `ZONAIZV${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `1...255`);
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
+
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Наименование/адрес:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `ADRIZV${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `до 20 символов...`);
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subDiv.appendChild(div);
     
                     div = document.createElement('div');
                     div.setAttribute('id', `AdrExDa${lineLoopIndex}_${j}`);
+                    div.style.border = '1px solid #000';
+                    div.style.padding = '10px';
+                    div.style.marginBottom = '15px';
     
+                    subelem = document.createElement('h3');
+                    subelem.appendChild(document.createTextNode(`Извещатель № ${j+1}`));
+                    subelem.style.textAlign = 'center';
+                    div.appendChild(subelem);
                     // subelem = document.createElement('h3');
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
                     // div.appendChild(subelem);
     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
+
                     subelem = document.createElement('p');
                     subelem.appendChild(document.createTextNode('Тип извещателя:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('select');
                     subelem.setAttribute('id', `TAIZV_${lineLoopIndex}_${j}`);
@@ -8722,46 +8838,75 @@ function createIzv(lineLoopIndex, qIzv){
                         option.appendChild(document.createTextNode('ИАР-01'));
                         subelem.appendChild(option);
                     }
-    
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+                    
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode("Зона:"));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'number');
                     subelem.setAttribute('id', `ZONAIZV_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', '1...255');
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Наименование/адрес'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `ADRIZV_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', 'до 20 символов...');
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subDiv.appendChild(div);
     
                     div = document.createElement('div');
                     div.setAttribute('id', `confModbus${lineLoopIndex}_${j}`);
+                    div.style.border = '1px solid #000';
+                    div.style.padding = '10px';
+                    div.style.marginBottom = '15px';
         
+                    subelem = document.createElement('h3');
+                    subelem.appendChild(document.createTextNode(`Извещатель № ${j+1}`));
+                    subelem.style.textAlign = 'center';
+                    div.appendChild(subelem);
                     // subelem = document.createElement('h3');
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при ТШС "MODBUS"'));
                     // div.appendChild(subelem);
-        
+                    
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
+
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Количество линий связи:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
         
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `KMBUSLNK${lineLoopIndex}_${j}`);
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
         
                     subDiv.appendChild(div);
                  
@@ -8802,14 +8947,28 @@ function hideIzv(eHandler, index, data){
 function showIzvAdrExNet(eHandler, index, pos){
     eHandler[index][pos][0].style.display = 'block';
 }
+function showIzvAdrExNet1(eHandler, index, pos){
+    for(let i = 0; i < pos; i++){
+        eHandler[index][i][0].style.display = 'block';
+    }
+}
 
 function showIzvAdrExDa(eHandler, index, pos){
     eHandler[index][pos][4].style.display = 'block';
+}
+function showIzvAdrExDa1(eHandler, index, pos){
+    for(let i = 0; i < pos; i++)
+        eHandler[index][i][4].style.display = 'block';
 }
 
 function showIzvConfModbu(eHandler, index, pos){
     eHandler[index][pos][8].style.display = 'block';
 }
+function showIzvConfModbu1(eHandler, index, pos){
+    for(let i = 0; i < pos; i++)
+        eHandler[index][i][8].style.display = 'block';
+}
+
 
 //Ручное обнаружение
 function createlineLoopRuchn(val){
