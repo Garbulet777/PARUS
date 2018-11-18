@@ -200,9 +200,7 @@
             flex-grow: 1;
             margin-right: 20px;
         }
-        .flex-item:last-child{
-            /* width: 130px; */
-        }
+
 
         .flex-items{
             display: flex;
@@ -216,11 +214,18 @@
             margin-right: 30px;
         }
 
-        .flex-items > select{
-            /* width: 77%; */
-        }
         #selTypePPKP{
             margin-bottom: 20px;
+        }
+
+        .first-row{
+            padding: 0 5px;
+            border-right: 1px solid #000;
+        }
+
+        .second-row{
+            min-width: 150px;
+            text-align: center;
         }
 
 
@@ -242,23 +247,24 @@
             </div> -->
         <ul id="topMenu" class="left-menu" style="border-right: 1px solid #f2f2f2;" >
             <li id="clkKonf" style="border: 1px solid #000;">Конфигурация СПЗ</li>
-            <li id="calcList">Расчет номенклатуры</li>
-            <li>Структура СПЗ</li>
-            <li>Структурная схема СПЗ</li>
-            <li>Статистика проекта</li>
-            <li>Перечень номенклатуры</li>
-            <li>Настройки</li>
-            <li>Номенклатура САПС</li>
-            <li>Помощь</li>
+            <li style="background:#f2f2f2;" id="calcList">Расчет номенклатуры</li>
+            <li style="background:#f2f2f2;">Структура СПЗ</li>
+            <li style="background:#f2f2f2;">Структурная схема СПЗ</li>
+            <li style="background:#f2f2f2;">Статистика проекта</li>
+            <li style="background:#f2f2f2;">Перечень номенклатуры</li>
+            <li style="background:#f2f2f2;">Настройки</li>
+            <li style="background:#f2f2f2;">Номенклатура САПС</li>
+            <li style="background:#f2f2f2;">Помощь</li>
         </ul>
         <ul id="podsystemi" class="left-menu" style="border-right: 1px solid #f2f2f2;">
             <li id="autoSys">Подсистема автоматического обнаружения признаков пожара</li>
             <li id="ruchSys">Подсистема ручного обнаружения признаков пожара</li>
-            <li id="uprPojSys">Подсистема управления пожаротушением</li>
-            <li id="uprOpSys">Подсистема управления оповещением</li>
-            <li id="formSys">Подсистема формирования выходных сигналов исполнительных устройств и взаимодействия со смежными подсистемами</li>
-            <li id="diagnSys">Подсистема диагностики</li>
-            <li id="connSys">Подсистема связи с устройствами с подключением по последовательному интерфейсу RS-485</li>
+            <li style="background:#f2f2f2;" id="uprPojSys">Подсистема управления пожаротушением</li>
+            <li style="background:#f2f2f2;" id="uprOpSys">Подсистема управления оповещением</li>
+            <li style="background:#f2f2f2;" id="formSys">Подсистема формирования выходных сигналов исполнительных устройств и взаимодействия со смежными подсистемами</li>
+            <li style="background:#f2f2f2;" id="diagnSys">Подсистема диагностики</li>
+            <li style="background:#f2f2f2;" id="connSys">Подсистема связи с устройствами с подключением по последовательному интерфейсу RS-485</li>
+            <li id="BDU">Дополнительная внешняя нагрузка</li>
         </ul>
 
         <div  class="working-area">
@@ -279,9 +285,9 @@
                     <input class="flex-item" type="text" id="projectName">
                 </div>
 
-                <div class="ARM">
-                    <p class="flex-item">Наличие АРМ в составе оборудования:</p>
-                    <input class="flex-item" type="checkbox" name="" id="ARM_PARUS">
+                <div class="flex-items">
+                    <p >Наличие АРМ в составе оборудования:</p>
+                    <input  type="checkbox" name="" id="ARM_PARUS">
                 </div>
 
                 <div class="ARM">
@@ -340,9 +346,9 @@
                                 <p class="flex-item">Количество шлейфов:</p>
                                 <input class="flex-item" style="margin-top: 0px;" type="number" name="KShS1" id="iKShSR" placeholder="1...640"  pattern="[0-9]{3}" >
                             </div>
-                            <div class="ARM">
-                                <p class="flex-item">Разрешить использовать модуль интегральный МИ</p>
-                                <input class="flex-item" type="checkbox" value="" id="MIShSR">
+                            <div class="flex-items">
+                                <p >Разрешить использовать модуль интегральный МИ:</p>
+                                <input  type="checkbox" value="" id="MIShSR">
                             </div>
 
                             
@@ -380,36 +386,58 @@
                     <div class="item">
                         <form id="dialog4" class="form-4">
 
-                            <p>Количество шлейфов:</p>
-                            <input type="number" name="KShPT" id="KShPT" placeholder="1...640">
-                    
-                            <p>Количество модулей интегральных:</p>
-                            <input type="number" name="KMIShPT" id="KMIShPT" placeholder="1...32">
-                    
-                            <p>Резерв шлейфов, %:</p>
-                            <input type="number" name="REZShPT" id="REZShPT" placeholder="0...100">
+                            <div class="ARM">
+                                <p class="flex-item">Количество шлейфов:</p>
+                                <input class="flex-item" type="number" name="KShPT" id="KShPT" placeholder="1...640"> 
+                            </div>
+                            
+                            <div class="ARM">
+                                <p class="flex-item">Количество модулей интегральных:</p>
+                                <input class="flex-item" type="number" name="KMIShPT" id="KMIShPT" placeholder="1...32">
+                            </div>
+                            
+                            <div class="ARM">
+                                <p class="flex-item">Резерв шлейфов, %:</p>
+                                <input class="flex-item" type="number" name="REZShPT" id="REZShPT" placeholder="0...100">
+                            </div>
+                            
                     
                             <h3>Зона пожаротушения</h3>
-                            <p>Зона:</p>
-                            <input type="number" name="ZONAShPT" id="ZONAShPT">
-                    
-                            <p>Наменование/адрес:</p>
-                            <input type="text" name="ADRZONYPT" id="ADRZONYPT" placeholder="до ХХ символов">
-                    
-                            <p>Количество шлейфов управления пожаротушением:</p>
-                            <input type="number" name="KShPTZONY" id="KShPTZONY" placeholder="1...320">
-                    
-                            <P>Количество дискретных датчиков:</P>
-                            <input type="number" name="KDDZONY" id="KDDZONY" placeholder="0...20">
-                    
-                            <p>Количество устройств дистанционного пуска:</p>
-                            <input type="number" name="KBDUZONY" id="KBDUZONY" placeholder="0...20">
-                    
-                            <p>Количество взрывозащищенных устройств дистанционного пуска:</p>
-                            <input type="number" name="KExBDUZONY" id="KExBDUZONY" placeholder="0...20">
-                    
-                            <p>Количество взрывозащищенных линий управления дистанционного пуска:</p>
-                            <input type="number" name="KExLSBDU" id="KExLSBDU" placeholder="0...15">
+                            <div class="ARM">
+                                <p class="flex-item">Зона:</p>
+                                <input class="flex-item" type="number" name="ZONAShPT" id="ZONAShPT">
+                            </div>
+
+                            <div class="ARM">
+                                <p class="flex-item">Наменование/адрес:</p>
+                                <input class="flex-item" type="text" name="ADRZONYPT" id="ADRZONYPT" placeholder="до ХХ символов">
+                            </div>
+                            
+                            <div class="ARM">
+                                <p class="flex-item">Количество шлейфов управления пожаротушением:</p>
+                                <input class="flex-item" type="number" name="KShPTZONY" id="KShPTZONY" placeholder="1...320">
+                            </div>
+
+                            <div class="ARM">
+                                <P class="flex-item">Количество дискретных датчиков:</P>
+                                <input class="flex-item" type="number" name="KDDZONY" id="KDDZONY" placeholder="0...20">
+                            </div>
+
+                            <div class="ARM">
+                                <p class="flex-item">Количество устройств дистанционного пуска:</p>
+                                <input class="flex-item" type="number" name="KBDUZONY" id="KBDUZONY" placeholder="0...20">
+                            </div>
+
+                            <div class="ARM">
+                                <p class="flex-item">Количество взрывозащищенных устройств дистанционного пуска:</p>
+                                <input class="flex-item" type="number" name="KExBDUZONY" id="KExBDUZONY" placeholder="0...20">
+                            </div>
+
+                            <div class="ARM">
+                                <p class="flex-item">Количество взрывозащищенных линий управления дистанционного пуска:</p>
+                                <input class="flex-item" type="number" name="KExLSBDU" id="KExLSBDU" placeholder="0...15">
+                            </div>
+
                             <br>
                     
                             <button type="submit" id="sbtForm4" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать шлейфы управления пожаротушения</button>
@@ -428,11 +456,16 @@
                 <div id="uprOpSysConfiguration">
                     <form id="dialog5" class="form-5">
                         <!-- <h1>Подсистема управления оповещением</h1> -->
-                        <p>Количество зон оповещения:</p>
-                        <input type="number" name="KZONOP" id="KZONOP" placeholder="1...64">
-                
-                        <p>Резерв шлейфов, %:</p>
-                        <input type="number" name="REZShO" id="REZShO" placeholder="0...100">
+                        <div class="ARM">
+                            <p class="flex-item">Количество зон оповещения:</p>
+                            <input class="flex-item" type="number" name="KZONOP" id="KZONOP" placeholder="1...64">
+                        </div>
+
+                        <div class="ARM">
+                            <p class="flex-item">Резерв шлейфов, %:</p>
+                            <input class="flex-item" type="number" name="REZShO" id="REZShO" placeholder="0...100">
+                        </div>
+
                         <br>
                         <button type="submit" id="sbtForm5" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать зоны</button>
                     </form>
@@ -448,11 +481,16 @@
 
                 <div id="formSysConfiguration">
                     <form action="" id="dialog6" class="form-6">
-                        <p>Количество дискретных выходов (контакт реле), кроме "Пожар" и "Неисправность":</p>
-                        <input type="number" name="KRVYKh" id="KRVYKh" placeholder="0...640">
+                        <div class="ARM">
+                            <p class="flex-item">Количество дискретных выходов (контакт реле), кроме "Пожар" и "Неисправность":</p>
+                            <input class="flex-item" type="number" name="KRVYKh" id="KRVYKh" placeholder="0...640">
+                        </div>
 
-                        <p>Резерв выходов, %:</p>
-                        <input type="number" name="KRREZ" id="KRREZ" placeholder="0...100">
+                        <div class="ARM">
+                            <p class="flex-item">Резерв выходов, %:</p>
+                            <input class="flex-item" type="number" name="KRREZ" id="KRREZ" placeholder="0...100">
+                        </div>
+
                         <br>
                         <button type="submit" id="sbtForm6" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать дискретный релейный выход</button>
                     </form>
@@ -468,17 +506,26 @@
 
                 <div id="diagnSysConfiguration">
                     <form action="" id="dialog7" class="form-7">
-                        <p>Количество дискретных входов, входов "неисправность":</p>
-                        <input type="number" name="KDVKh" id="KDVKh" placeholder="0...640">
+                        <div class="ARM">
+                                <p class="flex-item">Количество дискретных входов, входов "неисправность":</p>
+                                <input class="flex-item" type="number" name="KDVKh" id="KDVKh" placeholder="0...640">
+                        </div>
 
-                        <p>Резерв дискретных входов:</p>
-                        <input type="number" name="KDVKhREZ" id="KDVKhREZ" placeholder="0...100">
+                        <div class="ARM">
+                                <p class="flex-item">Резерв дискретных входов:</p>
+                                <input class="flex-item" type="number" name="KDVKhREZ" id="KDVKhREZ" placeholder="0...100">
+                        </div>
+                        
+                        <div class="ARM">
+                                <p class="flex-item">Количество аналоговых входов:</p>
+                                <input class="flex-item" type="number" name="KAVKh" id="KAVKh" placeholder="0...320">
+                        </div>
 
-                        <p>Количество аналоговых входов:</p>
-                        <input type="number" name="KAVKh" id="KAVKh" placeholder="0...320">
+                        <div class="ARM">
+                                <p class="flex-item">Резерв аналоговых входов:</p>
+                                <input class="flex-item" type="number" name="KAVKhREZ" id="KAVKhREZ" placeholder="0...100">
+                        </div>
 
-                        <p>Резерв аналоговых входов:</p>
-                        <input type="number" name="KAVKhREZ" id="KAVKhREZ" placeholder="0...100">
                         <br>
                         <button type="submit" id="sbtForm7" class="btn-after" style="margin-top: 19px; margin-bottom:20px;">Сконфигурировать</button>
                     </form>
@@ -494,11 +541,39 @@
 
                 <div id="connSysConfiguration">
                     <form  id="dialog8" class="form-8">
-                            <p>Количество последовательных портов RS-485:</p>
-                            <input type="number" name="KRS485" id="KRS485" placeholder="0...160">
-        
-                            <p>Сконфигурировано:</p>
-                            <input type="checkbox"  id="KRS485_checked" disabled="true">
+                            <div class="ARM">
+                                    <p class="flex-item">Количество последовательных портов RS-485:</p>
+                                    <input class="flex-item" type="number" name="KRS485" id="KRS485" placeholder="0...160">
+                            </div>
+
+                            <div class="flex-items">
+                                <p>Сконфигурировано:</p>
+                                <input type="checkbox"  id="KRS485_checked" disabled="true">
+                            </div>
+
+                    </form>
+                </div>
+
+
+
+                <div id="BDUConfiguration">
+                    <form  id="dialog9" class="form-9">
+
+                        <div class="ARM">
+                            <p class="flex-item">Ток потребления дополнительной внешней нагрузкой в дежурном режиме, A:</p>
+                            <input class="flex-item" type="text" name="Ivnp" id="Ivnp" placeholder="0...1">
+                        </div>
+
+                        <div class="ARM">
+                            <p class="flex-item">Ток потребления дополнительной внешней нагрузкой в режиме пожарной тревоги, A:</p>
+                            <input class="flex-item" type="text" name="Ivnpt" id="Ivnpt" placeholder="0...1">
+                        </div>
+
+                        <!-- <div class="flex-items">
+                            <p>Наличие взрывозащиты:</p>
+                            <input type="checkbox"  id="bduEx">
+                        </div> -->
+
                     </form>
                 </div>
                 <!-- <div id="izvBtns" class="izvBtns_">
@@ -509,9 +584,288 @@
                     <button class="izvBtns-item" id="izvBtnsNext">След.</button>
                 </div>
                 -->
-            
-            
              </div>
+
+             <div id="RaschetNom">
+                 <div class="summ">
+                        <div class="ARM">
+                                <div class="flex-item first-row"><span>КШСсумм:</span></div>
+                                <div class="flex-item second-row" id="KShSsumm"></div>
+                        </div>
+                 </div>
+
+                <div class="rez">
+                        <div class="ARM">
+                                <div class="flex-item first-row"><span>КШСрез:</span></div>
+                                <div class="flex-item second-row" id="KShSrez"></div>
+                        </div>
+                </div>
+
+                <!-- <div class="MI">
+                        <div class="ARM">
+                                <div class="flex-item"><span>МИ:</span></div>
+                                <div class="flex-item" id="MI"></div>
+                        </div>
+                </div> -->
+
+                <div class="mopi">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МОПИ:</span></div>
+                        <div class="flex-item second-row" id="MOPI"></div>
+                    </div>
+                </div>
+
+                <div class="kshptrez">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>КШПТрез:</span></div>
+                        <div class="flex-item second-row" id="KShPTrez"></div>
+                    </div>
+                </div>
+
+                <div class="miup">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИУП:</span></div>
+                        <div class="flex-item second-row" id="MIUP"></div>
+                    </div>
+                </div>
+
+                <div class="mszu">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МСЗУ:</span></div>
+                        <div class="flex-item second-row" id="MSZU"></div>
+                    </div>
+                </div>
+
+                <div class="mrv">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МРВ:</span></div>
+                        <div class="flex-item second-row" id="MRV"></div>
+                    </div>
+                </div>
+
+                <div class="mipt">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИПТ:</span></div>
+                        <div class="flex-item second-row" id="MIPT"></div>
+                    </div>
+                </div>
+
+                <div class="mpi">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МПИ:</span></div>
+                        <div class="flex-item second-row" id="MPI"></div>
+                    </div>
+                </div>
+
+                <div class="K_BR1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество блоков управления:</span></div>
+                        <div class="flex-item second-row" id="K_BR"></div>
+                    </div>
+                </div>
+
+                <div class="K_BDU1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество блоков дистанционного пуска:</span></div>
+                        <div class="flex-item second-row" id="K_BDU"></div>
+                    </div>
+                </div>
+
+                <div class="K_BIZ1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество барьеров искрозащиты:</span></div>
+                        <div class="flex-item second-row" id="K_BIZ"></div>
+                    </div>
+                </div>
+
+                <div class="K_OT1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество ограничителей тока:</span></div>
+                        <div class="flex-item second-row" id="K_OT"></div>
+                    </div>
+                </div>
+
+                <div class="K_PF1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество модулей коммутации и фильтров:</span></div>
+                        <div class="flex-item second-row" id="K_PF"></div>
+                    </div>
+                </div>
+
+                <div class="K_USO1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Количество терминальных модулей:</span></div>
+                        <div class="flex-item second-row" id="K_USO"></div>
+                    </div>
+                </div>
+
+                <h3 class="heading-3">Суммарный ток потребления блока и емкости аккумуляторной батареи</h3>
+                <h4 class="heading-4">В дежурном режиме:</h4>
+
+                <div class="dMOPI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МОПИ:</span></div>
+                        <div class="flex-item second-row" id="dMOPI"></div>
+                    </div>
+                </div>
+
+                <div class="dMI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИ:</span></div>
+                        <div class="flex-item second-row" id="dMI"></div>
+                    </div>
+                </div>
+
+                <div class="dMIUP1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИУП:</span></div>
+                        <div class="flex-item second-row" id="dMIUP"></div>
+                    </div>
+                </div>
+                
+                <div class="dMSZU1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МСЗУ:</span></div>
+                        <div class="flex-item second-row" id="dMSZU"></div>
+                    </div>
+                </div>
+
+                <div class="dMRV1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МРВ:</span></div>
+                        <div class="flex-item second-row" id="dMRV"></div>
+                    </div>
+                </div>
+
+                <div class="dBDU1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>БДУ:</span></div>
+                        <div class="flex-item second-row" id="dBDU"></div>
+                    </div>
+                </div>
+                
+
+
+                <div class="dMPI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МПИ:</span></div>
+                        <div class="flex-item second-row" id="dMPI"></div>
+                    </div>
+                </div>
+
+                
+                <div class="dMIPT1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИПТ:</span></div>
+                        <div class="flex-item second-row" id="dMIPT"></div>
+                    </div>
+                </div>
+
+                <div class="dSumm1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Ток потребления в дежурном режиме:</span></div>
+                        <div class="flex-item second-row" id="dSumm"></div>
+                    </div>
+                </div>
+
+                <h4 class="heading-4-1">В пожарном режиме:</h4>
+
+                <div class="pMOPI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МОПИ:</span></div>
+                        <div class="flex-item second-row" id="pMOPI"></div>
+                    </div>
+                </div>
+
+                <div class="pMI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИ:</span></div>
+                        <div class="flex-item second-row" id="pMI"></div>
+                    </div>
+                </div>
+
+                <div class="pMIimp1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИ импульсный ток:</span></div>
+                        <div class="flex-item second-row" id="pMIimp"></div>
+                    </div>
+                </div>
+
+                <div class="pMIUP1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИУП:</span></div>
+                        <div class="flex-item second-row" id="pMIUP"></div>
+                    </div>
+                </div>
+
+                <div class="pMIUPimp1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИУП импульсный:</span></div>
+                        <div class="flex-item second-row" id="pMIUPimp"></div>
+                    </div>
+                </div>
+                
+                <div class="pMSZU1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МСЗУ:</span></div>
+                        <div class="flex-item second-row" id="pMSZU"></div>
+                    </div>
+                </div>
+
+                <div class="pMRV1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МРВ:</span></div>
+                        <div class="flex-item second-row" id="pMRV"></div>
+                    </div>
+                </div>
+
+                <div class="pBDU1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>БДУ:</span></div>
+                        <div class="flex-item second-row" id="pBDU"></div>
+                    </div>
+                </div>
+                
+
+
+                <div class="pMPI1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МПИ:</span></div>
+                        <div class="flex-item second-row" id="pMPI"></div>
+                    </div>
+                </div>
+
+                
+                <div class="pMIPT1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>МИПТ:</span></div>
+                        <div class="flex-item second-row" id="pMIPT"></div>
+                    </div>
+                </div>
+
+                <div class="pSumm1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Ток потребления в пожарном режиме:</span></div>
+                        <div class="flex-item second-row" id="pSumm"></div>
+                    </div>
+                </div>
+
+                <div class="pSummImp1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Ток импульсный в режиме пожарной тревоги:</span></div>
+                        <div class="flex-item second-row" id="pSummImp"></div>
+                    </div>
+                </div>
+
+                <div class="pSummAccu1">
+                    <div class="ARM">
+                        <div class="flex-item first-row"><span>Ток аккумудятора:</span></div>
+                        <div class="flex-item second-row" id="pSummW"></div>
+                    </div>
+                </div>
+
+             </div>
+
         </div>
        
     </div>

@@ -299,6 +299,8 @@ const BlokiUpravleniya =
     }
 ];
 
+const KBR_MAX = 15;
+
 //БДУ
 const BlokiDistanzionnogoUpravleniya =
 [
@@ -436,6 +438,7 @@ let UpravleniePojaroTusheniem =
     ShleifUpravleniaPojaroTushenia: {
         ADRShPT: "",
         IPShPT: 0.0,
+        ImpShPT: 0.0,
         ExShPT: false,
         TBIZShPT: "",
         configured: false
@@ -785,16 +788,32 @@ let ds = [];
         let prevIndex, nextIndex, curPos;
 
         clkKonf.addEventListener('click', function(){
-            if(dlg1Configured == false)
+            if(dlg1Configured == false){
                 dialog1.style.display = 'block';
+                podsystemi.style.display = 'none';
+            }
+            else    
+                podsystemi.style.display = 'block';
+
+                RaschetNom.style.display = 'none';
                 clkKonf.style.backgroundColor = '#5f97ef';
                 clkKonf.style.color = 'white';
-                calcList.style.backgroundColor = 'white';
-                calcList.style.color = '#000';
+                if(
+                    isThereFalse(autoInputCount) &&
+                    isThereFalse(shleifCount) &&
+                    isThereFalse(izvAdrNetCount) &&
+                    isThereFalse(izvAdrDaCount) &&
+                    isThereFalse(izvBezAdrCount) &&
+                    isThereFalse(modbusCount) ){
+                        calcList.style.backgroundColor = 'white';
+                        calcList.style.color = '#000';
+                    }
             //podsystemi.style.display = 'block';
             //topMenu.style.display = 'none';
             //exitConf.style.display = 'block';
             KonfiguratsiaSPZ.style.display = 'block';
+            
+            
             KonfiguratsiaSPZ.style.flex = 'auto';
         });
         
@@ -842,6 +861,7 @@ let ds = [];
             document.querySelector('div#formSysConfiguration').style.display = 'none';
             document.querySelector('div#diagnSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#BDUConfiguration').style.display = 'none';
             
             autoSys.style.backgroundColor = '#5f97ef';
             autoSys.style.color = 'white';
@@ -851,6 +871,8 @@ let ds = [];
             uprPojSys.style.color = '#000';
             uprOpSys.style.backgroundColor = '#fff';
             uprOpSys.style.color = '#000';
+            BDU.style.backgroundColor = '#fff';
+            BDU.style.color = '#000';
             formSys.style.backgroundColor = '#fff';
             formSys.style.color = '#000';
             diagnSys.style.backgroundColor = '#fff';
@@ -876,6 +898,7 @@ let ds = [];
             document.querySelector('div#formSysConfiguration').style.display = 'none';
             document.querySelector('div#diagnSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#BDUConfiguration').style.display = 'none';
 
             ruchSys.style.backgroundColor = '#5f97ef';
             ruchSys.style.color = 'white';
@@ -885,6 +908,8 @@ let ds = [];
             uprPojSys.style.color = '#000';
             uprOpSys.style.backgroundColor = '#fff';
             uprOpSys.style.color = '#000';
+            BDU.style.backgroundColor = '#fff';
+            BDU.style.color = '#000';
             formSys.style.backgroundColor = '#fff';
             formSys.style.color = '#000';
             diagnSys.style.backgroundColor = '#fff';
@@ -900,6 +925,8 @@ let ds = [];
                 iREZShSR2.value = RutshnayaSignalizatsiya.REZShSR;
         });
 
+        document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+
         uprPojSys.addEventListener('click', () => {
             dialog4.style.display = 'inline';
             dialog4.style.flexDirection = 'column';
@@ -910,6 +937,7 @@ let ds = [];
             document.querySelector('div#formSysConfiguration').style.display = 'none';
             document.querySelector('div#diagnSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#BDUConfiguration').style.display = 'none';
 
             uprPojSys.style.backgroundColor = '#5f97ef';
             uprPojSys.style.color = 'white';
@@ -919,6 +947,8 @@ let ds = [];
             ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
+            BDU.style.backgroundColor = '#fff';
+            BDU.style.color = '#000';
             formSys.style.backgroundColor = '#fff';
             formSys.style.color = '#000';
             diagnSys.style.backgroundColor = '#fff';
@@ -945,6 +975,7 @@ let ds = [];
             document.querySelector('div#formSysConfiguration').style.display = 'none';
             document.querySelector('div#diagnSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#BDUConfiguration').style.display = 'none';
             document.querySelector('div#uprOpSysConfiguration').style.display = 'block';
 
             uprOpSys.style.backgroundColor = '#5f97ef';
@@ -955,6 +986,8 @@ let ds = [];
             ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
+            BDU.style.backgroundColor = '#fff';
+            BDU.style.color = '#000';
             formSys.style.backgroundColor = '#fff';
             formSys.style.color = '#000';
             diagnSys.style.backgroundColor = '#fff';
@@ -980,6 +1013,7 @@ let ds = [];
             document.querySelector('div#diagnSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
             document.querySelector('div#formSysConfiguration').style.display = 'block';
+                document.querySelector('div#BDUConfiguration').style.display = 'none';
 
             formSys.style.backgroundColor = '#5f97ef';
             formSys.style.color = 'white';
@@ -995,6 +1029,8 @@ let ds = [];
             diagnSys.style.color = '#000';
             connSys.style.backgroundColor = '#fff';
             connSys.style.color = '#000';
+        BDU.style.backgroundColor = '#fff';
+        BDU.style.color = '#000';
         });
         
         diagnSys.addEventListener('click', () =>{
@@ -1007,6 +1043,7 @@ let ds = [];
             document.querySelector('div#formSysConfiguration').style.display = 'none';
             document.querySelector('div#connSysConfiguration').style.display = 'none';
             document.querySelector('div#diagnSysConfiguration').style.display = 'block';
+        document.querySelector('div#BDUConfiguration').style.display = 'none';
 
             diagnSys.style.backgroundColor = '#5f97ef';
             diagnSys.style.color = 'white';
@@ -1022,6 +1059,8 @@ let ds = [];
             autoSys.style.color = '#000';
             connSys.style.backgroundColor = '#fff';
             connSys.style.color = '#000';
+        BDU.style.backgroundColor = '#fff';
+        BDU.style.color = '#000';
         });
 
         connSys.addEventListener('click', () =>{
@@ -1049,6 +1088,8 @@ let ds = [];
             ruchSys.style.color = '#000';
             autoSys.style.backgroundColor = '#fff';
             autoSys.style.color = '#000';
+        BDU.style.backgroundColor = '#fff';
+        BDU.style.color = '#000';
         });
 
 
@@ -1112,30 +1153,31 @@ let ds = [];
                 ARM_PARUS = document.getElementById('ARM_PARUS'),
                 selType = document.getElementById('selTypePPKP');
                 
-                if(selType.selectedIndex != 0)
-                    TypeOfPPKP = selType.options[selType.selectedIndex].text;
-                // selType.onchange = ()=>{
-                //     TypeOfPPKP = selType.options[selType.selectedIndex].text;
-                // };
-            if(projname.value ){
+                    if(selType.selectedIndex != 0)
+                        TypeOfPPKP = selType.options[selType.selectedIndex].text;
+                    // selType.onchange = ()=>{
+                    //     TypeOfPPKP = selType.options[selType.selectedIndex].text;
+                    // };
+                if(projname.value ){
 
-                if(ARM_PARUS.checked) PresenceOfARM = true;
-                else  PresenceOfARM = false;
+                    if(ARM_PARUS.checked) PresenceOfARM = true;
+                    else  PresenceOfARM = false;
 
-                NameOfProject = projname.value;
+                    NameOfProject = projname.value;
 
-                if(NameOfProject && TypeOfPPKP)
-                    dlg1Configured = true;
+                    if(NameOfProject)
+                        dlg1Configured = true;
 
-                dialog1.style.display = 'none';
-                podsystemi.style.display = 'block';
-            }
-            else{
-               
-                projname.style.color = 'red';
-                projname.value = 'Неверній ввод!';
-                projname.style.color = 'black';
-            }            
+                    dialog1.style.display = 'none';
+                    podsystemi.style.display = 'block';
+                }
+                else{
+                
+                    projname.style.color = 'red';
+                    projname.value = 'Неверній ввод!';
+                    projname.style.color = 'black';
+                }
+                       
         });
 
 //Автоматическая сигнализация
@@ -1424,6 +1466,8 @@ iKShS.addEventListener('blur', ()=>{
             lineLoops[i] = AutoSignalizatsiya.KonfShleifa;
             shleifCount[`KIZVShS${i}`] = false;
         }
+
+
         createlineLoop(AutoSignalizatsiya.KShS);
         let lastSpan = document.getElementById('lastPos'),
             lineLoopPos = document.getElementById('lineLoopPos');
@@ -2785,13 +2829,13 @@ iMIShSR2.addEventListener('click', ()=>{
     if(iMIShSR2.checked)
     { 
         RutshnayaSignalizatsiya.MIShSR = true;
-        pressedBtnsRuchnCount['MIShSR'] = false;
+        pressedBtnsRuchnCount['KMIShSR'] = false;
         KMIShSR_open.style.display = 'block';
     }
     else  
     {
         RutshnayaSignalizatsiya.MIShSR = false;
-        pressedBtnsRuchnCount['MIShSR'] = true;
+        pressedBtnsRuchnCount['KMIShSR'] = true;
         KMIShSR_open.style.display = 'none';
         RutshnayaSignalizatsiya.KMIShSR = 0;
     }
@@ -2929,15 +2973,15 @@ sbtForm3.addEventListener('click', (e)=>{
             
 
             document.querySelector('div.lineLoopBtnsRuchn').style.display = 'block';
-            lineLoopBtns.style.display = 'block';
+            //lineLoopBtns.style.display = 'block';
             lineLoopsRuchn.length = RutshnayaSignalizatsiya.KShSR;
 
             for (let i = 0; i < lineLoopsRuchn.length; i++) {
                 lineLoopsRuchn[i] = RutshnayaSignalizatsiya.KonfShleifa;
                 
                 pressedBtnsRuchnCount_sbt3[`KIZVShSR${i}`] = false;
-                pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = false;
-                pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = false;
+                // pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = false;
+                // pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = false;
                 
             }
             createlineLoopRuchn(RutshnayaSignalizatsiya.KShSR);
@@ -2968,6 +3012,7 @@ sbtForm3.addEventListener('click', (e)=>{
                 for (let i = 0; i < lineLoopsRuchn.length; i++) {                
                     lineLoopsDataRuchn[i] = Object.assign({}, RutshnayaSignalizatsiya.KonfShleifa);
                     //dynamicEventHandlersRuchn[i][5].style.display = 'none';
+                    dynamicEventHandlersRuchn[i][7].style.display = 'none';
                 }
              }
 
@@ -3013,12 +3058,12 @@ function setDlsSbt1(handlerArr, size, dataToSave){
                     nextPosIzvR[i] = [];
                     prevPosIzvR[i] = [];
                     
-                    if(dataToSave[i].ExShS){
+                    if(dataToSave[i].ExShS && dataToSave[i].TShS == 0){
                         // pressedBtnsRuchnCount_adrExShSd[`TAIZV${i}-${j}`] = false;
                         pressedBtnsRuchnCount_adrExShSd[`ZonaIzv${i}-${j}`] = false;
                         pressedBtnsRuchnCount_adrExShSd[`AdrIZV${i}-${j}`] = false;
                     }
-                    else{
+                    else if(!dataToSave[i].ExShS && dataToSave[i].TShS == 0){
                         // pressedBtnsRuchnCount_adrExShSn[`TAIZV${i}-${j}`] = false;
                         pressedBtnsRuchnCount_adrExShSn[`ZonaIzv${i}-${j}`] = false;
                         pressedBtnsRuchnCount_adrExShSn[`AdrIZV${i}-${j}`] = false;
@@ -3155,10 +3200,18 @@ function setTShSR(handlerArr, size, dataToSave){
                             console.log(i + " ТШСR: " + dataToSave[i].TShS);
                             handlerArr[i][10].style.display = 'block';    
                             handlerArr[i][15].style.display = 'none';   
+                            handlerArr[i][7].style.display = 'block';  
+
+                            if(dynamicEvHandlerIZVR)
+                                hideIzvR(dynamicEvHandlerIZVR, i, dataToSave);
+                            document.querySelector('.izvBtns_').style.display = 'none';
+
 
                             pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = false;
                             pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = false;
                             pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = false;
+                            pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = false;
+                            pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = false;
                         
 
                                 while(handlerArr[i][4].firstChild)
@@ -3187,6 +3240,8 @@ function setTShSR(handlerArr, size, dataToSave){
                             pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = true;
                             pressedBtnsRuchnCount_bezAdr[`IOIZV${i}`] = true;
                             pressedBtnsRuchnCount_bezAdr[`IPIZV${i}`] = true;
+                            pressedBtnsRuchnCount_sbt3[`ZonaShSR${i}`] = true;
+                            pressedBtnsRuchnCount_sbt3[`AdrShSR${i}`] = true;
                 
                             // if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
                             //     //handlerArr[i][17].style.display = 'block';
@@ -3197,7 +3252,8 @@ function setTShSR(handlerArr, size, dataToSave){
                             
                             handlerArr[i][2].style.display = 'none';
                             handlerArr[i][10].style.display = 'none';
-                            handlerArr[i][15].style.display = 'block';   
+                            handlerArr[i][15].style.display = 'block';
+                            handlerArr[i][7].style.display = 'none';   
                             //handlerArr[i][26].style.display = 'none';             
                             //document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
 
@@ -3510,32 +3566,38 @@ function setAdrShSR(handlerArr, size, dataToSave){
 // //iTIZV2
 function setTIZVautoR(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
-        handlerArr[i][11].addEventListener('focus', ()=>{
-            handlerArr[i][11].style.boxShadow = 'none';
-        });
+        // handlerArr[i][11].addEventListener('focus', ()=>{
+        //     handlerArr[i][11].style.boxShadow = 'none';
+        // });
 
-        handlerArr[i][11].addEventListener('blur', ()=>{
-            if(handlerArr[i][11].value == ""){
-                pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = false; 
-                handlerArr[i][11].style.boxShadow = 'none';
-                return;
-            }
-            else if(handlerArr[i][11].value.length <= 20){
-                dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][11].value;
-                pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = true;
-                //добавляем введённую инфу в массив
-                addItemsDouble(handlerArr[i][12], i, handlerArr);
-                // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
-                //     enteredVals.push(iTIZV1.value);
-                //     let addToList = new addInfoToList(enteredVals);
-                //     addToList.addItems(enteredItems);
-                // }
-                handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
-                console.log("TIZVR: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV.length);
-            }
-            else
-                handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
-        });
+        // handlerArr[i][11].addEventListener('blur', ()=>{
+        //     if(handlerArr[i][11].value == ""){
+        //         pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = false; 
+        //         handlerArr[i][11].style.boxShadow = 'none';
+        //         return;
+        //     }
+        //     else if(handlerArr[i][11].value.length <= 20){
+        //         dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][11].value;
+        //         pressedBtnsRuchnCount_bezAdr[`TIZV${i}`] = true;
+        //         //добавляем введённую инфу в массив
+        //         addItemsDouble(handlerArr[i][12], i, handlerArr);
+        //         // if(enteredVals.indexOf(iTIZV1.value) == -1){ 
+        //         //     enteredVals.push(iTIZV1.value);
+        //         //     let addToList = new addInfoToList(enteredVals);
+        //         //     addToList.addItems(enteredItems);
+        //         // }
+        //         handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+        //         console.log("TIZVR: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV + " L: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV.length);
+        //     }
+        //     else
+        //         handlerArr[i][11].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        // });
+        
+        handlerArr[i][11].onchange = ()=>{
+            //shleifCount['SKhShS'] = true;
+            dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV = handlerArr[i][11].selectedIndex;
+            console.log(i + " TIZV_R: " + dataToSave[i].izveshateli.KonfIzvBezAdr.TIZV);
+        };
         
     }
 }
@@ -4287,6 +4349,7 @@ sbtForm4.addEventListener('click', (e)=>{
                 //lineLoopConf = document.getElementById('lineLoopKonf');
                 setAdrShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
                 setIPShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
+                setImpShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
                 setExShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
                 setTBIZShPT(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);   
                 //setCheckboxUpr(dynamicEventHandlersUpr, lineLoopsUpr.length, lineLoopsDataUpr);
@@ -4296,6 +4359,90 @@ sbtForm4.addEventListener('click', (e)=>{
     else
         alert('Конфигурация не завершена! Пропущены данные.');
 });
+
+function setImpShPT(handlerArr, size, dataToSave){
+    for (let i = 0; i < size; i++) {
+        handlerArr[i][7].onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(handlerArr[i][7].value.indexOf('.') == -1)
+                    {
+                        while((pos = handlerArr[i][7].value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = handlerArr[i][7].value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        handlerArr[i][7].addEventListener('focus', ()=>{
+            handlerArr[i][7].style.boxShadow = 'none';
+        });
+
+        handlerArr[i][7].addEventListener('blur', ()=>{
+            if(handlerArr[i][7].value.indexOf(',')== -1 && handlerArr[i][7].value.indexOf('.')== -1)
+                handlerArr[i][7].value += ',0';
+            if(handlerArr[i][7].value[handlerArr[i][7].value.length - 1] == '.' || handlerArr[i][7].value[handlerArr[i][7].value.length - 1] == ',')
+                handlerArr[i][7].value += '0';
+
+            if(handlerArr[i][7].value.search(regExBroken) != -1){
+            
+                if(handlerArr[i][7].value.indexOf(',')!= -1) handlerArr[i][7].value = handlerArr[i][7].value.replace(/\,/, '.');
+
+            if(parseFloat(handlerArr[i][7].value) >= 0 && parseFloat(handlerArr[i][7].value) <= 3){
+                dataToSave[i].ImpShPT = parseFloat(handlerArr[i][7].value);
+                //pressedBtnsPojCount_sbt4[`IPShPT${i}`] = true;
+                handlerArr[i][7].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                if( dataToSave[i].ADRShPT != '' &&
+                    dataToSave[i].IPShPT >= 1 ){
+                        handlerArr[i][6].checked = true;
+                        dataToSave[i].configured = true;
+                }
+                else{
+                    handlerArr[i][6].checked = false;
+                    dataToSave[i].configured = false;
+                }
+                console.log("ImpShPT: " + dataToSave[i].IPShPT);
+            }
+            else if(handlerArr[i][7].value == ""){
+                //pressedBtnsPojCount_sbt4[`IPShPT${i}`] = false;
+                return;
+            }
+            else
+                {
+                    handlerArr[i][7].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                handlerArr[i][7].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }); 
+        
+    }
+}
+
 // //ADRShPT
 function setAdrShPT(handlerArr, size, dataToSave){
     for (let i = 0; i < size; i++) {
@@ -5390,7 +5537,7 @@ function showOp1(indexZona, indexShleif, opoveshatel){
 
 function createOpoveshatel(zona ,lineLoopIndex, qIzv){
     if(lineLoopIndex >= 0){
-        let elem, subelem, option, mainDiv, subDiv, div;
+        let elem, subelem, option, mainDiv, subDiv, div, div_1, div_2;
         mainDiv = document.getElementById('ShleifOp' + zona  + "_" + lineLoopIndex);
         
         if(document.getElementById(`BtnsIDOp${zona}_${lineLoopIndex}`)){
@@ -5454,39 +5601,58 @@ function createOpoveshatel(zona ,lineLoopIndex, qIzv){
                     // subelem = document.createElement('h3');
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
                     // div.appendChild(subelem);
+
+                    div_2 = document.createElement('div');
+                    div_2.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Адрес:'));
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `ADROP${zona}_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `До 20 символов...`);
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
+
+                    div_2 = document.createElement('div');
+                    div_2.setAttribute('class', 'ARM');
 
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Ток оповещателя в режиме оповещения, мА:'));
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
 
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `IPOP${zona}_${lineLoopIndex}_${j}`);
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
                  
                     subelem = document.createElement('br');
                     subDiv.appendChild(subelem);
 
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
+
                     subelem = document.createElement('p');
                     subelem.appendChild(document.createTextNode('Оповещатель сконфигурирован:'));
-                    subDiv.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    subDiv.appendChild(div_1);
 
                     subelem = document.createElement('input');
                     subelem.setAttribute('type', 'checkbox');
                     subelem.setAttribute('id', `checkboxOpoveshateli${zona}_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('class', `btn-after`);
                     subelem.setAttribute('disabled', `true`);
-                    subDiv.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    subDiv.appendChild(div_1);
 
                     mainDiv.appendChild(subDiv);           
             }  
@@ -5948,10 +6114,10 @@ sbtForm6.addEventListener('click', (e) =>{
 
 function createlineLoopFormSys(val){
         if(val > 0){
-            let elem, subelem, option, mainDiv;
+            let elem, subelem, option, mainDiv, div_1, div_2;
             mainDiv = document.createElement('div');
             mainDiv.setAttribute('id','lineLoopKonfFormSys');
-            mainDiv.setAttribute('class','flex-item');
+            //mainDiv.setAttribute('class','flex-item');
             for (let i = 0; i < val; i++) {
                 elem = document.createElement('form');
                 elem.setAttribute("id", '_DRV_' + i);
@@ -5969,40 +6135,60 @@ function createlineLoopFormSys(val){
                 // subelem.setAttribute('id', `ZONAShOP${i}`);
                 // //subelem.setAttribute('placeholder', '1...32');
                 // elem.appendChild(subelem);
+                
+                div_2 = document.createElement('div');
+                div_2.setAttribute('class', 'ARM');
 
                 subelem = document.createElement('p');
+                subelem.setAttribute('class', 'flex-item');
                 subelem.appendChild(document.createTextNode('Наименование, адрес:'));
-                elem.appendChild(subelem);
+                div_2.appendChild(subelem);
+                elem.appendChild(div_2);
 
                 subelem = document.createElement('input');
+                subelem.setAttribute('class', 'flex-item');
                 subelem.setAttribute('type', 'text');
                 subelem.setAttribute('id', `ADRRVYKh${i}`);
                 subelem.setAttribute('placeholder', `до 20 символов...`);
-                elem.appendChild(subelem);
+                div_2.appendChild(subelem);
+                elem.appendChild(div_2);
+
+                div_1 = document.createElement('div');
+                div_1.setAttribute('class', 'flex-items');
 
                 subelem = document.createElement('p');
                 subelem.appendChild(document.createTextNode("Взрывозащита:"));
-                elem.appendChild(subelem);
+                div_1.appendChild(subelem);
+                elem.appendChild(div_1);
 
                 subelem = document.createElement('input');
                 subelem.setAttribute('type', 'checkbox');
                 subelem.setAttribute('id', `ExRVYKh${i}`);
-                elem.appendChild(subelem);
+                div_1.appendChild(subelem);
+                elem.appendChild(div_1);
 
                 let div = document.createElement('div');
                 div.setAttribute('id', `TypeBIZdrv_${i}`);
+
+                div_2 = document.createElement('div');
+                div_2.setAttribute('class', 'ARM');
+
                 subelem = document.createElement('p');
+                subelem.setAttribute('class', 'flex-item');
                 subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-                div.appendChild(subelem);
+                div_2.appendChild(subelem);
+                div.appendChild(div_2);
 
 
                 option = document.createElement('label');
+                option.setAttribute('class', 'flex-item');
                 subelem = document.createElement('input');
                 subelem.setAttribute('list', `_TBIZR_${i}`);
                 subelem.setAttribute('type', 'text');
                 subelem.setAttribute('id', `TBIZR${i}`);
                 option.appendChild(subelem);
-                div.appendChild(option);
+                div_2.appendChild(option);
+                div.appendChild(div_2);
                 
                 subelem = document.createElement('datalist');
                 subelem.setAttribute('id', `_TBIZR_${i}`);
@@ -6476,11 +6662,11 @@ sbtForm7.addEventListener('click', (e)=>{
         dynamicEventHandlersVAbtns[3].min = 1;
         dynamicEventHandlersVAbtns[3].max = lineLoopsVA.length;
         dynamicEventHandlersVAbtns[3].value = 1;
-        curPosVA = 0;
+        curPosVA = 1;
         prevIndexVA = lineLoopsVA.length - 1;
         nextIndexVA = curPosVA +1;
                 
-        showLineLoopsRuchn('_VA_' + (curPosVA + 1));
+        showLineLoopsRuchn('_VA_' + (curPosVA - 1));
         
 
         //hideAutoObnarUpr();
@@ -6577,48 +6763,75 @@ sbtForm7.addEventListener('click', (e)=>{
 
 function createlineLoopdiagnSys(val1, val2){
     if(val1 > 0 && val2 > 0){
-        let elem, subelem, option, mainDiv;
+        let elem, subelem, option, mainDiv, div_1, div_2;
+        if(document.getElementById('lineLoopKonfDiagnSys_')){
+            //let x = document.body.getElementById('lineLoopKonfDiagnSys_')
+            //document.parentNode.removeChild(document.getElementById('lineLoopKonfDiagnSys_'));
+            document.getElementById('diagnSysConfiguration').removeChild(document.getElementById('lineLoopKonfDiagnSys_'));
+        }
+           
+
         mainDiv = document.createElement('div');
-        mainDiv.setAttribute('id','lineLoopKonfDiagnSys');
+        mainDiv.setAttribute('id','lineLoopKonfDiagnSys_');
         mainDiv.setAttribute('class','flex-item');
 
         for (let i = 0; i < val1; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", '_VD_' + i);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование, адрес:'));
-            elem.appendChild(subelem);                
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);              
             
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRDVKh${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);    
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Взрывозащита:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `ExDVKh${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             let div = document.createElement('div');
             div.setAttribute('id', `TypeBIZDV_${i}`);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
 
             option = document.createElement('label');
+            subelem.setAttribute('class', 'flex-item');
             subelem = document.createElement('input');
             subelem.setAttribute('list', `_TBIZDVKh_${i}`);
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `TBIZDVKh${i}`);
             option.appendChild(subelem);
-            div.appendChild(option);
+            div_2.appendChild(option);
+            div.appendChild(div_2);
                 
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `_TBIZDVKh_${i}`);
@@ -6629,6 +6842,16 @@ function createlineLoopdiagnSys(val1, val2){
             elem.style.display = 'none';
             mainDiv.appendChild(elem);
         }
+        document.querySelector('div#diagnSysConfiguration').appendChild(mainDiv);
+
+        if(document.getElementById('lineLoopKonfDiagnSys__')){
+            document.getElementById('diagnSysConfiguration').removeChild(document.getElementById('lineLoopKonfDiagnSys__'));
+        }
+            //document.parentNode.removeChild(document.getElementById('lineLoopKonfDiagnSys__'));
+
+        mainDiv = document.createElement('div');
+        mainDiv.setAttribute('id','lineLoopKonfDiagnSys__');
+        mainDiv.setAttribute('class','flex-item');
 
         if(!(document.getElementById('BtnsIDVA'))){
             elem = document.createElement('div');
@@ -6672,43 +6895,71 @@ function createlineLoopdiagnSys(val1, val2){
             mainDiv.appendChild(elem);
         }
 
+        // if(!(document.getElementById('lineLoopKonfDiagnSys__')))
+        // mainDiv = document.createElement('div');
+        // mainDiv.setAttribute('id','lineLoopKonfDiagnSys__');
+        // mainDiv.setAttribute('class','flex-item');
+
         for (let i = 0; i < val2; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", '_VA_' + i);
 
+            // if(mainDiv.getElementById('_VA_' + i))
+            //     mainDiv.removeChild('_VA_' + i);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование, адрес:'));
-            elem.appendChild(subelem);                
+            div_2.appendChild(subelem);   
+            elem.appendChild(div_2);                
             
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRAVKh${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);   
+            elem.appendChild(div_2);   
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Взрывозащита:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `ExAVKh${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             let div = document.createElement('div');
             div.setAttribute('id', `TypeBIZVA_${i}`);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
 
             option = document.createElement('label');
+            option.setAttribute('class', 'flex-item');
             subelem = document.createElement('input');
             subelem.setAttribute('list', `_TBIZAVKh_${i}`);
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `TBIZAVKh${i}`);
             option.appendChild(subelem);
-            div.appendChild(option);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
                 
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `_TBIZAVKh_${i}`);
@@ -6718,9 +6969,9 @@ function createlineLoopdiagnSys(val1, val2){
 
             elem.style.display = 'none';
             mainDiv.appendChild(elem);
-            document.querySelector('div#diagnSysConfiguration').appendChild(mainDiv);
+            
         }
-        
+        document.querySelector('div#diagnSysConfiguration').appendChild(mainDiv);
     }
 }
 
@@ -7097,6 +7348,11 @@ function setTShS(handlerArr, size, dataToSave){
                             modbusCount[`KMBUSLNK${i}`] = true;
 
                             hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+                            handlerArr[i][8].value = "";
+                            handlerArr[i][8].style.boxShadow = 'none';
+                            shleifCount[`KIZVShS${i}`] = false;
+                            dataToSave[i].KIZVShS = 0;
+
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
                             handlerArr[i][13].style.display = 'block';
@@ -7107,7 +7363,7 @@ function setTShS(handlerArr, size, dataToSave){
                             //handlerArr[i][21].style.display = 'block';
                             handlerArr[i][5].style.display = 'block';
                             handlerArr[i][11].style.display = 'block';
-                            handlerArr[i][20].style.display = 'none';
+                            //handlerArr[i][20].style.display = 'none';
                             //handlerArr[i][26].style.display = 'none';
                             handlerArr[i][7].style.display = 'none';
                             if(izvBtnsID[i])
@@ -7174,7 +7430,12 @@ function setTShS(handlerArr, size, dataToSave){
 
                             dataToSave[i].TShS = handlerArr[i][0].selectedIndex;
                             //console.log(i + " ТШС: " + dataToSave[i].TShS);
-                
+                            hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+                            handlerArr[i][8].value = "";
+                            handlerArr[i][8].style.boxShadow = 'none';
+                            shleifCount[`KIZVShS${i}`] = false;
+                            dataToSave[i].KIZVShS = 0;
+
                             if(dataToSave[i].ExShS == true && dataToSave[i].KIZVShS >= 1){
                                 //handlerArr[i][17].style.display = 'block';
                             }                                
@@ -7190,7 +7451,7 @@ function setTShS(handlerArr, size, dataToSave){
                             handlerArr[i][13].style.display = 'none';
                             handlerArr[i][5].style.display = 'none';
                             handlerArr[i][7].style.display = 'block';
-                            handlerArr[i][20].style.display = 'block';
+                            //handlerArr[i][20].style.display = 'block';
                             //handlerArr[i][26].style.display = 'none';             
                             document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
 
@@ -7214,6 +7475,12 @@ function setTShS(handlerArr, size, dataToSave){
                         }
                         else{
                             //shleifCount['TShS'] = true;
+                            hideIzv(dynamicEvHandlerIZV, i, dataToSave);
+                            handlerArr[i][8].value = "";
+                            handlerArr[i][8].style.boxShadow = 'none';
+                            shleifCount[`KIZVShS${i}`] = false;
+                            dataToSave[i].KIZVShS = 0;
+
                             modbusCount[`KMBUSLNK${i}`] = false;
                             //shleifCount[`SKhShS${i}`] = true;
                             shleifCount[`ZonaShS${i}`] = true;
@@ -7233,7 +7500,7 @@ function setTShS(handlerArr, size, dataToSave){
                             handlerArr[i][12].style.display = 'block';
                             handlerArr[i][1].style.display = 'none';
                             handlerArr[i][9].style.display = 'none';
-                            handlerArr[i][20].style.display = 'block';
+                            //handlerArr[i][20].style.display = 'block';
                             //handlerArr[i][21].style.display = 'none';
                             document.querySelector(`.RRIShS_p_${i}`).style.display = 'block';
 
@@ -7377,11 +7644,13 @@ function setTShSBIZ(handlerArr, size, dataToSave){
                             handlerArr[i][5].value = "Взрывозащита типа \"d\"";
                             console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
                             handlerArr[i][7].style.display = 'none';
+                            handlerArr[i][5].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                             e.preventDefault();
                             
                             return;
                         }
                         shleifCount[`TShSBIZ${i}`] = false;
+                        handlerArr[i][5].style.boxShadow = 'none';
                         console.log(shleifCount);
                         //andlerArr[i][7].style.display = 'block';
                     }
@@ -7390,24 +7659,32 @@ function setTShSBIZ(handlerArr, size, dataToSave){
                         shleifCount[`TShSBIZ${i}`] = true;
                         console.log(shleifCount);
                         dataToSave[i].TShSBIZ = handlerArr[i][5].value;
+                        handlerArr[i][5].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                         console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
                     }
                 }
                 else{
                     if(handlerArr[i][5].value == ""){
                         shleifCount[`TShSBIZ${i}`] = false;
+                        handlerArr[i][5].style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
                         console.log(shleifCount);
                         return;
                     }
                     else{
                     dataToSave[i].TShSBIZ = handlerArr[i][5].value;   
                     shleifCount[`TShSBIZ${i}`] = true;
+                    handlerArr[i][5].style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
                     console.log("ТШСБИЗ: " + dataToSave[i].TShSBIZ);
                     }
                 }
             }
         });
         
+        handlerArr[i][5].addEventListener('focus', () =>{
+            if(handlerArr[i][5].value == ""){
+                handlerArr[i][5].style.boxShadow = 'none';
+            }
+        });
     }
 }
 
@@ -7470,12 +7747,12 @@ function setKIZVShS(handlerArr, size, dataToSave){
 
 
 
-                    if(dataToSave[i].ExShS){
+                    if(dataToSave[i].ExShS && dataToSave[i].TShS == 0){
                         //izvAdrDaCount[`TAIZV${i}-${j}`] = false;
                         izvAdrDaCount[`ZonaIzv${i}-${j}`] = false;
                         izvAdrDaCount[`AdrIZV${i}-${j}`] = false;
                     }
-                    else{
+                    else if(!dataToSave[i].ExShS &&dataToSave[i].TShS == 0){
                         //izvAdrNetCount[`TAIZV${i}-${j}`] = false;
                         izvAdrNetCount[`ZonaIzv${i}-${j}`] = false;
                         izvAdrNetCount[`AdrIZV${i}-${j}`] = false;
@@ -7520,7 +7797,7 @@ function setKIZVShS(handlerArr, size, dataToSave){
                 else if(dataToSave[i].TShS == 0 && dataToSave[i].ExShS == true){
                     showIzvAdrExDa1(dynamicEvHandlerIZV, i, dataToSave[i].KIZVShS);
                 }
-                else{
+                else if(dataToSave[i].TShS == 2 ){
                     showIzvConfModbu1(dynamicEvHandlerIZV, i, dataToSave[i].KIZVShS);
                 }
 
@@ -7647,12 +7924,25 @@ function setRRIShS(handlerArr, size, dataToSave){
         if(handlerArr[i][12].checked)
         { 
             dataToSave[i].RRIShS = true;
+            if(dataToSave[i].KIZVShS ){
+                for(let j = 0; j < dataToSave[i].KIZVShS; j++){
+                    if(dynamicEvHandlerIZV[i][j][1] && dataToSave[i].TShS == 0 )
+                        createOption(dynamicEvHandlerIZV[i][j][1] , "ИАР");
+                    if(dynamicEvHandlerIZV[i][j][5] && dataToSave[i].TShS == 0 )
+                        createOption(dynamicEvHandlerIZV[i][j][5] , "ИАР-01");
+                }
+            }
                 // createOption(handlerArr[i][14], "ИАР");
                 // createOption(handlerArr[i][18], "ИАР-01");
         }
         else  {
             dataToSave[i].RRIShS = false;
-
+            for(let j = 0; j < dataToSave[i].KIZVShS; j++){
+                if(dynamicEvHandlerIZV[i][j][1] && dataToSave[i].TShS == 0 )
+                    dynamicEvHandlerIZV[i][j][1].removeChild(dynamicEvHandlerIZV[i][j][1].lastChild);
+                if(dynamicEvHandlerIZV[i][j][5] && dataToSave[i].TShS == 0 )
+                    dynamicEvHandlerIZV[i][j][5].removeChild(dynamicEvHandlerIZV[i][j][5].lastChild);
+            }
                 // handlerArr[i][14].removeChild(handlerArr[i][14].lastChild);
                 // handlerArr[i][18].removeChild(handlerArr[i][18].lastChild);
         }
@@ -8973,10 +9263,10 @@ function showIzvConfModbu1(eHandler, index, pos){
 //Ручное обнаружение
 function createlineLoopRuchn(val){
     if(val > 0){
-        let elem, subelem, option, mainDiv;
+        let elem, subelem, option, mainDiv, div_1, div_2;
         mainDiv = document.createElement('div');
         mainDiv.setAttribute('id','lineLoopKonfRuchn');
-        mainDiv.setAttribute('class','flex-item');
+        //mainDiv.setAttribute('class','flex-item');
         for (let i = 0; i < val; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", i + '_' + 1);
@@ -8984,6 +9274,8 @@ function createlineLoopRuchn(val){
             // subelem = document.createElement('h3')
             // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
             // elem.appendChild(subelem);
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Тип шлейфа:"));
@@ -8997,32 +9289,46 @@ function createlineLoopRuchn(val){
             option = document.createElement('option');
             option.appendChild(document.createTextNode("БЕЗАДРЕСНЫЙ"));
             subelem.appendChild(option);
+            
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
-            elem.appendChild(subelem);
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Взрывозащита:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `ExShS2_${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             let div = document.createElement('div');
             div.setAttribute('id', `TypeBIZ2_${i}`);
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-            div.appendChild(subelem);
+            div_1.appendChild(subelem);
+            div.appendChild(div_1);
 
 
             option = document.createElement('label');
+            option.setAttribute('class', 'flex-item');
             subelem = document.createElement('input');
             subelem.setAttribute('list', `_adrBIZ2_${i}`);
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `TShSBIZ2_${i}`);
             option.appendChild(subelem);
-            div.appendChild(option);
+            div_1.appendChild(option);
+            div.appendChild(div_1);
             
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `_adrBIZ2_${i}`);
@@ -9040,38 +9346,60 @@ function createlineLoopRuchn(val){
 
             elem.appendChild(div);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Количество извещателей:'));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `KIZVShS2_${i}`);
             subelem.setAttribute('placeholder', '1...32');
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             div = document.createElement('div');
             div.setAttribute('id', `bezAdr__2_${i}`);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Зона:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `ZONAShS2_${i}`);
             subelem.setAttribute('placeholder', '1...255');
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
+            
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование / адрес:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRShS2_${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             elem.appendChild(div);
 
@@ -9079,41 +9407,76 @@ function createlineLoopRuchn(val){
             div.setAttribute('id', `bezAdr___2_${i}`);   
 
             subelem = document.createElement('h3');
-            subelem.appendChild(document.createTextNode('Конфигурация извещателя при типе шлейфа "безадресный" и при присутствии взрывозащиты'));
+            subelem.appendChild(document.createTextNode('Конфигурация извещателя безадресного шлейфа'));
             div.appendChild(subelem);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
+            //subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип извещателя:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
-            subelem = document.createElement('label');
-            let subSub = document.createElement('input');
-            subSub.setAttribute('list', `enteredItems2_${i}`);
-            subSub.setAttribute('id', `TIZV2_${i}`);
-            subelem.appendChild(subSub);
-            div.appendChild(subelem);
+            subelem = document.createElement('select');
+            //subelem.setAttribute('class', 'flex-item');
+            subelem.setAttribute('id', `TIZV2_${i}`);
 
-            subelem = document.createElement('datalist');
-            subelem.setAttribute('id', `enteredItems2_${i}`);
-            div.appendChild(subelem);
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Пассивный НР"));
+            subelem.appendChild(option);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Пассивный НЗ"));
+            subelem.appendChild(option);
+
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode("Активный НР"));
+            subelem.appendChild(option);
+
+            // let subSub = document.createElement('input');
+            // subSub.setAttribute('list', `enteredItems2_${i}`);
+            //subSub.setAttribute('id', `TIZV2_${i}`);
+            //subelem.appendChild(subSub);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+
+            // subelem = document.createElement('datalist');
+            // subelem.setAttribute('id', `enteredItems2_${i}`);
+            // div.appendChild(subelem);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Ток в режиме "ДЕЖУРНЫЙ", мА:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `IOIZV2_${i}`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
+            
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Ток в режиме "ПОЖАР", мА:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `IPIZV2_${i}`);
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
             elem.appendChild(div);
 
@@ -9174,7 +9537,7 @@ function hideAutoObnarRuchn(){
 
 function createIzvR(lineLoopIndex, qIzv){
     if(lineLoopIndex >= 0){
-        let elem, subelem, option, mainDiv, subDiv, div;
+        let elem, subelem, option, mainDiv, subDiv, div, div_1;
         mainDiv = document.getElementById((curPosRuchn - 1) + "_" + 1);
 
         if(document.getElementById(`izvBtns1_${lineLoopIndex}`)){
@@ -9240,9 +9603,13 @@ function createIzvR(lineLoopIndex, qIzv){
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
                     // div.appendChild(subelem);
     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
+
                     subelem = document.createElement('p');
                     subelem.appendChild(document.createTextNode('Тип извещателя:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('select');
                     subelem.setAttribute('id', `TAIZV1_${lineLoopIndex}_${j}`);
@@ -9257,29 +9624,43 @@ function createIzvR(lineLoopIndex, qIzv){
                         subelem.appendChild(option);
                     
 
-                    div.appendChild(subelem);                    
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);                
                     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Зона:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'number');
                     subelem.setAttribute('id', `ZONAIZV1_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `1...255`);
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+                        
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Наименование/адрес:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `ADRIZV1_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `до 20 символов...`);
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subDiv.appendChild(div);
     
@@ -9290,9 +9671,13 @@ function createIzvR(lineLoopIndex, qIzv){
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при присутствии взрывозащиты'));
                     // div.appendChild(subelem);
     
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
+
                     subelem = document.createElement('p');
                     subelem.appendChild(document.createTextNode('Тип извещателя:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('select');
                     subelem.setAttribute('id', `TAIZV_1_${lineLoopIndex}_${j}`);
@@ -9307,27 +9692,42 @@ function createIzvR(lineLoopIndex, qIzv){
                         subelem.appendChild(option);
 
     
-                    div.appendChild(subelem);
+                        div_1.appendChild(subelem);
+                        div.appendChild(div_1);
+
+                        div_1 = document.createElement('div');
+                        div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode("Зона:"));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'number');
                     subelem.setAttribute('id', `ZONAIZV_1_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', '1...255');
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
+
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Наименование/адрес'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `ADRIZV_1_${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', 'до 20 символов...');
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
     
                     subDiv.appendChild(div);
     
@@ -9486,10 +9886,10 @@ function handleIzvPosR(curLine, KIZVSHsLength, izvLasPos1,
 
 function createlineLoopUpr(val){
     if(val > 0){
-        let elem, subelem, option, mainDiv;
+        let elem, subelem, option, mainDiv, div_1, div_2;
         mainDiv = document.createElement('div');
         mainDiv.setAttribute('id','lineLoopKonfUpr');
-        mainDiv.setAttribute('class','flex-item');
+        //mainDiv.setAttribute('class','flex-item');
         for (let i = 0; i < val; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", i + '_' + 2);
@@ -9498,65 +9898,113 @@ function createlineLoopUpr(val){
             // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
             // elem.appendChild(subelem);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование / адрес:'));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRShPT${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Пусковой ток шлейфа, А:'));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `IPShPT${i}`);
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+            
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
+            subelem= document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
+            subelem.appendChild(document.createTextNode('Импульсный ток шлейфа, А:'));
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
+            subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
+            subelem.setAttribute('type', 'text');
+            subelem.setAttribute('id', `ImpShPT${i}`);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Взрывозащита:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `ExShPT${i}`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             let div = document.createElement('div');
             div.setAttribute('id', `TypeBIZ3_${i}`);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-            div.appendChild(subelem);
+            div_2.appendChild(subelem);
+            div.appendChild(div_2);
 
 
             option = document.createElement('label');
+            option.setAttribute('class', 'flex-item');
             subelem = document.createElement('input');
             subelem.setAttribute('list', `_adrBIZ3_${i}`);
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `TBIZShPT${i}`);
             option.appendChild(subelem);
-            div.appendChild(option);
+            div_2.appendChild(option);
+            div.appendChild(div_2);
             
             subelem = document.createElement('datalist');
             subelem.setAttribute('id', `_adrBIZ3_${i}`);
             div.appendChild(subelem);
             elem.appendChild(div);
             
+            
+            div_1 = document.createElement('div');
+            div_1.setAttribute('class', 'flex-items');
 
             subelem = document.createElement('p');
             subelem.appendChild(document.createTextNode("Шлейф сконфигурирован:"));
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
             subelem = document.createElement('input');
             subelem.setAttribute('type', 'checkbox');
             subelem.setAttribute('id', `checkboxUpr${i}`);
             //subelem.setAttribute('class', `btn-after`);
             subelem.setAttribute('disabled', `true`);
-            elem.appendChild(subelem);
+            div_1.appendChild(subelem);
+            elem.appendChild(div_1);
 
 
             elem.style.display = 'none';
@@ -9577,6 +10025,7 @@ function setDynHandlersUpr(handlerArr, size){
         handlerArr[i][4] =document.getElementById(`TBIZShPT${i}`);
         handlerArr[i][5] =document.getElementById(`_adrBIZ3_${i}`);
         handlerArr[i][6] =document.getElementById(`checkboxUpr${i}`);
+        handlerArr[i][7] =document.getElementById(`ImpShPT${i}`);
     
     }
 }
@@ -9599,10 +10048,10 @@ function hideLineLoopsUpr(arrLength){
 // Подсистема управления оповещением
 function createlineLoopUprOp(val){
     if(val > 0){
-        let elem, subelem, option, mainDiv;
+        let elem, subelem,  mainDiv, div_2;
         mainDiv = document.createElement('div');
         mainDiv.setAttribute('id','lineLoopKonfUprOp');
-        mainDiv.setAttribute('class','flex-item');
+        //mainDiv.setAttribute('class','flex-item');
         for (let i = 0; i < val; i++) {
             elem = document.createElement('form');
             elem.setAttribute("id", '_ZonaOpoveshenia_' + i);
@@ -9611,36 +10060,57 @@ function createlineLoopUprOp(val){
             // subelem.appendChild(document.createTextNode(`Конфигурация шлейфа #${i + 1}`));
             // elem.appendChild(subelem);
 
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
+
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode("Зона:"));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `ZONAShOP${i}`);
             subelem.setAttribute('placeholder', `1...${UpravlenieOpovesheniem.KZONOP}`);
             //subelem.setAttribute('placeholder', '1...32');
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode('Наименование / адрес:'));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'text');
             subelem.setAttribute('id', `ADRShOP${i}`);
             subelem.setAttribute('placeholder', `до 20 символов...`);
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
+
+            div_2 = document.createElement('div');
+            div_2.setAttribute('class', 'ARM');
 
             subelem = document.createElement('p');
+            subelem.setAttribute('class', 'flex-item');
             subelem.appendChild(document.createTextNode("Количество шлейфов управления оповещением:"));
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('input');
+            subelem.setAttribute('class', 'flex-item');
             subelem.setAttribute('type', 'number');
             subelem.setAttribute('id', `KShOPZONY${i}`);
             subelem.setAttribute('placeholder', '1...480');
-            elem.appendChild(subelem);
+            div_2.appendChild(subelem);
+            elem.appendChild(div_2);
 
             subelem = document.createElement('br');
             elem.appendChild(subelem);
@@ -9673,7 +10143,7 @@ function setDynHandlersUprOp(handlerArr, size){
 
 function createShleifOp(lineLoopIndex, qIzv){
     if(lineLoopIndex >= 0){
-        let elem, subelem, option, mainDiv, subDiv, div;
+        let elem, subelem, option, mainDiv, subDiv, div, div_1, div_2;
         mainDiv = document.getElementById('_ZonaOpoveshenia_' + (curPosUprOp - 1));
 
         if(document.getElementById(`BtnsIDShleifOp${lineLoopIndex}`)){
@@ -9737,49 +10207,77 @@ function createShleifOp(lineLoopIndex, qIzv){
                     // subelem = document.createElement('h3');
                     // subelem.appendChild(document.createTextNode('Конфигурация извещателя при адресном типе шлейфа и при отсутствии взрывозащиты'));
                     // div.appendChild(subelem);
+
+                    div_2 = document.createElement('div');
+                    div_2.setAttribute('class', 'ARM');
     
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Количество оповещателей:'));
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
+
     
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'number');
                     subelem.setAttribute('id', `KOPSh${lineLoopIndex}_${j}`);
                     subelem.setAttribute('placeholder', `1...`);
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
+
+                    div_2 = document.createElement('div');
+                    div_2.setAttribute('class', 'ARM');
 
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Сумарный ток оповещателей в режиме оповещения, мА:'));
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
 
                     subelem = document.createElement('input');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `IPOPSh${lineLoopIndex}_${j}`);
-                    subDiv.appendChild(subelem);
+                    div_2.appendChild(subelem);
+                    subDiv.appendChild(div_2);
+
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'flex-items');
 
                     subelem = document.createElement('p');
                     subelem.appendChild(document.createTextNode("Взрывозащита:"));
-                    subDiv.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    subDiv.appendChild(div_1);
 
                     subelem = document.createElement('input');
                     subelem.setAttribute('type', 'checkbox');
                     subelem.setAttribute('id', `ExOPSh${lineLoopIndex}_${j}`);
-                    subDiv.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    subDiv.appendChild(div_1);
 
                     div = document.createElement('div');
                     div.setAttribute('id', `TypeBIZShleifOp_${lineLoopIndex}_${j}`);
+
+                    div_1 = document.createElement('div');
+                    div_1.setAttribute('class', 'ARM');
+
                     subelem = document.createElement('p');
+                    subelem.setAttribute('class', 'flex-item');
                     subelem.appendChild(document.createTextNode('Тип искробарьера:'));
-                    div.appendChild(subelem);
+                    div_1.appendChild(subelem);
+                    div.appendChild(div_1);
 
 
                     option = document.createElement('label');
+                    option.setAttribute('class', 'flex-item');
                     subelem = document.createElement('input');
                     subelem.setAttribute('list', `_TBIZOPSh${lineLoopIndex}_${j}`);
                     subelem.setAttribute('type', 'text');
                     subelem.setAttribute('id', `TBIZOPSh${lineLoopIndex}_${j}`);
                     option.appendChild(subelem);
-                    div.appendChild(option);
+                    div_1.appendChild(option);
+                    div.appendChild(div_1);
                     
                     subelem = document.createElement('datalist');
                     subelem.setAttribute('id', `_TBIZOPSh${lineLoopIndex}_${j}`);
@@ -9934,6 +10432,12 @@ function isThereFalse(obj){
     return true;
 }
 
+function setAllFalse(obj){
+    for(let val in obj){
+        obj[val] = false
+    }
+}
+
 // function showOp(eHandler, index, pos){
 //     eHandler[index][pos][0].style.display = 'block';
 //     eHandler[index][pos][1].style.display = 'block';      
@@ -9941,14 +10445,379 @@ function isThereFalse(obj){
 //     //eHandler[index][pos][3].style.display = 'block';   
 // }
 
+//-----------------Наличие БДУ-----------------
+document.querySelector('div#BDUConfiguration').style.display = 'none';
+const BDU = document.getElementById('BDU');
+const dialgo9 = document.getElementById('dialgo9');
+// const bduPres = document.getElementById('bduPres');
+// const bduEx = document.getElementById('bduEx');
+const Ivnp = document.getElementById('Ivnp');
+let ivnp = 0;
+
+const Ivnpt = document.getElementById('Ivnpt');
+let ivnpt = 0;
+
+let pressedBtnsBDU = [];
+pressedBtnsBDU[`ivnp`] = false;
+pressedBtnsBDU[`ivnpt`] = false;
+
+        BDU.addEventListener('click', () =>{
+            dialog9.style.display = 'inline';
+            dialog9.style.flexDirection = 'column';
+            document.querySelector('div#autoSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprPojSysConfiguration').style.display = 'none';
+            document.querySelector('div#ruchSysConfiguration').style.display = 'none';
+            document.querySelector('div#uprOpSysConfiguration').style.display = 'none';
+            document.querySelector('div#formSysConfiguration').style.display = 'none';
+            document.querySelector('div#connSysConfiguration').style.display = 'none';
+            document.querySelector('div#diagnSysConfiguration').style.display = 'none';
+            document.querySelector('div#BDUConfiguration').style.display = 'block';
+
+            BDU.style.backgroundColor = '#5f97ef';
+            BDU.style.color = 'white';
+            diagnSys.style.backgroundColor = '#fff';
+            diagnSys.style.color = '#000';
+            formSys.style.backgroundColor = '#fff';
+            formSys.style.color = '#000';
+            uprOpSys.style.backgroundColor = '#fff';
+            uprOpSys.style.color = '#000';
+            uprPojSys.style.backgroundColor = '#fff';
+            uprPojSys.style.color = '#000';
+            ruchSys.style.backgroundColor = '#fff';
+            ruchSys.style.color = '#000';
+            autoSys.style.backgroundColor = '#fff';
+            autoSys.style.color = '#000';
+            connSys.style.backgroundColor = '#fff';
+            connSys.style.color = '#000';
+        });
+
+        // bduPres.addEventListener('click', () =>{
+        //     if(bduPres.checked){
+        //         blockBDU = BlokiDistanzionnogoUpravleniya[0].name;
+        //         if(bduEx.checked)
+        //             blockBDU = BlokiDistanzionnogoUpravleniya[1].name;
+        //         console.log(blockBDU);
+        //     }
+        //     else
+        //         blockBDU = '';
+        // });
+
+        // bduEx.addEventListener('click', ()=>{
+            
+        //         if(bduPres.checked){
+        //             if(bduEx.checked){
+        //                 blockBDU = BlokiDistanzionnogoUpravleniya[1].name;
+        //                 console.log(blockBDU);
+        //             }
+        //             else{
+        //                 blockBDU = BlokiDistanzionnogoUpravleniya[0].name;
+        //                 console.log(blockBDU);
+        //             }
+        //         }
+                
+            
+
+        // })
+        Ivnp.onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(Ivnp.value.indexOf('.') == -1)
+                    {
+                        while((pos = Ivnp.value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = Ivnp.value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        Ivnp.addEventListener('focus', ()=>{
+            Ivnp.style.boxShadow = 'none';
+        });
+
+        Ivnp.addEventListener('blur', ()=>{
+            if(Ivnp.value.indexOf(',')== -1 && Ivnp.value.indexOf('.')== -1)
+                Ivnp.value += ',0';
+            if(Ivnp.value[Ivnp.value.length - 1] == '.' || Ivnp.value[Ivnp.value.length - 1] == ',')
+                Ivnp.value += '0';
+
+            if(Ivnp.value.search(regExBroken) != -1){
+            
+                if(Ivnp.value.indexOf(',')!= -1) Ivnp.value = Ivnp.value.replace(/\,/, '.');
+
+            if(parseFloat(Ivnp.value) >= 0 && parseFloat(Ivnp.value) <= 1){
+                ivnp = parseFloat(Ivnp.value);
+                pressedBtnsBDU[`ivnp`] = true;
+                Ivnp.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                // if( dataToSave[i].ADRShPT != '' &&
+                //     dataToSave[i].IPShPT >= 1 ){
+                //         handlerArr[i][6].checked = true;
+                //         dataToSave[i].configured = true;
+                // }
+                // else{
+                //     handlerArr[i][6].checked = false;
+                //     dataToSave[i].configured = false;
+                // }
+                console.log("ivnp: " + ivnp);
+            }
+            else if(Ivnp.value == ""){
+                pressedBtnsBDU[`ivnp`] = false;
+                return;
+            }
+            else
+                {
+                    Ivnp.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                Ivnp.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }); 
+
+
+        Ivnpt.onkeypress = (e)=>{
+            e = e || event;
+           if (e.ctrlKey || e.altKey || e.metaKey) return;
+           var chr = getChar(e);
+           console.log("Char pressed: " + chr);
+           if(chr == ',' || chr == '.')
+           {   
+               let count = 0, pos = -1;
+               if(chr == ',' || chr == '.'){
+                    if(Ivnpt.value.indexOf('.') == -1)
+                    {
+                        while((pos = Ivnpt.value.indexOf(',', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else { count = 0;  }
+                    }
+                    else
+                    {
+                        while((pos = Ivnpt.value.indexOf('.', pos + 1 )) != -1){
+                            count++;
+                        }
+                        if(count >= 1) {e.preventDefault(); count = 0; return;}
+                        else  { count = 0;  }   
+                    }
+               }
+
+               return;
+           }
+           if(chr == null) return;
+
+           if (chr < '0' || chr > '9') {
+               return false;
+           }
+        };
+
+        Ivnpt.addEventListener('focus', ()=>{
+            Ivnpt.style.boxShadow = 'none';
+        });
+
+        Ivnpt.addEventListener('blur', ()=>{
+            if(Ivnpt.value.indexOf(',')== -1 && Ivnpt.value.indexOf('.')== -1)
+                Ivnpt.value += ',0';
+            if(Ivnpt.value[Ivnpt.value.length - 1] == '.' || Ivnpt.value[Ivnpt.value.length - 1] == ',')
+                Ivnpt.value += '0';
+
+            if(Ivnpt.value.search(regExBroken) != -1){
+            
+                if(Ivnpt.value.indexOf(',')!= -1) Ivnpt.value = Ivnpt.value.replace(/\,/, '.');
+
+            if(parseFloat(Ivnpt.value) >= 0 && parseFloat(Ivnpt.value) <= 1){
+                ivnpt = parseFloat(Ivnpt.value);
+                pressedBtnsBDU[`ivnpt`] = true;
+                Ivnpt.style.boxShadow = ' 0 0 10px rgba(0,255,0,0.5)';
+                // if( dataToSave[i].ADRShPT != '' &&
+                //     dataToSave[i].IPShPT >= 1 ){
+                //         handlerArr[i][6].checked = true;
+                //         dataToSave[i].configured = true;
+                // }
+                // else{
+                //     handlerArr[i][6].checked = false;
+                //     dataToSave[i].configured = false;
+                // }
+                console.log("Ivnpt: " + ivnpt);
+            }
+            else if(Ivnpt.value == ""){
+                pressedBtnsBDU[`ivnpt`] = false;
+                return;
+            }
+            else
+                {
+                    Ivnpt.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+                }
+            }
+            else
+                Ivnpt.style.boxShadow = ' 0 0 10px rgba(255,0,0,0.5)';
+        }); 
+
+
+
 //-----------------"РАСЧЕТ НОМЕНКЛАТУРЫ"-----------------
+
+
 const calcList = document.getElementById('calcList');
-let KShSsumm,
-    KShSrez,
-    MI,
-    KShPTrez,
-    MIuser,
-    MIUP;
+const RaschetNom = document.getElementById('RaschetNom');
+RaschetNom.style.display = 'none';
+RaschetNom.style.flexDirection = 'column';
+RaschetNom.style.margin = '30px 0';
+RaschetNom.style.border = '1px solid #000';
+RaschetNom.style.width = '100%';
+document.querySelector('.summ').style.borderBottom = '1px solid #000';
+document.querySelector('.rez').style.borderBottom = '1px solid #000';
+//document.querySelector('.MI').style.borderBottom = '1px solid #000';
+document.querySelector('.mopi').style.borderBottom = '1px solid #000';
+document.querySelector('.kshptrez').style.borderBottom = '1px solid #000';
+document.querySelector('.miup').style.borderBottom = '1px solid #000';
+document.querySelector('.mszu').style.borderBottom = '1px solid #000';
+document.querySelector('.mrv').style.borderBottom = '1px solid #000';
+document.querySelector('.mipt').style.borderBottom = '1px solid #000';
+document.querySelector('.mpi').style.borderBottom = '1px solid #000';
+document.querySelector('.K_BR1').style.borderBottom = '1px solid #000';
+document.querySelector('.K_BDU1').style.borderBottom = '1px solid #000';
+document.querySelector('.K_BIZ1').style.borderBottom = '1px solid #000';
+document.querySelector('.K_OT1').style.borderBottom = '1px solid #000';
+document.querySelector('.K_PF1').style.borderBottom = '1px solid #000';
+document.querySelector('.K_USO1').style.borderBottom = '1px solid #000';
+
+document.querySelector('.heading-3').style.borderBottom = '1px solid #000';
+document.querySelector('.heading-3').style.margin = '0';
+document.querySelector('.heading-3').style.textAlign = 'center';
+document.querySelector('.heading-4').style.borderBottom = '1px solid #000';
+document.querySelector('.heading-4').style.margin = '0';
+document.querySelector('.heading-4-1').style.borderBottom = '1px solid #000';
+document.querySelector('.heading-4-1').style.margin = '0';
+document.querySelector('.dMOPI1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMI1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMIUP1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMSZU1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMRV1').style.borderBottom = '1px solid #000';
+document.querySelector('.dBDU1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMPI1').style.borderBottom = '1px solid #000';
+document.querySelector('.dMIPT1').style.borderBottom = '1px solid #000';
+document.querySelector('.dSumm1').style.borderBottom = '1px solid #000';
+
+document.querySelector('.pMOPI1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMI1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMIimp1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMIUP1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMIUPimp1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMSZU1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMRV1').style.borderBottom = '1px solid #000';
+document.querySelector('.pBDU1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMPI1').style.borderBottom = '1px solid #000';
+document.querySelector('.pMIPT1').style.borderBottom = '1px solid #000';
+document.querySelector('.pSumm1').style.borderBottom = '1px solid #000';
+document.querySelector('.pSummImp1').style.borderBottom = '1px solid #000';
+// document.querySelector('.pSummAccu1').style.borderBottom = '1px solid #000';
+
+if(
+    isThereFalse(autoInputCount) &&
+    isThereFalse(shleifCount) &&
+    isThereFalse(izvAdrNetCount) &&
+    isThereFalse(izvAdrDaCount) &&
+    isThereFalse(izvBezAdrCount) &&
+    isThereFalse(modbusCount) 
+     ){
+        calcList.style.background = '#fff';
+    }
+else{
+        calcList.style.background = '#f2f2f2';
+    }
+let KShSsumm = 0,
+    KShSrez = 0,
+    MI = 0,
+    KShPTrez = 0,
+    MIuser = 0,
+    MOPI = 0,
+    MIUP = 0,
+    KUPShO = [],
+    KUPShOsumm = 0,
+    KShOrez = 0,
+    MSZU = 0,
+    Ndo = 0,
+    Ndozad = 0,
+    KONF_K_MRV = 0,
+    Ndi = 0,
+    NDdizad = 0,
+    NDdazad = 0,
+    KONF_K_MIPT = 0,
+    KONF_K_MPI = 0,
+    KMODULES = 0,
+    KONF_K_BR = 0,
+    KONF_K_BDU = 0,
+    KONF_K_BIZ = 0,
+    KONF_K_OT = 0,
+    KONF_K_PF = 0,
+    KONF_K_USO = 0;
+
+let restMI = 0;
+
+const KShSsumm1 = document.getElementById('KShSsumm');
+const KShSrez1 = document.getElementById('KShSrez');
+const MI1 = document.getElementById('MI');
+const MOPI1 = document.getElementById('MOPI');
+const KShptrez1 = document.getElementById('KShPTrez');
+const MIUP1 = document.getElementById('MIUP');
+const MSZU1 = document.getElementById('MSZU');
+const MRV1 = document.getElementById('MRV');
+const MIPT1 = document.getElementById('MIPT');
+const MPI1 = document.getElementById('MPI');
+const K_BR1 = document.getElementById('K_BR');
+const K_BDU1 = document.getElementById('K_BDU');
+const K_BIZ1 = document.getElementById('K_BIZ');
+const K_OT1 = document.getElementById('K_OT');
+const K_PF1 = document.getElementById('K_PF');
+const K_USO1 = document.getElementById('K_USO');
+
+const dMOPI1 = document.getElementById('dMOPI');
+const dMI1 = document.getElementById('dMI');
+const dMIUP1 = document.getElementById('dMIUP');
+const dMSZU1 = document.getElementById('dMSZU');
+const dMRV1 = document.getElementById('dMRV');
+const dBDU1 = document.getElementById('dBDU');
+const dMPI1 = document.getElementById('dMPI');
+const dMIPT1 = document.getElementById('dMIPT');
+const dSumm1 = document.getElementById('dSumm');
+
+const pMOPI1 = document.getElementById('pMOPI');
+const pMI1 = document.getElementById('pMI');
+const pMIimp1 = document.getElementById('pMIimp');
+const pMIUP1 = document.getElementById('pMIUP');
+const pMIUPimp1 = document.getElementById('pMIUPimp');
+const pMSZU1 = document.getElementById('pMSZU');
+const pMRV1 = document.getElementById('pMRV');
+const pBDU1 = document.getElementById('pBDU');
+const pMPI1 = document.getElementById('pMPI');
+const pMIPT1 = document.getElementById('pMIPT');
+const pSumm1 = document.getElementById('pSumm');
+const pSummImp1 = document.getElementById('pSummImp');
+const pSummW1 = document.getElementById('pSummW');
+
 calcList.addEventListener('click', function(){
     if(
         isThereFalse(autoInputCount) &&
@@ -9957,44 +10826,55 @@ calcList.addEventListener('click', function(){
         isThereFalse(izvAdrDaCount) &&
         isThereFalse(izvBezAdrCount) &&
         isThereFalse(modbusCount) &&
-        isThereFalse(pressedBtnsRuchnCount) &&
-        isThereFalse(pressedBtnsRuchnCount_sbt3) &&
-        isThereFalse(pressedBtnsRuchnCount_bezAdr) &&
-        isThereFalse(pressedBtnsRuchnCount_adrExShSn) &&
-        isThereFalse(pressedBtnsRuchnCount_adrExShSd) &&
-        isThereFalse(pressedBtnsPojCount) &&
-        isThereFalse(pressedBtnsPojCount_sbt4) &&
-        isThereFalse(pressedBtnsOpCount) &&
-        isThereFalse(pressedBtnsOpCount_sbt5) &&
-        isThereFalse(pressedBtnsOpCount_Shleif) &&
-        isThereFalse(pressedBtnsOpCount_Opoveshatel) &&
-        isThereFalse(pressedBtnsFromCount) &&
-        isThereFalse(pressedBtnsFromCount_sbt6) &&
-        isThereFalse(pressedBtnsDiagnCount) &&
-        isThereFalse(pressedBtnsDiagnCount_VD) &&
-        isThereFalse(pressedBtnsDiagnCount_VA) &&
-        isThereFalse(pressedBtnsKRSCount)
+        isThereFalse(pressedBtnsBDU)
+        // isThereFalse(pressedBtnsRuchnCount) &&
+        // isThereFalse(pressedBtnsRuchnCount_sbt3) &&
+        // isThereFalse(pressedBtnsRuchnCount_bezAdr) &&
+        // isThereFalse(pressedBtnsRuchnCount_adrExShSn) &&
+        // isThereFalse(pressedBtnsRuchnCount_adrExShSd) &&
+        // isThereFalse(pressedBtnsPojCount) &&
+        // isThereFalse(pressedBtnsPojCount_sbt4) &&
+        // isThereFalse(pressedBtnsOpCount) &&
+        // isThereFalse(pressedBtnsOpCount_sbt5) &&
+        // isThereFalse(pressedBtnsOpCount_Shleif) &&
+        // isThereFalse(pressedBtnsOpCount_Opoveshatel) &&
+        // isThereFalse(pressedBtnsFromCount) &&
+        // isThereFalse(pressedBtnsFromCount_sbt6) &&
+        // isThereFalse(pressedBtnsDiagnCount) &&
+        // isThereFalse(pressedBtnsDiagnCount_VD) &&
+        // isThereFalse(pressedBtnsDiagnCount_VA) &&
+        // isThereFalse(pressedBtnsKRSCount)
     ){
+        RaschetNom.style.display = 'inline-flex';
         clkKonf.style.backgroundColor = 'white';
         clkKonf.style.color = '#000';
         calcList.style.backgroundColor = '#5f97ef';
         calcList.style.color = 'white';
         KonfiguratsiaSPZ.style.display = 'none';
+        
+        podsystemi.style.display = 'none';
 
         //Суммарное количество шлейфов
         KShSsumm = AutoSignalizatsiya.KShS + RutshnayaSignalizatsiya.KShSR;
+        KShSsumm1.innerHTML = KShSsumm;
         //Количество резервных входов
         if((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR) > 0)
         {
             KShSrez = Math.ceil((1 + AutoSignalizatsiya.REZShS/100) * AutoSignalizatsiya.KShS + (1 + RutshnayaSignalizatsiya.REZShSR/100) * RutshnayaSignalizatsiya.KShSR); 
+            KShSrez1.innerHTML = KShSrez;
             //MI
-            MI = (KShSsumm + KShSrez)/IOmoduls[4].ShS;
+            MI = Math.ceil((KShSsumm + KShSrez)/IOmoduls[4].ShS);
+            //MI1.innerHTML = MI;
             MIuser = (AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4; 
             //3.4.4.3
             if((KShSsumm + KShSrez) > ((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4)){
                 
-                let restMI = (KShSsumm + KShSrez) - MIuser;
-                let MOPI = restMI/IOmoduls[0].ShS;
+                 restMI = (KShSsumm + KShSrez) - MIuser;
+                 MOPI = Math.ceil(restMI/IOmoduls[0].ShS);
+                if(MOPI)
+                    MOPI1.innerHTML = MOPI;
+                else
+                    MOPI1.innerHTML = 0;
             }
         }
 
@@ -10002,20 +10882,414 @@ calcList.addEventListener('click', function(){
         //Количество резервных выходов
         if(UpravleniePojaroTusheniem.KMIShPT ){
             KShPTrez = Math.ceil((1 + UpravleniePojaroTusheniem.REZShPT/100) * UpravleniePojaroTusheniem.KShPT);
+            KShptrez1.innerHTML = KShPTrez;
             if((UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 > UpravleniePojaroTusheniem.KMIShPT){
-                let MIdiff = (UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 - UpravleniePojaroTusheniem.KMIShPT;
-                MIUP = Math.ceil(MIdiff / 2);
+                let MIdiff = UpravleniePojaroTusheniem.KShPT + KShPTrez - UpravleniePojaroTusheniem.KMIShPT*2;
+                if(MIdiff != 0){
+                    MIUP = Math.ceil(MIdiff / 4);
+                }                    
+                else{                                                   
+                    MIUP = 0;
+                }
+                MIUP1.innerHTML = MIUP;
+            }
+        }
+        KUPShOsumm = 0;
+        KShOrez = 0;
+        //Количество модулей подключения оповещателей
+        for(let i = 0; i < UpravlenieOpovesheniem.KZONOP; i++){
+            KUPShO[i] = [];
+            for(let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++){
+                if((_ShleifOp[i][j][0]*_ShleifOp[i][j][1]) > 150 ){
+                    KUPShO[i][j] = 2;
+                    KUPShOsumm += KUPShO[i][j];
+                }
+                else{
+                    KUPShO[i][j] = 1;
+                    KUPShOsumm += KUPShO[i][j];
+                    //Количество терминальных модулей 
+                    KONF_K_USO++;
+                }   
+            }
+        }
+        KShOrez = (1 + UpravlenieOpovesheniem.REZShO/100) * KUPShOsumm;
+        MSZU =  Math.ceil((KUPShOsumm + KShOrez)/8);
+
+        if(MSZU)
+            MSZU1.innerHTML = MSZU;
+        else
+            MSZU1.innerHTML = 0;
+
+        console.log(KUPShO);
+        console.log(KUPShOsumm);
+
+        //Количество модулей дискретных выходов
+        if(UpravleniePojaroTusheniem.KMIShPT && (AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)){
+            //Количество дискретных выходов
+            Ndo = (UpravleniePojaroTusheniem.KMIShPT + AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR) * IOmoduls[4].DO;
+            Ndozad = Math.ceil(FVSIUiVsSP.KRVYH *(1 + FVSIUiVsSP.KRREZ/100));
+
+            if(Ndozad >= Ndo){
+                KONF_K_MRV = Math.ceil((Ndozad - Ndo)/IOmoduls[1].DO);
+                MRV1.innerHTML = KONF_K_MRV;
+            }
+            else
+                MRV1.innerHTML = 0;
+        }
+
+        //Количество модулей, обеспечивающих подключение дискретных входов/входов неисправности
+        Ndi = (UpravleniePojaroTusheniem.KMIShPT + AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR) * IOmoduls[4].DI;
+        NDdizad = Math.ceil(PodsysDiagnostiki.KDVKh * (1 + PodsysDiagnostiki.KDVKhREZ/100));
+        if(NDdizad >= Ndi){
+            KONF_K_MRV += Math.ceil((NDdizad - Ndi)/IOmoduls[1].DI);
+            MRV1.innerHTML = KONF_K_MRV;
+        }
+        //Количество модулей, обеспечивающих подключение аналогового сигнала постоянного тока
+        NDdazad = Math.ceil(PodsysDiagnostiki.KAVkh * (1 + PodsysDiagnostiki.KAVKhREZ/100));
+        KONF_K_MIPT = Math.ceil(NDdazad/IOmoduls[5].AI);
+        MIPT1.innerHTML = KONF_K_MIPT;
+
+        //Количество модулей последовательного интерфейса
+        KONF_K_MPI = Math.ceil(ConnSysRS485.KRS485/IOmoduls[6].RS485);
+        if(PresenceOfARM && (KONF_K_MRV 
+            + UpravleniePojaroTusheniem.KMIShPT 
+            + AutoSignalizatsiya.KMIShS 
+            + RutshnayaSignalizatsiya.KMIShSR
+            + MOPI
+            + MIUP
+            + MSZU
+            + KONF_K_MIPT) > BlokiUpravleniya[0].slotVV){
+                KONF_K_MPI = 1;
+                MPI1.innerHTML = KONF_K_MPI;
+        }
+        else {
+            KONF_K_MPI = 0;
+            MPI1.innerHTML = KONF_K_MPI;
+        }
+
+        //Количество блоков управления
+        KMODULES = KONF_K_MRV 
+        + UpravleniePojaroTusheniem.KMIShPT 
+        + AutoSignalizatsiya.KMIShS 
+        + RutshnayaSignalizatsiya.KMIShSR
+        + MOPI
+        + MIUP
+        + MSZU
+        + KONF_K_MIPT
+        + KONF_K_MPI;
+        if(KMODULES > BlokiUpravleniya[0].slotVV){
+            KONF_K_BR = Math.ceil((KMODULES/BlokiUpravleniya[1].slotVV) - 1);
+            K_BR1.innerHTML = KONF_K_BR;
+        }            
+        else{
+            KONF_K_BR = 0;
+            K_BR1.innerHTML = KONF_K_BR;
+        }
+            
+
+        if(KONF_K_BR > KBR_MAX){
+            alert("Конфигурация превышает возможности комплекта САПС \"ПАРУС\"");
+            setAllFalse(autoInputCount);
+            setAllFalse(shleifCount);
+            setAllFalse(izvAdrNetCount);
+            setAllFalse(izvAdrDaCount);
+            setAllFalse(izvBezAdrCount);
+            setAllFalse(modbusCount);
+
+            RaschetNom.style.display = 'none';
+            clkKonf.style.backgroundColor = '#5f97ef';
+            clkKonf.style.color = 'white';
+            calcList.style.backgroundColor = '#f2f2f2';
+            calcList.style.color = '#000';
+            KonfiguratsiaSPZ.style.display = 'block';
+            return;
+        }
+
+        //Количество блоков дистанционного пуска
+        KONF_K_BDU = UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY;
+        K_BDU1.innerHTML = KONF_K_BDU;
+        calculateCurrent();
+        
+        
+        //Определение количества промежуточных модулей
+
+        //Количество барьеров искрозащиты KONF_K_BIZ
+        for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {                
+           if(lineLoopsData[i].ExShS == true)
+            KONF_K_BIZ++;
+        }
+
+        for (let i = 0; i < RutshnayaSignalizatsiya.KShSR; i++) {                
+            if(lineLoopsDataRuchn[i].ExShS == true)
+             KONF_K_BIZ++;
+         }
+
+         for (let i = 0; i < UpravleniePojaroTusheniem.KShPT; i++) {                
+            if(lineLoopsDataUpr[i].ExShPT == true)
+             KONF_K_BIZ++;
+         }
+
+         for (let i = 0; i < lineLoopsUprOp.length; i++) {   
+            for (let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++) {                
+                if(_ShleifOp[i][j][2] == true)
+                KONF_K_BIZ++;
             }
         }
 
-        //Количество модулей подключения оповещателей
+        for (let i = 0; i < lineLoopsFormSys.length; i++) {                
+            if(lineLoopsDataFormSys[i].ExRVYKh == true)
+             KONF_K_BIZ++;
+         }
 
+         for (let i = 0; i < lineLoopsdiagnSys.length; i++) {                
+            if(DataVhodDiskretniy[i].ExDVKh == true)
+             KONF_K_BIZ++;
+         }
+         
+         for (let i = 0; i < lineLoopsVA.length; i++) {                
+            if(DataVhodAnalogoviy[i].ExAVKh == true)
+             KONF_K_BIZ++;
+         }
+         K_BIZ1.innerHTML = KONF_K_BIZ;
 
+         //Количство ограничителей тока
+         KONF_K_OT = 1;
+         if(KONF_K_BR){
+            KONF_K_OT += KONF_K_BR;
+         }
+         K_OT1.innerHTML = KONF_K_OT;
+
+         //Количество модулей коммутации и фильтров
+         KONF_K_PF = Math.ceil((KShSsumm + KShSrez + KShPTrez + UpravleniePojaroTusheniem.KShPT + KUPShOsumm + KShOrez) / 14); 
+         K_PF1.innerHTML = KONF_K_PF;
+         
+         //Количество терминальных модулей 
+         K_USO1.innerHTML = KONF_K_USO;
+        //  for(let i = 0; i < UpravlenieOpovesheniem.KZONOP; i++){
+        //     for(let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++){
+        //         if(KUPShO[i][j] == 1){
+        //             KONF_K_USO++;
+        //         }
+        //     }
+        // }
     }
     else{
         alert('Не все поля заполнены в режиме \"Конфигурация СПЗ\"');
+        RaschetNom.style.display = 'none';
+        clkKonf.style.backgroundColor = '#5f97ef';
+        clkKonf.style.color = 'white';
+        calcList.style.backgroundColor = '#fff';
+        calcList.style.color = '#000';
+        KonfiguratsiaSPZ.style.display = 'block';
     }
 });
+
+//------------------------------Перерасчет тока------------------------------
+function calculateCurrent(){
+    //Дежурный режим:
+    //Ток потребления ППКП или БР1:
+    let Id_PPKP = 35;
+    
+    //Ток потребления модулем МОПИ:
+    //при подключении адресных извещателей:
+    let fooArr = [];
+    let Id_summ = 0;
+    let IAd_summ = 30;
+    let BId_summ = 30;
+    let Id_MI_summ = 13.6;
+    let Id_MIUP_summ = 0;
+    let Id_MSZU_summ = 0;
+    let Id_MRV_summ = 0;
+    let Id_BDU = 0;
+    let Id_MPI = 0;
+    let Id_MIPT = 0;
+
+    //Режим пожарной тревоги:
+    //Ток потребления ППКП или БР1:
+    let Ip_PPKP = 55;
+    
+    //При подключении адресных извещателей:
+    let Ip_MOPI = 30;
+    let Ip_MI = 13.6;
+    let Ip_MI_imp = 0;
+    let Ip_miup_post = 11;
+    let Ip_miup_imp = 0;
+    let Ip_mszu = 10.4;
+    let Ip_mrv = 12.4;
+    let Ip_bdu = 0;
+    let Ip_mpi = 0;
+    let Ip_mipt = 0;
+    let Ipt_summ = 0;
+    let Ipt_imp = 0;
+    let W = 0;
+
+    //При подключении безадресных активных извещателей с нормально разомкнутыми контактами:
+    
+    
+
+    if(AutoSignalizatsiya.KShS && RutshnayaSignalizatsiya.KShSR){
+        fooArr.length = AutoSignalizatsiya.KShS + RutshnayaSignalizatsiya.KShSR;
+        for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {                
+            fooArr[i] = Object.assign({}, lineLoopsData[i]);  
+        }
+        for (let i = AutoSignalizatsiya.KShS ; i < AutoSignalizatsiya.KShS + RutshnayaSignalizatsiya.KShSR; i++) {                
+            for(let j = 0; j < RutshnayaSignalizatsiya.KShSR; j++){
+                fooArr[i] = Object.assign({}, lineLoopsDataRuchn[j]);  
+                i++;
+            }
+        }
+        //Ток потребления модулем МОПИ:
+        if(MOPI){
+        
+            for(let i = fooArr.length - 1; i >= fooArr.length - restMI; i--){
+                
+                if(fooArr[i].TShS == 0){//при подключении адресных извещателей:
+                    IAd_summ += (fooArr[i].KIZVShS * 0.35 + 1.2);
+                    Ip_MOPI += (fooArr[i].KIZVShS * 1.00 + 1.2);
+                    //Id_MI_summ += (fooArr[i].KIZVShS * 0.35 + 1.2 + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                }
+                else if(fooArr[i].TShS == 1){
+                    if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 2 || fooArr[i].SHShS == 2){
+                        Ip_MOPI += (fooArr[i].KIZVShS * fooArr[i].izveshateli.KonfIzvBezAdr.IOIZV + 1.2 + 2 * fooArr[i].izveshateli.KonfIzvBezAdr.IPIZV);
+                        IAd_summ += (fooArr[i].KIZVShS * fooArr[i].izveshateli.KonfIzvBezAdr.IOIZV + 1.2);
+                        //Id_MI_summ += (fooArr[i].KIZVShS * 0.35 + 1.2 + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                    }  
+                    else if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 0 || fooArr[i].SHShS == 0){
+                        Ip_MOPI += (1.2 + 2 * fooArr[i].izveshateli.KonfIzvBezAdr.IPIZV);
+                        IAd_summ += 1.2;
+                        //Id_MI_summ += ( 1.2 + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                    }
+                    else if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 1 || fooArr[i].SHShS == 1){
+                        Ip_MOPI += (1.2 + 6.4);
+                        IAd_summ += 1.2;
+                        //Id_MI_summ += ( 1.2 + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                    }
+                }
+            }
+        
+        }
+        dMOPI1.innerHTML = IAd_summ;
+        pMOPI1.innerHTML = Ip_MOPI;
+        //MI
+        let Ishd = 0;        
+        let Ishp = 0;
+        for(let i = 0; i < fooArr.length - restMI; i++){
+                
+            if(fooArr[i].TShS == 0){//при подключении адресных извещателей:
+
+                Ishd += (fooArr[i].KIZVShS * 0.35 + 1.2) //+ (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                Ishp += (fooArr[i].KIZVShS * 1.0 + 1.2);
+            }
+            else if(fooArr[i].TShS == 1){
+                if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 2 || fooArr[i].SHShS == 2){
+                    Ishp += (fooArr[i].KIZVShS * fooArr[i].izveshateli.KonfIzvBezAdr.IOIZV + 1.2 + 2 * fooArr[i].izveshateli.KonfIzvBezAdr.IPIZV);
+                    Ishd += (fooArr[i].KIZVShS * fooArr[i].izveshateli.KonfIzvBezAdr.IOIZV + 1.2 ); //+ (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                }  
+                else if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 0 || fooArr[i].SHShS == 0){
+                    Ishp += (1.2 + 2 * fooArr[i].izveshateli.KonfIzvBezAdr.IPIZV);
+                    Ishd +=  1.2; //+ (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                }
+                else if(fooArr[i].izveshateli.KonfIzvBezAdr.TIZV == 1 || fooArr[i].SHShS == 1){
+                    Ishp += 6.4;
+                    Ishd +=  1.2 ;//+ (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1));
+                }
+            }
+        }
+        let Inekp = 0;
+        for(let i = 0; i < UpravleniePojaroTusheniem.KShPT; i++){
+            Inekp += lineLoopsDataUpr[i].ImpShPT;
+        }
+
+        Id_MI_summ += Ishd + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1);
+        Ip_MI += Ishp + (FVSIUiVsSP.KRVYH * 6.2) + (PodsysDiagnostiki.KDVKh * 1.1);
+        Ip_MI_imp = Ip_MI + UpravleniePojaroTusheniem.KShPT * 8.6 + Inekp;
+
+        dMI1.innerHTML = Id_MI_summ;
+        pMI1.innerHTML = Ip_MI;
+        pMIimp1.innerHTML = Ip_MI_imp;
+
+        if(MIUP){
+            if(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY == 0){
+                Id_MIUP_summ = 11 + 0;
+                Ip_miup_post += 0;
+            }
+            else{
+                Id_MIUP_summ = 11 + ((UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY - 1) * 0.5 + 1.8);
+                Ip_miup_post += ((UpravleniePojaroTusheniem.ZonaPojaroTushenia.KDDZONY - 1) * 0.5 + 1.8);
+            }
+            Ip_miup_imp = UpravleniePojaroTusheniem.KShPT * 8.6 + Inekp;
+
+            dMIUP1.innerHTML = Id_MIUP_summ;
+            pMIUP1.innerHTML = Ip_miup_post;
+            pMIUPimp1.innerHTML = Ip_miup_imp;
+        }
+        if(MSZU){
+            let N = 0;
+            for(let i = 0; i < UpravlenieOpovesheniem.KZONOP; i++){
+                for(let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++){
+                    N += _ShleifOp[i][j][0];                   
+                }
+            }
+            Id_MSZU_summ = 10.4 + (N - 1) *0.5 + 1.8;
+
+            if(PodsysDiagnostiki.KDVKh == 0){
+                Ip_mszu += UpravleniePojaroTusheniem.KShPT * 8.6 + Inekp;
+            }
+            else{
+                Ip_mszu += UpravleniePojaroTusheniem.KShPT * 8.6 + Inekp + ((PodsysDiagnostiki.KDVKh - 1) * 0.5 + 1.8);
+            }
+            dMSZU1.innerHTML = Id_MSZU_summ;
+            pMSZU1.innerHTML = Ip_mszu;
+        }
+        if(KONF_K_MRV){
+            if(PodsysDiagnostiki.KDVKh == 0){
+                Id_MRV_summ = 12.4 + FVSIUiVsSP.KRVYH * 6.2 + 0;
+                Ip_mrv += FVSIUiVsSP.KRVYH * 6.2 + 0;
+            }    
+            else{
+                Id_MRV_summ = 12.4 + FVSIUiVsSP.KRVYH * 6.2 + ((PodsysDiagnostiki.KDVKh - 1) * 0.5 + 1.8);
+                Ip_mrv += FVSIUiVsSP.KRVYH * 6.2 + ((PodsysDiagnostiki.KDVKh - 1) * 0.5 + 1.8);
+            }
+            dMRV1.innerHTML = Id_MRV_summ;
+            pMRV1.innerHTML = Ip_mrv;
+        }
+        if(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY || UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY){
+            Id_BDU = 22.4 + PodsysDiagnostiki.KDVKh * 1.1;
+            Ip_bdu = 22.4 + UpravleniePojaroTusheniem.KShPT * 8.6 + Inekp + PodsysDiagnostiki.KDVKh  * 1.1;
+            dBDU1.innerHTML = Id_BDU;
+            pBDU1.innerHTML = Ip_bdu;
+        }
+        Id_MPI = 30.1;
+        dMPI1.innerHTML = Id_MPI;
+        Id_MIPT = 100;
+        dMIPT1.innerHTML = Id_MIPT;
+        let sum = IAd_summ + Id_MI_summ + Id_MIUP_summ + Id_MSZU_summ + Id_MRV_summ + Id_BDU + Id_MPI + Id_MIPT;
+        Id_summ = 32 + sum + ((UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY) * 22.4 + ivnp);
+        dSumm1.innerHTML = Id_summ;
+        console.log("Ток потребления в дежурном режиме: "+Id_summ);
+
+        Ip_mpi = 30.1;
+        pMPI1.innerHTML = Ip_mpi;
+        Ip_mipt = 100;
+        pMIPT1.innerHTML = Ip_mipt;
+        let sumP =   Ip_MOPI +   Ip_MI +  Ip_miup_post + Ip_mszu + Ip_mrv + Ip_bdu + Ip_mpi + Ip_mipt;
+        Ipt_summ = 55 + sumP + ((UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY +  UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY) * 22.4 + ivnpt);
+        pSumm1.innerHTML = Ipt_summ;
+        console.log("Ток потребления в пожарном режиме: "+Ipt_summ);
+        // Ip_MI_imp + Ip_miup_imp + 
+        Ipt_imp = Ipt_summ + Ip_miup_imp + Ip_MI_imp;
+        pSummImp1.innerHTML = Ipt_imp;
+        console.log("Импульсный: "+Ipt_summ);
+        W = (24 * Id_summ + 3 * Ipt_summ) * 1.25; 
+        pSummW1.innerHTML = W;
+        console.log("Ток аккумудятора: "+W);
+    }
+
+
+
+
+}
+
 
 //Classes------------------------------
 class addInfoToList{
