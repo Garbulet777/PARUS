@@ -10777,6 +10777,8 @@ let KShSsumm = 0,
 
 let restMI = 0;
 
+let RaschNomisDone = false;
+
 const KShSsumm1 = document.getElementById('KShSsumm');
 const KShSrez1 = document.getElementById('KShSrez');
 const MI1 = document.getElementById('MI');
@@ -10854,21 +10856,26 @@ calcList.addEventListener('click', function(){
         
         podsystemi.style.display = 'none';
 
+        //MIsumm
+        MI = AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR + UpravleniePojaroTusheniem.KMIShPT;
         //Суммарное количество шлейфов
         KShSsumm = AutoSignalizatsiya.KShS + RutshnayaSignalizatsiya.KShSR;
         KShSsumm1.innerHTML = KShSsumm;
         //Количество резервных входов
         if((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR) > 0)
-        {
+        { //RutshnayaSignalizatsiya.KonfShleifa.izveshateli.KonfIzvBezAdr.TIZV
             KShSrez = Math.ceil((1 + AutoSignalizatsiya.REZShS/100) * AutoSignalizatsiya.KShS + (1 + RutshnayaSignalizatsiya.REZShSR/100) * RutshnayaSignalizatsiya.KShSR); 
             KShSrez1.innerHTML = KShSrez;
             //MI
-            MI = Math.ceil((KShSsumm + KShSrez)/IOmoduls[4].ShS);
-            //MI1.innerHTML = MI;
-            MIuser = (AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4; 
+            //MI = Math.ceil((KShSsumm + KShSrez)/IOmoduls[4].ShS);
+           
+            // MI1.innerHTML = MI;
+
+            //MIuser = (AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4; 
+            MIuser = MI*4; 
             //3.4.4.3
-            if((KShSsumm + KShSrez) > ((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4)){
-                
+           // if((KShSsumm + KShSrez) > ((AutoSignalizatsiya.KMIShS + RutshnayaSignalizatsiya.KMIShSR)*4)){
+            if((KShSsumm + KShSrez) > (MI*4)){
                  restMI = (KShSsumm + KShSrez) - MIuser;
                  MOPI = Math.ceil(restMI/IOmoduls[0].ShS);
                 if(MOPI)
@@ -10883,8 +10890,8 @@ calcList.addEventListener('click', function(){
         if(UpravleniePojaroTusheniem.KMIShPT ){
             KShPTrez = Math.ceil((1 + UpravleniePojaroTusheniem.REZShPT/100) * UpravleniePojaroTusheniem.KShPT);
             KShptrez1.innerHTML = KShPTrez;
-            if((UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 > UpravleniePojaroTusheniem.KMIShPT){
-                let MIdiff = UpravleniePojaroTusheniem.KShPT + KShPTrez - UpravleniePojaroTusheniem.KMIShPT*2;
+            if((UpravleniePojaroTusheniem.KShPT + KShPTrez)/2 > MI){
+                let MIdiff = UpravleniePojaroTusheniem.KShPT + KShPTrez - MI*2;
                 if(MIdiff != 0){
                     MIUP = Math.ceil(MIdiff / 4);
                 }                    
@@ -11015,40 +11022,61 @@ calcList.addEventListener('click', function(){
 
         //Количество барьеров искрозащиты KONF_K_BIZ
         for (let i = 0; i < AutoSignalizatsiya.KShS; i++) {                
-           if(lineLoopsData[i].ExShS == true)
-            KONF_K_BIZ++;
+           if(lineLoopsData[i].ExShS == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(lineLoopsData[i].TShSBIZ);
+           }
+
         }
 
         for (let i = 0; i < RutshnayaSignalizatsiya.KShSR; i++) {                
-            if(lineLoopsDataRuchn[i].ExShS == true)
-             KONF_K_BIZ++;
+            if(lineLoopsDataRuchn[i].ExShS == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(lineLoopsDataRuchn[i].TShSBIZ);
+            }
+
          }
 
          for (let i = 0; i < UpravleniePojaroTusheniem.KShPT; i++) {                
-            if(lineLoopsDataUpr[i].ExShPT == true)
-             KONF_K_BIZ++;
+            if(lineLoopsDataUpr[i].ExShPT == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(lineLoopsDataUpr[i].TBIZShPT);
+            }
+             
          }
 
          for (let i = 0; i < lineLoopsUprOp.length; i++) {   
             for (let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++) {                
-                if(_ShleifOp[i][j][2] == true)
-                KONF_K_BIZ++;
+                if(_ShleifOp[i][j][2] == true){
+                    KONF_K_BIZ++;
+                    BIZquantity.push(_ShleifOp[i][j][4]);
+                }
+
             }
         }
 
         for (let i = 0; i < lineLoopsFormSys.length; i++) {                
-            if(lineLoopsDataFormSys[i].ExRVYKh == true)
-             KONF_K_BIZ++;
+            if(lineLoopsDataFormSys[i].ExRVYKh == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(lineLoopsDataFormSys[i].TBIZR);
+            }
+
          }
 
          for (let i = 0; i < lineLoopsdiagnSys.length; i++) {                
-            if(DataVhodDiskretniy[i].ExDVKh == true)
-             KONF_K_BIZ++;
+            if(DataVhodDiskretniy[i].ExDVKh == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(DataVhodDiskretniy[i].TBIZDVKh);
+            }
+
          }
          
          for (let i = 0; i < lineLoopsVA.length; i++) {                
-            if(DataVhodAnalogoviy[i].ExAVKh == true)
-             KONF_K_BIZ++;
+            if(DataVhodAnalogoviy[i].ExAVKh == true){
+                KONF_K_BIZ++;
+                BIZquantity.push(DataVhodAnalogoviy[i].TBIZAVKh);
+            }
+
          }
          K_BIZ1.innerHTML = KONF_K_BIZ;
 
@@ -11065,13 +11093,8 @@ calcList.addEventListener('click', function(){
          
          //Количество терминальных модулей 
          K_USO1.innerHTML = KONF_K_USO;
-        //  for(let i = 0; i < UpravlenieOpovesheniem.KZONOP; i++){
-        //     for(let j = 0; j < lineLoopsDataUprOp[i].KShOPZONY; j++){
-        //         if(KUPShO[i][j] == 1){
-        //             KONF_K_USO++;
-        //         }
-        //     }
-        // }
+
+        RaschNomisDone = true;
     }
     else{
         alert('Не все поля заполнены в режиме \"Конфигурация СПЗ\"');
@@ -11085,7 +11108,6 @@ calcList.addEventListener('click', function(){
 });
 
 //------------------------------Перерасчет тока------------------------------
-function calculateCurrent(){
     //Дежурный режим:
     //Ток потребления ППКП или БР1:
     let Id_PPKP = 35;
@@ -11122,6 +11144,9 @@ function calculateCurrent(){
     let Ipt_summ = 0;
     let Ipt_imp = 0;
     let W = 0;
+
+function calculateCurrent(){
+
 
     //При подключении безадресных активных извещателей с нормально разомкнутыми контактами:
     
@@ -11284,12 +11309,1294 @@ function calculateCurrent(){
         pSummW1.innerHTML = W;
         console.log("Ток аккумудятора: "+W);
     }
-
-
-
-
 }
 
+//------------------------------Структура СПЗ------------------------------
+const SPZstruct = document.getElementById('SPZstruct');
+const SPZstructure = document.getElementById('SPZstructure');
+SPZstructure.style.display = 'none';
+
+SPZstruct.addEventListener('click', () => {
+    
+    clkKonf.style.backgroundColor = 'white';
+    clkKonf.style.color = '#000';
+    calcList.style.backgroundColor = 'white';
+    calcList.style.color = '#000';
+    SPZstruct.style.backgroundColor = '#5f97ef';
+    SPZstruct.style.color = 'white';
+
+
+
+    if(RaschNomisDone){
+        KonfiguratsiaSPZ.style.display = 'none';
+        RaschetNom.style.display = 'none';
+        podsystemi.style.display = 'none';
+
+        SPZstructure.style.display = 'block';
+        createList();
+        
+
+    }
+    else{
+        alert('Не выполнен режим \"Расчет номенклатуры\"');
+
+        clkKonf.style.backgroundColor = 'white';
+        clkKonf.style.color = '#000';
+        calcList.style.backgroundColor = 'white';
+        calcList.style.color = '#000';
+        SPZstruct.style.backgroundColor = 'white';
+        SPZstruct.style.color = '#000';
+
+        KonfiguratsiaSPZ.style.display = 'none';
+        RaschetNom.style.display = 'none';
+        podsystemi.style.display = 'none';
+        SPZstructure.style.display = 'none';
+    }
+});
+
+
+let currentSlotVV = 0,
+currentShS = 0,
+currentShPT = 0,
+currentKRVYKh = 0,
+currentKDVKh = 0,
+currentKZONOP = 0,
+currentKShOPZONY = 0,
+currentKAVKh = 0,
+currentKRS485 = 0;
+
+let currentMI = 0,
+currentMOPI = 0,
+currentMIUP = 0,
+currentMSZU = 0,
+currentMRV = 0,
+currentMIPT = 0,
+currentMPI = 0;
+
+let BIZquantity = [];
+
+function createList(){
+    let mainParent = document.createElement('ul');
+    let secondLvlParentUl, secondLvlParentUl_, thrdLvlParentUl, frthLvlParentUl, frthLvlParentUl_ , li, li_, li_2, li_3, li_4, li_5;
+
+    mainParent.setAttribute('class', 'ul-treefree ul-dropfree');
+
+
+    li = document.createElement('li');
+    li.appendChild(document.createTextNode('ПК'));
+    
+
+    secondLvlParentUl = document.createElement('ul');
+
+    li_ = document.createElement('li'); //li_.appendChild(thrdLvlParentUl);
+    li_.appendChild(document.createTextNode('Модули'));
+    secondLvlParentUl_ = document.createElement('ul');
+    for(let currentSlotVV = 0; currentSlotVV < 5; currentSlotVV++){
+        li_2 = document.createElement('li');
+        li_2.setAttribute('id', `Slot_${currentSlotVV}`); 
+
+        if(MI && currentMI < MI && currentSlotVV < 5){
+            for(let i = currentMI; i < MI; i++){
+               // currentSlotVV = i;
+               li_2.appendChild(document.createTextNode('МИ')); 
+                
+                thrdLvlParentUl = document.createElement('ul');
+                //ШС
+                if(currentShS < fooArr.length){
+                for(let i = 0; i < 4; i++){
+                    if(currentShS < fooArr.length){
+                        //currentShS = i;
+                            for(let j = currentShS; j < fooArr.length; j++){
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'ShS');
+                            li_3.appendChild(document.createTextNode('ШС'));
+
+                            frthLvlParentUl = document.createElement('ul');
+                            
+                            //fooArr[i].
+                            if(fooArr[j].TShS == 0){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Тип шлейфа: Адресный`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+                            else if(fooArr[j].TShS == 1){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Тип шлейфа: Безадресный`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+                            else if(fooArr[j].TShS == 2){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Тип шлейфа: Modbus`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+
+                            if(fooArr[j].TShS == 1){
+                                if(fooArr[j].SHShS == 0 || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 0){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Схема включения: Пассивный НР`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else if(fooArr[j].SHShS == 1 || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 1){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Схема включения: «Пассивный НЗ`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else if(fooArr[j].SHShS == 2  || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 2){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Схема включения: Активный НР`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else if(fooArr[j].SHShS == 3){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Схема включения: Линейный Т`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                            }
+
+                            if(fooArr[j].ExShS){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                frthLvlParentUl.appendChild(li_4);
+
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Тип искробарьера: ${fooArr[j].TShSBIZ}`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+                            else{
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+
+                            li_4 = document.createElement('li');
+                            li_4.appendChild(document.createTextNode(`Количество извещателей: ${fooArr[j].KIZVShS}`))
+                            frthLvlParentUl.appendChild(li_4);
+
+                            if(fooArr[j].TShS == 1){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Зона: ${fooArr[j].ZONAShS}`))
+                                frthLvlParentUl.appendChild(li_4);
+
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Наименование / адрес: ${fooArr[j].ADRShS}`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+
+                            if(fooArr[j].RRIShS){
+                                if(fooArr[j].RRIShS){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Разрешить подключение ручных извещателей: да`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else{
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Разрешить подключение ручных извещателей: нет`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                            }
+                            li_3.appendChild(frthLvlParentUl);
+                            thrdLvlParentUl.appendChild(li_3);
+                            currentShS++;
+                            break;
+                        }
+                    }
+                    else{
+                        li_3 = document.createElement('li');
+                        li_3.setAttribute('id', 'empty');
+                        li_3.appendChild(document.createTextNode('Пустой слот ШС'));
+                        thrdLvlParentUl.appendChild(li_3);
+                    }
+                
+                }  
+
+            }       
+
+                //ШПТ
+                if(currentShPT < lineLoopsDataUpr.length ){
+                    for(let i = 0; i < 2; i++){
+                        if(currentShPT < lineLoopsDataUpr.length ){
+                            //currentShPT = i;
+                            for(let j = currentShPT; j < lineLoopsDataUpr.length; j++){
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'ShPT');
+                            li_3.appendChild(document.createTextNode('ШПТ'));
+
+                            frthLvlParentUl = document.createElement('ul');
+                            
+                            //fooArr[i].
+                            //lineLoopsDataUpr[i]
+                            li_4 = document.createElement('li');
+                            li_4.appendChild(document.createTextNode(`Наименование / адрес: ${lineLoopsDataUpr[j].ADRShPT}`))
+                            frthLvlParentUl.appendChild(li_4);
+
+                            li_4 = document.createElement('li');
+                            li_4.appendChild(document.createTextNode(`Пусковой ток шлейфа, А: ${lineLoopsDataUpr[j].IPShPT}`))
+                            frthLvlParentUl.appendChild(li_4);
+
+                            li_4 = document.createElement('li');
+                            li_4.appendChild(document.createTextNode(`Импульсный ток шлейфа, А: ${lineLoopsDataUpr[j].ImpShPT}`))
+                            frthLvlParentUl.appendChild(li_4);
+
+                            if(lineLoopsDataUpr[i].ExShPT){
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                frthLvlParentUl.appendChild(li_4);
+
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Тип искробарьера: ${lineLoopsDataUpr[j].TBIZShPT}`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+                            else{
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                frthLvlParentUl.appendChild(li_4);
+                            }
+
+                            li_3.appendChild(frthLvlParentUl);
+                            thrdLvlParentUl.appendChild(li_3);
+                            currentShPT++;
+                            break;
+                            }
+                        }
+                        else{
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'empty');
+                            li_3.appendChild(document.createTextNode('Пустой слот ШПТ'));
+                            thrdLvlParentUl.appendChild(li_3);
+                        }
+                    }     
+                }     
+
+                //DO
+                if(currentKRVYKh < FVSIUiVsSP.KRVYH ){
+                    for(let i = 0; i < 2; i++){
+                        if(currentKRVYKh < FVSIUiVsSP.KRVYH){
+                            //currentKRVYKh = i;
+                            for(let j = currentKRVYKh; j < lineLoopsFormSys.length; j++){
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'DO');
+                                li_3.appendChild(document.createTextNode('Дискретный выход'));
+        
+                                frthLvlParentUl = document.createElement('ul');
+                                
+                                //fooArr[i].
+                                //lineLoopsFormSys[i]
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Наименование / адрес: ${lineLoopsDataFormSys[j].ADRRVYKh}`))
+                                frthLvlParentUl.appendChild(li_4);
+
+        
+                                if(lineLoopsDataFormSys[j].ExRVYKh){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                    frthLvlParentUl.appendChild(li_4);
+        
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Тип искробарьера: ${lineLoopsDataFormSys[j].TBIZR}`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else{
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+        
+                                li_3.appendChild(frthLvlParentUl);
+                                thrdLvlParentUl.appendChild(li_3);
+                                currentKRVYKh++;
+                                break;
+                            }
+                        }
+                        else{
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'empty');
+                            li_3.appendChild(document.createTextNode('Пустой слот дискретного выхода'));
+                            thrdLvlParentUl.appendChild(li_3);
+                        }
+
+                    } 
+                }
+
+                //DI
+                if(currentKDVKh < PodsysDiagnostiki.KDVKh ){
+                    for(let i = 0; i < 4; i++){
+                        if(currentKDVKh < PodsysDiagnostiki.KDVKh){
+                            //currentKDVKh = i; 
+                            for(let j = currentKDVKh; j < DataVhodDiskretniy.length; j++){
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'DI');
+                                li_3.appendChild(document.createTextNode('Дискретный вход'));
+        
+                                frthLvlParentUl = document.createElement('ul');
+                                
+                                //fooArr[i].
+                                //DataVhodDiskretniy[i]
+                                li_4 = document.createElement('li');
+                                li_4.appendChild(document.createTextNode(`Наименование / адрес: ${DataVhodDiskretniy[j].ADRDVKh}`))
+                                frthLvlParentUl.appendChild(li_4);
+
+        
+                                if(DataVhodDiskretniy[i].ExDVKh){
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                    frthLvlParentUl.appendChild(li_4);
+        
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Тип искробарьера: ${DataVhodDiskretniy[j].TBIZDVKh}`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+                                else{
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                    frthLvlParentUl.appendChild(li_4);
+                                }
+        
+                                li_3.appendChild(frthLvlParentUl);
+                                thrdLvlParentUl.appendChild(li_3);
+                                currentKDVKh++;
+                                break;
+                            }
+                        }
+                        else{
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'empty');
+                            li_3.appendChild(document.createTextNode('Пустой слот дискретного входа'));
+                            thrdLvlParentUl.appendChild(li_3);
+                        }
+                    } 
+                }
+
+
+                li_2.appendChild(thrdLvlParentUl);
+                currentMI++;
+                break;
+                // if(currentSlotVV > 5)
+                //     break; 
+            }       
+            // if(currentSlotVV > 5)
+            //     break; 
+
+            secondLvlParentUl_.appendChild(li_2);
+            li_.appendChild(secondLvlParentUl_);
+            continue;
+        }
+
+       else if(MOPI && currentMOPI < MOPI && currentSlotVV < 5){
+            for(let i = currentMOPI; i < MOPI; i++){
+                //currentSlotVV = i;
+                li_2.appendChild(document.createTextNode('МОПИ')); 
+
+                
+                thrdLvlParentUl = document.createElement('ul');
+                //ШС
+                if(currentShS < fooArr.length){
+                    for(let i = 0; i < 8; i++){
+                        if(currentShS < fooArr.length){
+                            //currentShS = i; 
+                           // for(let j = currentShS; j < fooArr.length; j++){
+
+                                for(let j = currentShS; j < fooArr.length; j++){
+
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'ShS');
+                                    li_3.appendChild(document.createTextNode('ШС'));
+
+                                    frthLvlParentUl = document.createElement('ul');
+                                
+                                    //fooArr[i].
+                                    if(fooArr[j].TShS == 0){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип шлейфа: Адресный`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else if(fooArr[j].TShS == 1){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип шлейфа: Безадресный`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else if(fooArr[j].TShS == 2){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип шлейфа: Modbus`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    if(fooArr[j].TShS == 1){
+                                        if(fooArr[j].SHShS == 0 || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 0){
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Схема включения: Пассивный НР`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                        else if(fooArr[j].SHShS == 1 || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 1){
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Схема включения: «Пассивный НЗ`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                        else if(fooArr[j].SHShS == 2  || fooArr[j].izveshateli.KonfIzvBezAdr.TIZV == 2){
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Схема включения: Активный НР`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                        else if(fooArr[j].SHShS == 3){
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Схема включения: Линейный Т`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                    }
+            
+                                    if(fooArr[j].ExShS){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                        frthLvlParentUl.appendChild(li_4);
+            
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${fooArr[j].TShSBIZ}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else{
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Количество извещателей: ${fooArr[j].KIZVShS}`))
+                                    frthLvlParentUl.appendChild(li_4);
+            
+                                    if(fooArr[j].TShS == 1){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Зона: ${fooArr[j].ZONAShS}`))
+                                        frthLvlParentUl.appendChild(li_4);
+            
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Наименование / адрес: ${fooArr[j].ADRShS}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    if(fooArr[j].RRIShS){
+                                        if(fooArr[j].RRIShS){
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Разрешить подключение ручных извещателей: да`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                        else{
+                                            li_4 = document.createElement('li');
+                                            li_4.appendChild(document.createTextNode(`Разрешить подключение ручных извещателей: нет`))
+                                            frthLvlParentUl.appendChild(li_4);
+                                        }
+                                    }
+                                    li_3.appendChild(frthLvlParentUl);
+                                    thrdLvlParentUl.appendChild(li_3);
+                                    currentShS++;
+                                    break;
+                                }
+                            //}
+                        }
+                        else{
+                            li_3 = document.createElement('li');
+                            li_3.setAttribute('id', 'empty');
+                            li_3.appendChild(document.createTextNode('Пустой слот ШС'));
+                            thrdLvlParentUl.appendChild(li_3);
+                        }
+                    } 
+                }         
+                li_2.appendChild(thrdLvlParentUl);
+                 currentMOPI++;
+                 break;
+                // if(currentSlotVV > 5)
+                //     break;
+            }
+            secondLvlParentUl_.appendChild(li_2);
+            li_.appendChild(secondLvlParentUl_);
+            continue;
+        }
+
+        else if(MIUP && currentMIUP < MIUP && currentSlotVV < 5 ){
+            // for(let i = currentSlotVV; i < 5; i++){
+                
+                for(let x = currentMIUP; x < MIUP; x++){
+                    li_2.appendChild(document.createTextNode('МИУП')); 
+
+                    thrdLvlParentUl = document.createElement('ul');
+                    if(currentShPT < lineLoopsDataUpr.length ){
+                        for(let i = 0; i < 4; i++){
+                            if(currentShPT < lineLoopsDataUpr.length ){
+                                for(let j = currentShPT; j < lineLoopsDataUpr.length; j++){
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'ShPT');
+                                    li_3.appendChild(document.createTextNode('ШПТ'));
+        
+                                    frthLvlParentUl = document.createElement('ul');
+                                    
+                                    //fooArr[i].
+                                    //lineLoopsDataUpr[i]
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Наименование / адрес: ${lineLoopsDataUpr[j].ADRShPT}`))
+                                    frthLvlParentUl.appendChild(li_4);
+        
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Пусковой ток шлейфа, А: ${lineLoopsDataUpr[j].IPShPT}`))
+                                    frthLvlParentUl.appendChild(li_4);
+        
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Импульсный ток шлейфа, А: ${lineLoopsDataUpr[j].ImpShPT}`))
+                                    frthLvlParentUl.appendChild(li_4);
+        
+                                    if(lineLoopsDataUpr[i].ExShPT){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                        frthLvlParentUl.appendChild(li_4);
+        
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${lineLoopsDataUpr[j].TBIZShPT}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else{
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+        
+                                    li_3.appendChild(frthLvlParentUl);
+                                    thrdLvlParentUl.appendChild(li_3);
+                                    currentShPT++;
+                                    break;
+                                }
+
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('Пустой слот ШПТ'));
+                                thrdLvlParentUl.appendChild(li_3);
+                            }
+                        }     
+                    }  
+                    li_2.appendChild(thrdLvlParentUl);
+                    currentMIUP++;
+                    break;
+                    // if(currentSlotVV > 5)
+                    
+                //} 
+                }
+                secondLvlParentUl_.appendChild(li_2);
+                li_.appendChild(secondLvlParentUl_);
+            continue;
+        }
+
+        else if(MSZU && currentMSZU < MSZU && currentSlotVV < 5 ){
+            // for(let i = currentSlotVV; i < 5; i++){
+                
+                for(let x = currentMSZU; x < MSZU; x++){
+                    li_2.appendChild(document.createTextNode('МСЗУ')); 
+
+                    thrdLvlParentUl = document.createElement('ul');
+                    //if(currentKZONOP < lineLoopsDataUpr.length ){
+                        let currentShoT_ = 0;
+                        for(let i = 0; i < 8; i++){
+                             if(currentKZONOP < UpravlenieOpovesheniem.KZONOP ){
+                                for(let h = currentKZONOP; h < UpravlenieOpovesheniem.KZONOP; h++){
+                                    if(currentKShOPZONY < lineLoopsDataUprOp[h].KShOPZONY ){
+                                        for(let j = currentKShOPZONY; j < lineLoopsDataUprOp[h].KShOPZONY; j++){
+                                            if(KUPShO[i][j] == 2){
+                                                for(let p = 0; p < KUPShO[i][j]; p++){
+                                                    li_3 = document.createElement('li');
+                                                    li_3.setAttribute('id', 'ShO');
+                                                    li_3.appendChild(document.createTextNode('ШO - 1'));
+                        
+                                                    frthLvlParentUl = document.createElement('ul');
+                                                    
+                                                    //fooArr[i].
+                                                    //lineLoopsDataUpr[i]
+                                                    li_4 = document.createElement('li');
+                                                    li_4.appendChild(document.createTextNode(`Количество оповещателей: ${_ShleifOp[h][j][0]}`))
+                                                    frthLvlParentUl.appendChild(li_4);
+                        
+                                                    li_4 = document.createElement('li');
+                                                    li_4.appendChild(document.createTextNode(`Суммарный ток оповещателей в режиме оповещения, мА: ${_ShleifOp[h][j][1]}`))
+                                                    frthLvlParentUl.appendChild(li_4);
+                        
+                        
+                                                    if(_ShleifOp[h][j][2]){
+                                                        li_4 = document.createElement('li');
+                                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                                        frthLvlParentUl.appendChild(li_4);
+                        
+                                                        li_4 = document.createElement('li');
+                                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${_ShleifOp[h][j][4]}`))
+                                                        frthLvlParentUl.appendChild(li_4);
+                                                    }
+                                                    else{
+                                                        li_4 = document.createElement('li');
+                                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                                        frthLvlParentUl.appendChild(li_4);
+                                                    }
+                        
+                                                    li_3.appendChild(frthLvlParentUl);
+                                                    thrdLvlParentUl.appendChild(li_3);
+
+                                                }
+                                                currentKShOPZONY++;
+                                                i += 2;
+                                                break;
+                                            }
+                                            else if(currentShoT_ < 6){
+                                                li_3 = document.createElement('li');
+                                                li_3.setAttribute('id', 'ShOT');
+                                                li_3.appendChild(document.createTextNode('ШOT'));
+                    
+                                                frthLvlParentUl = document.createElement('ul');
+                                                
+                                                //fooArr[i].
+                                                //lineLoopsDataUpr[i]
+                                                li_4 = document.createElement('li');
+                                                li_4.appendChild(document.createTextNode(`Количество оповещателей: ${_ShleifOp[h][j][0]}`))
+                                                frthLvlParentUl.appendChild(li_4);
+                    
+                                                li_4 = document.createElement('li');
+                                                li_4.appendChild(document.createTextNode(`Суммарный ток оповещателей в режиме оповещения, мА: ${_ShleifOp[h][j][1]}`))
+                                                frthLvlParentUl.appendChild(li_4);
+                    
+                    
+                                                if(_ShleifOp[h][j][2]){
+                                                    li_4 = document.createElement('li');
+                                                    li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                                    frthLvlParentUl.appendChild(li_4);
+                    
+                                                    li_4 = document.createElement('li');
+                                                    li_4.appendChild(document.createTextNode(`Тип искробарьера: ${_ShleifOp[h][j][4]}`))
+                                                    frthLvlParentUl.appendChild(li_4);
+                                                }
+                                                else{
+                                                    li_4 = document.createElement('li');
+                                                    li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                                    frthLvlParentUl.appendChild(li_4);
+                                                }
+                    
+                                                li_3.appendChild(frthLvlParentUl);
+                                                thrdLvlParentUl.appendChild(li_3);
+                                                currentKShOPZONY++;
+                                                break;
+                                            }
+                                            
+                                            
+                                        }
+        
+                                    }
+                                    else{
+                                        li_3 = document.createElement('li');
+                                        li_3.setAttribute('id', 'empty');
+                                        li_3.appendChild(document.createTextNode('Пустой слот ШО'));
+                                        thrdLvlParentUl.appendChild(li_3);
+                                       
+                                    }
+                                    currentKZONOP++;
+                                    break;
+                                }
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('Пустой слот ШО'));
+                                thrdLvlParentUl.appendChild(li_3);
+                               
+                            }
+                        }     
+                    //}  
+                    li_2.appendChild(thrdLvlParentUl);
+                    currentMSZU++;
+                    break;
+                    // if(currentSlotVV > 5)
+                    //     break;
+                //} 
+                }
+                secondLvlParentUl_.appendChild(li_2);
+                li_.appendChild(secondLvlParentUl_);
+                continue;
+        }
+
+        else if(KONF_K_MRV && currentMRV < KONF_K_MRV && currentSlotVV < 5 ){
+            // for(let i = currentSlotVV; i < 5; i++){
+                
+                for(let x = currentMRV; x < KONF_K_MRV; x++){
+                    li_2.appendChild(document.createTextNode('МРВ')); 
+
+                    thrdLvlParentUl = document.createElement('ul');
+                    //DO
+                    if(currentKRVYKh < FVSIUiVsSP.KRVYH ){
+                        for(let i = 0; i < 8; i++){
+                            if(currentKRVYKh < FVSIUiVsSP.KRVYH){
+                                //currentKRVYKh = i;
+                                for(let j = currentKRVYKh; j < lineLoopsFormSys.length; j++){
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'DO');
+                                    li_3.appendChild(document.createTextNode('Дискретный выход'));
+            
+                                    frthLvlParentUl = document.createElement('ul');
+                                    
+                                    //fooArr[i].
+                                    //lineLoopsFormSys[i]
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Наименование / адрес: ${lineLoopsDataFormSys[j].ADRRVYKh}`))
+                                    frthLvlParentUl.appendChild(li_4);
+
+            
+                                    if(lineLoopsDataFormSys[j].ExRVYKh){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                        frthLvlParentUl.appendChild(li_4);
+            
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${lineLoopsDataFormSys[j].TBIZR}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else{
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    li_3.appendChild(frthLvlParentUl);
+                                    thrdLvlParentUl.appendChild(li_3);
+                                    currentKRVYKh++;
+                                    break;
+                                }
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('Пустой слот дискретного выхода'));
+                                thrdLvlParentUl.appendChild(li_3);
+                            }
+
+                        } 
+                    }
+
+                    //DI
+                    if(currentKDVKh < PodsysDiagnostiki.KDVKh ){
+                        for(let i = 0; i < 8; i++){
+                            if(currentKDVKh < PodsysDiagnostiki.KDVKh){
+                                //currentKDVKh = i; 
+                                for(let j = currentKDVKh; j < DataVhodDiskretniy.length; j++){
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'DI');
+                                    li_3.appendChild(document.createTextNode('Дискретный вход'));
+            
+                                    frthLvlParentUl = document.createElement('ul');
+                                    
+                                    //fooArr[i].
+                                    //DataVhodDiskretniy[i]
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Наименование / адрес: ${DataVhodDiskretniy[j].ADRDVKh}`))
+                                    frthLvlParentUl.appendChild(li_4);
+
+            
+                                    if(DataVhodDiskretniy[i].ExDVKh){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                        frthLvlParentUl.appendChild(li_4);
+            
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${DataVhodDiskretniy[j].TBIZDVKh}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else{
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    li_3.appendChild(frthLvlParentUl);
+                                    thrdLvlParentUl.appendChild(li_3);
+                                    currentKDVKh++;
+                                    break;
+                                }
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('Пустой слот дискретного входа'));
+                                thrdLvlParentUl.appendChild(li_3);
+                            }
+                        } 
+                    }
+
+                    li_2.appendChild(thrdLvlParentUl);
+                    currentMRV++;
+                    break;
+                    // if(currentSlotVV > 5)
+                    
+                //} 
+                }
+                secondLvlParentUl_.appendChild(li_2);
+                li_.appendChild(secondLvlParentUl_);
+                continue;
+        }
+
+        else if(KONF_K_MIPT && currentMIPT < KONF_K_MIPT && currentSlotVV < 5 ){
+            // for(let i = currentSlotVV; i < 5; i++){
+                
+                for(let x = currentMIPT; x < KONF_K_MIPT; x++){
+                    li_2.appendChild(document.createTextNode('МИПT')); 
+
+                    thrdLvlParentUl = document.createElement('ul');
+                    //DА
+                    if(currentKAVKh < PodsysDiagnostiki.KAVkh ){
+                        for(let i = 0; i < 8; i++){
+                            if(currentKAVKh < PodsysDiagnostiki.KAVkh){
+                                //currentKRVYKh = i;
+                                for(let j = currentKAVKh; j < DataVhodAnalogoviy.length; j++){
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'DA');
+                                    li_3.appendChild(document.createTextNode('Аналаговый вход'));
+            
+                                    frthLvlParentUl = document.createElement('ul');
+                                    
+                                    //fooArr[i].
+                                    //lineLoopsFormSys[i]
+                                    li_4 = document.createElement('li');
+                                    li_4.appendChild(document.createTextNode(`Наименование / адрес: ${DataVhodAnalogoviy[j].ADRAVKh}`))
+                                    frthLvlParentUl.appendChild(li_4);
+
+            
+                                    if(DataVhodAnalogoviy[j].ExAVKh){
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                        frthLvlParentUl.appendChild(li_4);
+            
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Тип искробарьера: ${DataVhodAnalogoviy[j].TBIZAVKh}`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+                                    else{
+                                        li_4 = document.createElement('li');
+                                        li_4.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                        frthLvlParentUl.appendChild(li_4);
+                                    }
+            
+                                    li_3.appendChild(frthLvlParentUl);
+                                    thrdLvlParentUl.appendChild(li_3);
+                                    currentKAVKh++;
+                                    break;
+                                }
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('Пустой слот аналагового входа'));
+                                thrdLvlParentUl.appendChild(li_3);
+                            }
+
+                        } 
+                    }
+                    li_2.appendChild(thrdLvlParentUl);
+                    currentMIPT++;
+                    break;
+                    // if(currentSlotVV > 5)
+                    //     break;
+                //} 
+                }
+                secondLvlParentUl_.appendChild(li_2);
+                li_.appendChild(secondLvlParentUl_);
+                continue;
+        }
+
+        else if(KONF_K_MPI && currentMPI < KONF_K_MPI && currentSlotVV < 5 ){
+            // for(let i = currentSlotVV; i < 5; i++){
+                
+                for(let x = currentMPI; x < KONF_K_MPI; x++){
+                    li_2.appendChild(document.createTextNode('МПИ')); 
+
+                    thrdLvlParentUl = document.createElement('ul');
+                    //DА
+                    if(currentKRS485 < ConnSysRS485.KRS485 ){
+                        for(let i = 0; i < 2; i++){
+                            if(i != 1){
+                                if(currentKRS485 < ConnSysRS485.KRS485){
+                                    //currentKRVYKh = i;
+                                    for(let j = currentKRS485; j < ConnSysRS485.KRS485; j++){
+                                        li_3 = document.createElement('li');
+                                        li_3.setAttribute('id', 'DA');
+                                        li_3.appendChild(document.createTextNode('последовательный порт RS-485'));
+                
+                                        thrdLvlParentUl.appendChild(li_3);
+                                        currentKRS485++;
+                                        break;
+                                    }
+                                }
+                                else{
+                                    li_3 = document.createElement('li');
+                                    li_3.setAttribute('id', 'empty');
+                                    li_3.appendChild(document.createTextNode('пустой слот'));
+                                    thrdLvlParentUl.appendChild(li_3);
+                                }
+                            }
+                            else{
+                                li_3 = document.createElement('li');
+                                li_3.setAttribute('id', 'empty');
+                                li_3.appendChild(document.createTextNode('пустой слот'));
+                                thrdLvlParentUl.appendChild(li_3);
+                            }
+                        } 
+                    }
+                    li_2.appendChild(thrdLvlParentUl);
+                    currentMPI++;
+                    break;
+                    // if(currentSlotVV > 5)
+                    
+                //} 
+                }
+                secondLvlParentUl_.appendChild(li_2);
+                li_.appendChild(secondLvlParentUl_);
+                continue;
+        }
+        else{
+            li_2.appendChild(document.createTextNode(`Пустой слот #${currentSlotVV + 1}`)); 
+        }
+
+        secondLvlParentUl_.appendChild(li_2);
+        li_.appendChild(secondLvlParentUl_);
+    }
+
+
+        
+
+
+    secondLvlParentUl.appendChild(li_);
+    li.appendChild(secondLvlParentUl);
+    mainParent.appendChild(li);
+
+    li_ = document.createElement('li');
+    li_.appendChild(document.createTextNode('ОТ'));
+    secondLvlParentUl_ = document.createElement('ul');
+    li_2 = document.createElement('li');
+    li_2.appendChild(document.createTextNode(`Количество ОТ: ${KONF_K_OT}`));
+    secondLvlParentUl_.appendChild(li_2);
+    li_.appendChild(secondLvlParentUl_);
+    secondLvlParentUl.appendChild(li_);
+    li.appendChild(secondLvlParentUl);
+    mainParent.appendChild(li);
+
+
+    li_ = document.createElement('li');
+    li_.appendChild(document.createTextNode('ПФ'));
+    secondLvlParentUl_ = document.createElement('ul');
+    li_2 = document.createElement('li');
+    li_2.appendChild(document.createTextNode(`Количество ПФ: ${KONF_K_PF}`));
+    secondLvlParentUl_.appendChild(li_2);
+    li_.appendChild(secondLvlParentUl_);
+    secondLvlParentUl.appendChild(li_);
+    li.appendChild(secondLvlParentUl);
+    mainParent.appendChild(li);
+
+
+    li_ = document.createElement('li');
+    li_.appendChild(document.createTextNode('БДУ'));
+
+    secondLvlParentUl_ = document.createElement('ul');
+
+    li_2 = document.createElement('li');
+    li_2.appendChild(document.createTextNode(`Перечень блоков БДУ`));
+    thrdLvlParentUl = document.createElement('ul');
+    
+    if(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY){
+        for(let i = 0; i < UpravleniePojaroTusheniem.ZonaPojaroTushenia.KBDUZONY; i++){
+            li_3 = document.createElement('li');
+            li_3.appendChild(document.createTextNode('БДУ'));
+            frthLvlParentUl = document.createElement('ul');
+            //if(currentKZONOP < UpravlenieOpovesheniem.KZONOP && currentKShOPZONY < lineLoopsDataUprOp[h].KShOPZONY){
+                for(let i = 0; i < 3; i++){
+                    if(currentKZONOP < UpravlenieOpovesheniem.KZONOP ){
+                       for(let h = currentKZONOP; h < UpravlenieOpovesheniem.KZONOP; h++){
+                           if(currentKShOPZONY < lineLoopsDataUprOp[h].KShOPZONY ){
+                               for(let j = currentKShOPZONY; j < lineLoopsDataUprOp[h].KShOPZONY; j++){
+                                   if(KUPShO[i][j] == 1){
+                                       li_4 = document.createElement('li');
+                                       li_4.setAttribute('id', 'ShOT');
+                                       li_4.appendChild(document.createTextNode('ШOT'));
+           
+                                       frthLvlParentUl_ = document.createElement('ul');
+                                       
+                                       //fooArr[i].
+                                       //lineLoopsDataUpr[i]
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`Количество оповещателей: ${_ShleifOp[h][j][0]}`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`Суммарный ток оповещателей в режиме оповещения, мА: ${_ShleifOp[h][j][1]}`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+           
+                                       if(_ShleifOp[h][j][2]){
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                           frthLvlParentUl_.appendChild(li_5);
+           
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Тип искробарьера: ${_ShleifOp[h][j][4]}`))
+                                           frthLvlParentUl_.appendChild(li_5);
+                                       }
+                                       else{
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                           frthLvlParentUl_.appendChild(li_5);
+                                       }
+
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`УСО: да`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+           
+                                       li_4.appendChild(frthLvlParentUl_);
+                                       frthLvlParentUl.appendChild(li_4);
+                                       li_3.appendChild(frthLvlParentUl);
+                                       currentKShOPZONY++;
+                                       break;
+                                   } 
+                               }
+
+                           }
+                           else{
+                                li_4 = document.createElement('li');
+                                li_4.setAttribute('id', 'empty');
+                                li_4.appendChild(document.createTextNode('Пустой слот ШО'));
+                               frthLvlParentUl.appendChild(li_4);
+                               li_3.appendChild(frthLvlParentUl);
+                              
+                           }
+                           currentKZONOP++;
+                           break;
+                       }
+                   }
+                   else{
+                    li_4 = document.createElement('li');
+                    li_4.setAttribute('id', 'empty');
+                    li_4.appendChild(document.createTextNode('Пустой слот ШО'));
+                   frthLvlParentUl.appendChild(li_4);
+                    li_3.appendChild(frthLvlParentUl);
+                   }
+               }
+           // }
+
+            //if(currentKDVKh < PodsysDiagnostiki.KDVKh ){
+                for(let i = 0; i < 4; i++){
+                    if(currentKDVKh < PodsysDiagnostiki.KDVKh){
+                        //currentKDVKh = i; 
+                        for(let j = currentKDVKh; j < DataVhodDiskretniy.length; j++){
+                            li_4 = document.createElement('li');
+                            li_4.setAttribute('id', 'DI');
+                            li_4.appendChild(document.createTextNode('Дискретный вход'));
+    
+                            frthLvlParentUl_ = document.createElement('ul');
+                            
+                            //fooArr[i].
+                            //DataVhodDiskretniy[i]
+                            li_5 = document.createElement('li');
+                            li_5.appendChild(document.createTextNode(`Наименование / адрес: ${DataVhodDiskretniy[j].ADRDVKh}`))
+                            frthLvlParentUl_.appendChild(li_5);
+
+    
+                            if(DataVhodDiskretniy[i].ExDVKh){
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                frthLvlParentUl_.appendChild(li_5);
+    
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Тип искробарьера: ${DataVhodDiskretniy[j].TBIZDVKh}`))
+                                frthLvlParentUl_.appendChild(li_5);
+                            }
+                            else{
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                frthLvlParentUl_.appendChild(li_5);
+                            }
+                            
+                            li_4.appendChild(frthLvlParentUl_);
+                            frthLvlParentUl.appendChild(li_4);
+                            
+
+                            li_3.appendChild(frthLvlParentUl);
+                            //thrdLvlParentUl.appendChild(li_3);
+                            currentKDVKh++;
+                            break;
+                        }
+                    }
+                    else{
+                        li_4 = document.createElement('li');
+                        li_4.setAttribute('id', 'empty');
+                        li_4.appendChild(document.createTextNode('Пустой слот дискретного входа'));
+                        frthLvlParentUl.appendChild(li_4);
+                        li_3.appendChild(frthLvlParentUl);
+                        //thrdLvlParentUl.appendChild(li_3);
+                    }
+                } 
+            //}
+            thrdLvlParentUl.appendChild(li_3);
+        }
+    }
+
+    if(UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY){
+        for(let i = 0; i < UpravleniePojaroTusheniem.ZonaPojaroTushenia.KExBDUZONY; i++){
+            li_3 = document.createElement('li');
+            li_3.appendChild(document.createTextNode('БДУ-01'));
+            frthLvlParentUl = document.createElement('ul');
+            //if(currentKZONOP < UpravlenieOpovesheniem.KZONOP && currentKShOPZONY < lineLoopsDataUprOp[h].KShOPZONY){
+                for(let i = 0; i < 3; i++){
+                    if(currentKZONOP < UpravlenieOpovesheniem.KZONOP ){
+                       for(let h = currentKZONOP; h < UpravlenieOpovesheniem.KZONOP; h++){
+                           if(currentKShOPZONY < lineLoopsDataUprOp[h].KShOPZONY ){
+                               for(let j = currentKShOPZONY; j < lineLoopsDataUprOp[h].KShOPZONY; j++){
+                                   if(KUPShO[i][j] == 1){
+                                       li_4 = document.createElement('li');
+                                       li_4.setAttribute('id', 'ShOT');
+                                       li_4.appendChild(document.createTextNode('ШOT'));
+           
+                                       frthLvlParentUl_ = document.createElement('ul');
+                                       
+                                       //fooArr[i].
+                                       //lineLoopsDataUpr[i]
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`Количество оповещателей: ${_ShleifOp[h][j][0]}`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`Суммарный ток оповещателей в режиме оповещения, мА: ${_ShleifOp[h][j][1]}`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+           
+                                       if(_ShleifOp[h][j][2]){
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                           frthLvlParentUl_.appendChild(li_5);
+           
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Тип искробарьера: ${_ShleifOp[h][j][4]}`))
+                                           frthLvlParentUl_.appendChild(li_5);
+                                       }
+                                       else{
+                                           li_5 = document.createElement('li');
+                                           li_5.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                           frthLvlParentUl_.appendChild(li_5);
+                                       }
+
+                                       li_5 = document.createElement('li');
+                                       li_5.appendChild(document.createTextNode(`УСО: да`))
+                                       frthLvlParentUl_.appendChild(li_5);
+           
+                                       li_4.appendChild(frthLvlParentUl_);
+                                       frthLvlParentUl.appendChild(li_4);
+                                       li_3.appendChild(frthLvlParentUl);
+                                       currentKShOPZONY++;
+                                       break;
+                                   } 
+                               }
+
+                           }
+                           else{
+                                li_4 = document.createElement('li');
+                                li_4.setAttribute('id', 'empty');
+                                li_4.appendChild(document.createTextNode('Пустой слот ШО'));
+                               frthLvlParentUl.appendChild(li_4);
+                               li_3.appendChild(frthLvlParentUl);
+                              
+                           }
+                           currentKZONOP++;
+                           break;
+                       }
+                   }
+                   else{
+                    li_4 = document.createElement('li');
+                    li_4.setAttribute('id', 'empty');
+                    li_4.appendChild(document.createTextNode('Пустой слот ШО'));
+                   frthLvlParentUl.appendChild(li_4);
+                    li_3.appendChild(frthLvlParentUl);
+                   }
+               }
+            //}
+
+            //if(currentKDVKh < PodsysDiagnostiki.KDVKh ){
+                for(let i = 0; i < 4; i++){
+                    if(currentKDVKh < PodsysDiagnostiki.KDVKh){
+                        //currentKDVKh = i; 
+                        for(let j = currentKDVKh; j < DataVhodDiskretniy.length; j++){
+                            li_4 = document.createElement('li');
+                            li_4.setAttribute('id', 'DI');
+                            li_4.appendChild(document.createTextNode('Дискретный вход'));
+    
+                            frthLvlParentUl_ = document.createElement('ul');
+                            
+                            //fooArr[i].
+                            //DataVhodDiskretniy[i]
+                            li_5 = document.createElement('li');
+                            li_5.appendChild(document.createTextNode(`Наименование / адрес: ${DataVhodDiskretniy[j].ADRDVKh}`))
+                            frthLvlParentUl_.appendChild(li_5);
+
+    
+                            if(DataVhodDiskretniy[i].ExDVKh){
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Взрывозащита: да`))
+                                frthLvlParentUl_.appendChild(li_5);
+    
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Тип искробарьера: ${DataVhodDiskretniy[j].TBIZDVKh}`))
+                                frthLvlParentUl_.appendChild(li_5);
+                            }
+                            else{
+                                li_5 = document.createElement('li');
+                                li_5.appendChild(document.createTextNode(`Взрывозащита: нет`))
+                                frthLvlParentUl_.appendChild(li_5);
+                            }
+                            
+                            li_4.appendChild(frthLvlParentUl_);
+                            frthLvlParentUl.appendChild(li_4);
+                            
+
+                            li_3.appendChild(frthLvlParentUl);
+                            //thrdLvlParentUl.appendChild(li_3);
+                            currentKDVKh++;
+                            break;
+                        }
+                    }
+                    else{
+                        li_4 = document.createElement('li');
+                        li_4.setAttribute('id', 'empty');
+                        li_4.appendChild(document.createTextNode('Пустой слот дискретного входа'));
+                        frthLvlParentUl.appendChild(li_4);
+                        li_3.appendChild(frthLvlParentUl);
+                        //thrdLvlParentUl.appendChild(li_3);
+                    }
+                } 
+            //}
+
+            thrdLvlParentUl.appendChild(li_3);
+        }
+    }
+    li_2.appendChild(thrdLvlParentUl);
+    secondLvlParentUl_.appendChild(li_2);
+    li_.appendChild(secondLvlParentUl_);
+    if(KONF_K_BIZ)
+        {
+            li_2 = document.createElement('li');
+            li_2.appendChild(document.createTextNode(`Перечень блоков искрозащиты`));
+            if(BIZquantity.length){
+                for(let i = 0; i < BIZquantity.length; i++){
+                    li_3 = document.createElement('li');
+                    li_3.appendChild(document.createTextNode(`${BIZquantity[i]}`));
+                    thrdLvlParentUl.appendChild(li_3);
+                }
+            }
+            li_2.appendChild(thrdLvlParentUl);
+            
+            secondLvlParentUl_.appendChild(li_2);
+            li_.appendChild(secondLvlParentUl_);
+        }
+    secondLvlParentUl.appendChild(li_);
+    li.appendChild(secondLvlParentUl);
+    mainParent.appendChild(li);
+    
+    document.querySelector('#SPZstructure').appendChild(mainParent);
+
+}
 
 //Classes------------------------------
 class addInfoToList{
@@ -11323,6 +12630,7 @@ class addInfoToList{
     }
 
 }
+
 
 
       //const socket = new io.Socket('localhost', {port: 3000});
